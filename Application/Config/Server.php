@@ -15,7 +15,8 @@ return [
         'Db'        => 'Db.php',
         'Cookies'   => 'Cookies.php',
         'Cache'     => 'Cache.php',
-        'View'      => 'View.php'
+        'View'      => 'View.php',
+        'Log'      => 'Log.php'
     ],
 
     'Providers'=>[
@@ -26,6 +27,8 @@ return [
         'Cookies'   => Grace\Cookies\Cookies::class,
         'Parsedown' => Grace\Parsedown\Parsedown::class,
         'Cache'    => Grace\Cache\Cache::class,
+        'Log'    => Grace\Log\Log::class,
+
     ],
 
 ];
