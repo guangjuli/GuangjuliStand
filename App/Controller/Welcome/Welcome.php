@@ -13,8 +13,8 @@ class Welcome extends BaseController {
     {
         D(req());
 
-        model('form')->run();
-exit;
+//        model('form')->run();
+//exit;
         View();
     }
 

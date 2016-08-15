@@ -18,11 +18,7 @@ class Home extends BaseController {
     {
         /*
          * 1 : йсм╪
-         */
-        server('Cache')->set('key', 'myKeyValue', 3600);
-        echo server('Cache')->get('key');
-exit;
-
+        */
         View();
 
 

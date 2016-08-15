@@ -41,13 +41,5 @@ return [
      * Application::data
      */
     'Data' => APPROOT.'../Cache/Data/',
-
-    /**
-     * addons 列表 注册
-     */
-    'Addons'=>[
-        'Welcome',         //默认
-        'mrt',
-    ]
 ];
 

@@ -10,11 +10,10 @@ return [
     'FileReflect'  => [
         'Config'   => 'Config.php',
         'Application'=>'Application.php',
-        'Smarty'   => 'Smarty.php',
-        'Db'       => 'Db.php',
-        'Cookies'  => 'Cookies.php',
-        'Adminauth'=> 'Adminauth.php',
-        'Mmcfile'  => 'Mmcfile.php',
+        'Addons'    =>'Addons.php',
+        'Smarty'    => 'Smarty.php',
+        'Db'        => 'Db.php',
+        'Cookies'   => 'Cookies.php',
         'Cache'     => 'Cache.php',
         'View'      => 'View.php'
     ],
@@ -25,8 +24,7 @@ return [
         'View'      => Grace\View\View::class,           //
         'Db'        => Grace\Db\Db::class,
         'Cookies'   => Grace\Cookies\Cookies::class,
-        'Parsedown' => Parsedown::class,
-//        'Cache'     => Desarrolla2\Cache\Cache::class
+        'Parsedown' => Grace\Parsedown\Parsedown::class,
         'Cache'    => Grace\Cache\Cache::class,
     ],
 

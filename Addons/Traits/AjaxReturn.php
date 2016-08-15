@@ -1,5 +1,5 @@
 <?php
-namespace App\Addons\Traits;
+namespace Addons\Traits;
 
 /**
  * Created by PhpStorm.

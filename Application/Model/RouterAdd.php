@@ -12,7 +12,7 @@ class RouterAdd implements  \Grace\Base\ModelInterface
     public function isAddons()
     {
         //配置信息
-        $config = server()->Config('Config')['Addons'];
+        $config = server()->Config('Addons');
         //路由信息
         $arr = \Grace\Req\Uri::getInstance()->getar();
         $beginstr = ucfirst(strtolower($arr[0]));
@@ -27,7 +27,7 @@ class RouterAdd implements  \Grace\Base\ModelInterface
     public function getModulechr()
     {
         //配置信息
-        $config = server()->Config('Config')['Addons'];
+        $config = server()->Config('Addons');
         //路由信息
         $arr = \Grace\Req\Uri::getInstance()->getar();
         $beginstr = ucfirst(strtolower($arr[0]));

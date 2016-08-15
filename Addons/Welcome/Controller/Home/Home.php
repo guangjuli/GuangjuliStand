@@ -16,7 +16,8 @@ class Home extends BaseController {
 
     public function doIndex()
     {
-        view('uuuu',['name'=>"irones"]);
+        echo 123;
+        view('',['name'=>"irones"]);
     }
 
 }

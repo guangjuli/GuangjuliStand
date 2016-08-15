@@ -1,9 +1,10 @@
 <?php
-
+/**
+ * addons ÁÐ±í ×¢²á
+ */
 return [
-    'list'      => [
-        'welcome'
-    ]
+
+        'Welcome'
 
 
 ];

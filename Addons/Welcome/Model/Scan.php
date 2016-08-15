@@ -9,7 +9,7 @@
 namespace Addons\Model;
 
 
-class Scan
+class Scan implements \Grace\Base\ModelInterface
 {
 
     public function Run()
