@@ -746,12 +746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shampeak/GraceServer.git",
-                "reference": "b5d6ccf00c218c0b3ce222f633fce1ef0c55f9c7"
+                "reference": "fcc4c3db852a01bda53fcaaee651f2edad8b19e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/b5d6ccf00c218c0b3ce222f633fce1ef0c55f9c7",
-                "reference": "b5d6ccf00c218c0b3ce222f633fce1ef0c55f9c7",
+                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/fcc4c3db852a01bda53fcaaee651f2edad8b19e1",
+                "reference": "fcc4c3db852a01bda53fcaaee651f2edad8b19e1",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
                 }
             ],
             "description": "dev",
-            "time": "2016-08-14 18:55:49"
+            "time": "2016-08-14 21:17:38"
         },
         {
             "name": "knplabs/gaufrette",
