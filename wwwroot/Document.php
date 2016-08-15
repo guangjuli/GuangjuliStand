@@ -16,4 +16,4 @@ ini_set('error_reporting', $error_reporting);
  */
 
 $document = \Application\Application::getInstance()->make('Document');
-$document->run("../Document/");
+$document->Run("../Document/");

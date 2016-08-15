@@ -6,16 +6,12 @@ include("../vendor/autoload.php");
 $error_reporting       = E_ALL ^ E_NOTICE;
 ini_set('error_reporting', $error_reporting);
 
-
-
-
-if(\Application\Model::getInstance()->make('routerAdd')->isAddons()){
+if(Application\Model::getInstance()->make('routerAdd')->isAddons()){
     define('APPROOT', '../Addons/'.(\Application\Model::getInstance()->make('routerAdd')->getModulechr()).'/');
-    Addons\Bootstrap::run();
+    Addons\Bootstrap::Run();
 }else{
     define('APPROOT', '../App/');
-    App\Bootstrap::run();
-
+    App\Bootstrap::Run();
 }
 
 

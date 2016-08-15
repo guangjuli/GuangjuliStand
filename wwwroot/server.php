@@ -13,9 +13,9 @@ server()->help();
 exit;
 
 //if(Model('Gate')->isAddons()){
-    Addons\Bootstrap::run();
+//    Addons\Bootstrap::Run();
 //}else{
-//    App\Bootstrap::run();
+//    App\Bootstrap::Run();
 //}
 //
 

@@ -11,24 +11,30 @@ return [
         'Config'   => 'Config.php',
         'Application'=>'Application.php',
         'Addons'    =>'Addons.php',
-        'Smarty'    => 'Smarty.php',
+        //对象配置
         'Db'        => 'Db.php',
         'Cookies'   => 'Cookies.php',
         'Cache'     => 'Cache.php',
+        'Smarty'    => 'Smarty.php',
+        //g2
         'View'      => 'View.php',
         'Log'      => 'Log.php'
     ],
 
     'Providers'=>[
-        'Smarty'    => Grace\Smarty\Smarty::class,
+        //无配置
+        'Parsedown' => Grace\Parsedown\Parsedown::class,
         'Req'       => Grace\Req\Req::class,             //
-        'View'      => Grace\View\View::class,           //
+        'Xls'       => Grace\Xls\Xls::class,
+        //g1
         'Db'        => Grace\Db\Db::class,
         'Cookies'   => Grace\Cookies\Cookies::class,
-        'Parsedown' => Grace\Parsedown\Parsedown::class,
-        'Cache'    => Grace\Cache\Cache::class,
-        'Log'    => Grace\Log\Log::class,
-
+        'Cache'     => Grace\Cache\Cache::class,
+        'Smarty'    => Grace\Smarty\Smarty::class,
+        //g2
+        'View'      => Grace\View\View::class,           //
+        'Log'       => Grace\Log\Log::class,
+        //server / wise / base
     ],
 
 ];
