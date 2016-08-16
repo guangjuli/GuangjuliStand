@@ -1,3 +1,2 @@
-login
-page
+page 404
 
