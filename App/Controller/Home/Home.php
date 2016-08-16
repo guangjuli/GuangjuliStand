@@ -3,27 +3,21 @@ namespace App\Controller;
 
 
 class Home extends BaseController {
-    use \App\Traits\View;
 
     public function __construct(){
         parent::__construct();
     }
 
-//    public function doIndex_ex()
-//    {
-//        echo 'ex';
-//    }
-
     public function doIndex()
     {
-        /*
-         * 1 : ��ͼ
-        */
-        View();
-
-
-
+        //Model('page')->pageLogin();         //登录界面
+        //Model('page')->page404();         //404界面
+        Model('page')->page500();         //500界面
         exit;
+    }
+
+    public function doLogin()
+    {
 
     }
 
