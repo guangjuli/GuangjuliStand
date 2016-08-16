@@ -55,6 +55,13 @@ vendor
 wwwroot/_
 wwwroot/__
 Document
+<<<<<<< HEAD
 tests
 Cache/
 Addons
+=======
+_Addons
+
+tests
+Addons/V/Views/Token/Index.tpl
+>>>>>>> refs/remotes/origin/master
