@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f8152786aa555c1baace78fe63324773",
-    "content-hash": "2ecf7d228e0a2f3c202178caf7e3a5b7",
+    "hash": "44d102ee3c6f78d1372feaa44b1611a7",
+    "content-hash": "06d6cb308cabe957ff024221a6140199",
     "packages": [
         {
             "name": "desarrolla2/cache",
@@ -742,16 +742,16 @@
         },
         {
             "name": "grace/server",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shampeak/GraceServer.git",
-                "reference": "fcc4c3db852a01bda53fcaaee651f2edad8b19e1"
+                "reference": "c2f2d3c344b76fa833a70b1619047af4c03cc8d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/fcc4c3db852a01bda53fcaaee651f2edad8b19e1",
-                "reference": "fcc4c3db852a01bda53fcaaee651f2edad8b19e1",
+                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/c2f2d3c344b76fa833a70b1619047af4c03cc8d6",
+                "reference": "c2f2d3c344b76fa833a70b1619047af4c03cc8d6",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
                 }
             ],
             "description": "dev",
-            "time": "2016-08-14 21:17:38"
+            "time": "2016-08-16 05:55:42"
         },
         {
             "name": "knplabs/gaufrette",
