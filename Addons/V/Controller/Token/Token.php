@@ -20,8 +20,7 @@ class Token
             $this->AjaxReturn([
                 'code' => -200,
                 'msg' => '获取失败',
-                'data' => ""
-            ]);
+                'data' => "" ]);
         } else {
             $this->AjaxReturn([
                 'data' => $token
