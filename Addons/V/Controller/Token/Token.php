@@ -16,24 +16,16 @@ class Token
     public function doAccesstokenPost()
     {
         $token = model('Token')->accessToken(req('Post'));
-        if(empty($token)){
+        if (empty($token)) {
             $this->AjaxReturn([
                 'code' => -200,
                 'msg' => '获取失败',
-                'data' =>""
-            ]);
-        }else{
+                'data' => "" ]);
+        } else {
             $this->AjaxReturn([
                 'data' => $token
             ]);
         }
-    }
-
-    public function doIndex()
-    {
-        view('',[
-            'verify'=>MD5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff1471276800')
-        ]);
     }
 
 }
