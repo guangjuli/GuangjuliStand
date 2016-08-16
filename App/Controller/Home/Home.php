@@ -16,12 +16,13 @@ class Home extends BaseController {
 
     public function doIndex()
     {
-        /*
-         * 1 : ��ͼ
-        */
-        View();
 
 
+//       echo Model('Gate')->isAddons();
+
+       // Model('page')->page404();         //登录界面
+      //  Model('page')->pageLogin();         //登录界面
+        Model('page')->pageLogin();         //登录界面
 
         exit;
 

@@ -32,10 +32,10 @@ return [
     | 配置信息,访问 : Sham\Wise\Wise::getInstance()->_config
     */
     'App' => [
-        'ErrorPage404'    => 'Error/Error404.php',
-        'ErrorPage500'    => 'Error/Error500.php',
-        'ErrorPageMsg'    => 'Error/ErrorMsg.php',
-        'MessagePageView' => 'Error/ErrorView.php',
+        'ErrorPage404'    => 'Error/Error404.tpl',
+        'ErrorPage500'    => 'Error/Error500.tpl',
+        'ErrorPageMsg'    => 'Error/ErrorMsg.tpl',
+        'MessagePageView' => 'Error/ErrorView.tpl',
     ],
     /**
      * Application::data
