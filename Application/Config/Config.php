@@ -41,5 +41,11 @@ return [
      * Application::data
      */
     'Data' => APPROOT.'../Cache/Data/',
+
+    /*nsc添加*/
+    'token'=>[
+        'clientSecret'=>'1cda067b175ab0e9e1fdfe8dcd7d71ff',
+        'expires'     =>7200
+    ]
 ];
 

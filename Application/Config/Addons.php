@@ -1,10 +1,11 @@
 <?php
 /**
- * addons ÁÐ±í ×¢²á
+ * addons ï¿½Ð±ï¿½ ×¢ï¿½ï¿½
  */
 return [
 
-        'Welcome'
+        'Welcome',
+        'V'
 
 
 ];
