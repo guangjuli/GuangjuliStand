@@ -9,15 +9,14 @@ namespace Addons\Traits;
  * ajax返回部件
  */
 trait AjaxReturn{
-    public function AjaxReturn($_res = 200){
-        if(!is_array($_res)){
-            $res = [ 'code'=>intval($_res) ];
-        }else{
-            $res = $_res;
+    public function AjaxReturn($res = []){
+        if(!is_array($res)) {
+            $res['code'] = intval($res);
         }
-        $res['code']    = $res['code']?:200;
-        $res['msg']     = $res['msg']?:(($res['code']>0)?'suceed':'error');
-        $res['js']      = $res['js']?:($res['url']?"if(data.code>0){window.location.href='{$res['url']}';}else{alert(data.msg);}":'if(data.code>0){location.reload();}else{alert(data.msg);}');
+        $res['code']    = $res['code']?:bus('modelerror')['code']?:200;        //默认 200
+        $res['msg']     = $res['msg']?:bus('modelerror')['msg']?:(($res['code']>0)?'suceed':'error');
+        $res['data']    = $res['data']?:[];
+        $res['ds']      = $res['data']?1:0;
         echo json_encode($res);
         exit;
     }

@@ -20,7 +20,6 @@ class Token implements ModelInterface
     private $login = '';
     private $token ='';
     private $userId = '';
-
     public function __construct()
     {
         $this->config = server()->Config('Config')['token'];
@@ -39,8 +38,7 @@ class Token implements ModelInterface
     //获取token表信息
     public function getToken($accessToken)
     {
-        $check = $this->getTokenInfo($accessToken);
-        $info = $check?$check:[];
+        $check = $this->getTokenInfo($accessToken);$info = $check?$check:[];
         return $info;
     }
     //获取通行证accessToken
@@ -58,11 +56,10 @@ class Token implements ModelInterface
         $this->token();
         //添加token
         $checkInsertToken = $this->addToken();
-        if($checkInsertToken){
-            return [
-                'token'     =>$this->token,
-                'expires'   =>$this->expires,
-            ];
+        if($checkInsertToken){ return [
+            'token'     =>$this->token,
+            'expires'   =>$this->expires,
+        ];
         }else{
             return [];
         }
@@ -97,7 +94,6 @@ class Token implements ModelInterface
         $check = $insert?true:false;
         return $check;
     }
-
     private function checkReq($req)
     {
         if(!$req)return [];
