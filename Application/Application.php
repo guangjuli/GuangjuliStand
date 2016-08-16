@@ -3,7 +3,6 @@
 namespace Application;
 
 
-
 class Application
 {
 
@@ -15,19 +14,20 @@ class Application
     private static $_instance = null;       //单例调用
 
     //服务对象存储
-    public $Providers       = array();             //服务对象存储 映射
+    public $Providers = array();             //服务对象存储 映射
 
     //对象实例
-    public $Instances       = array();             //服务对象存储 实例
+    public $Instances = array();             //服务对象存储 实例
 
     /*
     * @param string $conf
     * 根据配置获取设定
     */
-    private function __construct($voconfig = []){
+    private function __construct($voconfig = [])
+    {
         //遍历application目录下的文件,建立对象目录
-        $this->Baseroot = __DIR__.'/';
-        $this->Providers    = server()->Config('Application');
+        $this->Baseroot = __DIR__ . '/';
+        $this->Providers = server()->Config('Application');
         $this->ServerConfig = server()->Config('Config');
     }
 
@@ -36,8 +36,9 @@ class Application
     | 单例调用
     |------------------------------------------------------------
     */
-    public static function getInstance($config = []){
-        if(!(self::$_instance instanceof self)){
+    public static function getInstance($config = [])
+    {
+        if (!(self::$_instance instanceof self)) {
             self::$_instance = new self($config);
         }
         return self::$_instance;
@@ -80,13 +81,13 @@ class Application
         return $this->Providers;
     }
 
-    public function load($file=''){
-        if(file_exists($file)){
+    public function load($file = '')
+    {
+        if (file_exists($file)) {
             return include $file;
         }
         return [];
     }
-
 
 
 }

@@ -10,12 +10,14 @@ class Home extends BaseController {
 
     public function doIndex()
     {
-
         //Model('page')->pageLogin();         //登录界面
         //Model('page')->page404();         //404界面
         Model('page')->page500();         //500界面
-
         exit;
+    }
+
+    public function doLogin()
+    {
 
     }
 
