@@ -1,1 +1,0 @@
-demo/view/ex ::smarty

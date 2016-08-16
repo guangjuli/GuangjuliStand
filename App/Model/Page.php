@@ -13,6 +13,8 @@ class Page implements \Grace\Base\ModelInterface
      */
     public function page404()
     {
+        $tpl = '../Error/Error404';
+        view($tpl);
         exit;
 
     }
@@ -22,7 +24,8 @@ class Page implements \Grace\Base\ModelInterface
      */
     public function page500()
     {
-
+        $tpl = '../Error/Error500';
+        view($tpl);
         exit;
     }
 
@@ -31,10 +34,9 @@ class Page implements \Grace\Base\ModelInterface
      */
     public function pageLogin()
     {
-$res =         server()->Config('Config')['App']['ErrorPage404'];
-        D($res);
-
-        view('../Common/login');
+        //$tpl = server()->Config('Config')['App']['ErrorPage404'];
+        $tpl = '../Error/ErrorLogin';
+        view($tpl);
         exit;
     }
 
