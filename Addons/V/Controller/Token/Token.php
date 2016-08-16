@@ -16,6 +16,7 @@ class Token
     public function doAccesstokenPost()
     {
         $token = model('Token')->accessToken(req('Post'));
+<<<<<<< HEAD
         if(empty($token)){
             $this->AjaxReturn([
                 'code' => -200,
@@ -23,12 +24,22 @@ class Token
                 'data' =>""
             ]);
         }else{
+=======
+        if (empty($token)) {
+            $this->AjaxReturn([
+                'code' => -200,
+                'msg' => '获取失败',
+                'data' => ""
+            ]);
+        } else {
+>>>>>>> refs/remotes/origin/master
             $this->AjaxReturn([
                 'data' => $token
             ]);
         }
     }
 
+<<<<<<< HEAD
     public function doIndex()
     {
         view('',[
@@ -36,4 +47,6 @@ class Token
         ]);
     }
 
+=======
+>>>>>>> refs/remotes/origin/master
 }
