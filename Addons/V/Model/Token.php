@@ -61,10 +61,9 @@ class Token implements ModelInterface
     {
         //校验参数是否为空
         $validate = ['verify','login','time','deviceId','type'];
-        if(!model('Gate')->isExistParams($validate,$req))return false;
-        if(!model('Gate')->isEmpty($req))return false;
+        if(!model('Validate')->validateParams($validate,$req))return false;
         //校验密匙verify
-        $this->verify($req);
+        if(!$this->verify($req)) return false;
         //校验login对应的用户是否存在
         $user = model('User')->getUserByLogin($req['login']);
         if(empty($user))return false;
@@ -140,14 +139,15 @@ class Token implements ModelInterface
         ]);
     }
 
-    private function verify($req)
+    public function verify($req)
     {
         $verify = $req['verify'];
         $deviceId = $req['deviceId'];
         $login = $req['login'];
         $time = $req['time'];
         //TODO: 校验设备编号正确性
-        if ($verify != MD5($deviceId . $this->clientSecret . $login . $time))return [];
+        if ($verify != MD5($deviceId . server()->Config('Config')['token']['clientSecret'] . $login . $time))return false;
+        return true;
     }
 
 
