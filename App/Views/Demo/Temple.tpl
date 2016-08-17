@@ -28,6 +28,14 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="">Api</a></li>
                 <li><a href="#">管理员</a></li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        管理员 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/login/logout">退出</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

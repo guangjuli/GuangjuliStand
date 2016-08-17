@@ -33,7 +33,8 @@ class Event implements \Grace\Base\ModelInterface
      * @return mixed
      */
     public function AdminAuth_auth($password = ''){
-        return Model('AdminAuth')->auth($password);
+        $res = Model('AdminAuth')->auth($password);
+        return $res;
     }
 
     /**
