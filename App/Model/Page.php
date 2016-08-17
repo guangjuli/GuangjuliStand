@@ -9,6 +9,16 @@ class Page implements \Grace\Base\ModelInterface
     }
 
     /**
+     * 返回依赖关系
+     * @return array
+     */
+    public function depend()
+    {
+        return [
+        ];
+    }
+
+    /**
      * 404页面
      */
     public function page404()
@@ -16,7 +26,6 @@ class Page implements \Grace\Base\ModelInterface
         $tpl = '../Error/Error404';
         view($tpl);
         exit;
-
     }
 
     /**
@@ -34,21 +43,12 @@ class Page implements \Grace\Base\ModelInterface
      */
     public function pageLogin()
     {
-        //$tpl = server()->Config('Config')['App']['ErrorPage404'];
         $tpl = '../Error/ErrorLogin';
         view($tpl);
         exit;
     }
 
-    /**
-     * 返回依赖关系
-     * @return array
-     */
-    public function depend()
-    {
-        return [
-        ];
-    }
+
 
 
 }

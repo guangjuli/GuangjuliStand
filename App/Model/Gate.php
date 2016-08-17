@@ -13,33 +13,58 @@ class Gate implements \Grace\Base\ModelInterface
     {
     }
 
+
     /**
-     * 是否admin
-     * @return bool
+     * 返回依赖关系
+     * @return array
      */
-    public function isAdmin()
+    public function depend()
     {
-        //todo
-        return true;
+        return [
+            'Model::RouterAdd',
+            'Model::AdminAuth',
+
+        ];
+    }
+
+
+
+    /**
+     * AdminAuth 是否已经登录
+     * @return mixed
+     */
+    public function AdminAuth_isLogin()
+    {
+        return Model('AdminAuth')->isLogin();
     }
 
     /**
-     * 是否登录
+     * 是否已经登录
+     * //todo
      * @return bool
      */
     public function isLogin()
     {
-        //todo
         return true;
     }
 
     /**
-     |----------------------------------------------------------------
-     | pre
-     * todo
-     * 需要检查是否有遗漏
-     |----------------------------------------------------------------
+     * 是否管理员
+     * //todo
+     * @return bool
      */
+    public function isAdmin()
+    {
+        return true;
+    }
+
+    
+    /**
+    |----------------------------------------------------------------
+    | over
+    |----------------------------------------------------------------
+     */
+
 
     /**
      * 是否hmvc模式
@@ -50,17 +75,6 @@ class Gate implements \Grace\Base\ModelInterface
         return Model('RouterAdd')->isAddons();      //是否addons
     }
 
-    /**
-     * //todo   检查和更新
-     * 返回依赖关系
-     * @return array
-     */
-    public function depend()
-    {
-        return [
-            'Model::RouterAdd'
-        ];
-    }
 
 
 }
