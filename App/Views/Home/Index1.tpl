@@ -1,6 +1,4 @@
-{config_load file="test.conf" section="setup"}
-
-{include file="header.tpl" title=foo}
+{include file="../Widget/header.tpl" title=foo}
 
 <PRE>
 

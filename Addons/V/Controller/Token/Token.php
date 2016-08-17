@@ -36,5 +36,11 @@ class Token
         }
     }
 
-
+    public function doIndex()
+    {
+        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff135520997981471276800');
+        view('',[
+            'verify'=> $verify
+        ]);
+    }
 }

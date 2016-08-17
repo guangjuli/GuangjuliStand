@@ -9,9 +9,6 @@
         }
     }
 
-
-
-
     /*
     |-------------------------------------------------------
     | 确定的函数
@@ -24,6 +21,15 @@
             server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->display($tpl,$data);
 //            $views = server('View')->router(req('Router'));
 //            $views->display($tpl, $data);
+        }
+    }
+
+    if (! function_exists('fetch')) {
+        function fetch($tpl = null, $data = [])
+        {
+            return server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->fetch($tpl,$data);
+    //            $views = server('View')->router(req('Router'));
+    //            $views->display($tpl, $data);
         }
     }
 
