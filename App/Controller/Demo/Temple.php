@@ -2,16 +2,16 @@
 namespace App\Controller;
 
 
-class Welcome extends BaseController {
-//    use \App\Traits\View;
+class Demo extends BaseController {
 
     public function __construct(){
         parent::__construct();
     }
 
-    public function doRouter()
+    public function doTemple()
     {
-        View();
+        view();
     }
+
 
 }

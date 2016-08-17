@@ -20,13 +20,13 @@ class Bootstrap
 
     /**
      * 入口
-     * //todo 更详细的注释
      */
     public static function Run()
     {
         self::$approot = $approot = __DIR__ . '/';
         //set_error_handler(array('\App\Bootstrap', 'customError'));
 
+        //创建DC
         dc(server()->Config('Config'));
 
         $req = server('req');
@@ -35,6 +35,7 @@ class Bootstrap
         $controller = ($get['c'] ?: (isset($get['C']) ? $get['C'] : '')) ?: 'Home';
         $mothed = ($get['a'] ?: (isset($get['A']) ? $get['A'] : '')) ?: 'Index';
 
+        //创建路由数据
         req([
             'Get' => $req->get,
             'Post' => $req->post,
@@ -57,9 +58,10 @@ class Bootstrap
     public static function RouterRun()
     {
         $router = req('Router');
-
+        //根路径
         $basepath = self::$approot . 'Controller/';
 
+        //验证控制器和方法的有效性
         if (!preg_match('/^[0-9a-zA-Z]+$/', $router['controller']) || !preg_match('/^[0-9a-zA-Z]+$/',
                 $router['mothed'])
         ) {
@@ -72,14 +74,11 @@ class Bootstrap
         }
         $params = $router['params'];
         $_controller = $router['controller'];
-
         $_mothed = $router['mothed'];
 
         $__mothedAction = ($router['type'] == 'GET') ? ($router['Prefix'] . $router['mothed']) : ($router['Prefix'] . $router['mothed'] . ucfirst(strtolower($router['type'])));
         $__mothedActionbk = ($router['type'] == 'GET') ? ($router['Prefix'] . $router['mothed'] . '_' . $params) : ($router['Prefix'] . $router['mothed'] . '_' . $params . ucfirst(strtolower($router['type'])));
-
         $__controllerAction = '\App\Controller\\' . $router['controller'];
-
 
         /*
         1 : base
