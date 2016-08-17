@@ -27,7 +27,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="">Api</a></li>
-                <!--li><a href="#">设置</a></li -->
+                <li><a href="#">管理员</a></li>
             </ul>
         </div>
     </div>
@@ -65,9 +65,9 @@
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
-<script src="/assets/jquery-1.11.1.min.js"></script>
+<script src="/assets/js/jquery-1.11.1.min.js"></script>
 <script src="/assets/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="/assets/Sham.js"></script>
+<script src="/assets/js/Sham.js"></script>
 <script type="text/javascript">
     $(document).ready(function(e) {
     });
