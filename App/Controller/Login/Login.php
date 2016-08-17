@@ -14,10 +14,6 @@ class Login extends BaseController {
         exit;
     }
 
-    public function doTemple()
-    {
-        view();
-    }
 
 
 }

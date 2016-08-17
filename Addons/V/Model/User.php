@@ -17,4 +17,14 @@ class User
         $user = $user?$user:[];
         return $user;
     }
+    /**
+     * 判断用户是否存在
+     *
+     */
+    public function isExistUser($login)
+    {
+        $user = $this->getUserByLogin($login);
+        $check = empty($user)?false:true;
+        return $check;
+    }
 }

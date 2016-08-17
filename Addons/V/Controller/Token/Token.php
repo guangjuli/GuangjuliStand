@@ -15,17 +15,26 @@ class Token
 
     public function doAccesstokenPost()
     {
-        $token = model('Token')->accessToken(req('Post'));
-        if (empty($token)) {
+        $req = req('Post');
+        if(model('token')->validateTokenReq($req)){
+            $token = model('Token')->accessToken(req('Post'));
+            if (empty($token)) {
+                $this->AjaxReturn([
+                    'code' => -200,
+                    'msg' => '获取失败',
+                    'data' => "" ]);
+            } else {
+                $this->AjaxReturn([
+                    'data' => $token
+                ]);
+            }
+        }else{
             $this->AjaxReturn([
-                'code' => -200,
-                'msg' => '获取失败',
-                'data' => "" ]);
-        } else {
-            $this->AjaxReturn([
-                'data' => $token
-            ]);
+                'code' => -201,
+                'msg' => '没有权限',
+                ]);
         }
     }
+
 
 }
