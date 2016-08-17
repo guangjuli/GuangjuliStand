@@ -35,7 +35,8 @@ class Token implements ModelInterface
     //获取token表信息
     public function getTokenInfo($accessToken)
     {
-        $check = $this->getTokenInfoFromSql($accessToken);$info = $check?$check:[];
+        $check = $this->getTokenInfoFromSql($accessToken);
+        $info = $check?$check:[];
         return $info;
     }
     //获取通行证accessToken
@@ -63,7 +64,7 @@ class Token implements ModelInterface
         $validate = ['verify','login','time','deviceId'];
         if(!model('Gate')->isExistParams($validate,$req))return false;
         if(!model('Gate')->isEmpty($req))return false;
-        //校验secrect密匙verify
+        //校验密匙verify
         $this->verify($req);
         //校验login对应的用户是否存在
         $user = model('User')->getUserByLogin($req['login']);
