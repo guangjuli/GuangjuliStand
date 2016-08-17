@@ -21,10 +21,17 @@ class User
      * 判断用户是否存在
      *
      */
-    public function isExistUser($login)
+    public function isExistUserByLogin($login)
     {
         $user = $this->getUserByLogin($login);
         $check = empty($user)?false:true;
+        return $check;
+    }
+
+    public function insertUser(Array $req)
+    {
+        $insert = server('Db')->autoExecute('user', $req, 'INSERT');
+        $check = $insert?true:false;
         return $check;
     }
 }
