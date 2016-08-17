@@ -45,8 +45,7 @@ class Token implements ModelInterface
     public function accessToken($req)
     {
         $this->checkReq($req);
-        $login = $this->login;
-        $user = model('User')->getUserByLogin($login);
+        $user = model('User')->getUserByLogin($this->login);
         $userId = $user['userId'];
         $this->userId = $userId;
         if(!$userId)return [];
@@ -56,14 +55,14 @@ class Token implements ModelInterface
         $this->token();
         //添加token
         $checkInsertToken = $this->addToken();
-        if($checkInsertToken){ return [
+        if($checkInsertToken){
+            return [
             'token'     =>$this->token,
             'expires'   =>$this->expires,
-        ];
+            ];
         }else{
             return [];
         }
-
     }
 
     //数据库操作
@@ -86,7 +85,6 @@ class Token implements ModelInterface
     {
         $res['login']       = $this->login;
         $res['userId']      = $this->userId;
-        $res['deviceId']    = $this->deviceId;
         $res['accessToken'] = $this->token;
         $res['createAt']    = time();
         $res['expires_in']  = 2592000;
@@ -94,6 +92,7 @@ class Token implements ModelInterface
         $check = $insert?true:false;
         return $check;
     }
+
     private function checkReq($req)
     {
         if(!$req)return [];
@@ -103,14 +102,21 @@ class Token implements ModelInterface
         $verify     = $req['verify'];
         if(!$deviceId&&!$login&&!$time&&!$verify)return [];
         if(!(is_string($deviceId)&&is_string($login)&&is_string($time)&&is_string($verify)))return[];
+        //TODO:调用设备校验
         if ($verify != MD5($deviceId . $this->clientSecret . $login . $time))return [];
         $this->deviceId = $deviceId;
         $this->login = $login;
     }
 
+    //TODO:算法待修改，一个用户可能有多台设备，设备编号不唯一，加入deviceId，同一用户token不唯一
     private function token()
     {
-        $this->token = md5($this->deviceId . $this->login . '_' . microtime(true) . '_' . rand(100000000, 999999999));
+        $this->token = md5($this->login . '_' . microtime(true) . '_' . rand(100000000, 999999999));
+    }
+
+    private function validateDevice()
+    {
+        //TODO: 校验设备编号正确性
     }
 
 }
