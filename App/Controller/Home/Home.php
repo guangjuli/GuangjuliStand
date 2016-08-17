@@ -8,11 +8,28 @@ class Home extends BaseController {
         parent::__construct();
     }
 
+    /**
+     * 后台首页
+     */
     public function doIndex()
     {
-        $config = Model('Config')->config('AdminAuth');
-        D($config);
-        exit;
+view();
+        //$res = model('menu')->menuMainsub();
+        $res = model('widget')->adminNav();
+
+D($res);
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public function doLogin()
