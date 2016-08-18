@@ -18,6 +18,9 @@ class User implements ModelInterface
         // TODO: Implement depend() method.
         return[
             'Model::Token',
+            'Model::Validate',
+            'Server::Db',
+
         ];
     }
 
@@ -56,7 +59,12 @@ class User implements ModelInterface
     public function updateUserByUserId(Array $array)
     {
         //model('Gate')->verifyToken($array['token']);
-        $userId = server('Cache')->get($array['token'])['userId'];
+        if(server('Cache')->has($array['token'])){
+            $userId = server('Cache')->get($array['token'])['userId'];
+        }else{
+            $tokenInfo = model('Token')->getTokenInfo($array['token']);
+            $userId = $tokenInfo['userId'];
+        }
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
         $check = $insert?true:false;
         return $check;

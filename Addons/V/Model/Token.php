@@ -57,7 +57,7 @@ class Token implements ModelInterface
     }
 
     //在获取token前对请求参数进行验证
-    public function validateTokenReq($req)
+    public function validateTokenReq(Array $req)
     {
         //校验参数是否为空
         $validate = ['verify','login','time','deviceId','type'];
