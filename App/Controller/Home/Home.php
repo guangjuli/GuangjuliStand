@@ -14,10 +14,12 @@ class Home extends BaseController {
     public function doIndex()
     {
 view();
-        //$res = model('menu')->menuMainsub();
-        $res = model('widget')->adminNav();
 
-D($res);
+
+        //$res = model('menu')->menuMainsub();
+        //$res = model('widget')->adminNav();
+
+//D($res);
 
 
 

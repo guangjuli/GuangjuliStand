@@ -21,103 +21,10 @@ class Menu implements \Grace\Base\ModelInterface
         ];
     }
 
-    public function menuLib()
-    {
-        //todo 转数据库
-        return [
-            [
-                'title' => 'Dashboard',
-                'ca' => 'Home.Index',
-                'active' => 0,
-                'child' => [
-                    [
-                        'title' => 'Dashboard',
-                        'ca' => 'Home.Index3',
-                        'active' => 0,
-                        'child' => [
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index5',
-                                'active' => 0,
-                            ],
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index',
-                                'active' => 0,
-                            ],
-                        ],
-                    ],
-                    [
-                        'title' => 'Dashboard',
-                        'ca' => 'Home.Index12',
-                        'active' => 0,
-                        'child' => [
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index4',
-                                'active' => 0,
-                            ],
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index3',
-                                'active' => 0,
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'title' => 'Dashboard',
-                'ca' => 'Home.Index2',
-                'active' => 0,
-                'child' => [
-                    [
-                        'title' => 'Dashboard',
-                        'ca' => 'Home.Index',
-                        'active' => 0,
-                        'child' => [
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index',
-                                'active' => 0,
-                            ],
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index',
-                                'active' => 0,
-                            ],
-                        ],
-                    ],
-                    [
-                        'title' => 'Dashboard',
-                        'ca' => 'Home.Index2',
-                        'active' => 0,
-                        'child' => [
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index',
-                                'active' => 0,
-                            ],
-                            [
-                                'title' => 'Dashboard',
-                                'ca' => 'Home.Index',
-                                'active' => 0,
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-
-        ];
-    }
-
     /**
      * menuArr 对数据初始化
      * menuArr 完整的菜单
-     *
-     *
      * 注意 : 最终 active = 1 上级菜单也需要置1
-     *
      * 对原始数据进行处理,
      */
     public function menuArr()
@@ -166,12 +73,38 @@ class Menu implements \Grace\Base\ModelInterface
     public function menuMainsub()
     {
         $arr = $this->menuArr();
-        //获取当前的二级菜单列表
         $local = strtolower($this->router['controller'] . '.' . $this->router['mothed']);
 
+        //判断是一级还是二级还是三级
+        //然后决定二级菜单是什么
+
+        $main = 'home.index';
+
+        foreach($arr as $k=>$v){
+            $_main = $v['ca'];
+            if($v['ca'] == $local){
+                $main = $_main;
+                break;
+            }
+            //判断二级
+            foreach($v['child'] as $kk =>$vv){
+                if($vv['ca'] == $local){
+                    $main = $_main;
+                    break;
+                }
+                //判断三级
+                foreach($vv['child'] as $kkk =>$vvv) {
+                    if($vvv['ca'] == $local){
+                        $main = $_main;
+                        break;
+                    }
+                }
+            }
+        }
+        //获得main 主菜单的
         $child = [];
         foreach($arr as $key=>$value){
-            if($value['ca'] == $local){
+            if($value['ca'] == $main){
                 $child = $value['child'];
             }
         }
@@ -192,12 +125,15 @@ class Menu implements \Grace\Base\ModelInterface
     }
 
     /**
+     * 初始化
      * @return array
      */
-
     private function menuArrIni()
     {
-        $arr = $this->menuLib();
+
+//        $arr = $this->menuLib();
+        $arr = Model('data')->menuLib();
+
         //添加 path / ca / breadcrumb / breadcrumbtop 属性
         //三层
         foreach ($arr as $k => $v) {
