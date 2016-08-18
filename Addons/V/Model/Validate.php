@@ -9,8 +9,15 @@
 namespace Addons\Model;
 
 
-class Validate
+use Grace\Base\ModelInterface;
+
+class Validate implements ModelInterface
 {
+    public function depend()
+    {
+        // TODO: Implement depend() method.
+    }
+
     public function validateNumberLetter($str,$min=null,$max=null)
     {
         $min = $min?:6;
@@ -43,12 +50,32 @@ class Validate
      * @param $req
      * @return boolean
      */
-    public function isExistParams($field=[],Array $req)
+    public function isExistParams(Array $field,Array $req)
     {
-        if(!is_array($field)) return false;
         foreach($field as $v){
             if(!array_key_exists($v,$req))return false;
         }
         return true;
+    }
+
+    //检验请求参数数据类型是否正确
+    //可以用来校验参数是否存在及数据类型
+    public function validateParamsType(Array $req,Array $string,$int=[],$array=[])
+    {
+        $result = array();
+        foreach($string as $v){
+            if(!is_string($req[$v]))$result[]=$v;
+        }
+        if($int){
+            foreach($int as $v){
+                if(!is_int($req[$v]))$result[]=$v;
+            }
+        }
+        if($array){
+            foreach($array as $v){
+                if(!is_array($req[$v]))$result[]=$v;
+            }
+        }
+        return $result;
     }
 }
