@@ -21,6 +21,57 @@ class Menu implements \Grace\Base\ModelInterface
         ];
     }
 
+    //获取面包屑数据
+    public function adminBreadcrumb()
+    {
+        $local = $this->router['controller'] . '.' . $this->router['mothed'];
+        $local = strtolower($local);
+        $params =  $this->router['params'];
+        $arr = $this->menuArrIni();
+
+        $cat = [];
+        //1 : 包含ext的匹配
+        //三层
+        foreach ($arr as $k => $v) {
+            if ($v['ca'] == $local) {
+                $cat = $v;
+            }
+            //对一级菜单进行处理
+            if ($v['child']) {
+                foreach ($v['child'] as $kk => $vv) {
+                    if ($vv['ca'] == $local) {
+                        $cat = $vv;
+                    }
+                    //对二级菜单进行处理
+                    if ($vv['child']) {
+                        foreach ($vv['child'] as $kkk => $vvv) {
+                            if ($vvv['ca'] == $local && $vvv['ca'] = '') {
+                                $cat = $vvv;
+                            }
+                        }
+                        if($params){
+                            //更高级匹配
+                            foreach ($vv['child'] as $kkk => $vvv) {
+                                if ($vvv['ca'].$vvv['ext'] == $local.$params) {
+                                    $cat = $vvv;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        return $cat;
+
+
+
+
+        //1 : 不包含ext的匹配
+
+
+    }
+
     /**
      * menuArr 对数据初始化
      * menuArr 完整的菜单
@@ -31,6 +82,8 @@ class Menu implements \Grace\Base\ModelInterface
     {
         $local = $this->router['controller'] . '.' . $this->router['mothed'];
         $local = strtolower($local);
+        $params =  $this->router['params'];
+
         $arr = $this->menuArrIni();
 
         //三层
@@ -46,17 +99,24 @@ class Menu implements \Grace\Base\ModelInterface
                     if ($vv['ca'] == $local) {
                         $arr[$k]['child'][$kk]['active'] = 2;
                         $arr[$k]['active'] = 2;
-
                     }
 
                     if ($vv['child']) {
                         //对三级菜单进行处理
+                        //第一遍搜索到则结束
                         foreach ($vv['child'] as $kkk => $vvv) {
                             if ($vvv['ca'] == $local) {
                                 $arr[$k]['child'][$kk]['child'][$kkk]['active'] = 3;
                                 $arr[$k]['child'][$kk]['active'] = 3;
                                 $arr[$k]['active'] = 3;
-
+                            }
+                        }
+                        //第二遍搜索  更高级搜索
+                        foreach ($vv['child'] as $kkk => $vvv) {
+                            if ($vvv['ca'] == $local && $vvv['ext'] == $params ) {
+                                $arr[$k]['child'][$kk]['child'][$kkk]['active'] = 4;
+                                $arr[$k]['child'][$kk]['active'] = 4;
+                                $arr[$k]['active'] = 4;
                             }
                         }
                     }
@@ -184,16 +244,26 @@ class Menu implements \Grace\Base\ModelInterface
                     //对二级菜单进行处理
                     $arr[$k]['child'][$kk]['ca'] = strtolower($vv['ca']);
                     $arr[$k]['child'][$kk]['path'] = '/'.str_replace('.','/',$arr[$k]['child'][$kk]['ca']);
-                    $arr[$k]['child'][$kk]['breadcrumb'] = $arr[$k]['path'];
+                    $arr[$k]['child'][$kk]['breadcrumb']['title'] = $arr[$k]['title'];
+                    $arr[$k]['child'][$kk]['breadcrumb']['path'] = $arr[$k]['path'];
 
                     if ($vv['child']) {
                         //对三级菜单进行处理
                         foreach ($vv['child'] as $kkk => $vvv) {
                             $arr[$k]['child'][$kk]['child'][$kkk]['ca']  = strtolower($vvv['ca']);
                             //创建访问路径
+
                             $arr[$k]['child'][$kk]['child'][$kkk]['path'] = '/'.str_replace('.','/',$arr[$k]['child'][$kk]['child'][$kkk]['ca']);
-                            $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumbtop'] = $arr[$k]['path'];
-                            $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumb'] = $arr[$k]['child'][$kk]['path'];
+
+                            //最后一层需要判断ext是否存在
+                            if($arr[$k]['child'][$kk]['child'][$kkk]['ext']){
+                                $arr[$k]['child'][$kk]['child'][$kkk]['path'] = '/'.str_replace('.','/',$arr[$k]['child'][$kk]['child'][$kkk]['ca']).'/'.$arr[$k]['child'][$kk]['child'][$kkk]['ext'];
+                            }
+                            $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumb']['path'] = $arr[$k]['child'][$kk]['path'];
+                            $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumb']['title'] = $arr[$k]['child'][$kk]['title'];
+
+                            $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumbtop']['path'] = $arr[$k]['path'];
+                            $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumbtop']['title'] = $arr[$k]['title'];
                         }
                     }
                 }

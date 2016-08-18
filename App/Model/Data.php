@@ -39,22 +39,7 @@ class Data implements \Grace\Base\ModelInterface
                         'child' => [
                         ],
                     ],
-                    [
-                        'title' => '数据',
-                        'icon' => 'glyphicon glyphicon-folder-open',
-                        'ca' => 'Home.Data',
-                        'active' => 0,
-                        'child' => [
-                        ],
-                    ],
-                    [
-                        'title' => 'Map',
-                        'icon' => 'glyphicon glyphicon-home',
-                        'ca' => 'Home.Map',
-                        'active' => 0,
-                        'child' => [
-                        ],
-                    ],
+
                     [
                         'title' => 'Help',
                         'icon' => 'glyphicon glyphicon-home',
@@ -70,13 +55,15 @@ class Data implements \Grace\Base\ModelInterface
                             [
                                 'title' => 'Help1',
                                 'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.Help1',
+                                'ca' => 'Home.Help',
+                                'ext' => 'v1',
                                 'active' => 0,
                             ],
                             [
                                 'title' => 'Help2',
                                 'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.Help2',
+                                'ca' => 'Home.Help',
+                                'ext' => 'v2',
                                 'active' => 0,
                             ],
                         ],
@@ -90,45 +77,23 @@ class Data implements \Grace\Base\ModelInterface
                 'active' => 0,
                 'child' => [
                     [
-                        'title' => 'Dashboard',
-                        'icon' => 'glyphicon glyphicon-home',
-                        'ca' => 'Home.Index2',
+                        'title' => '数据',
+                        'icon' => 'glyphicon glyphicon-folder-open',
+                        'ca' => 'Home.Data',
                         'active' => 0,
                         'child' => [
-                            [
-                                'title' => 'Dashboard',
-                                'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.Ind2ex',
-                                'active' => 0,
-                            ],
-                            [
-                                'title' => 'Dashboard',
-                                'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.2Index',
-                                'active' => 0,
-                            ],
+
                         ],
                     ],
                     [
-                        'title' => 'Dashboard',
+                        'title' => 'Map',
                         'icon' => 'glyphicon glyphicon-home',
-                        'ca' => 'Home.Index2',
+                        'ca' => 'Home.Map',
                         'active' => 0,
                         'child' => [
-                            [
-                                'title' => 'Dashboard',
-                                'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.2Index',
-                                'active' => 0,
-                            ],
-                            [
-                                'title' => 'Dashboard',
-                                'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.2Index',
-                                'active' => 0,
-                            ],
                         ],
                     ],
+
                 ],
             ]
 

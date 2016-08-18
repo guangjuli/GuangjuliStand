@@ -21,6 +21,12 @@
             {widget name='adminNavLeft'}
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Breadcrumb -->
+            {widget name='adminBreadcrumb'}
+            <!-- Tip -->
+            {widget name='adminTip'}
+            <!-- menuthree -->
+            {widget name='adminLevelthree'}
 
 
             <!-- content -->
@@ -77,9 +83,7 @@
                 </ul>
 
             <!-- /content -->
-
-
-
+            {widget name='adminFooter'}
         </div>
     </div>
 </div>

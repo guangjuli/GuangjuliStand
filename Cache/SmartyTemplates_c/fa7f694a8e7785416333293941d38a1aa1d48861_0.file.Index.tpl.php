@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-08-18 15:10:54
+/* Smarty version 3.1.30, created on 2016-08-18 17:26:54
   from "E:\phpleague\Grace\GuangjuliStand\App\Views\Home\Index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_57b55f7e73dc25_23949540',
+  'unifunc' => 'content_57b57f5ed48ee0_03722000',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'fa7f694a8e7785416333293941d38a1aa1d48861' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\App\\Views\\Home\\Index.tpl',
-      1 => 1471504252,
+      1 => 1471512413,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_57b55f7e73dc25_23949540 (Smarty_Internal_Template $_smarty_tpl) {
+function content_57b57f5ed48ee0_03722000 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -47,7 +47,6 @@ function content_57b55f7e73dc25_23949540 (Smarty_Internal_Template $_smarty_tpl)
 
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
             <!-- Breadcrumb -->
             <?php echo smarty_function_widget(array('name'=>'adminBreadcrumb'),$_smarty_tpl);?>
 
@@ -56,6 +55,7 @@ function content_57b55f7e73dc25_23949540 (Smarty_Internal_Template $_smarty_tpl)
 
             <!-- menuthree -->
             <?php echo smarty_function_widget(array('name'=>'adminLevelthree'),$_smarty_tpl);?>
+
 
 
             <!-- content -->
@@ -112,9 +112,6 @@ function content_57b55f7e73dc25_23949540 (Smarty_Internal_Template $_smarty_tpl)
                 </ul>
 
             <!-- /content -->
-
-
-
             <?php echo smarty_function_widget(array('name'=>'adminFooter'),$_smarty_tpl);?>
 
         </div>

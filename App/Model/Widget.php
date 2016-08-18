@@ -18,13 +18,16 @@ class Widget implements \Grace\Base\ModelInterface
         ];
     }
 
-
-
-
+    /**
+     * 面包屑
+     * @return mixed
+     */
     public function adminBreadcrumb()
     {
+        $adminBreadcrumb = Model('menu')->adminBreadcrumb();
         $tpl = '../Widget/adminBreadcrumb';
         $html = fetch($tpl,[
+            'adminBreadcrumb' => $adminBreadcrumb
         ]);
         return $html;
     }
@@ -35,11 +38,31 @@ class Widget implements \Grace\Base\ModelInterface
      */
     public function adminLevelthree()
     {
+
+        $menulevelthree = Model('menu')->menuMainLevelthree();
+        //如果存在更高级active 则
+        $f = false;
+        foreach($menulevelthree as $key=>$value){
+            if($value['active']==4){
+                $f = true;
+            }
+        }
+
+        //存在active = 4
+        if($f){
+            foreach($menulevelthree as $key=>$value){
+                if($value['active']!=4){
+                    $menulevelthree[$key]['active'] = 0;
+                }
+            }
+        }
+
+
         $tpl = '../Widget/adminLevelthree';
         $html = fetch($tpl,[
-            'menulevelthree' => Model('menu')->menuMainLevelthree()
+            'menulevelthree' => $menulevelthree
         ]);
-        //D(Model('menu')->menuMainLevelthree());
+
         return $html;
     }
 
