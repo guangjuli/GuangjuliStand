@@ -57,13 +57,13 @@ class Passport implements ModelInterface
     public function validateRegisterReq(Array $req)
     {
 
-         //调用获取注册验证码后才会加入bus('code')没有则验证不通过
+         /*//调用获取注册验证码后才会加入bus('code')没有则验证不通过
          bus([
            'code'=>[
                'phone'=>112,
                'code'=>23456
            ]
-        ]);
+        ]);*/
         //校验请求参数在对应$field中参数非空
         $field=$this->registerConfig()['field'];
         if(!model('Validate')->validateParams($field,$req))return $code = -204;
