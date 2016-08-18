@@ -18,8 +18,47 @@ class Widget implements \Grace\Base\ModelInterface
         ];
     }
 
+
+
+
+    public function adminBreadcrumb()
+    {
+        $tpl = '../Widget/adminBreadcrumb';
+        $html = fetch($tpl,[
+        ]);
+        return $html;
+    }
+
     /**
-     * 后台顶部菜单
+     * 三级菜单
+     * @return mixed
+     */
+    public function adminLevelthree()
+    {
+        $tpl = '../Widget/adminLevelthree';
+        $html = fetch($tpl,[
+            'menulevelthree' => Model('menu')->menuMainLevelthree()
+        ]);
+        //D(Model('menu')->menuMainLevelthree());
+        return $html;
+    }
+
+    /**
+     * 左侧菜单 二级
+     * @return mixed
+     */
+    public function adminNavLeft()
+    {
+        $tpl = '../Widget/adminNavLeft';
+        $html = fetch($tpl,[
+            'menuleft' => Model('menu')->menuMainsub(),          //所有
+        ]);
+        //D(Model('menu')->menuMainsub());
+        return $html;
+    }
+
+    /**
+     * 后台顶部菜单 一级
      * @return mixed
      */
     public function adminNav()
@@ -34,18 +73,20 @@ class Widget implements \Grace\Base\ModelInterface
 
 
     /**
-     * 左侧菜单
+     * 消息,还有根据ca出的提示新信息
      * @return mixed
      */
-    public function adminNavLeft()
+    public function adminTip()
     {
-        $tpl = '../Widget/adminNavLeft';
+        $tpl = '../Widget/adminTip';
         $html = fetch($tpl,[
-            'menuleft' => Model('menu')->menuMainsub(),          //所有
         ]);
-        //D(Model('menu')->menuMainsub());
         return $html;
     }
+
+    /**
+     * 固定页面
+     */
 
     /**
      * footer

@@ -66,6 +66,43 @@ class Menu implements \Grace\Base\ModelInterface
         return $arr;
     }
 
+    public function menuMainLevelthree()
+    {
+        $arr = $this->menuArr();
+        $local = strtolower($this->router['controller'] . '.' . $this->router['mothed']);
+        //寻找三级菜单
+        $main = '';
+
+        foreach($arr as $k=>$v) {
+            foreach($v['child'] as $kk =>$vv){
+                $_main = $vv['ca'];
+                if($vv['ca'] == $local){
+                    $main = $_main;
+                    break;
+                }
+                //判断三级
+                foreach($vv['child'] as $kkk =>$vvv) {
+                    if($vvv['ca'] == $local){
+                        $main = $_main;
+                        break;
+                    }
+                }
+            }
+        }
+        //得到$main
+
+        //获得main 主菜单的
+        $child = [];
+        foreach($arr as $k=>$v){
+            foreach($v['child'] as $kk=>$vv) {
+                if ($vv['ca'] == $main) {
+                    $child = $vv['child'];
+                }
+            }
+        }
+        return $child;
+    }
+
 
     /**
      * 返回下级菜单 和子菜单
@@ -101,6 +138,7 @@ class Menu implements \Grace\Base\ModelInterface
                 }
             }
         }
+
         //获得main 主菜单的
         $child = [];
         foreach($arr as $key=>$value){
