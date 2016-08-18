@@ -26,8 +26,9 @@
             <!-- Tip -->
             {widget name='adminTip'}
             <!-- menuthree -->
-
             {widget name='adminLevelthree'}
+
+
             <!-- content -->
 
             <h2>Title <small>des</small></h2>
@@ -93,12 +94,6 @@
 <script src="/assets/js/Sham.js"></script>
 <script type="text/javascript">
     $(document).ready(function(e) {
-        $('#admintip').on('close.bs.alert', function () {
-            alert('1');
-        });
-        $('#admintip').on('closed.bs.alert', function () {
-            alert('2');
-        });
     });
 </script>
 </body>

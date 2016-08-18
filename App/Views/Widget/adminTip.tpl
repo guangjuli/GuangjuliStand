@@ -1,4 +1,4 @@
-<div class="alert alert-danger alert-dismissible fade in" role="alert" id="admintip">
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
     <button class="close" aria-label="Close" data-dismiss="alert" type="button">
         <span aria-hidden="true">×</span>
     </button>
@@ -9,4 +9,3 @@
         <button class="btn btn-danger" type="button" data-dismiss="alert">收到</button>
     </p>
 </div>
-

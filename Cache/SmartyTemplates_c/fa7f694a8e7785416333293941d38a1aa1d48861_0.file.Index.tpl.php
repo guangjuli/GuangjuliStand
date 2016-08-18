@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-08-18 17:56:25
+/* Smarty version 3.1.30, created on 2016-08-18 17:26:54
   from "E:\phpleague\Grace\GuangjuliStand\App\Views\Home\Index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_57b58649b1de68_62818596',
+  'unifunc' => 'content_57b57f5ed48ee0_03722000',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'fa7f694a8e7785416333293941d38a1aa1d48861' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\App\\Views\\Home\\Index.tpl',
-      1 => 1471514182,
+      1 => 1471512413,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_57b58649b1de68_62818596 (Smarty_Internal_Template $_smarty_tpl) {
+function content_57b57f5ed48ee0_03722000 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -54,8 +54,9 @@ function content_57b58649b1de68_62818596 (Smarty_Internal_Template $_smarty_tpl)
             <?php echo smarty_function_widget(array('name'=>'adminTip'),$_smarty_tpl);?>
 
             <!-- menuthree -->
-
             <?php echo smarty_function_widget(array('name'=>'adminLevelthree'),$_smarty_tpl);?>
+
+
 
             <!-- content -->
 
@@ -130,12 +131,6 @@ function content_57b58649b1de68_62818596 (Smarty_Internal_Template $_smarty_tpl)
 <?php echo '<script'; ?>
  type="text/javascript">
     $(document).ready(function(e) {
-        $('#admintip').on('close.bs.alert', function () {
-            alert('1');
-        });
-        $('#admintip').on('closed.bs.alert', function () {
-            alert('2');
-        });
     });
 <?php echo '</script'; ?>
 >

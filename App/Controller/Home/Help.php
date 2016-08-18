@@ -12,9 +12,9 @@ class Home extends BaseController {
      * 后台首页
      */
     public function doHelp()
-{
-    view();
-}
+    {
+        view();
+    }
 
     public function doHelp_v1()
     {
