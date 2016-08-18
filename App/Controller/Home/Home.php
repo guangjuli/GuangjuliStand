@@ -15,21 +15,18 @@ class Home extends BaseController {
     {
 view();
         //$res = model('menu')->menuMainsub();
-        $res = model('widget')->adminNav();
+        //$res = model('widget')->adminNav();
+//D($res);
+    }
 
-D($res);
+    public function doHelp1()
+    {
+        view();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    public function doHelp2()
+    {
+        view();
     }
 
     public function doLogin()

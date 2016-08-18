@@ -59,6 +59,4 @@ Document
 tests
 Cache/
 tests
-Addons/V/Views/Token/Index.tpl
->>>>>>> refs/remotes/origin/master
-Addons/V/Views/Token/Index.tpl
+V/Views/
