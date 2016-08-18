@@ -270,3 +270,12 @@
             return Grace\Wise\Wise::getInstance()->channel($channel)->C($args,$key, $value);
         }
     }
+
+    /**
+     * 页面widget 在tpl文件中进行调用
+     * @param $params
+     * @return mixed
+     */
+    function smarty_function_widget($params) {
+        return (new App\Model\Widget)->$params['name']();
+    }
