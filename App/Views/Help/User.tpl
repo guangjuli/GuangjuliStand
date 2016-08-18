@@ -70,10 +70,7 @@
             </div>
 
 
-            <button class="shambox btn btn-default">按钮</button>
-            <pre>
-            <button class="shambox btn btn-default">按钮</button>
-            </pre>
+
 
             <!-- content -->
             {widget name='adminFooter'}
