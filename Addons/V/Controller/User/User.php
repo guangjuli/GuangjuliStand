@@ -5,21 +5,22 @@ use Addons\Traits\AjaxReturn;
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2016-08-17
- * Time: 16:27
+ * Date: 2016-08-18
+ * Time: 11:59
  */
-class Passport
+class User
 {
     use AjaxReturn;
 
-    public function doRegisterPost()
+    public function doUserinfosubmitPost()
     {
         $req = req('Post');
-        $register = model('Passport');
-        $code = $register->validateRegisterReq($req);
-        $msg  = $register->registerConfig()['returnNews'];
+        $user = model('User');
+        $msg = $user->paramsConfig()['returnNews'];
+        $code = $user->validateUserReq($req);
         if($code==200){
-            if(model('Passport')->register()){
+            $check = $user->updateUserByUserId($req);
+            if($check){
                 $this->AjaxReturn([
                     'code' => $code,
                     'msg' => $msg[$code],
@@ -36,14 +37,6 @@ class Passport
                 'msg' => $msg[$code],
             ]);
         }
-    }
-
-    public function doIndex()
-    {
-        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff1121471276800');
-        view('',[
-            'verify'=> $verify
-        ]);
     }
 
 }

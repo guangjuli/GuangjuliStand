@@ -13,7 +13,6 @@ use Grace\Base\ModelInterface;
 
 class Passport implements ModelInterface
 {
-    public $config = array();
     public function depend()
     {
         return [
@@ -23,18 +22,21 @@ class Passport implements ModelInterface
             'Model::Token'
         ];
     }
-    public function __construct()
+
+    public function registerConfig()
     {
-        //必须获取到的请求参数名
-        $this->config['field']=['verify','time','deviceId','phone','password','type','checkcode'];
-        $this->config['returnNews'] = [
-            200  =>'succeed',
-            -204 =>'表单信息均为必填，不能为空',
-            -205 =>'没有权限',
-            -202 =>'该手机号和已验证号码不一致或尚未手机号验证',
-            -206 =>'验证码不正确',
-            -203 =>'密码格式不正确',
-            -400 =>'该手机号已经注册!'
+        return[
+            'field'=>['verify','time','deviceId','phone','password','type','checkcode'],
+            'returnNews'=> [
+                200  =>'succeed',
+                -200 =>'系统异常',
+                -204 =>'表单信息均为必填，不能为空',
+                -205 =>'没有权限',
+                -202 =>'该手机号和已验证号码不一致或尚未手机号验证',
+                -206 =>'验证码不正确',
+                -203 =>'密码格式不正确',
+                -400 =>'该手机号已经注册!'
+            ]
         ];
     }
 
@@ -54,15 +56,16 @@ class Passport implements ModelInterface
 
     public function validateRegisterReq(Array $req)
     {
-        /*
-         * 调用获取注册验证码后才会加入bus('code')没有则验证不通过
-         * bus([
+
+         //调用获取注册验证码后才会加入bus('code')没有则验证不通过
+         bus([
            'code'=>[
-               'phone'=>110
+               'phone'=>112,
+               'code'=>23456
            ]
-        ]);*/
+        ]);
         //校验请求参数在对应$field中参数非空
-        $field=$this->config['field'];
+        $field=$this->registerConfig()['field'];
         if(!model('Validate')->validateParams($field,$req))return $code = -204;
         //校验verify是否为自己的用户
         $req['login'] = $req['phone'];

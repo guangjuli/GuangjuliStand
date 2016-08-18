@@ -83,7 +83,7 @@ class Token implements ModelInterface
         if(empty($tokenInfo))return false;
         $enableTime = intval($tokenInfo['createAt'])+$this->expires;
         if($enableTime<time())return false;
-        return true;
+        return $tokenInfo;
     }
 
     //数据库操作
