@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "44d102ee3c6f78d1372feaa44b1611a7",
-    "content-hash": "06d6cb308cabe957ff024221a6140199",
+    "hash": "b3dca8cc10c250992032cc7db640685b",
+    "content-hash": "2ecf7d228e0a2f3c202178caf7e3a5b7",
     "packages": [
         {
             "name": "desarrolla2/cache",
@@ -742,16 +742,16 @@
         },
         {
             "name": "grace/server",
-            "version": "1.0.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shampeak/GraceServer.git",
-                "reference": "c2f2d3c344b76fa833a70b1619047af4c03cc8d6"
+                "reference": "c07eace874f9a92a855a8b31e3ce4a1ed174bfd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/c2f2d3c344b76fa833a70b1619047af4c03cc8d6",
-                "reference": "c2f2d3c344b76fa833a70b1619047af4c03cc8d6",
+                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/c07eace874f9a92a855a8b31e3ce4a1ed174bfd5",
+                "reference": "c07eace874f9a92a855a8b31e3ce4a1ed174bfd5",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
                 }
             ],
             "description": "dev",
-            "time": "2016-08-16 05:55:42"
+            "time": "2016-08-18 02:08:30"
         },
         {
             "name": "knplabs/gaufrette",
@@ -998,12 +998,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rmccue/Requests.git",
-                "reference": "1b5ffd8501503e0641b7fa0c555ccf99973135e2"
+                "reference": "fb5b51797ff881dd67f630cf9fd9e14b757a9e29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmccue/Requests/zipball/1b5ffd8501503e0641b7fa0c555ccf99973135e2",
-                "reference": "1b5ffd8501503e0641b7fa0c555ccf99973135e2",
+                "url": "https://api.github.com/repos/rmccue/Requests/zipball/fb5b51797ff881dd67f630cf9fd9e14b757a9e29",
+                "reference": "fb5b51797ff881dd67f630cf9fd9e14b757a9e29",
                 "shasum": ""
             },
             "require": {
@@ -1039,7 +1039,7 @@
                 "iri",
                 "sockets"
             ],
-            "time": "2016-08-04 00:54:18"
+            "time": "2016-08-18 01:24:21"
         },
         {
             "name": "smarty/smarty",
@@ -1223,12 +1223,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b7cd3a88dcab5189a7f6d7f8756b17cd25faf759"
+                "reference": "ffa2b812b07cceb163b30091aa54048b856d087b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b7cd3a88dcab5189a7f6d7f8756b17cd25faf759",
-                "reference": "b7cd3a88dcab5189a7f6d7f8756b17cd25faf759",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ffa2b812b07cceb163b30091aa54048b856d087b",
+                "reference": "ffa2b812b07cceb163b30091aa54048b856d087b",
                 "shasum": ""
             },
             "require": {
@@ -1276,7 +1276,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-07-28 20:58:48"
+            "time": "2016-08-18 00:09:08"
         }
     ],
     "packages-dev": [],
