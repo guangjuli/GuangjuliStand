@@ -21,6 +21,7 @@
             {widget name='adminNavLeft'}
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
             <!-- Breadcrumb -->
             {widget name='adminBreadcrumb'}
             <!-- Tip -->
@@ -29,52 +30,74 @@
             {widget name='adminLevelthree'}
 
             <div style="margin: 0px 0px 20px 0px;"></div>
-
             <!-- content -->
 
             <div class="row">
                 <div class="col-md-6 ">
-                    <!-- content -->
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" method="post" action="">
+
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                            <label for="inputPassword3" class="col-sm-2 control-label">面包屑</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <div class="checkbox">
+                                <div class="radio">
                                     <label>
-                                        <input type="checkbox"> Remember me
+                                        <input type="radio" name="Breadcrumb" id="optionsRadios1" value="1" {if $Breadcrumb eq 1}checked{/if}>
+                                        打开
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="Breadcrumb" id="optionsRadios1" value="0" {if $Breadcrumb neq 1}checked{/if}>
+                                        关闭
                                     </label>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-default">Sign in</button>
+                            <label for="inputPassword3" class="col-sm-2 control-label">Tip</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="Tip" id="optionsRadios1" value="1" {if $Tip eq 1}checked{/if}>
+                                        打开
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="Tip" id="optionsRadios1" value="0" {if $Tip neq 1}checked{/if}>
+                                        关闭
+                                    </label>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Footer</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="Footer" id="optionsRadios1" value="1" {if $Footer eq 1}checked{/if}>
+                                        打开
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="Footer" id="optionsRadios1" value="0" {if $Footer neq 1}checked{/if}>
+                                        关闭
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">提交</button>
+                            </div>
+                        </div>
+
                     </form>
-                    <!-- /content -->
                 </div>
                 <div class="col-md-6 ">
-                    <!-- description -->
-                    <blockquote>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    </blockquote>
-                    <!-- /description -->
-
                 </div>
             </div>
-
 
 
 

@@ -16,4 +16,43 @@ class Help extends BaseController {
         view();
     }
 
+    public function doForm()
+    {
+        view();
+    }
+
+    public function doForm2()
+    {
+        view();
+    }
+
+    public function doTable()
+    {
+        view();
+    }
+
+    public function doPage()
+    {
+        view();
+    }
+
+    public function doJsaction()
+    {
+        view();
+    }
+
+    public function doModelsupport()
+    {
+        view();
+    }
+
+    public function doModel()
+    {
+        view();
+    }
+
+
+
+
+
 }

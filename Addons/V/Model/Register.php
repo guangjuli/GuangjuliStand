@@ -11,7 +11,7 @@ namespace Addons\Model;
 
 use Grace\Base\ModelInterface;
 
-class Passport implements ModelInterface
+class Register implements ModelInterface
 {
     public function depend()
     {
@@ -41,7 +41,7 @@ class Passport implements ModelInterface
     }
 
     //校验成功后加入bus待存储的数据
-    private function isSuccessReturnBus($req)
+    private function ifSuccessReturnBus($req)
     {
         $type = strtolower($req['type'])=='android'?'android':'ios';
         //插入到user和device表的数据
@@ -57,10 +57,10 @@ class Passport implements ModelInterface
     public function validateRegisterReq(Array $req)
     {
 
-         /*//调用获取注册验证码后才会加入bus('code')没有则验证不通过
-         bus([
+         //调用获取注册验证码后才会加入bus('code')没有则验证不通过
+         /*bus([
            'code'=>[
-               'phone'=>112,
+               'phone'=>150,
                'code'=>23456
            ]
         ]);*/
@@ -79,7 +79,7 @@ class Passport implements ModelInterface
         //校验手机号是否已注册
         if(model('User')->isExistUserByLogin($req['phone']))return $code = -400;
         //验证通过，将待存储数据加入bus()
-        $this->isSuccessReturnBus($req);
+        $this->ifSuccessReturnBus($req);
         return $code = 200;
     }
 
@@ -93,8 +93,8 @@ class Passport implements ModelInterface
           'device'=>$register['device']
         ];
         $checkIsInsert = model('Device')->insertDevice($device);
-        if(!$checkIsInsert)return false;
-        return true;
+        if(!$checkIsInsert)return -200;
+        return 200;
     }
 
 }

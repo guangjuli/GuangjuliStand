@@ -51,3 +51,15 @@ Model('page')->page500();         //500界面
 
 
 
+对单表的增删改查建立对象
+
+标记
+
+    ID          标识字符
+    NOTEMPTY    不能空
+    NOTREPEAT   不重复
+    INT         整型
+    string      字符
+    time        时间
+
+

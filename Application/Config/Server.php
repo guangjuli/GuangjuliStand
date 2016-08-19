@@ -8,9 +8,10 @@
 return [
 
     'FileReflect'  => [
-        'Config'   => 'Config.php',
+        'Config'    => 'Config.php',
         'Application'=>'Application.php',
         'Addons'    =>'Addons.php',
+        'App'       =>'App.php',
         //对象配置
         'Db'        => 'Db.php',
         'Cookies'   => 'Cookies.php',
@@ -18,7 +19,7 @@ return [
         'Smarty'    => 'Smarty.php',
         //g2
         'View'      => 'View.php',
-        'Log'      => 'Log.php'
+        'Log'       => 'Log.php'
     ],
 
     'Providers'=>[
