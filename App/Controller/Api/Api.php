@@ -2,13 +2,22 @@
 namespace App\Controller;
 
 
-class Demo extends BaseController {
+class Api extends BaseController {
 
     public function __construct(){
         parent::__construct();
     }
 
+    /**
+     * 后台首页
+     */
     public function doIndex()
+    {
+        view();
+    }
+
+
+    public function doSetup()
     {
         view();
     }

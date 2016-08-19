@@ -26,7 +26,6 @@
             <!-- Tip -->
             {widget name='adminTip'}
             <!-- menuthree -->
-
             {widget name='adminLevelthree'}
             <!-- content -->
 

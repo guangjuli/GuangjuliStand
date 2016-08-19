@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-08-18 17:56:25
+/* Smarty version 3.1.30, created on 2016-08-19 14:31:51
   from "E:\phpleague\Grace\GuangjuliStand\App\Views\Home\Index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_57b58649b1de68_62818596',
+  'unifunc' => 'content_57b6a7d771b9a5_12155976',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'fa7f694a8e7785416333293941d38a1aa1d48861' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\App\\Views\\Home\\Index.tpl',
-      1 => 1471514182,
+      1 => 1471588310,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_57b58649b1de68_62818596 (Smarty_Internal_Template $_smarty_tpl) {
+function content_57b6a7d771b9a5_12155976 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -59,56 +59,6 @@ function content_57b58649b1de68_62818596 (Smarty_Internal_Template $_smarty_tpl)
 
             <!-- content -->
 
-            <h2>Title <small>des</small></h2>
-            <hr>
-
-            <table class="table table-striped table-hover">
-                <thead>
-                    <th>123123123</th>
-                    <th>123123123</th>
-                    <th>123123123</th>
-                    <th>123123123</th>
-                    <th>123123123</th>
-                </thead>
-                <tr>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                </tr>
-                <tr>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                </tr>
-                <tr>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                    <td>123123123</td>
-                </tr>
-            </table>
-                <ul class="pagination pagination-sm" style="margin: 0px 0;">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
 
             <!-- /content -->
             <?php echo smarty_function_widget(array('name'=>'adminFooter'),$_smarty_tpl);?>

@@ -43,6 +43,7 @@ class Widget implements \Grace\Base\ModelInterface
     {
 
         $menulevelthree = Model('menu')->menuMainLevelthree();
+        
         //如果存在更高级active 则
         $f = false;
         foreach($menulevelthree as $key=>$value){

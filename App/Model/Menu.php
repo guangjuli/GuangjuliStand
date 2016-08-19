@@ -147,7 +147,6 @@ class Menu implements \Grace\Base\ModelInterface
             }
         }
         //得到$main
-
         //获得main 主菜单的
         $child = [];
         foreach($arr as $k=>$v){

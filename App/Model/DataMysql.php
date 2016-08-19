@@ -43,6 +43,14 @@ class DataMysql implements \Grace\Base\ModelInterface
 
                         ],
                     ],
+                    [
+                        'title' => 'DEMO',
+                        'icon' => 'glyphicon glyphicon-wrench',
+                        'ca' => 'Demo.Index',
+                        'active' => 0,
+                        'child' => [
+                        ],
+                    ],
 
                     [
                         'title' => 'Help',
@@ -104,28 +112,51 @@ class DataMysql implements \Grace\Base\ModelInterface
                 ],
             ],
             [
-                'title' => '用户管理',
+                'title' => 'AppApi',
                 'icon' => 'glyphicon glyphicon-home',
-                'ca' => 'Home.USER',
+                'ca' => 'Api.Index',
                 'active' => 0,
                 'child' => [
                     [
-                        'title' => '数据',
-                        'icon' => 'glyphicon glyphicon-folder-open',
-                        'ca' => 'Home.Data',
+                        'title' => 'Api',
+                        'icon' => 'glyphicon glyphicon-wrench',
+                        'ca' => 'Api.List',
                         'active' => 0,
                         'child' => [
 
+                            [
+                                'title' => '列表',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Api.List',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => '添加',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Api.List',
+                                'ext'=>'add',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => '修改',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Api.List',
+                                'ext'=>'edit',
+                                'hidden' => 1,
+                                'active' => 0,
+                            ],
+
+                            [
+                                'title' => '设置',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Api.Setup',
+                                'active' => 0,
+                            ],
+
                         ],
                     ],
-                    [
-                        'title' => 'Map',
-                        'icon' => 'glyphicon glyphicon-home',
-                        'ca' => 'Home.Map',
-                        'active' => 0,
-                        'child' => [
-                        ],
-                    ],
+
+
 
                 ],
             ]
@@ -136,3 +167,27 @@ class DataMysql implements \Grace\Base\ModelInterface
 
 
 }
+
+
+//                    [
+//                        'title' => '数据',
+//                        'icon' => 'glyphicon glyphicon-folder-open',
+//                        'ca' => 'Home.Data',
+//                        'active' => 0,
+//                        'child' => [
+//
+//                        ],
+//                    ],
+
+
+
+//
+//                    [
+//                        'title' => 'Map',
+//                        'icon' => 'glyphicon glyphicon-home',
+//                        'ca' => 'Home.Map',
+//                        'active' => 0,
+//                        'child' => [
+//                        ],
+//                    ],
+//
