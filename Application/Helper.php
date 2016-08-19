@@ -80,7 +80,7 @@
             if(\Application\Model::getInstance()->make('routerAdd')->isAddons()){
                 $abs = "Addons\\Model\\".ucfirst($make);
                 if(class_exists($abs)){
-                    $ob = new $abs();
+                    $ob = new $abs($parameters);
                     return $ob;
                 }
             }
@@ -88,7 +88,7 @@
             //控制器模型
             $abs = "App\\Model\\".ucfirst($make);
             if(class_exists($abs)){
-                $ob = new $abs();
+                $ob = new $abs($parameters);
                 return $ob;
             }
 
