@@ -35,7 +35,7 @@ class Gate implements \Grace\Base\ModelInterface
      */
     public function AdminAuth_isLogin()
     {
-        return Model('AdminAuth')->isLogin();
+        return Application('AdminAuth')->isLogin();
     }
 
     /**

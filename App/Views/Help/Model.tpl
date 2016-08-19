@@ -21,17 +21,19 @@
             {widget name='adminNavLeft'}
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
             <!-- Breadcrumb -->
             {widget name='adminBreadcrumb'}
             <!-- Tip -->
             {widget name='adminTip'}
             <!-- menuthree -->
-
             {widget name='adminLevelthree'}
+
+            <div style="margin: 0px 0px 20px 0px;"></div>
             <!-- content -->
 
 
-            <!-- /content -->
+            <!-- content -->
             {widget name='adminFooter'}
         </div>
     </div>
@@ -43,12 +45,6 @@
 <script src="/assets/js/Sham.js"></script>
 <script type="text/javascript">
     $(document).ready(function(e) {
-        $('#admintip').on('close.bs.alert', function () {
-            alert('1');
-        });
-        $('#admintip').on('closed.bs.alert', function () {
-            alert('2');
-        });
     });
 </script>
 </body>

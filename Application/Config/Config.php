@@ -40,7 +40,7 @@ return [
     /**
      * Application::data
      */
-    'Data' => APPROOT.'../Cache/Data/',
+    'Data' => __DIR__.'/../../Cache/Data/',
 
     /*nsc添加*/
     'token'=>[
