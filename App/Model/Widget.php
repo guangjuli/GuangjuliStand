@@ -15,11 +15,25 @@ class Widget implements \Grace\Base\ModelInterface
     public function depend()
     {
         return [
+            "Application::Data",
+            "Model::Menu",
         ];
     }
 
+    public function apiSim()
+    {
+        $id = intval(req('Get')['id']);
+        if($id){
+            $html = $id;
+            $tpl = '../Widget/apiSim';
+            $html = fetch($tpl,[
+            ]);
 
-
+        }else{
+            $html = '';
+        }
+        return $html;
+    }
 
     public function apiView()
     {
@@ -51,9 +65,6 @@ class Widget implements \Grace\Base\ModelInterface
         }
         return $html;
     }
-
-
-
 
     /**
      * |----------------------------------------------------

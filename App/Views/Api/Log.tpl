@@ -60,6 +60,10 @@
                         {widget name='apiView'}
                     </div>
                     <div class="row">
+                        <h3>模拟</h3>
+                        {widget name='apiSim'}
+                    </div>
+                    <div class="row">
                         <h3>日志</h3>
                         {widget name='apiLog'}
                     </div>
