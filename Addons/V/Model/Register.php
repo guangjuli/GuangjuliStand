@@ -11,7 +11,7 @@ namespace Addons\Model;
 
 use Grace\Base\ModelInterface;
 
-class Passport implements ModelInterface
+class Register implements ModelInterface
 {
     public function depend()
     {
@@ -57,10 +57,10 @@ class Passport implements ModelInterface
     public function validateRegisterReq(Array $req)
     {
 
-         /*//调用获取注册验证码后才会加入bus('code')没有则验证不通过
-         bus([
+         //调用获取注册验证码后才会加入bus('code')没有则验证不通过
+         /*bus([
            'code'=>[
-               'phone'=>112,
+               'phone'=>150,
                'code'=>23456
            ]
         ]);*/
@@ -93,8 +93,8 @@ class Passport implements ModelInterface
           'device'=>$register['device']
         ];
         $checkIsInsert = model('Device')->insertDevice($device);
-        if(!$checkIsInsert)return false;
-        return true;
+        if(!$checkIsInsert)return -200;
+        return 200;
     }
 
 }

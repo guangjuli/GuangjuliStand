@@ -58,7 +58,6 @@ class User implements ModelInterface
 
     public function updateUserByUserId(Array $array)
     {
-        //model('Gate')->verifyToken($array['token']);
         $userId = bus('tokenInfo')['userId'];
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
         $check = $insert?true:false;
@@ -85,7 +84,7 @@ class User implements ModelInterface
 
     public function validateUserReq($req)
     {
-        //$req['gender']=intval($req['gender']);
+        $req['gender']=intval($req['gender']);
         $config = $this->paramsConfig();
         if(!model('Validate')->validateParams($config['field'],$req)) return -201;
         $paramsType = model('Validate')->validateParamsType($req,$config['string'],$config['int']);
@@ -94,13 +93,22 @@ class User implements ModelInterface
     }
 
     //TODO:待指定详细返回值
-    public function getUserInfoByToken($req)
+    public function getUserInfoByToken()
     {
         $filed=['trueName','login','gravatar','gender','birthday','height'];
         $filed = implode(',',$filed);
-        model('Gate')->verifyToken($req['token']);
         $userId = bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
+        if($userInfo){
+            return $userInfo;
+        }
+        return false;
+    }
+
+    public function getUserInfoByUserId()
+    {
+        $userId = bus('tokenInfo')['userId'];
+        $userInfo = server('Db')->getRow("select * from user where userId = $userId");
         if($userInfo){
             return $userInfo;
         }

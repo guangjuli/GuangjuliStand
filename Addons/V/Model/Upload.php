@@ -4,7 +4,10 @@ namespace Addons\Model;
 
 
 
-class Upload{
+use Grace\Base\ModelInterface;
+
+class Upload implements ModelInterface
+{
 
     private $sizeLimit;
     private $fileExtName=array();
@@ -14,6 +17,11 @@ class Upload{
         $this->sizeLimit = $config['sizeLimit'];
         $this->fileExtName =$config['fileExtName'];
         $this->savePath = $config['savePath'];
+    }
+
+    public function depend()
+    {
+        // TODO: Implement depend() method.
     }
 
     public function upload($file)

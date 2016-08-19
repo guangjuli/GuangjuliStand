@@ -11,9 +11,10 @@ use Addons\Traits\AjaxReturn;
 class User
 {
     use AjaxReturn;
-
+    //必须通过verifyToken后才能调用以下方法，因为方法内部调用了bus()流
     public function doUserinfosubmitPost()
     {
+        //model('Gate')->verifyToken(req('Post')['token']);
         $req = req('Post');
         $user = model('User');
         $msg = $user->paramsConfig()['returnNews'];
@@ -41,7 +42,8 @@ class User
 
     public function doUserinfoPost()
     {
-        if($userInfo=model('User')->getUserInfoByToken(req('Post'))){
+        model('Gate')->verifyToken(req('Post')['token']);
+        if($userInfo=model('User')->getUserInfoByToken()){
             $this->AjaxReturn([
                 'code'=>200,
                 'msg'=>'Succeed',
@@ -63,6 +65,46 @@ class User
         $this->AjaxReturn([
             'code'=>$code,
             'msg'=>$msg[$code],
+        ]);
+    }
+
+    public function doRegisterPost()
+    {
+        $req = req('Post');
+        $register = model('Register');
+        $code = $register->validateRegisterReq($req);
+        $msg  = $register->registerConfig()['returnNews'];
+        if($code==200){
+            $code=model('Register')->register();
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg[$code],
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg[$code],
+            ]);
+        }
+    }
+
+    public function doResetpasswordPost()
+    {
+        model('Gate')->verifyToken(req('Post')['token']);
+        $req = req('Post');
+        $code = model('Password')->resetPassword($req);
+        $msg = model('Password')->returnNews();
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg[$code],
+        ]);
+    }
+
+    public function doIndex()
+    {
+        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff1501471276800');
+        view('',[
+            'verify'=> $verify
         ]);
     }
 
