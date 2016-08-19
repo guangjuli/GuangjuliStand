@@ -29,11 +29,11 @@
             <!-- menuthree -->
             {widget name='adminLevelthree'}
 
-            <!-- 内容 -->
+            <div style="margin: 0px 0px 20px 0px;"></div>
+            <!-- content -->
 
 
-
-            <!-- 内容 -->
+            <!-- content -->
             {widget name='adminFooter'}
         </div>
     </div>

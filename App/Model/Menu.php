@@ -42,13 +42,15 @@ class Menu implements \Grace\Base\ModelInterface
                     if ($vv['ca'] == $local) {
                         $cat = $vv;
                     }
+
                     //对二级菜单进行处理
                     if ($vv['child']) {
                         foreach ($vv['child'] as $kkk => $vvv) {
-                            if ($vvv['ca'] == $local && $vvv['ca'] = '') {
+                            if ($vvv['ca'] == $local && empty($vvv['ext'])) {
                                 $cat = $vvv;
                             }
                         }
+
                         if($params){
                             //更高级匹配
                             foreach ($vv['child'] as $kkk => $vvv) {
@@ -59,17 +61,12 @@ class Menu implements \Grace\Base\ModelInterface
                         }
                     }
                 }
-
             }
         }
+
         return $cat;
 
-
-
-
         //1 : 不包含ext的匹配
-
-
     }
 
     /**
@@ -230,7 +227,7 @@ class Menu implements \Grace\Base\ModelInterface
     {
 
 //        $arr = $this->menuLib();
-        $arr = Model('data')->menuLib();
+        $arr = Model('DataMysql')->menuLib();
 
         //添加 path / ca / breadcrumb / breadcrumbtop 属性
         //三层

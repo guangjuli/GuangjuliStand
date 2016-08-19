@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class Data implements \Grace\Base\ModelInterface
+class DataMysql implements \Grace\Base\ModelInterface
 {
     public function __construct()
     {
@@ -18,9 +18,6 @@ class Data implements \Grace\Base\ModelInterface
         ];
     }
 
-
-
-
     public function menuLib()
     {
         //todo 转数据库
@@ -34,38 +31,74 @@ class Data implements \Grace\Base\ModelInterface
                     [
                         'title' => '设置',
                         'icon' => 'glyphicon glyphicon-wrench',
-                        'ca' => 'Home.Set',
+                        'ca' => 'Set.Index',
                         'active' => 0,
                         'child' => [
+                            [
+                                'title' => '界面设置',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Set.Gui',
+                                'active' => 0,
+                            ],
+
                         ],
                     ],
 
                     [
                         'title' => 'Help',
                         'icon' => 'glyphicon glyphicon-home',
-                        'ca' => 'Home.Help',
+                        'ca' => 'Help.Index',
                         'active' => 0,
                         'child' => [
                             [
                                 'title' => 'Help',
                                 'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.Help',
+                                'ca' => 'Help.Index',
                                 'active' => 0,
                             ],
                             [
-                                'title' => 'Help1',
+                                'title' => 'Table',
                                 'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.Help',
-                                'ext' => 'v1',
+                                'ca' => 'Help.Table',
                                 'active' => 0,
                             ],
                             [
-                                'title' => 'Help2',
+                                'title' => 'Form',
                                 'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Home.Help',
-                                'ext' => 'v2',
+                                'ca' => 'Help.Form',
                                 'active' => 0,
                             ],
+                            [
+                                'title' => 'Form2',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Help.Form2',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => 'Page',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Help.Page',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => 'JsAction',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Help.Jsaction',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => 'Modelsupport',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Help.Modelsupport',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => 'Model',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'Help.Model',
+                                'active' => 0,
+                            ],
+
                         ],
                     ],
                 ],

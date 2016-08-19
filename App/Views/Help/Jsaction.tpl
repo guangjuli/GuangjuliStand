@@ -21,14 +21,37 @@
             {widget name='adminNavLeft'}
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <!-- 内容 -->
+
+            <!-- Breadcrumb -->
             {widget name='adminBreadcrumb'}
+            <!-- Tip -->
+            {widget name='adminTip'}
+            <!-- menuthree -->
+            {widget name='adminLevelthree'}
+
+            <div style="margin: 0px 0px 20px 0px;"></div>
 
 
+            <!-- content -->
+            <div class="row">
+                <div class="col-md-6 ">
+             
+             
+                
+                </div>
+                <div class="col-md-6 ">
 
+<h3>Code</h3>
+{literal}
+<pre>&lt;table&#32;class="table&#32;table-striped&#32;table-hover"&gt;<br>&#32;&#32;&#32;<br>&lt;/ul&gt;</pre>
+{/literal}      
 
+                </div>
+            </div>
 
-            <!-- 内容 -->
+           
+
+            <!-- content -->
             {widget name='adminFooter'}
         </div>
     </div>

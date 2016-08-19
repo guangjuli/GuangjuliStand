@@ -61,19 +61,14 @@
                 </div>
                 <div class="col-md-6 ">
                     <!-- description -->
-                    <blockquote>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    </blockquote>
+                    <h3>Code</h3>
+{literal}
+<pre>&lt;form&gt;<br>&#32;&#32;&#32;&#32;&lt;!--&#32;part1&#32;--&gt;<br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&#32;for="exampleInputEmail1"&gt;Email&#32;address&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="email"&#32;class="form-control"&#32;id="exampleInputEmail1"&#32;placeholder="Email"&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;!--&#32;part1&#32;--&gt;<br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&#32;for="exampleInputPassword1"&gt;Password&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="password"&#32;class="form-control"&#32;id="exampleInputPassword1"&#32;placeholder="Password"&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;!--&#32;part1&#32;--&gt;<br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&#32;for="exampleInputFile"&gt;File&#32;input&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="file"&#32;id="exampleInputFile"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;p&#32;class="help-block"&gt;Example&#32;block-level&#32;help&#32;text&#32;here.&lt;/p&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;!--&#32;part1&#32;--&gt;<br>&#32;&#32;&#32;&#32;&lt;div&#32;class="checkbox"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="checkbox"&gt;&#32;Check&#32;me&#32;out<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;!--&#32;part1&#32;--&gt;<br>&#32;&#32;&#32;&#32;&lt;button&#32;type="submit"&#32;class="btn&#32;btn-default"&gt;Submit&lt;/button&gt;<br>&lt;/form&gt;</pre>
+{/literal}
                     <!-- /description -->
 
                 </div>
             </div>
-
-
-            <button class="shambox btn btn-default">按钮</button>
-            <pre>
-            <button class="shambox btn btn-default">按钮</button>
-            </pre>
 
             <!-- content -->
             {widget name='adminFooter'}
