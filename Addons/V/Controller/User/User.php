@@ -39,4 +39,20 @@ class User
         }
     }
 
+    public function doUserinfoPost()
+    {
+        if($userInfo=model('User')->getUserInfoByToken(req('Post'))){
+            $this->AjaxReturn([
+                'code'=>200,
+                'msg'=>'Succeed',
+                'data'=>$userInfo
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code' => -200,
+            ]);
+        }
+    }
+
+
 }

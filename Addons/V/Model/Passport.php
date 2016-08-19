@@ -41,7 +41,7 @@ class Passport implements ModelInterface
     }
 
     //校验成功后加入bus待存储的数据
-    private function isSuccessReturnBus($req)
+    private function ifSuccessReturnBus($req)
     {
         $type = strtolower($req['type'])=='android'?'android':'ios';
         //插入到user和device表的数据
@@ -79,7 +79,7 @@ class Passport implements ModelInterface
         //校验手机号是否已注册
         if(model('User')->isExistUserByLogin($req['phone']))return $code = -400;
         //验证通过，将待存储数据加入bus()
-        $this->isSuccessReturnBus($req);
+        $this->ifSuccessReturnBus($req);
         return $code = 200;
     }
 

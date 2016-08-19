@@ -92,4 +92,18 @@ class User implements ModelInterface
         if(!empty($paramsType)) return -202;
         return 200;
     }
+
+    //TODO:待指定详细返回值
+    public function getUserInfoByToken($req)
+    {
+        $filed=['trueName','login','gravatar','gender','birthday','height'];
+        $filed = implode(',',$filed);
+        model('Gate')->verifyToken($req['token']);
+        $userId = bus('tokenInfo')['userId'];
+        $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
+        if($userInfo){
+            return $userInfo;
+        }
+        return false;
+    }
 }
