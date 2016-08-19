@@ -39,8 +39,9 @@ class Validate implements ModelInterface
     {
         if(!is_array($array))return false;
         $counts = count($array);
+        $zeroNum = array_count_values($array)[0];
         $newReq = array_filter($array);
-        if($counts!=count($newReq))return false;
+        if($counts!=count($newReq)+$zeroNum)return false;
         return true;
     }
 

@@ -59,12 +59,7 @@ class User implements ModelInterface
     public function updateUserByUserId(Array $array)
     {
         //model('Gate')->verifyToken($array['token']);
-        if(server('Cache')->has($array['token'])){
-            $userId = server('Cache')->get($array['token'])['userId'];
-        }else{
-            $tokenInfo = model('Token')->getTokenInfo($array['token']);
-            $userId = $tokenInfo['userId'];
-        }
+        $userId = bus('tokenInfo')['userId'];
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
         $check = $insert?true:false;
         return $check;
