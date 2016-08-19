@@ -20,7 +20,7 @@ class User implements ModelInterface
             'Model::Token',
             'Model::Validate',
             'Server::Db',
-
+            'Model::Upload'
         ];
     }
 
@@ -106,4 +106,16 @@ class User implements ModelInterface
         }
         return false;
     }
+
+
+    public function uploadHeadImage($file)
+    {
+        $config = server()->Config('Config')['uploadHeadImage'];
+        $code=model('Upload',$config)->upload($file);
+        if(is_string($code)){
+            $code = $this->updateUserByUserId(['gravatar'=>$code])?200:-202;
+        }
+        return $code;
+    }
+
 }

@@ -54,5 +54,16 @@ class User
         }
     }
 
+    public function doUpuserimagePost()
+    {
+        //model('Gate')->verifyToken(req('Post')['token']);
+        $file = $_FILES['tfile'];
+        $msg = model('Upload')->returnMsg();
+        $code = model('User')->uploadHeadImage($file);
+        $this->AjaxReturn([
+            'code'=>$code,
+            'msg'=>$msg[$code],
+        ]);
+    }
 
 }
