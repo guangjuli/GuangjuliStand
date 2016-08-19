@@ -185,6 +185,7 @@
                 header('Location: ' . $url);
             } else {
                 header("refresh:{$time};url={$url}");
+                headers();
                 echo($msg);
             }
             exit();

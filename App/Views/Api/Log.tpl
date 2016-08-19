@@ -31,43 +31,41 @@
 
             <div style="margin: 0px 0px 20px 0px;"></div>
             <!-- content -->
+            <div class="row">
+                <div class="col-md-4 ">
+                    <table class="table table-striped table-hover" id="dt1">
+                        <thead>
+                        <th>api</th>
+                        <th>title</th>
+                        </thead>
+                        <tbody>
+                        {foreach from=$list key=$key item=$item}
+                            <tr>
+                                <td>
+                                    {if $item['type'] eq 'POST'}
+                                        <span class="label label-default">{$item['type']}</span> <a href="?id={$item['apiId']}">/{$item['v']}/{$item['api']}</a>
+                                    {else}
+                                        <span class="label label-danger">{$item['type']}</span> <a href="?id={$item['apiId']}">/{$item['v']}/{$item['api']}</a>
+                                    {/if}
+                                </td>
+                                <td>{$item['title']}</td>
+                            </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-8 ">
+                    <div class="row">
+                        <h3>信息</h3>
+                        {widget name='apiView'}
+                    </div>
+                    <div class="row">
+                        <h3>日志</h3>
+                        {widget name='apiLog'}
+                    </div>
+                </div>
+            </div>
 
-            <table class="table table-striped table-hover" id="dt1">
-                <thead>
-                <th>ID</th>
-                <th>版本</th>
-                <th>type</th>
-                <th>api</th>
-                <th>title</th>
-                <th>active</th>
-                <th width="150">操作</th>
-                </thead>
-                <tbody>
-                {foreach from=$list key=$key item=$item}
-                <tr>
-                    <td>{$item['apiId']}</td>
-                    <td>{$item['v']}</td>
-                    <td>{$item['type']}</td>
-                    <td>{$item['api']}</td>
-                    <td>{$item['title']}</td>
-                    <td>
-                       {if $item['active'] eq 1}
-                           <span class="label label-default">打开</span>
-                       {else}
-                           <span class="label label-danger">关闭</span>
-                       {/if}
-
-
-                    </td>
-                    <td>
-                        <a href="/api/log?id={$item['apiId']}">日志</a>
-                        <a href="/api/list/edit?id={$item['apiId']}">修改</a>
-                        <a class="shamget" rel="/api/list/delete?id={$item['apiId']}" comfirm="是否删除?">删除</a>
-                    </td>
-                </tr>
-                {/foreach}
-                </tbody>
-            </table>
 
 
             <!-- 内容 -->

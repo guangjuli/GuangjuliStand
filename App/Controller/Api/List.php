@@ -4,8 +4,18 @@ namespace App\Controller;
 
 class Api extends BaseController {
 
+    use \App\Traits\AjaxReturn;
+
     public function __construct(){
         parent::__construct();
+    }
+
+    public function doList_delete()
+    {
+        $id = intval(req('Get')['id']);
+        app('db')->query("delete from api where apiId = $id");
+
+        $this->AjaxReturn();
     }
 
     /**
@@ -24,7 +34,14 @@ class Api extends BaseController {
         $res = req('Post');
 
         //重复性检查
-
+        $v = saddslashes($res['v']);
+        $api = saddslashes($res['api']);
+        //重复性检查
+        $where = "v = '$v' and api = '$api'";
+        $row = app('db')->getall("select * from api where $where");
+        if($row){
+            R('/api/list',5,"api不对");
+        }
 
         $res = saddslashes($res);
         app('db')->autoExecute("api",$res,'INSERT');

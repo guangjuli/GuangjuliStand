@@ -18,6 +18,48 @@ class Widget implements \Grace\Base\ModelInterface
         ];
     }
 
+
+
+
+    public function apiView()
+    {
+        $id = intval(req('Get')['id']);
+        if($id){
+            $html = $id;
+
+            $tpl = '../Widget/apiView';
+            $html = fetch($tpl,[
+            ]);
+
+        }else{
+            $html = '';
+        }
+        return $html;
+    }
+
+    public function apiLog()
+    {
+        $id = intval(req('Get')['id']);
+        if($id){
+
+            $tpl = '../Widget/apiLog';
+            $html = fetch($tpl,[
+            ]);
+
+        }else{
+            $html = '';
+        }
+        return $html;
+    }
+
+
+
+
+    /**
+     * |----------------------------------------------------
+     * 菜单框架
+     */
+
     /**
      * 面包屑
      * @return mixed

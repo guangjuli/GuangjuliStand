@@ -17,9 +17,12 @@ class Api extends BaseController {
     }
 
 
-    public function doSetup()
+    public function doLog()
     {
-        view();
+        $list = app('db')->getall("select * from api");
+        view('',[
+            'list'=>$list
+        ]);
     }
 
 }
