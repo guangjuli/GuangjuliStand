@@ -33,7 +33,7 @@ class Event implements \Grace\Base\ModelInterface
      * @return mixed
      */
     public function AdminAuth_auth($password = ''){
-        $res = Model('AdminAuth')->auth($password);
+        $res = Application('AdminAuth')->auth($password);
         return $res;
     }
 
@@ -41,7 +41,8 @@ class Event implements \Grace\Base\ModelInterface
      * adminauth logout
      */
     public function AdminAuth_Logout($url = ''){
-        Model('AdminAuth')->logout($url);
+        //var_dump(Application('AdminAuth'));
+        Application('AdminAuth')->logout($url);
     }
     /**
      * |------------------------------------------------------------

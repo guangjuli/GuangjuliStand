@@ -24,11 +24,14 @@ class Widget implements \Grace\Base\ModelInterface
      */
     public function adminBreadcrumb()
     {
-        $adminBreadcrumb = Model('menu')->adminBreadcrumb();
-        $tpl = '../Widget/adminBreadcrumb';
-        $html = fetch($tpl,[
-            'adminBreadcrumb' => $adminBreadcrumb
-        ]);
+        $html = '';
+        if(application('data')->get('AdminGuiConfig')['Breadcrumb']){
+            $adminBreadcrumb = Model('menu')->adminBreadcrumb();
+            $tpl = '../Widget/adminBreadcrumb';
+            $html = fetch($tpl,[
+                'adminBreadcrumb' => $adminBreadcrumb
+            ]);
+        }
         return $html;
     }
 
@@ -40,6 +43,7 @@ class Widget implements \Grace\Base\ModelInterface
     {
 
         $menulevelthree = Model('menu')->menuMainLevelthree();
+        
         //如果存在更高级active 则
         $f = false;
         foreach($menulevelthree as $key=>$value){
@@ -101,9 +105,12 @@ class Widget implements \Grace\Base\ModelInterface
      */
     public function adminTip()
     {
-        $tpl = '../Widget/adminTip';
-        $html = fetch($tpl,[
-        ]);
+        $html = '';
+        if(application('data')->get('AdminGuiConfig')['Tip']) {
+            $tpl = '../Widget/adminTip';
+            $html = fetch($tpl, [
+            ]);
+        }
         return $html;
     }
 
@@ -117,9 +124,12 @@ class Widget implements \Grace\Base\ModelInterface
      */
     public function adminFooter()
     {
-        $tpl = '../Widget/adminFooter';
-        $html = fetch($tpl,[
-        ]);
+        $html = '';
+        if(application('data')->get('AdminGuiConfig')['Footer']) {
+            $tpl = '../Widget/adminFooter';
+            $html = fetch($tpl, [
+            ]);
+        }
         return $html;
     }
 

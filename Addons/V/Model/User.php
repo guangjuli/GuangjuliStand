@@ -20,7 +20,7 @@ class User implements ModelInterface
             'Model::Token',
             'Model::Validate',
             'Server::Db',
-
+            'Model::Upload'
         ];
     }
 
@@ -58,13 +58,7 @@ class User implements ModelInterface
 
     public function updateUserByUserId(Array $array)
     {
-        //model('Gate')->verifyToken($array['token']);
-        if(server('Cache')->has($array['token'])){
-            $userId = server('Cache')->get($array['token'])['userId'];
-        }else{
-            $tokenInfo = model('Token')->getTokenInfo($array['token']);
-            $userId = $tokenInfo['userId'];
-        }
+        $userId = bus('tokenInfo')['userId'];
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
         $check = $insert?true:false;
         return $check;
@@ -90,11 +84,46 @@ class User implements ModelInterface
 
     public function validateUserReq($req)
     {
-        //$req['gender']=intval($req['gender']);
+        $req['gender']=intval($req['gender']);
         $config = $this->paramsConfig();
         if(!model('Validate')->validateParams($config['field'],$req)) return -201;
         $paramsType = model('Validate')->validateParamsType($req,$config['string'],$config['int']);
         if(!empty($paramsType)) return -202;
         return 200;
     }
+
+    //TODO:待指定详细返回值
+    public function getUserInfoByToken()
+    {
+        $filed=['trueName','login','gravatar','gender','birthday','height'];
+        $filed = implode(',',$filed);
+        $userId = bus('tokenInfo')['userId'];
+        $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
+        if($userInfo){
+            return $userInfo;
+        }
+        return false;
+    }
+
+    public function getUserInfoByUserId()
+    {
+        $userId = bus('tokenInfo')['userId'];
+        $userInfo = server('Db')->getRow("select * from user where userId = $userId");
+        if($userInfo){
+            return $userInfo;
+        }
+        return false;
+    }
+
+
+    public function uploadHeadImage($file)
+    {
+        $config = server()->Config('Config')['uploadHeadImage'];
+        $code=model('Upload',$config)->upload($file);
+        if(is_string($code)){
+            $code = $this->updateUserByUserId(['gravatar'=>$code])?200:-202;
+        }
+        return $code;
+    }
+
 }

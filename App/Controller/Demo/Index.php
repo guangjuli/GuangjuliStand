@@ -8,7 +8,7 @@ class Demo extends BaseController {
         parent::__construct();
     }
 
-    public function doTemple()
+    public function doIndex()
     {
         view();
     }

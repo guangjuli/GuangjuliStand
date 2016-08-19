@@ -20,9 +20,9 @@ class Validate implements ModelInterface
 
     public function validateNumberLetter($str,$min=null,$max=null)
     {
-        $min = $min?:6;
+        $min = $min?:5;
         $max = $max?:20;
-        $preg = '/^[\s\S][a-zA-Z0-9_]{'.$min.','.$max.'}$/';
+        $preg = '/^[a-zA-Z]+[a-zA-Z0-9_]{'.$min.','.$max.'}$/';
         return (preg_match($preg,$str))?true:false;
     }
 
@@ -39,8 +39,9 @@ class Validate implements ModelInterface
     {
         if(!is_array($array))return false;
         $counts = count($array);
+        $zeroNum = array_count_values($array)[0];
         $newReq = array_filter($array);
-        if($counts!=count($newReq))return false;
+        if($counts!=count($newReq)+$zeroNum)return false;
         return true;
     }
 

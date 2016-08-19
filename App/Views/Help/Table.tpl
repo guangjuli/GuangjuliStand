@@ -33,8 +33,9 @@
 
 
             <!-- content -->
-
-            <table class="table table-striped table-hover">
+<div class="row">
+    <div class="col-md-6 ">
+ <table class="table table-striped table-hover">
                 <thead>
                 <th>123123123</th>
                 <th>123123123</th>
@@ -80,7 +81,20 @@
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
-            </ul>
+            </ul>    
+    
+    </div>
+    <div class="col-md-6 ">
+
+<h3>Code</h3>
+{literal}
+<pre>&lt;table&#32;class="table&#32;table-striped&#32;table-hover"&gt;<br>&#32;&#32;&#32;&#32;&lt;thead&gt;<br>&#32;&#32;&#32;&#32;&lt;th&gt;123123123&lt;/th&gt;<br>&#32;&#32;&#32;&#32;&lt;th&gt;123123123&lt;/th&gt;<br>&#32;&#32;&#32;&#32;&lt;th&gt;123123123&lt;/th&gt;<br>&#32;&#32;&#32;&#32;&lt;th&gt;123123123&lt;/th&gt;<br>&#32;&#32;&#32;&#32;&lt;th&gt;123123123&lt;/th&gt;<br>&#32;&#32;&#32;&#32;&lt;/thead&gt;<br>&#32;&#32;&#32;&#32;&lt;tr&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;td&gt;123123123&lt;/td&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;td&gt;123123123&lt;/td&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;td&gt;123123123&lt;/td&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;td&gt;123123123&lt;/td&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;td&gt;123123123&lt;/td&gt;<br>&#32;&#32;&#32;&#32;&lt;/tr&gt;<br>&lt;/table&gt;<br>&lt;ul&#32;class="pagination&#32;pagination-sm"&#32;style="margin:&#32;0px&#32;0;"&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;a&#32;href="#"&#32;aria-label="Previous"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;span&#32;aria-hidden="true"&gt;&amp;laquo;&lt;/span&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/a&gt;<br>&#32;&#32;&#32;&#32;&lt;/li&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;&lt;a&#32;href="#"&gt;1&lt;/a&gt;&lt;/li&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;&lt;a&#32;href="#"&gt;2&lt;/a&gt;&lt;/li&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;&lt;a&#32;href="#"&gt;3&lt;/a&gt;&lt;/li&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;&lt;a&#32;href="#"&gt;4&lt;/a&gt;&lt;/li&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;&lt;a&#32;href="#"&gt;5&lt;/a&gt;&lt;/li&gt;<br>&#32;&#32;&#32;&#32;&lt;li&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;a&#32;href="#"&#32;aria-label="Next"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;span&#32;aria-hidden="true"&gt;&amp;raquo;&lt;/span&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/a&gt;<br>&#32;&#32;&#32;&#32;&lt;/li&gt;<br>&lt;/ul&gt;</pre>
+{/literal}      
+    
+    </div>
+</div>
+
+           
 
             <!-- content -->
             {widget name='adminFooter'}

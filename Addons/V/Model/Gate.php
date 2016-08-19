@@ -25,9 +25,9 @@ class Gate implements ModelInterface
     {
        $tokenInfo =model('Token')->isEnableToken($token);
        if($tokenInfo){
-           if(!server('Cache')->has($token)){
-               server('Cache')->set($token,$tokenInfo);
-           }
+            bus([
+               'tokenInfo'=>$tokenInfo
+            ]);
        }else{
            $res['code']=-500;
            $res['msg'] = 'token is not in a valid';

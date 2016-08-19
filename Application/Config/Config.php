@@ -40,12 +40,18 @@ return [
     /**
      * Application::data
      */
-    'Data' => APPROOT.'../Cache/Data/',
+    'Data' => __DIR__.'/../../Cache/Data/',
 
     /*nsc添加*/
     'token'=>[
         'clientSecret'=>'1cda067b175ab0e9e1fdfe8dcd7d71ff',
         'expires'     =>7200
+    ],
+
+    'uploadHeadImage'=>[
+        'sizeLimit'=>10485760,      //1024.1024 = 1MB
+        'fileExtName'=>['gif','jpg','png'],
+        'savePath'=>'./headImage/'
     ]
 ];
 

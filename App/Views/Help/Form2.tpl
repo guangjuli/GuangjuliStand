@@ -67,10 +67,14 @@
                 </div>
                 <div class="col-md-6 ">
                     <!-- description -->
-                    <blockquote>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    </blockquote>
-                    <!-- /description -->
+<h3>Code</h3>
+{literal}
+<pre>&lt;form&#32;class="form-horizontal"&gt;<br><br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&#32;for="inputEmail3"&#32;class="col-sm-2&#32;control-label"&gt;Email&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;div&#32;class="col-sm-10"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="email"&#32;class="form-control"&#32;id="inputEmail3"&#32;placeholder="Email"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br><br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&#32;for="inputPassword3"&#32;class="col-sm-2&#32;control-label"&gt;Password&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;div&#32;class="col-sm-10"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="password"&#32;class="form-control"&#32;id="inputPassword3"&#32;placeholder="Password"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br><br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;div&#32;class="col-sm-offset-2&#32;col-sm-10"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;div&#32;class="checkbox"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;input&#32;type="checkbox"&gt;&#32;Remember&#32;me<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/label&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br><br>&#32;&#32;&#32;&#32;&lt;div&#32;class="form-group"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;div&#32;class="col-sm-offset-2&#32;col-sm-10"&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;button&#32;type="submit"&#32;class="btn&#32;btn-default"&gt;Sign&#32;in&lt;/button&gt;<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;&lt;/div&gt;<br>&#32;&#32;&#32;&#32;<br>&lt;/form&gt;</pre>
+{/literal}                    
+                    
+                    
+                    
+                  <!-- /description -->
 
                 </div>
             </div>

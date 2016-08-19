@@ -1,66 +1,92 @@
 <?php
 
-namespace Grace\Adminauth;
+namespace Application\Application;
 
+class AdminAuth implements \Grace\Base\ModelInterface
+{ // class start
 
-/** Cookies class 保存,读取,更新,清除cookies数据。可设置前缀。强制超时。数据可以是字符串,数组,对象等。
- */
+    private $_config = array();                       // default expire
+    private $clientSecret = '';
+    private $adminName = '';
+    private $password = '';                       // default expire
+    private $expireTime = 0;
 
-class Adminauth{ // class start
-
-    private $_config    = array();                       // default expire
-    private $clientScrect  = 'f2g3g33h4h5';
-    private $adminName  = '';
-    private $password   = '';                       // default expire
-
-    public function __construct($config = array()){
-        $this->_config      = $config;
-        $this->adminName    = $config['adminName']?:'singleAdmin';
-        $this->password     = $config['password']?:'';
+    /**
+     * 返回依赖关系
+     * @return array
+     */
+    public function depend()
+    {
+        return [
+            "Server::Cookies",
+            "Model::Config",
+        ];
     }
 
+    /** 
+     * AdminAuth constructor.
+     *
+     * @param array $config
+     */
+    public function __construct($config = array())
+    {
+        $this->_config = server()->Config('App')['AdminAuth'];
+
+        //Application('Config')->config('AdminAuth');;
+
+        $this->adminName = $this->_config['adminName'] ?: 'singleAdminGuangjuli';
+        $this->password = $this->_config['password'] ?: '';
+        $this->clientSecret = $this->_config['clientSecret'] ?: '';
+        $this->expireTime = $this->_config['expireTime'] ?intval($this->_config['expireTime']): 3600;
+    }
+
+    /**
+     * => Model('Event')->auth($password);
+     * @param string $password
+     *
+     * @return bool
+     */
     public function auth($password = '')
     {
-        $time           = time();
-        $username       = $this->adminName;
-        $clientSecret   = $this->clientScrect;
-        $vercode        = md5($username.$time.$clientSecret);
-
-        if($this->password == $password){
-            app('cookies')->set('adminName',$username,3600);
-            app('cookies')->set('adminTime',$time,3600);
-            app('cookies')->set('adminVercode',$vercode,3600);
+        if ($this->password == $password) {
+            server('cookies')->set('adminAuthName', $this->adminName, $this->expireTime);
+            server('cookies')->set('adminAuthTime', time(), $this->expireTime);
+            server('cookies')->set('adminAuthVercode',  md5($this->adminName . time() . $this->clientSecret), $this->expireTime);
             return true;
-        }else{
+        } else {
             return false;
         }
 
     }
 
-    //是否已经登录
+    /**
+     * => Model('Gate')->isLoginAdminAuth();
+     * //是否已经登录
+     * @return bool
+     */
     public function isLogin()
     {
-        $adminName  = app('cookies')->get('adminName');
-        $adminTime  = app('cookies')->get('adminTime');
-        $vercode = app('cookies')->get('adminVercode');
-        if($vercode == md5($adminName.$adminTime.$this->clientScrect)){
+        $adminName = server('cookies')->get('adminAuthName');
+        $adminTime = server('cookies')->get('adminAuthTime');
+        $vercode = server('cookies')->get('adminAuthVercode');
+        if ($vercode == md5($adminName . $adminTime . $this->clientSecret)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    //是否已经登录
-    public function isLoginRedirect($url = '')
-    {
-        if(!$this->isLogin())header('Location: ' . $url);
-       // if(!$this->isLogin())
-    }
-
+    /**
+     * => Model('Event')->AdminAuthLogout($url);
+     *
+     * @param string $url
+     */
     public function logout($url = '')
     {
-        app('cookies')->set('adminName','123',-1);
-        if($url)    header('Location: ' . $url);
+        server('cookies')->set('adminAuthName', '123', -1);
+        if ($url) {
+            header('Location: ' . $url);
+        }
     }
 
 } // class end
