@@ -56,22 +56,11 @@
                 </div>
                 <div class="col-md-8 ">
                     <div class="row">
-                        <h3>信息</h3>
                         {widget name='apiView'}
                     </div>
-                    <div class="row">
-                        <h3>模拟</h3>
-                        {widget name='apiSim'}
-                    </div>
-                    <div class="row">
-                        <h3>日志</h3>
-                        {widget name='apiLog'}
-                    </div>
+
                 </div>
             </div>
-
-
-
             <!-- 内容 -->
             {widget name='adminFooter'}
         </div>
