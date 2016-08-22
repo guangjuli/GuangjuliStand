@@ -15,7 +15,12 @@ class Password implements ModelInterface
 {
     public function depend()
     {
-        // TODO: Implement depend() method.
+        return[
+          'Model::User',
+          'Model::Validate',
+          'Model::Token',
+          'Model::Sms'
+        ];
     }
 
     //TODO:加密算法待确定
@@ -43,15 +48,55 @@ class Password implements ModelInterface
         return $code;
     }
 
-    public function returnNews()
+    public function findPassword($req)
     {
-        return[
+       $field = ['password','confirm_password','verify','time','deviceId'];
+       if(!model('Validate')->validateParams($field,$req))return -204;
+       if(!model('Token')->verify($req)) return -207;
+       //未验证手机号和验证码的正确性，交由App验证,  如需添加可在此处
+       $code = model('Validate')->validateNumberLetter($req['password'])?($req['password']==$req['confirm_password']?200:-201):-203;
+       //此处200表示通过参数客户端等验证， 下面数据库校验
+       if($code==200){
+           //验证用户是否存在
+           $userInfo = model('User')->getUserByLogin($req['phone']);
+           if(empty($userInfo))return -206;
+           $userId = $userInfo['userId'];
+           $code = model('User')->updateUserByUserId(['password'=>$req['password']],$userId)?200:-200;
+       }
+       return $code;
+    }
+
+    //找回密码短信验证码
+    public function findPasswordCheckCode($req)
+    {
+        $field = ['phone','verify','time','deviceId'];
+        if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
+        if(!model('User')->isExistUserByLogin($req['phone']))return -206;
+        $authCode = model('Sms','findPassword')->sendMessage($req['phone']);
+        if(!$authCode) return -208;
+        $return = [
+          'code'=>200,
+          'authCode'=>$authCode
+        ];
+        return $return;
+    }
+
+    public function returnNews($code='')
+    {
+        $return = [
             200=>'Succeed',
+            -200=>'System Exception',
             -201=>'两次密码输入不一致',
             -202=>'原密码错误',
             -203=>'密码格式错误',
-            -200=>'System Exception'
+            -204=>'必填参数不能为空',
+            -205=>'手机号和验证码不一致或验证码错误',
+            -206=>'该手机号未注册',
+            -207=>'没有权限',
+            -208=>'note send error, could you please resend',
         ];
+        $return = $code?$return[$code]:$return;
+        return $return;
     }
 
 }

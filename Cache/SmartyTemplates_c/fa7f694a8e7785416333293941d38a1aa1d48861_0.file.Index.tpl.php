@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-08-19 14:31:51
+/* Smarty version 3.1.30, created on 2016-08-22 12:13:22
   from "E:\phpleague\Grace\GuangjuliStand\App\Views\Home\Index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_57b6a7d771b9a5_12155976',
+  'unifunc' => 'content_57ba7be2a3baf7_55113806',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'fa7f694a8e7785416333293941d38a1aa1d48861' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\App\\Views\\Home\\Index.tpl',
-      1 => 1471588310,
+      1 => 1471839159,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_57b6a7d771b9a5_12155976 (Smarty_Internal_Template $_smarty_tpl) {
+function content_57ba7be2a3baf7_55113806 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">

@@ -39,7 +39,7 @@ class User
             ]);
         }
     }
-
+    //获取用户信息
     public function doUserinfoPost()
     {
         model('Gate')->verifyToken(req('Post')['token']);
@@ -55,7 +55,7 @@ class User
             ]);
         }
     }
-
+    //上传用户头像
     public function doUpuserimagePost()
     {
         //model('Gate')->verifyToken(req('Post')['token']);
@@ -67,27 +67,20 @@ class User
             'msg'=>$msg[$code],
         ]);
     }
-
+    //注册
     public function doRegisterPost()
     {
         $req = req('Post');
         $register = model('Register');
         $code = $register->validateRegisterReq($req);
-        $msg  = $register->registerConfig()['returnNews'];
-        if($code==200){
-            $code=model('Register')->register();
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg[$code],
-            ]);
-        }else{
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg[$code],
-            ]);
-        }
+        $msg  = $register->registerConfig($code);
+        if($code==200)$code=model('Register')->register();
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg,
+        ]);
     }
-
+    //知道原密码重置密码
     public function doResetpasswordPost()
     {
         model('Gate')->verifyToken(req('Post')['token']);
@@ -99,13 +92,61 @@ class User
             'msg' => $msg[$code],
         ]);
     }
+    //忘记原密码通过短信验证后重置密码
+    public  function doFindpasswordPost()
+    {
+        $req = req('Post');
+        $code = model('Password')->findPassword($req);
+        $msg = model('Password')->returnNews();
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg[$code],
+        ]);
+    }
+    //注册短信验证码
+    public function doRegisterauthcodePost()
+    {
+        $registerReturn = model('Register')->registerCheckCode(req('Post'));
+        $code=is_int($registerReturn)?$registerReturn:$registerReturn['code'];
+        $msg = model('Register')->registerConfig($code);
+        if(is_int($registerReturn)){
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+                'data'=>$registerReturn['authCode']
+            ]);
+        }
+    }
+    //找回密码短信验证码
+    public function doFindpsdauthcodePost()
+    {
+        $registerReturn = model('Password')->findPasswordCheckCode(req('Post'));
+        $code=is_int($registerReturn)?$registerReturn:$registerReturn['code'];
+        $msg = model('Password')->returnNews($code);
+        if(is_int($registerReturn)){
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+                'data'=>$registerReturn['authCode']
+            ]);
+        }
+    }
 
     public function doIndex()
     {
-        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff1501471276800');
+        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800');
         view('',[
             'verify'=> $verify
         ]);
     }
-
 }
