@@ -19,13 +19,14 @@ class Register implements ModelInterface
             'Server::Db',
             'Model::User',
             'Model::Validate',
-            'Model::Token'
+            'Model::Token',
+            'Model::Sms'
         ];
     }
 
-    public function registerConfig()
+    public function registerConfig($code='')
     {
-        return[
+        $config = [
             'field'=>['verify','time','deviceId','phone','password','type'],
             'returnNews'=> [
                 200  =>'succeed',
@@ -35,9 +36,12 @@ class Register implements ModelInterface
                 -202 =>'该手机号和已验证号码不一致或尚未手机号验证',
                 -206 =>'验证码不正确',
                 -203 =>'密码格式不正确',
-                -400 =>'该手机号已经注册!'
+                -400 =>'该手机号已经注册!',
+                -208=>'note send error, could you please resend',
             ]
         ];
+        $return = $code?$config['returnNews'][$code]:$config;
+        return $return;
     }
 
     //校验成功后加入bus待存储的数据
@@ -83,6 +87,16 @@ class Register implements ModelInterface
         $checkIsInsert = model('Device')->insertDevice($device);
         if(!$checkIsInsert)return -200;
         return 200;
+    }
+
+    //注册短信验证码
+    public function registerCheckCode($req)
+    {
+        $field = ['phone','verify','time','deviceId'];
+        if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
+        if(model('User')->isExistUserByLogin($req['phone']))return -400;
+        $code = model('Sms','register')->sendMessage($req['phone'])?200:-208;
+        return $code;
     }
 
 }

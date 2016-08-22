@@ -73,11 +73,11 @@ class User
         $req = req('Post');
         $register = model('Register');
         $code = $register->validateRegisterReq($req);
-        $msg  = $register->registerConfig()['returnNews'];
+        $msg  = $register->registerConfig($code);
         if($code==200)$code=model('Register')->register();
         $this->AjaxReturn([
             'code' => $code,
-            'msg' => $msg[$code],
+            'msg' => $msg,
         ]);
     }
     //知道原密码重置密码
@@ -103,6 +103,32 @@ class User
             'msg' => $msg[$code],
         ]);
     }
-    
+    //注册短信验证码
+    public function doRegisterauthcodePost()
+    {
+        $code = model('Register')->registerCheckCode(req('Post'));
+        $msg = model('Register')->registerConfig($code);
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg,
+        ]);
+    }
+    //找回密码短信验证码
+    public function doFindpsdauthcodePost()
+    {
+        $code = model('Password')->findPasswordCheckCode(req('Post'));
+        $msg = model('Password')->returnNews($code);
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg,
+        ]);
+    }
 
+    public function doIndex()
+    {
+        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800');
+        view('',[
+            'verify'=> $verify
+        ]);
+    }
 }

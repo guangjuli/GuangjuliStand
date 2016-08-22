@@ -15,7 +15,12 @@ class Password implements ModelInterface
 {
     public function depend()
     {
-        // TODO: Implement depend() method.
+        return[
+          'Model::User',
+          'Model::Validate',
+          'Model::Token',
+          'Model::Sms'
+        ];
     }
 
     //TODO:加密算法待确定
@@ -61,9 +66,19 @@ class Password implements ModelInterface
        return $code;
     }
 
-    public function returnNews()
+    //找回密码短信验证码
+    public function findPasswordCheckCode($req)
     {
-        return[
+        $field = ['phone','verify','time','deviceId'];
+        if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
+        if(!model('User')->isExistUserByLogin($req['phone']))return -206;
+        $code = model('Sms','findPassword')->sendMessage($req['phone'])?200:-208;
+        return $code;
+    }
+
+    public function returnNews($code='')
+    {
+        $return = [
             200=>'Succeed',
             -200=>'System Exception',
             -201=>'两次密码输入不一致',
@@ -72,8 +87,11 @@ class Password implements ModelInterface
             -204=>'必填参数不能为空',
             -205=>'手机号和验证码不一致或验证码错误',
             -206=>'该手机号未注册',
-            -207=>'没有权限'
+            -207=>'没有权限',
+            -208=>'note send error, could you please resend',
         ];
+        $return = $code?$return[$code]:$return;
+        return $return;
     }
 
 }
