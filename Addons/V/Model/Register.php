@@ -26,7 +26,7 @@ class Register implements ModelInterface
     public function registerConfig()
     {
         return[
-            'field'=>['verify','time','deviceId','phone','password','type','checkcode'],
+            'field'=>['verify','time','deviceId','phone','password','type'],
             'returnNews'=> [
                 200  =>'succeed',
                 -200 =>'系统异常',
@@ -56,24 +56,12 @@ class Register implements ModelInterface
 
     public function validateRegisterReq(Array $req)
     {
-
-         //调用获取注册验证码后才会加入bus('code')没有则验证不通过
-         /*bus([
-           'code'=>[
-               'phone'=>150,
-               'code'=>23456
-           ]
-        ]);*/
         //校验请求参数在对应$field中参数非空
         $field=$this->registerConfig()['field'];
         if(!model('Validate')->validateParams($field,$req))return $code = -204;
         //校验verify是否为自己的用户
-        $req['login'] = $req['phone'];
         if(!model('Token')->verify($req))return $code = -205;
-        //校验电话号和已短信验证的号码是否一致
-        if(bus('code')['phone']!=$req['phone'])return $code = -202;
-        //校验验证码
-        if(bus('code')['code']!=$req['checkcode'])return $code = -206;
+        //校验电话号和已短信验证的号码是否一致  ,App进行校验  相信电话号及验证码的正确性
         //校验密码格式
         if(!model('Validate')->validateNumberLetter($req['password']))return $code = -203;
         //校验手机号是否已注册

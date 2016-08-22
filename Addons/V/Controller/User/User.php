@@ -39,7 +39,7 @@ class User
             ]);
         }
     }
-
+    //获取用户信息
     public function doUserinfoPost()
     {
         model('Gate')->verifyToken(req('Post')['token']);
@@ -55,7 +55,7 @@ class User
             ]);
         }
     }
-
+    //上传用户头像
     public function doUpuserimagePost()
     {
         //model('Gate')->verifyToken(req('Post')['token']);
@@ -67,27 +67,20 @@ class User
             'msg'=>$msg[$code],
         ]);
     }
-
+    //注册
     public function doRegisterPost()
     {
         $req = req('Post');
         $register = model('Register');
         $code = $register->validateRegisterReq($req);
         $msg  = $register->registerConfig()['returnNews'];
-        if($code==200){
-            $code=model('Register')->register();
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg[$code],
-            ]);
-        }else{
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg[$code],
-            ]);
-        }
+        if($code==200)$code=model('Register')->register();
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg[$code],
+        ]);
     }
-
+    //知道原密码重置密码
     public function doResetpasswordPost()
     {
         model('Gate')->verifyToken(req('Post')['token']);
@@ -99,13 +92,17 @@ class User
             'msg' => $msg[$code],
         ]);
     }
-
-    public function doIndex()
+    //忘记原密码通过短信验证后重置密码
+    public  function doFindpasswordPost()
     {
-        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff1501471276800');
-        view('',[
-            'verify'=> $verify
+        $req = req('Post');
+        $code = model('Password')->findPassword($req);
+        $msg = model('Password')->returnNews();
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg[$code],
         ]);
     }
+    
 
 }

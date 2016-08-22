@@ -56,9 +56,11 @@ class User implements ModelInterface
         return $userId;
     }
 
-    public function updateUserByUserId(Array $array)
+    public function updateUserByUserId(Array $array,$userId=null)
     {
-        $userId = bus('tokenInfo')['userId'];
+        $userId = intval($userId)?:bus('tokenInfo')['userId'];
+        //TODO: 为获取到userId错误提示
+        if(!$userId) return false;
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
         $check = $insert?true:false;
         return $check;
