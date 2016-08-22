@@ -106,22 +106,40 @@ class User
     //注册短信验证码
     public function doRegisterauthcodePost()
     {
-        $code = model('Register')->registerCheckCode(req('Post'));
+        $registerReturn = model('Register')->registerCheckCode(req('Post'));
+        $code=is_int($registerReturn)?$registerReturn:$registerReturn['code'];
         $msg = model('Register')->registerConfig($code);
-        $this->AjaxReturn([
-            'code' => $code,
-            'msg' => $msg,
-        ]);
+        if(is_int($registerReturn)){
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+                'data'=>$registerReturn['authCode']
+            ]);
+        }
     }
     //找回密码短信验证码
     public function doFindpsdauthcodePost()
     {
-        $code = model('Password')->findPasswordCheckCode(req('Post'));
+        $registerReturn = model('Password')->findPasswordCheckCode(req('Post'));
+        $code=is_int($registerReturn)?$registerReturn:$registerReturn['code'];
         $msg = model('Password')->returnNews($code);
-        $this->AjaxReturn([
-            'code' => $code,
-            'msg' => $msg,
-        ]);
+        if(is_int($registerReturn)){
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg,
+                'data'=>$registerReturn['authCode']
+            ]);
+        }
     }
 
     public function doIndex()

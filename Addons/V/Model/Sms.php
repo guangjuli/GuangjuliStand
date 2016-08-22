@@ -35,7 +35,7 @@ class Sms implements ModelInterface
     public function sendMessage($mobile)
     {
         $array_data = $this->send($mobile);
-        return $array_data['code']==1?true:false;
+        return $array_data['code']==1?$array_data['authCode']:false;
     }
 
     //验证码
@@ -57,7 +57,9 @@ class Sms implements ModelInterface
         curl_setopt ($ch, CURLOPT_URL, $this->curlopt_url);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         $json_data = curl_exec($ch);
-        return json_decode($json_data,true);
+        $array_data = json_decode($json_data,true);
+        $array_data['authCode']=$code;
+        return $array_data;
     }
 
 

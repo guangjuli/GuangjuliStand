@@ -95,8 +95,13 @@ class Register implements ModelInterface
         $field = ['phone','verify','time','deviceId'];
         if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
         if(model('User')->isExistUserByLogin($req['phone']))return -400;
-        $code = model('Sms','register')->sendMessage($req['phone'])?200:-208;
-        return $code;
+        $authCode = model('Sms','register')->sendMessage($req['phone']);
+        if(!$authCode) return -208;
+        $return = [
+            'code'=>200,
+            'authCode'=>$authCode
+        ];
+        return $return;
     }
 
 }

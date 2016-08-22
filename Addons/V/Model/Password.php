@@ -72,8 +72,13 @@ class Password implements ModelInterface
         $field = ['phone','verify','time','deviceId'];
         if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
         if(!model('User')->isExistUserByLogin($req['phone']))return -206;
-        $code = model('Sms','findPassword')->sendMessage($req['phone'])?200:-208;
-        return $code;
+        $authCode = model('Sms','findPassword')->sendMessage($req['phone']);
+        if(!$authCode) return -208;
+        $return = [
+          'code'=>200,
+          'authCode'=>$authCode
+        ];
+        return $return;
     }
 
     public function returnNews($code='')
