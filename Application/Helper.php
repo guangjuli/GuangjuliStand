@@ -33,9 +33,17 @@
         }
     }
 
+    if (! function_exists('WidgetView')) {
+        function WidgetView($tpl = null, $data = [])
+        {
+            $tpl = $tpl?ucfirst($tpl):sc('widget');
+            return server('Smarty')->path('../Widget/Views/')->router()->fetch('../'.$tpl,$data);
+        }
+    }
 
 
-    /**
+
+/**
      * 对APP application server 进行封装
      */
     if (! function_exists('app')) {
@@ -272,11 +280,12 @@
         }
     }
 
-    /**
+/**
      * 页面widget 在tpl文件中进行调用
      * @param $params
      * @return mixed
      */
-    function smarty_function_widget($params) {
-        return (new App\Model\Widget)->$params['name']();
+    function smarty_function_widget($_params = '',$params = []) {
+        return \Widget\Bootstrap::Run($_params['name']);
+//        return (new App\Model\Widget)->$params['name']();
     }
