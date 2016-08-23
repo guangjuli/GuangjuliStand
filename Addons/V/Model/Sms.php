@@ -34,12 +34,12 @@ class Sms implements ModelInterface
 
     public function sendMessage($mobile)
     {
-        $array_data = $this->send($mobile);
+        $array_data = $this->useThreeApiSend($mobile);
         return $array_data['code']==1?$array_data['authCode']:false;
     }
 
     //验证码
-    private function send($mobile){
+    private function useThreeApiSend($mobile){
         $code = rand(100000,999999);
         $content = $this->messageContent.$code;
         $data=array('content'=>urlencode($content),'apikey'=>$this->apikey,'mobile'=>$mobile);
