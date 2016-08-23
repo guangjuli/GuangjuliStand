@@ -39,13 +39,13 @@ class Upload implements ModelInterface
         $target_path = $directory . md5($file['name']. microtime() . rand(1000000, 9999999)) . '.' . $extName;
         //上传开始
         if (move_uploaded_file($file['tmp_name'], $target_path)) {
-            return $this->isRelativePath($target_path,$isNeedHttp);
+            return $this->isAbsolutePath($target_path,$isNeedHttp);
         } else {
             return -400;
         }
     }
 
-    private function isRelativePath($target_path,$need='Yes')
+    private function isAbsolutePath($target_path,$need='Yes')
     {
         $http = '';
         if($need=='Yes'){

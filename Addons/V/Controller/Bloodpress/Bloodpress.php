@@ -11,7 +11,7 @@ namespace Addons\Controller;
 
 use Addons\Traits\AjaxReturn;
 
-class Measure
+class Bloodpress
 {
     use  AjaxReturn;
 
@@ -44,5 +44,10 @@ class Measure
             'code' => $code,
             'msg'  => $msg
         ]);
+    }
+
+    public function doIndex()
+    {
+        view();
     }
 }

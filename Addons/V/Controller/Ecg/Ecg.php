@@ -11,7 +11,7 @@ namespace Addons\Controller;
 
 use App\Traits\AjaxReturn;
 
-class Measure
+class Ecg
 {
     use AjaxReturn;
 

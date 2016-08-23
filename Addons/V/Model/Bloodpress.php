@@ -37,14 +37,16 @@ class Bloodpress
     //必须经过model('Gate')->verifyToken()
     public function insertBloodLog(Array $req)
     {
-        //校验参数
-        $filed = ['measuretype','createday','time','shrink','diastole','bpm','measuretype'];
-        if(!model('Validate')->validateParams($filed,$req)) return -201;
-        if(!model('Validate')->validateParamsType($req,[],$filed)) return -202;
         //插入bloodpress表
-        $req['userId'] = bus('tokenInfo')['userId'];
-        $insert = server('Db')->autoExecute('bloodpress', $req, 'INSERT');
-        return $insert?200:-203;
+        $userId = bus('tokenInfo')['userId'];
+        $insert = array();
+        foreach($req['story'] as $v){
+            $v['userId'] = $userId;
+            $insert[] = '('.implode(',',$v).')';
+        }
+        $insert = implode(',',$insert);
+        $check = server('Db')->query("insert into bloodpress(type,createDay,time,shrink,diastole,bpm,userId)values $insert");
+        return $check?200:-203;
     }
 
     public function returnNews($code=null)

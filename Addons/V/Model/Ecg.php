@@ -37,14 +37,17 @@ class Ecg
 
     //上传ecg测量记录   调用model('Upload)->returnMsg()显示msg信息
     //必须经过model('Gate')->verifyToken()
-    public function insertEcgLog($file)
+    //单文件上传
+    public function insertEcgLog($file,$req)
     {
+        //上传心电文件
         $config = server()->Config('Config')['uploadEcg'];
         $pathOrCode=model('Upload',$config)->upload($file,'No');
         if(!is_string($pathOrCode)) return $pathOrCode;
-        $insert['userId'] = bus('tokenInfo')['userId'];
-        $insert['path'] = $pathOrCode;
-        $check = server('Db')->autoExecute('ecg', $insert, 'INSERT');
+        //上传成功存储数据库
+        $req['story']['userId'] = bus('tokenInfo')['userId'];
+        $req['story']['savePath'] = $pathOrCode;
+        $check = server('Db')->autoExecute('ecg',$req['story'], 'INSERT');
         $code = $check?200:-202;
         return $code;
     }
