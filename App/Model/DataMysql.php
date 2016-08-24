@@ -44,15 +44,6 @@ class DataMysql implements \Grace\Base\ModelInterface
                         ],
                     ],
                     [
-                        'title' => 'DEMO',
-                        'icon' => 'glyphicon glyphicon-wrench',
-                        'ca' => 'Demo.Index',
-                        'active' => 0,
-                        'child' => [
-                        ],
-                    ],
-
-                    [
                         'title' => 'Help',
                         'icon' => 'glyphicon glyphicon-home',
                         'ca' => 'Help.Index',
@@ -109,8 +100,10 @@ class DataMysql implements \Grace\Base\ModelInterface
 
                         ],
                     ],
+
                 ],
             ],
+
             /**
              * API相关
              *
@@ -163,7 +156,105 @@ class DataMysql implements \Grace\Base\ModelInterface
 
 
                 ],
-            ]
+            ],
+            /**
+             * 用户 / 用户组 / token
+             */
+            [
+                'title' => '用户管理',
+                'icon' => 'glyphicon glyphicon-home',
+                'ca' => 'User.Index',
+                'active' => 0,
+                'child' => [
+                    [
+                        'title' => '用户',
+                        'icon' => 'glyphicon glyphicon-wrench',
+                        'ca' => 'User.List',
+                        'active' => 0,
+                        'child' => [
+                            [
+                                'title' => '用户列表',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'User.List',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => '添加用户',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'User.List',
+                                'ext'=>'add',
+                                'active' => 0,
+                            ],
+
+                            [
+                                'title' => '修改用户',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'User.List',
+                                'ext'=>'edit',
+                                'hidden'=>1,
+                                'active' => 0,
+                            ],
+                        ],
+                    ],
+                    [
+                        'title' => '用户组',
+                        'icon' => 'glyphicon glyphicon-wrench',
+                        'ca' => 'User.Group',
+                        'active' => 0,
+                        'child' => [
+                            [
+                                'title' => '用户组列表',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'User.Group',
+                                'active' => 0,
+                            ],
+                            [
+                                'title' => '添加用户组',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'User.Group',
+                                'ext'=>'add',
+                                'active' => 0,
+                            ],
+
+                            [
+                                'title' => '修改用户组',
+                                'icon' => 'glyphicon glyphicon-home',
+                                'ca' => 'User.Group',
+                                'ext'=>'edit',
+                                'hidden'=>1,
+                                'active' => 0,
+                            ],
+                        ],
+                    ],
+                    [
+                        'title' => 'Token',
+                        'icon' => 'glyphicon glyphicon-wrench',
+                        'ca' => 'Token.Index',
+                        'active' => 0,
+                        'child' => [
+                        ],
+                    ],
+
+
+
+                ],
+            ],
+            [
+                'title' => '搜索',
+                'icon' => 'glyphicon glyphicon-home',
+                'ca' => 'Search.Index',
+                'active' => 0,
+                'child' => [
+                    [
+                        'title' => '搜索用户',
+                        'icon' => 'glyphicon glyphicon-wrench',
+                        'ca' => 'Search.User',
+                        'active' => 0,
+                        'child' => [
+                        ],
+                    ],
+                ],
+            ],
 
         ];
     }
@@ -171,27 +262,3 @@ class DataMysql implements \Grace\Base\ModelInterface
 
 
 }
-
-
-//                    [
-//                        'title' => '数据',
-//                        'icon' => 'glyphicon glyphicon-folder-open',
-//                        'ca' => 'Home.Data',
-//                        'active' => 0,
-//                        'child' => [
-//
-//                        ],
-//                    ],
-
-
-
-//
-//                    [
-//                        'title' => 'Map',
-//                        'icon' => 'glyphicon glyphicon-home',
-//                        'ca' => 'Home.Map',
-//                        'active' => 0,
-//                        'child' => [
-//                        ],
-//                    ],
-//
