@@ -13,7 +13,7 @@ function autoload($className)
             $fileName  = APPROOT.'Model' . DIRECTORY_SEPARATOR;
         }
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        require $fileName;
+        if(is_file($fileName)) require $fileName;
     }
 }
 spl_autoload_register('Addons\autoload');
