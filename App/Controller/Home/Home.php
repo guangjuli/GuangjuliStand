@@ -16,6 +16,17 @@ class Home extends BaseController {
         view();
     }
 
+    public function doDemo()
+    {
+        Model('ApiLog')->sniffer();
+
+
+        D(req());
+        echo \Grace\Req\Uri::getInstance()->getar();
+        headers();
+        echo 'test测试';
+
+    }
 
     public function doLogin()
     {

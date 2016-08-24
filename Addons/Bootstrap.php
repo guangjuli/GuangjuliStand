@@ -13,7 +13,7 @@ function autoload($className)
             $fileName  = APPROOT.'Model' . DIRECTORY_SEPARATOR;
         }
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        require $fileName;
+        if(is_file($fileName)) require $fileName;
     }
 }
 spl_autoload_register('Addons\autoload');
@@ -83,7 +83,6 @@ class Bootstrap
     public function RouterRunController()
     {
         $router = req('Router');
-
         $basepath =        $this->approot.$router['module'].'/Controller/';
 
         if (!preg_match('/^[0-9a-zA-Z]+$/',$router['controller']) || !preg_match('/^[0-9a-zA-Z]+$/',$router['mothed']))
@@ -126,6 +125,8 @@ class Bootstrap
         }
 
         $controller = new $__controllerAction();
+        //token验证
+        $this->interceptor($router,$__controllerAction,$__mothedActionbk);
 
         if(method_exists($__controllerAction, $__mothedActionbk)) {
             return $controller->$__mothedActionbk($params);
@@ -141,6 +142,17 @@ class Bootstrap
         echo " Error on line $errline <br>in $errfile<br />";
         echo "Ending Script";
         die();
+    }
+
+    //拦截token方法
+    public  function interceptor($router,$__controllerAction,$__mothedActionbk)
+    {
+        $needlessCheckTokenMethod = server()->Config('Config')['needlessCheckTokenMethod'][$router['module']];
+        $method = $router['params']?(method_exists($__controllerAction, $__mothedActionbk)?$router['mothed'].'_'.$router['params']:$router['mothed']):$router['mothed'];
+        if(!in_array($method,$needlessCheckTokenMethod)){
+            $token = req('Post')['token']?:req('Get')['token'];
+            model('Gate')->verifyToken($token);
+        }
     }
 
 

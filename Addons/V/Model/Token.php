@@ -79,6 +79,7 @@ class Token implements ModelInterface
     // 判断token有效性
     public function isEnableToken($token)
     {
+        if(!$token)return false;
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return false;
         $enableTime = intval($tokenInfo['createAt'])+$this->expires;
