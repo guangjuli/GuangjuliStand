@@ -58,8 +58,7 @@ INSERT INTO `api_log` (`id`, `api`, `code`, `msg`, `data`, `time`, `_GET`, `_POS
 -- 表的结构 `bloodpress`
 --
 
-
-CREATE TABLE   `bloodpress` (
+CREATE TABLE IF NOT EXISTS `bloodpress` (
   `bloodpressId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `shrink` int(5) NOT NULL,
@@ -68,6 +67,7 @@ CREATE TABLE   `bloodpress` (
   `type` int(2) NOT NULL DEFAULT '0',
   `time` int(11) NOT NULL,
   `createDay` int(11) NOT NULL,
+  `day` int(1) NOT NULL COMMENT '1:day,0:night',
   `sort` int(11) NOT NULL DEFAULT '0',
   `active` int(2) NOT NULL DEFAULT '0',
   `des` varchar(128) DEFAULT NULL,
