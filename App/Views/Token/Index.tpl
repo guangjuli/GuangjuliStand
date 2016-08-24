@@ -29,15 +29,8 @@
 
             {widget name='adminLevelthree'}
             <!-- content -->
+Token
 
-            <div style="margin: 0px 0px 20px 0px;"></div>
-            <!-- content -->
-            <div class="row">
-                <div class="col-md-6 ">
-                </div>
-                <div class="col-md-6 ">
-                </div>
-            </div>
             <!-- /content -->
             {widget name='adminFooter'}
         </div>
