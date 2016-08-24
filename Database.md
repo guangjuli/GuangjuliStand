@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `api_log` (
   `_POST` text,
   `_FILE` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2362 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- 转存表中的数据 `api_log`
@@ -53,3 +53,126 @@ INSERT INTO `api_log` (`id`, `api`, `code`, `msg`, `data`, `time`, `_GET`, `_POS
 (6, '0', '0', NULL, NULL, '2016-06-13 09:08:53', '{"m":"v","c":"user","a":"userinfo","e":"","_param":"","phone":"15010578750","type_cv1":"javascript_debug","_":"1465808948763"}', '[]', '[]'),
 (7, '0', '0', NULL, NULL, '2016-06-13 09:09:34', '{"m":"v","c":"user","a":"userinfo","e":"","_param":"","phone":"15010578750","type_cv1":"javascript_debug","_":"1465808948764"}', '[]', '[]'),
 (8, '0', '0', NULL, NULL, '2016-06-13 09:10:37', '{"m":"v","c":"user","a":"userinfo","e":"","_param":"","phone":"15010578750","type_cv1":"javascript_debug","_":"1465808948765"}', '[]', '[]');
+
+--
+-- 表的结构 `bloodpress`
+--
+
+
+CREATE TABLE   `bloodpress` (
+  `bloodpressId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `shrink` int(5) NOT NULL,
+  `diastole` int(5) NOT NULL,
+  `bpm` int(5) NOT NULL,
+  `type` int(2) NOT NULL DEFAULT '0',
+  `time` int(11) NOT NULL,
+  `createDay` int(11) NOT NULL,
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `active` int(2) NOT NULL DEFAULT '0',
+  `des` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`bloodpressId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+--
+-- 表的结构 `device`
+--
+
+CREATE TABLE IF NOT EXISTS `device` (
+  `deviceId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `device` varchar(128) NOT NULL,
+  PRIMARY KEY (`deviceId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `token`
+--
+
+CREATE TABLE `token` (
+  `tokenId` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(64) DEFAULT NULL,
+  `userId` varchar(16) DEFAULT '',
+  `accessToken` varchar(128) DEFAULT NULL,
+  `type` varchar(8) NOT NULL,
+  `createAt` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`tokenId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `user`
+--
+
+CREATE TABLE `user` (
+  `userId` int(11) NOT NULL AUTO_INCREMENT,
+  `groupId` int(11) NOT NULL DEFAULT '1',
+  `login` varchar(32) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `email` varchar(64) DEFAULT NULL,
+  `mobile` varchar(64) DEFAULT NULL,
+  `QQ` varchar(64) DEFAULT NULL,
+  `weixin` varchar(64) DEFAULT NULL,
+  `weibo` varchar(64) DEFAULT NULL,
+  `accessToken` varchar(64) NOT NULL DEFAULT 'accessToken',
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` int(11) DEFAULT NULL,
+  `expire` int(11) NOT NULL DEFAULT '0',
+  `nickName` varchar(128) DEFAULT NULL,
+  `trueName` varchar(128) DEFAULT NULL,
+  `birthday` varchar(128) DEFAULT NULL,
+  `gender` varchar(128) DEFAULT NULL,
+  `signer` varchar(128) DEFAULT NULL,
+  `zone` varchar(128) DEFAULT NULL,
+  `addr` varchar(128) DEFAULT NULL,
+  `gravatar` varchar(128) DEFAULT NULL,
+  `height` varchar(16) DEFAULT NULL,
+  `bloodpress` int(2) NOT NULL DEFAULT '0',
+  `ecg` int(2) NOT NULL DEFAULT '0',
+  `watch` int(2) NOT NULL DEFAULT '0',
+  `active` int(11) NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `des` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `user_group`
+--
+
+CREATE TABLE `user_group` (
+  `groupId` int(11) NOT NULL AUTO_INCREMENT,
+  `groupName` varchar(32) NOT NULL,
+  `groupChr` varchar(32) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `des` text,
+  PRIMARY KEY (`groupId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `user_group`
+--
+
+CREATE TABLE IF NOT EXISTS `user_group` (
+  `groupId` int(11) NOT NULL AUTO_INCREMENT,
+  `groupName` varchar(32) NOT NULL,
+  `groupChr` varchar(32) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `des` text,
+  PRIMARY KEY (`groupId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+
+--
+-- 转存表中的数据 `user_group`
+--
+
+INSERT INTO `user_group` (`groupId`, `groupName`, `groupChr`, `active`, `sort`, `des`) VALUES
+(1, '系统管理员', 'system', 1, 0, '测试'),
+(11, '机构管理员', 'organization', 1, 0, '机构'),
+(10, '科室管理员', 'department', 1, 0, '科室'),
+(21, 'IOS', 'IOS', 1, 0, 'APP ios用户'),
+(2, '系统管理员2', 'system2', 1, 0, '对整个系统进行设置和配置'),
+(20, 'Android', 'Android', 1, 0, 'Android 用户'),
+(12, '医生', 'doctor', 0, 0, '医生用户');

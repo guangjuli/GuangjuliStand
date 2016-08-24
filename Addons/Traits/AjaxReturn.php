@@ -17,6 +17,7 @@ trait AjaxReturn{
         $res['msg']     = $res['msg']?:bus('modelerror')['msg']?:(($res['code']>0)?'suceed':'error');
         $res['data']    = $res['data']?:[];
         $res['ds']      = $res['data']?1:0;
+        Model('ApiLog')->sniffer($res);
         echo json_encode($res);
         exit;
     }

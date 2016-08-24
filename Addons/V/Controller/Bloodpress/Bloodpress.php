@@ -46,6 +46,46 @@ class Bloodpress
         ]);
     }
 
+    /**
+     * doBloodlogbydateandtypePost
+     * 通过日期和类型获取血压记录
+     */
+    public function doBloodlogbydateandtypePost()
+    {
+        //请求参数  createDay,type
+        $bloodInfoOrCode = model('Bloodpress')->getBloodLogByDateAndType(req('Post'));
+        if(is_int($bloodInfoOrCode)){
+            $this->AjaxReturn([
+                'code' => $bloodInfoOrCode
+            ]);
+        }
+        $this->AjaxReturn([
+            'code' =>200,
+            'msg'  =>'succeed',
+            'data' => $bloodInfoOrCode
+        ]);
+    }
+
+    /**
+     * doGetbloodlineandbargraphbydatePost
+     *依据日期获取血压柱状图或折线图
+     */
+    public function doGetbloodlinegraphbydatePost()
+    {
+        $bloodInfoOrCode = model('Bloodpress')->getBloodLineGraphByDate(req('Post')['createDay']);
+        if(is_int($bloodInfoOrCode)){
+            $this->AjaxReturn([
+                'code' => $bloodInfoOrCode
+            ]);
+        }
+        $this->AjaxReturn([
+            'code' =>200,
+            'msg'  =>'succeed',
+            'data' => $bloodInfoOrCode
+        ]);
+    }
+
+
     public function doIndex()
     {
         view();
