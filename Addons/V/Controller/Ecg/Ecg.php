@@ -35,11 +35,17 @@ class Ecg
 
     public function doUploadecglogPost()
     {
+        D(bus('tokenInfo'));
         $code = model('Ecg')->insertEcgLog($_FILES['tfile']);
         $msg  = model('Upload')->returnMsg($code);
         $this->AjaxReturn([
             'code' => $code,
             'msg'  =>$msg
         ]);
+    }
+
+    public function doIndex()
+    {
+        view();
     }
 }
