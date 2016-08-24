@@ -61,11 +61,13 @@ class Validate implements ModelInterface
 
     //检验请求参数数据类型是否正确
     //可以用来校验参数是否存在及数据类型
-    public function validateParamsType(Array $req,Array $string,$int=[],$array=[])
+    public function validateParamsType(Array $req,$string=[],$int=[],$array=[])
     {
         $result = array();
-        foreach($string as $v){
-            if(!is_string($req[$v]))$result[]=$v;
+        if($string){
+            foreach($string as $v){
+                if(!is_string($req[$v]))$result[]=$v;
+            }
         }
         if($int){
             foreach($int as $v){

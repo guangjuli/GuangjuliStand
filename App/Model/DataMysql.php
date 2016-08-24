@@ -111,6 +111,10 @@ class DataMysql implements \Grace\Base\ModelInterface
                     ],
                 ],
             ],
+            /**
+             * API相关
+             *
+             */
             [
                 'title' => 'AppApi',
                 'icon' => 'glyphicon glyphicon-home',
@@ -147,9 +151,9 @@ class DataMysql implements \Grace\Base\ModelInterface
                             ],
 
                             [
-                                'title' => '设置',
+                                'title' => '日志',
                                 'icon' => 'glyphicon glyphicon-home',
-                                'ca' => 'Api.Setup',
+                                'ca' => 'Api.Log',
                                 'active' => 0,
                             ],
 

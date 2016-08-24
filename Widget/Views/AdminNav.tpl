@@ -11,9 +11,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
-{foreach from=$menuhead key=key item=item}
-                <li {if $item['active'] neq 0}class="active"{/if}><a href="{$item['path']}"><span class="{$item['icon']}" aria-hidden="true"></span> {$item['title']}</a></li>
-{/foreach}
+                {foreach from=$menuhead key=key item=item}
+                    <li {if $item['active'] neq 0}class="active"{/if}><a href="{$item['path']}"><span class="{$item['icon']}" aria-hidden="true"></span> {$item['title']}</a></li>
+                {/foreach}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li role="presentation" class="dropdown">

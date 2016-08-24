@@ -24,7 +24,7 @@ class Upload implements ModelInterface
         // TODO: Implement depend() method.
     }
 
-    public function upload($file)
+    public function upload($file,$isNeedHttp='Yes')
     {
         if (empty($file['name']))return -101;
         if($file['size'] >$this->sizeLimit) return -200;
@@ -39,23 +39,33 @@ class Upload implements ModelInterface
         $target_path = $directory . md5($file['name']. microtime() . rand(1000000, 9999999)) . '.' . $extName;
         //上传开始
         if (move_uploaded_file($file['tmp_name'], $target_path)) {
-            $target_path = ltrim($target_path, '.');        //去掉左边的.
-            $source  = $_SERVER['SERVER_NAME'];
-            $path = 'http://'.$source.$target_path;
-            return $path;
+            return $this->isAbsolutePath($target_path,$isNeedHttp);
         } else {
             return -400;
         }
     }
 
-    public function returnMsg(){
-        return[
+    private function isAbsolutePath($target_path,$need='Yes')
+    {
+        $http = '';
+        if($need=='Yes'){
+            $target_path = ltrim($target_path, '.');        //去掉左边的.
+            $source  = $_SERVER['SERVER_NAME'];
+            $http = 'http://'.$source;
+        }
+        $path = $http.$target_path;
+        return $path;
+    }
+
+    public function returnMsg($code=null){
+        $config = [
             -101    => 'Upload file not found!',
             -200    => 'The file extension is limited',
             -201    => 'file is too big!',
             -400    => 'Unknown error, please try again!',
             -202    =>'System Exception!',
-            200     =>'Succeed'
+            200     =>'Succeed',
         ];
+        return $code?$config[$code]:$config;
     }
 }

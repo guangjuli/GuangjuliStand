@@ -79,6 +79,7 @@ class Token implements ModelInterface
     // 判断token有效性
     public function isEnableToken($token)
     {
+        if(!$token)return false;
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return false;
         $enableTime = intval($tokenInfo['createAt'])+$this->expires;
@@ -143,10 +144,10 @@ class Token implements ModelInterface
     {
         $verify = $req['verify'];
         $deviceId = $req['deviceId'];
-        $login = $req['login'];
+        $login = $req['login']?:$req['phone'];
         $time = $req['time'];
         //TODO: 校验设备编号正确性
-        if ($verify != MD5($deviceId . server()->Config('Config')['token']['clientSecret'] . $login . $time))return false;
+        if ($verify != MD5($deviceId . $this->clientSecret . $login . $time))return false;
         return true;
     }
 
