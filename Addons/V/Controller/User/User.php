@@ -11,7 +11,7 @@ use Addons\Traits\AjaxReturn;
 class User
 {
     use AjaxReturn;
-    //必须通过verifyToken后才能调用以下方法，因为方法内部调用了bus()流
+
     public function doUserinfosubmitPost()
     {
         //model('Gate')->verifyToken(req('Post')['token']);
