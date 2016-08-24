@@ -48,7 +48,7 @@
                     <td>{$item['apiId']}</td>
                     <td>{$item['v']}</td>
                     <td>{$item['type']}</td>
-                    <td>{$item['api']}</td>
+                    <td><a href="/api/log?id={$item['apiId']}">{$item['api']}</a></td>
                     <td>{$item['title']}</td>
                     <td>
                        {if $item['active'] eq 1}
