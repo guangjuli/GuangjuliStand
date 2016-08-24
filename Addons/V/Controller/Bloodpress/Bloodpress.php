@@ -67,8 +67,8 @@ class Bloodpress
     }
 
     /**
-     * doGetbloodlineandbargraphbydatePost
-     *依据日期获取血压柱状图或折线图
+     * doGetbloodlinegraphbydatePost
+     *依据日期获取血压折线图
      */
     public function doGetbloodlinegraphbydatePost()
     {
@@ -85,7 +85,30 @@ class Bloodpress
         ]);
     }
 
+    /**
+     * doGetbloodbargraphdatePost
+     *依据日期获取血压柱状图
+     */
+    public function doGetbloodbargraphbydatePost()
+    {
+        $bloodInfoOrCode=model('Bloodpress')->getBloodBarGraphByDate(req('Post')['createDay']);
+        if(is_int($bloodInfoOrCode)){
+            $this->AjaxReturn([
+                'code' => $bloodInfoOrCode
+            ]);
+        }
+        $this->AjaxReturn([
+            'code' =>200,
+            'msg'  =>'succeed',
+            'data' => $bloodInfoOrCode
+        ]);
+    }
 
+    public function doGetpiechartPost()
+    {
+        $data = model('Bloodpress')->getPieChartByDay(req('Post')['createDay'],req('Post')['day']);
+        D($data);
+    }
     public function doIndex()
     {
         view();
