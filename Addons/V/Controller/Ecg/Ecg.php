@@ -8,23 +8,21 @@
 
 namespace Addons\Controller;
 
-
-use App\Traits\AjaxReturn;
+use Addons\Model\AjaxReturn;
 
 class Ecg
 {
-    use AjaxReturn;
 
     //依据时间戳删除心电记录
     public function doDeleteecglogbytimestampPost()
     {
         $boolean = model('Ecg')->deleteEcgLogByTimestamp(req('Post')['time']);
         if($boolean){
-            $this->AjaxReturn([
+            AjaxReturn::AjaxReturn([
                 'code' => 200
             ]);
         }
-        $this->AjaxReturn([
+        AjaxReturn::AjaxReturn([
             'code' => -200
         ]);
     }
@@ -34,11 +32,11 @@ class Ecg
     {
         $boolean = model('Ecg')->deleteEcgLogByDate(req('Post')['createDay']);
         if($boolean){
-            $this->AjaxReturn([
+            AjaxReturn::AjaxReturn([
                 'code' => 200
             ]);
         }
-        $this->AjaxReturn([
+        AjaxReturn::AjaxReturn([
             'code' => -200
         ]);
     }
