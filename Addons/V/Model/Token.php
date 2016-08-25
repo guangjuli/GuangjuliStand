@@ -32,14 +32,23 @@ class Token implements ModelInterface
             'Model::Gate'
         ];
     }
-    //获取token表信息
+
+    /**
+     * 获取token表信息
+     * @param $accessToken
+     * @return array
+     */
     public function getTokenInfo($accessToken)
     {
         $check = $this->getTokenInfoFromSql($accessToken);
         $info = $check?$check:[];
         return $info;
     }
-    //获取通行证accessToken
+
+    /**
+     * 获取通行证accessToken
+     * @return array
+     */
     public function accessToken()
     {
         //生成token
@@ -56,7 +65,10 @@ class Token implements ModelInterface
         }
     }
 
-    //在获取token前对请求参数进行验证
+    /**
+     * 在获取token前对请求参数进行验证
+     * @return boolean
+     */
     public function validateTokenReq(Array $req)
     {
         //校验参数是否为空
@@ -76,18 +88,27 @@ class Token implements ModelInterface
         ]);
         return true;
     }
-    // 判断token有效性
+
+    /**
+     * 判断token有效性
+     * @param $token
+     * @return array
+     */
     public function isEnableToken($token)
     {
-        if(!$token)return false;
+        if(!$token)return [];
         $tokenInfo = $this->getTokenInfoFromSql($token);
-        if(empty($tokenInfo))return false;
-        $enableTime = intval($tokenInfo['createAt'])+$this->expires;
-        if($enableTime<time())return false;
+        if(empty($tokenInfo))return [];
+        $enableTime = intval($tokenInfo['createAt'])+intval($this->expires);
+        if($enableTime<time())return [];
         return $tokenInfo;
     }
 
-    //数据库操作
+    /**
+     * 从数据库获取token信息
+     * @param $accessToken
+     * @return array
+     */
     private function getTokenInfoFromSql($accessToken)
     {
         $tokenInfo = server('Db')->getRow("select * from token where `accessToken`='$accessToken'");
@@ -95,6 +116,11 @@ class Token implements ModelInterface
         return $tokenInfo;
     }
 
+    /**
+     * 根据userId判断token是否存在
+     * @param $userId
+     * @return boolean
+     */
     private function isExistTokenByUserId($userId)
     {
         $userId = intval($userId);
@@ -103,6 +129,10 @@ class Token implements ModelInterface
         return $check;
     }
 
+    /**
+     * 更新token
+     * @return boolean
+     */
     private function updateToken()
     {
         $res['login']       = bus('token')['login'];
@@ -114,6 +144,10 @@ class Token implements ModelInterface
         return $check;
     }
 
+    /**
+     * 添加token
+     * @return boolean
+     */
     private function addToken()
     {
         $res['login']       = bus('token')['login'];
@@ -126,6 +160,9 @@ class Token implements ModelInterface
         return $check;
     }
 
+    /**
+     * 生成token
+     */
     //TODO:算法待修改，一个用户可能有多台设备，设备编号不唯一，加入deviceId，同一用户token不唯一
     private function token()
     {
@@ -140,6 +177,11 @@ class Token implements ModelInterface
         ]);
     }
 
+    /**
+     * 校验verify是否正确
+     * @param array $req
+     * @return boolean
+     */
     public function verify($req)
     {
         $verify = $req['verify'];

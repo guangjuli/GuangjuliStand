@@ -24,6 +24,12 @@ class Upload implements ModelInterface
         // TODO: Implement depend() method.
     }
 
+    /**
+     * 上传
+     * @param $file
+     * @param $isNeedHttp
+     * @return int
+     */
     public function upload($file,$isNeedHttp='Yes')
     {
         if (empty($file['name']))return -101;
@@ -39,10 +45,19 @@ class Upload implements ModelInterface
         $target_path = $directory . md5($file['name']. microtime() . rand(1000000, 9999999)) . '.' . $extName;
         //上传开始
         if (move_uploaded_file($file['tmp_name'], $target_path)) {
-            return $this->isAbsolutePath($target_path,$isNeedHttp);
+            $path = $this->isAbsolutePath($target_path,$isNeedHttp);
+            bus([
+               'uploadPath'=>$path
+            ]);
+            return 200;
         } else {
             return -400;
         }
+    }
+
+    public function uploadPath()
+    {
+        return bus('uploadPath');
     }
 
     private function isAbsolutePath($target_path,$need='Yes')

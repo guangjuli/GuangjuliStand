@@ -14,13 +14,10 @@ class User
 
     public function doUserinfosubmitPost()
     {
-        //model('Gate')->verifyToken(req('Post')['token']);
-        $req = req('Post');
-        $user = model('User');
-        $msg = $user->paramsConfig()['returnNews'];
-        $code = $user->validateUserReq($req);
+        $msg = model('User')->paramsConfig()['returnNews'];
+        $code = model('User')->validateUserReq(req('Post'));
         if($code==200){
-            $check = $user->updateUserByUserId($req);
+            $check = model('User')->updateUserByUserId(req('Post'));
             if($check){
                 $this->AjaxReturn([
                     'code' => $code,
@@ -42,8 +39,8 @@ class User
     //获取用户信息
     public function doUserinfoPost()
     {
-        model('Gate')->verifyToken(req('Post')['token']);
-        if($userInfo=model('User')->getUserInfoByToken()){
+        $userInfo=model('User')->getUserInfoByToken();
+        if(!empty($userInfo)){
             $this->AjaxReturn([
                 'code'=>200,
                 'msg'=>'Succeed',
@@ -58,10 +55,12 @@ class User
     //上传用户头像
     public function doUpuserimagePost()
     {
-        //model('Gate')->verifyToken(req('Post')['token']);
         $file = $_FILES['tfile'];
         $msg = model('Upload')->returnMsg();
         $code = model('User')->uploadHeadImage($file);
+        if($code==200){
+            $code = model('User')->saveImagePathToDb()?200:-200;
+        }
         $this->AjaxReturn([
             'code'=>$code,
             'msg'=>$msg[$code],
@@ -70,11 +69,12 @@ class User
     //注册
     public function doRegisterPost()
     {
-        $req = req('Post');
-        $register = model('Register');
-        $code = $register->validateRegisterReq($req);
-        $msg  = $register->registerConfig($code);
-        if($code==200)$code=model('Register')->register();
+        $code = model('Register')->validateRegisterReq(req('Post'));
+        $msg  = model('Register')->registerConfig($code);
+        if($code==200){
+            $boolean=model('Register')->register();
+            $code = $boolean?200:-200;
+        }
         $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg,
@@ -83,10 +83,11 @@ class User
     //知道原密码重置密码
     public function doResetpasswordPost()
     {
-        model('Gate')->verifyToken(req('Post')['token']);
-        $req = req('Post');
-        $code = model('Password')->resetPassword($req);
+        $code = model('Password')->resetPasswordValidateReq(req('Post'));
         $msg = model('Password')->returnNews();
+        if($code==200){
+             $code = model('Password')->resetPassword(req('Post')['password'])?200:-200;
+        }
         $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg[$code],
@@ -95,9 +96,11 @@ class User
     //忘记原密码通过短信验证后重置密码
     public  function doFindpasswordPost()
     {
-        $req = req('Post');
-        $code = model('Password')->findPassword($req);
+        $code = model('Password')->findPasswordValidateReq(req('Post'));
         $msg = model('Password')->returnNews();
+        if($code==200){
+            $code = model('Password')->findPassword(req('Post')['password'])?200:-200;
+        }
         $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg[$code],
@@ -106,40 +109,44 @@ class User
     //注册短信验证码
     public function doRegisterauthcodePost()
     {
-        $registerReturn = model('Register')->registerCheckCode(req('Post'));
-        $code=is_int($registerReturn)?$registerReturn:$registerReturn['code'];
+        $code = model('Register')->registerCheckCodeValidateReq(req('Post'));
         $msg = model('Register')->registerConfig($code);
-        if(is_int($registerReturn)){
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg,
-            ]);
-        }else{
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg,
-                'data'=>$registerReturn['authCode']
-            ]);
+        if($code==200){
+            $authCode = model('Register')->registerCheckCode(req('Post')['phone']);
+            if(!empty($authCode)){
+                $this->AjaxReturn([
+                    'code' => $code,
+                    'msg'  => $msg,
+                    'data' =>$authCode
+                ]);
+            }
+            $code = -200;
         }
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg,
+        ]);
     }
     //找回密码短信验证码
     public function doFindpsdauthcodePost()
     {
-        $registerReturn = model('Password')->findPasswordCheckCode(req('Post'));
-        $code=is_int($registerReturn)?$registerReturn:$registerReturn['code'];
+        $code = model('Password')->findPasswordCheckCodeValidateReq(req('Post'));
         $msg = model('Password')->returnNews($code);
-        if(is_int($registerReturn)){
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg,
-            ]);
-        }else{
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg,
-                'data'=>$registerReturn['authCode']
-            ]);
+        if($code==200){
+            $authCode = model('Password')->findPasswordCheckCode(req('Post')['phone']);
+            if(!empty($authCode)){
+                $this->AjaxReturn([
+                    'code' => $code,
+                    'msg'  => $msg,
+                    'data' =>$authCode
+                ]);
+            }
+            $code = -200;
         }
+        $this->AjaxReturn([
+            'code' => $code,
+            'msg' => $msg,
+        ]);
     }
 
     public function doIndex()

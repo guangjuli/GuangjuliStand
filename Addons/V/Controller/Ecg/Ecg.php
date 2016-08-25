@@ -18,21 +18,32 @@ class Ecg
     //依据时间戳删除心电记录
     public function doDeleteecglogbytimestampPost()
     {
-        $code = model('Ecg')->deleteEcgLogByTimestamp(req('Post')['time']);
+        $boolean = model('Ecg')->deleteEcgLogByTimestamp(req('Post')['time']);
+        if($boolean){
+            $this->AjaxReturn([
+                'code' => 200
+            ]);
+        }
         $this->AjaxReturn([
-            'code' => $code
+            'code' => -200
         ]);
     }
 
     //依据日期删除心电记录
     public function doDeleteecglogbydatePost()
     {
-        $code = model('Ecg')->deleteEcgLogByDate(req('Post')['createDay']);
+        $boolean = model('Ecg')->deleteEcgLogByDate(req('Post')['createDay']);
+        if($boolean){
+            $this->AjaxReturn([
+                'code' => 200
+            ]);
+        }
         $this->AjaxReturn([
-            'code' => $code
+            'code' => -200
         ]);
     }
 
+    //TODO:待修改
     public function doUploadecglogPost()
     {
         D(bus('tokenInfo'));

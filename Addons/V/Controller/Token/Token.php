@@ -21,10 +21,12 @@ class Token
             if (empty($token)) {
                 $this->AjaxReturn([
                     'code' => -200,
-                    'msg' => '获取失败',
-                    'data' => "" ]);
+                    'msg' => '获取失败'
+                ]);
             } else {
                 $this->AjaxReturn([
+                    'code' =>200,
+                    'msg' =>'Succeed',
                     'data' => $token
                 ]);
             }
@@ -34,6 +36,14 @@ class Token
                 'msg' => '没有权限',
                 ]);
         }
+    }
+
+    public function doIndex()
+    {
+        view('',[
+                'verify'=>md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800')
+        ]
+        );
     }
 
 }

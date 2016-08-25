@@ -17,7 +17,11 @@ class Device implements ModelInterface
     {
         // TODO: Implement depend() method.
     }
-
+    /**
+     * 插入设备
+     * @param $array
+     *@return boolean
+     */
     public function insertDevice(Array $array)
     {
         $insert = server('Db')->autoExecute('device', $array, 'INSERT');

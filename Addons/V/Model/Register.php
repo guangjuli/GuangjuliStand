@@ -41,6 +41,11 @@ class Register implements ModelInterface
         return $return;
     }
 
+    /**
+     * 校验注册请求
+     * @param $req
+     * @return int
+     */
     public function validateRegisterReq(Array $req)
     {
         //验证请求参数
@@ -63,6 +68,10 @@ class Register implements ModelInterface
         return $code = 200;
     }
 
+    /**
+     * 校验注册请求
+     * @return boolean
+     */
     public function register(){
         if(!bus('register'))return false;
         $register = bus('register');
@@ -73,23 +82,32 @@ class Register implements ModelInterface
           'device'=>$register['device']
         ];
         $checkIsInsert = model('Device')->insertDevice($device);
-        if(!$checkIsInsert)return -200;
-        return 200;
+        if(!$checkIsInsert)return false;
+        return true;
     }
 
-    //注册短信验证码
-    public function registerCheckCode($req)
+    /**
+     * 注册短信验证码
+     * @param array $req
+     * @return int
+     */
+    public function registerCheckCodeValidateReq(Array $req)
     {
         $field = ['phone','verify','time','deviceId'];
         if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
         if(model('User')->isExistUserByLogin($req['phone']))return -400;
-        $authCode = model('Sms','register')->sendMessage($req['phone']);
-        if(!$authCode) return -208;
-        $return = [
-            'code'=>200,
-            'authCode'=>$authCode
-        ];
-        return $return;
+        return 200;
+    }
+
+    /**
+     * 注册短信验证码
+     * @param int $phone
+     * @return int
+     */
+    public function registerCheckCode($phone)
+    {
+        $authCode = model('Sms','register')->sendMessage($phone);
+        return $authCode?$authCode:null;
     }
 
 }
