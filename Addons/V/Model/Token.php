@@ -99,7 +99,7 @@ class Token implements ModelInterface
         if(!$token)return [];
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return [];
-        $enableTime = intval($tokenInfo['createAt'])+intval($this->expires);
+        $enableTime = intval($tokenInfo['createAt'])+intval($tokenInfo['expireIn']);
         if($enableTime<time())return [];
         return $tokenInfo;
     }
@@ -139,6 +139,7 @@ class Token implements ModelInterface
         $res['accessToken'] = bus('token')['token'];
         $res['type']        = bus('token')['type'];
         $res['createAt']    = time();
+        $res['expireIn']    = intval($this->expires);
         $insert = server('Db')->autoExecute('token', $res, 'UPDATE', '`userId`='.bus('token')['userId']);
         $check = $insert?true:false;
         return $check;
@@ -155,6 +156,7 @@ class Token implements ModelInterface
         $res['accessToken'] = bus('token')['token'];
         $res['type']        = bus('token')['type'];
         $res['createAt']    = time();
+        $res['expireIn']    = intval($this->expires);
         $insert = server('Db')->autoExecute('token', $res, 'INSERT');
         $check = $insert?true:false;
         return $check;

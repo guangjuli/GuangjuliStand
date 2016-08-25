@@ -28,4 +28,10 @@ class Device implements ModelInterface
         $check = $insert?true:false;
         return $check;
     }
+
+    public function getDeviceTypeMap()
+    {
+        $map = server('Db')->getMap("select deviceTypeId,type from device_type");
+        return $map?$map:[];
+    }
 }

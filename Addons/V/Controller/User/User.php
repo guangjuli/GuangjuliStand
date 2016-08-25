@@ -150,7 +150,7 @@ class User
 
     public function doIndex()
     {
-        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800');
+        $verify = md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104871471276800');
         view('',[
             'verify'=> $verify
         ]);
