@@ -73,6 +73,17 @@ return [
         ]
     ],
 
+    //不用校验Token的方法
+    'api_needlessCheckTokenMethod'=>[
+        'V'=>[
+            'Index',
+            'Accesstoken',
+            'Register',
+            'Findpassword',
+            'Registerauthcode',
+            'Findpsdauthcode',
+        ],
+    ],
 
 ];
 

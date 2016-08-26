@@ -9,8 +9,18 @@
 namespace Addons\Model;
 
 
-class Ecg
+use Grace\Base\ModelInterface;
+
+class Ecg  implements ModelInterface
 {
+    public function depend()
+    {
+        return[
+          'Server::Db',
+            
+        ];
+    }
+
     /**
      * 按时间戳删除心电记录
      * @param $time

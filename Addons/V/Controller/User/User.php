@@ -1,16 +1,22 @@
 <?php
 
 namespace Addons\Controller;
-use Addons\Model\AjaxReturn;
+
 /**
  * Created by PhpStorm.
  * User: Administrator
  * Date: 2016-08-18
  * Time: 11:59
  */
-class User
+class User extends BaseController
 {
 
+    use \Addons\Traits\AjaxReturn;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function doUserinfosubmitPost()
     {
         $msg = model('User')->paramsConfig()['returnNews'];
@@ -18,18 +24,18 @@ class User
         if($code==200){
             $check = model('User')->updateUserByUserId(req('Post'));
             if($check){
-                AjaxReturn::AjaxReturn([
+                $this->AjaxReturn([
                     'code' => $code,
                     'msg' => $msg[$code],
                 ]);
             }else{
-                AjaxReturn::AjaxReturn([
+                $this->AjaxReturn([
                     'code' => -200,
                     'msg' => $msg[-200],
                 ]);
             }
         }else{
-            AjaxReturn::AjaxReturn([
+            $this->AjaxReturn([
                 'code' => $code,
                 'msg' => $msg[$code],
             ]);
@@ -40,13 +46,13 @@ class User
     {
         $userInfo=model('User')->getUserInfoByToken();
         if(!empty($userInfo)){
-            AjaxReturn::AjaxReturn([
+            $this->AjaxReturn([
                 'code'=>200,
                 'msg'=>'Succeed',
                 'data'=>$userInfo
             ]);
         }else{
-            AjaxReturn::AjaxReturn([
+            $this->AjaxReturn([
                 'code' => -200,
             ]);
         }
@@ -60,7 +66,7 @@ class User
         if($code==200){
             $code = model('User')->saveImagePathToDb()?200:-200;
         }
-        AjaxReturn::AjaxReturn([
+        $this->AjaxReturn([
             'code'=>$code,
             'msg'=>$msg[$code],
         ]);
@@ -74,7 +80,7 @@ class User
             $boolean=model('Register')->register();
             $code = $boolean?200:-200;
         }
-        AjaxReturn::AjaxReturn([
+        $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg,
         ]);
@@ -87,7 +93,7 @@ class User
         if($code==200){
              $code = model('Password')->resetPassword(req('Post')['password'])?200:-200;
         }
-        AjaxReturn::AjaxReturn([
+        $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg[$code],
         ]);
@@ -100,7 +106,7 @@ class User
         if($code==200){
             $code = model('Password')->findPassword(req('Post')['password'])?200:-200;
         }
-        AjaxReturn::AjaxReturn([
+        $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg[$code],
         ]);
@@ -113,7 +119,7 @@ class User
         if($code==200){
             $authCode = model('Register')->registerCheckCode(req('Post')['phone']);
             if(!empty($authCode)){
-                AjaxReturn::AjaxReturn([
+                $this->AjaxReturn([
                     'code' => $code,
                     'msg'  => $msg,
                     'data' =>$authCode
@@ -122,7 +128,7 @@ class User
             $code = -200;
             $msg = 'error';
         }
-        AjaxReturn::AjaxReturn([
+        $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg,
         ]);
@@ -135,7 +141,7 @@ class User
         if($code==200){
             $authCode = model('Password')->findPasswordCheckCode(req('Post')['phone']);
             if(!empty($authCode)){
-                AjaxReturn::AjaxReturn([
+                $this->AjaxReturn([
                     'code' => $code,
                     'msg'  => $msg,
                     'data' =>$authCode
@@ -144,7 +150,7 @@ class User
             $code = -200;
             $msg = 'error';
         }
-        AjaxReturn::AjaxReturn([
+        $this->AjaxReturn([
             'code' => $code,
             'msg' => $msg,
         ]);

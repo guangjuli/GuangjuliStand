@@ -9,10 +9,13 @@
 namespace Addons\Model;
 
 
+use Addons\Traits\AjaxReturn;
 use Grace\Base\ModelInterface;
 
 class Token implements ModelInterface
 {
+    use AjaxReturn;
+
     private $config=array();
     private $clientSecret='';
     private $expires='';
@@ -177,6 +180,28 @@ class Token implements ModelInterface
         //TODO: 校验设备编号正确性
         if ($verify != MD5($deviceId . $this->clientSecret . $login . $time))return false;
         return true;
+    }
+
+
+    public function verifyToken($token)
+    {
+        $router = req()['Router'];
+        $module = server()->Config('Config')['api_needlessCheckTokenMethod'][$router['module']];
+        if($module){
+            if(!in_array($router['mothed'],$module)){
+                $tokenInfo =$this->isEnableToken($token);
+                if($tokenInfo){
+                    bus([
+                        'tokenInfo'=>$tokenInfo
+                    ]);
+                }else{
+                    $this->AjaxReturn([
+                        'code'=>-500,
+                        'msg'=>'token is not in a valid'
+                    ]);
+                }
+            }
+        }
     }
 
 
