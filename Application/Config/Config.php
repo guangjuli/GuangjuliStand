@@ -73,18 +73,6 @@ return [
         ]
     ],
 
-    //不用校验Token的方法
-    'needlessCheckTokenMethod'=>[
-        'V'=>[
-            'Index',
-            'Accesstoken',
-            'Register',
-            'Findpassword',
-            'Registerauthcode',
-            'Findpsdauthcode',
-        ],
-        "Admin"=>[],
-    ],
 
 ];
 
