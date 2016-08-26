@@ -103,7 +103,7 @@ class Register implements ModelInterface
     public function registerCheckCodeValidateReq(Array $req)
     {
         $field = ['phone','verify','time','deviceId'];
-        if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
+        if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -205;
         if(model('User')->isExistUserByLogin($req['phone']))return -401;
         return 200;
     }
