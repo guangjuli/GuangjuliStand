@@ -29,11 +29,10 @@ class Gate implements ModelInterface
                'tokenInfo'=>$tokenInfo
             ]);
        }else{
-           $res['code']=-500;
-           $res['msg'] = 'token is not in a valid';
-           $res['data']='';
-           echo json_encode($res);
-           exit;
+           AjaxReturn::AjaxReturn([
+              'code'=>-500,
+               'msg'=>'token is not in a valid'
+           ]);
        }
     }
 

@@ -9,18 +9,18 @@
 namespace Addons\Controller;
 
 
-use Addons\Traits\AjaxReturn;
+
+use Addons\Model\AjaxReturn;
 
 class Bloodpress
 {
-    use  AjaxReturn;
-
     //依据时间戳删除血压记录
     //必须经过model('Gate')->verifyToken()
     public function doDeletebloodlogbytimestampPost()
     {
-        $code = model('Bloodpress')->deleteBloodLogByTimestamp(req('Post')['time']);
-        $this->AjaxReturn([
+        $boolean = model('Bloodpress')->deleteBloodLogByTimestamp(req('Post')['time']);
+        $code = $boolean?200:-200;
+        AjaxReturn::AjaxReturn([
             'code' => $code
         ]);
     }
@@ -29,8 +29,9 @@ class Bloodpress
     //必须经过model('Gate')->verifyToken()
     public function doDeletebloodlogbydatePost()
     {
-        $code = model('Bloodpress')->deleteBloodLogByDate(req('Post')['createDay']);
-        $this->AjaxReturn([
+        $boolean = model('Bloodpress')->deleteBloodLogByDate(req('Post')['createDay']);
+        $code = $boolean?200:-200;
+        AjaxReturn::AjaxReturn([
             'code' => $code
         ]);
     }
@@ -38,11 +39,11 @@ class Bloodpress
     //上传血压测量记录
     public function doUploadbloodlogPost()
     {
-        $code = model('Bloodpress')->insertBloodLog(req('Post'));
-        $msg  = model('Bloodpress')->returnNews($code);
-        $this->AjaxReturn([
-            'code' => $code,
-            'msg'  => $msg
+        //未校验待存储参数
+        $boolean = model('Bloodpress')->insertBloodLog(req('Post'));
+        $code = $boolean?200:-200;
+        AjaxReturn::AjaxReturn([
+            'code' => $code
         ]);
     }
 
@@ -53,16 +54,16 @@ class Bloodpress
     public function doBloodlogbydateandtypePost()
     {
         //请求参数  createDay,type
-        $bloodInfoOrCode = model('Bloodpress')->getBloodLogByDateAndType(req('Post'));
-        if(is_int($bloodInfoOrCode)){
-            $this->AjaxReturn([
-                'code' => $bloodInfoOrCode
+        $bloodInfo = model('Bloodpress')->getBloodLogByDateAndType(req('Post'));
+        if(empty($bloodInfo)){
+            AjaxReturn::AjaxReturn([
+                'code' => -200
             ]);
         }
-        $this->AjaxReturn([
+        AjaxReturn::AjaxReturn([
             'code' =>200,
             'msg'  =>'succeed',
-            'data' => $bloodInfoOrCode
+            'data' => $bloodInfo
         ]);
     }
 
@@ -72,16 +73,16 @@ class Bloodpress
      */
     public function doGetbloodlinegraphbydatePost()
     {
-        $bloodInfoOrCode = model('Bloodpress')->getBloodLineGraphByDate(req('Post')['createDay']);
-        if(is_int($bloodInfoOrCode)){
-            $this->AjaxReturn([
-                'code' => $bloodInfoOrCode
+        $bloodInfo = model('Bloodpress')->getBloodLineGraphByDate(req('Post')['createDay']);
+        if(empty($bloodInfo)){
+            AjaxReturn::AjaxReturn([
+                'code' => -200
             ]);
         }
-        $this->AjaxReturn([
+        AjaxReturn::AjaxReturn([
             'code' =>200,
             'msg'  =>'succeed',
-            'data' => $bloodInfoOrCode
+            'data' => $bloodInfo
         ]);
     }
 
@@ -91,23 +92,36 @@ class Bloodpress
      */
     public function doGetbloodbargraphbydatePost()
     {
-        $bloodInfoOrCode=model('Bloodpress')->getBloodBarGraphByDate(req('Post')['createDay']);
-        if(is_int($bloodInfoOrCode)){
-            $this->AjaxReturn([
-                'code' => $bloodInfoOrCode
+        $bloodInfo=model('Bloodpress')->getBloodBarGraphByDate(req('Post')['createDay']);
+        if(empty($bloodInfo)){
+            AjaxReturn::AjaxReturn([
+                'code' => -200
             ]);
         }
-        $this->AjaxReturn([
+        AjaxReturn::AjaxReturn([
             'code' =>200,
             'msg'  =>'succeed',
-            'data' => $bloodInfoOrCode
+            'data' => $bloodInfo
         ]);
     }
 
+    /**
+     * doGetpiechartPost
+     *获取饼状图
+     */
     public function doGetpiechartPost()
     {
-        $data = model('Bloodpress')->getPieChartByDay(req('Post')['createDay'],req('Post')['day']);
-        D($data);
+        $pieChartInfo = model('Bloodpress')->getPieChartByDay(req('Post')['createDay'],req('Post')['day']);
+        if(empty($pieChartInfo)){
+            AjaxReturn::AjaxReturn([
+                'code' => -200
+            ]);
+        }
+        AjaxReturn::AjaxReturn([
+            'code' =>200,
+            'msg'  =>'succeed',
+            'data' => $pieChartInfo
+        ]);
     }
     public function doIndex()
     {
