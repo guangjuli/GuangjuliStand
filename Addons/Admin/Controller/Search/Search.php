@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace Addons\Controller;
 
 
 class Search extends BaseController {

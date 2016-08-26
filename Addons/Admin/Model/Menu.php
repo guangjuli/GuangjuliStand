@@ -227,19 +227,19 @@ class Menu implements \Grace\Base\ModelInterface
 
 //        $arr = $this->menuLib();
         $arr = Model('DataMysql')->menuLib();
-
+        $bpath = '/'.strtolower(req('Router')['module']).'/';
         //添加 path / ca / breadcrumb / breadcrumbtop 属性
         //三层
         foreach ($arr as $k => $v) {
             //对一级菜单进行处理
             $arr[$k]['ca'] = strtolower($v['ca']);
-            $arr[$k]['path'] =  '/'.str_replace('.','/',$arr[$k]['ca']);
+            $arr[$k]['path'] =  $bpath.str_replace('.','/',$arr[$k]['ca']);
 
             if ($v['child']) {
                 foreach ($v['child'] as $kk => $vv) {
                     //对二级菜单进行处理
                     $arr[$k]['child'][$kk]['ca'] = strtolower($vv['ca']);
-                    $arr[$k]['child'][$kk]['path'] = '/'.str_replace('.','/',$arr[$k]['child'][$kk]['ca']);
+                    $arr[$k]['child'][$kk]['path'] = $bpath.str_replace('.','/',$arr[$k]['child'][$kk]['ca']);
                     $arr[$k]['child'][$kk]['breadcrumb']['title'] = $arr[$k]['title'];
                     $arr[$k]['child'][$kk]['breadcrumb']['path'] = $arr[$k]['path'];
 
@@ -249,11 +249,11 @@ class Menu implements \Grace\Base\ModelInterface
                             $arr[$k]['child'][$kk]['child'][$kkk]['ca']  = strtolower($vvv['ca']);
                             //创建访问路径
 
-                            $arr[$k]['child'][$kk]['child'][$kkk]['path'] = '/'.str_replace('.','/',$arr[$k]['child'][$kk]['child'][$kkk]['ca']);
+                            $arr[$k]['child'][$kk]['child'][$kkk]['path'] = $bpath.str_replace('.','/',$arr[$k]['child'][$kk]['child'][$kkk]['ca']);
 
                             //最后一层需要判断ext是否存在
                             if($arr[$k]['child'][$kk]['child'][$kkk]['ext']){
-                                $arr[$k]['child'][$kk]['child'][$kkk]['path'] = '/'.str_replace('.','/',$arr[$k]['child'][$kk]['child'][$kkk]['ca']).'/'.$arr[$k]['child'][$kk]['child'][$kkk]['ext'];
+                                $arr[$k]['child'][$kk]['child'][$kkk]['path'] = $bpath.str_replace('.','/',$arr[$k]['child'][$kk]['child'][$kkk]['ca']).'/'.$arr[$k]['child'][$kk]['child'][$kkk]['ext'];
                             }
                             $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumb']['path'] = $arr[$k]['child'][$kk]['path'];
                             $arr[$k]['child'][$kk]['child'][$kkk]['breadcrumb']['title'] = $arr[$k]['child'][$kk]['title'];
