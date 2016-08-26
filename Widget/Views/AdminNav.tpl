@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">ADM</a>
+            <a class="navbar-brand" href="/admin/">ADM</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
@@ -23,7 +23,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#"><span class=" glyphicon glyphicon-th-list" ></span> Map</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-menu-hamburger" ></span> Help</a></li>
-                        <li><a href="/login/logout"><span class="glyphicon glyphicon-off" ></span> 退出</a></li>
+                        <li><a href="/admin/login/logout"><span class="glyphicon glyphicon-off" ></span> 退出</a></li>
                     </ul>
                 </li>
             </ul>

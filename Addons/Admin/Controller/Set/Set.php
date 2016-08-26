@@ -28,7 +28,7 @@ class Set extends BaseController
         ];
         //保存
         application('data')->set('AdminGuiConfig', $res);
-        R('/Set/gui');
+        R('/admin/Set/gui');
     }
 
     public function doGui()

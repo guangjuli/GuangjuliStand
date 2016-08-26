@@ -16,6 +16,5 @@ class Home extends BaseController
     {
         //view();
     }
-
-
+    
 }

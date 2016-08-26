@@ -29,7 +29,7 @@
             <div style="margin: 0px 0px 20px 0px;"></div>
             <!-- content -->
             <div class="row">
-                    <form class="form-horizontal" method="post" action="">
+                    <form class="form-horizontal" method="post" action="/admin/api/list/edit">
                         <div class="col-md-6 ">
 
                             <div class="form-group">
