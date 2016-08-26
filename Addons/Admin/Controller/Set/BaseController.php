@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace Addons\Controller;
 
 
 //hook

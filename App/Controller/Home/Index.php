@@ -2,7 +2,8 @@
 namespace App\Controller;
 
 
-class Home extends BaseController {
+class Home extends BaseController
+{
 
     public function __construct(){
         parent::__construct();
@@ -11,10 +12,9 @@ class Home extends BaseController {
     /**
      * 后台首页
      */
-    public function doData()
+    public function doIndex()
     {
-        view();
+        //view();
     }
-
-
+    
 }

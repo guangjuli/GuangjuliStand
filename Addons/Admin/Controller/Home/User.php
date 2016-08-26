@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace Addons\Controller;
 
 
 class Home extends BaseController {

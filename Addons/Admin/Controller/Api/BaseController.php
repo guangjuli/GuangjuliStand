@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace Addons\Controller;
 
 
 //hook
@@ -9,7 +9,7 @@ class BaseController{
     public function __construct(){
         //监测登录状态
         if(!Model('gate')->AdminAuth_isLogin()){
-            R('/login');
+            R('/admin/login');
         }
         //Model('My')->ini();
     }
