@@ -15,7 +15,9 @@ class Device implements ModelInterface
 {
     public function depend()
     {
-        // TODO: Implement depend() method.
+        return[
+          'Server::Db'
+        ];
     }
     /**
      * 插入设备
