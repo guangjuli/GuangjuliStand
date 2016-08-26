@@ -5,7 +5,8 @@
 return [
 
         'Welcome',
-        'V'
+    'V',
+    'Admin',
 
 
 ];
