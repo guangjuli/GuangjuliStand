@@ -12,6 +12,7 @@ return [
         'Application'=>'Application.php',
         'Addons'    =>'Addons.php',
         'App'       =>'App.php',
+        'V'       =>'V.php',
         //对象配置
         'Db'        => 'Db.php',
         'Cookies'   => 'Cookies.php',
