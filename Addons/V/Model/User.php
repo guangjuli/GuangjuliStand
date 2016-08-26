@@ -24,6 +24,12 @@ class User implements ModelInterface
         ];
     }
 
+    /**
+     * getUserByLogin
+     * 根据login获取用户信息
+     * @param string $login
+     * @return array
+     */
     public function getUserByLogin($login)
     {
         $user = server('Db')->getRow("select * from user where login = '$login'");
@@ -32,7 +38,8 @@ class User implements ModelInterface
     }
     /**
      * 判断用户是否存在
-     *
+     * @param string $login
+     * @return boolean
      */
     public function isExistUserByLogin($login)
     {
@@ -41,6 +48,11 @@ class User implements ModelInterface
         return $check;
     }
 
+    /**
+     * 插入用户
+     * @param array $array
+     * @return boolean
+     */
     public function insertUser(Array $array)
     {
         $insert = server('Db')->autoExecute('user', $array, 'INSERT');
@@ -48,22 +60,32 @@ class User implements ModelInterface
         return $check;
     }
 
+    /**
+     * 插入用户返回id
+     * @param array $array
+     * @return int
+     */
     public function insertUserReturnId(Array $array)
     {
-        $userId = '';
+        $userId = null;
         $insert = server('Db')->autoExecute('user', $array, 'INSERT');
         if($insert)$userId = server('Db')->insert_id();
         return $userId;
     }
 
+    /**
+     * 插入用户返回id
+     * @param array $array
+     * @param int $userId
+     * @return boolean
+     */
     public function updateUserByUserId(Array $array,$userId=null)
     {
         $userId = intval($userId)?:bus('tokenInfo')['userId'];
         //TODO: 为获取到userId错误提示
         if(!$userId) return false;
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
-        $check = $insert?true:false;
-        return $check;
+        return $insert?true:false;
     }
 
     public function paramsConfig()
@@ -84,6 +106,11 @@ class User implements ModelInterface
         ];
     }
 
+    /**
+     * 校验用户请求
+     * @param array $req
+     * @return int
+     */
     public function validateUserReq($req)
     {
         $req['gender']=intval($req['gender']);
@@ -95,37 +122,46 @@ class User implements ModelInterface
     }
 
     //TODO:待指定详细返回值
+    /**
+     * 依据token获取用户信息
+     * @return array
+     */
     public function getUserInfoByToken()
     {
         $filed=['trueName','login','gravatar','gender','birthday','height'];
         $filed = implode(',',$filed);
         $userId = bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
-        if($userInfo){
-            return $userInfo;
-        }
-        return false;
+        return $userInfo?$userInfo:[];
     }
 
-    public function getUserInfoByUserId()
+    /**
+     * 根据userId获取用户信息
+     * @return array
+     */
+    public function getUserInfoByUserId($userId=null)
     {
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $userId?$userId:bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select * from user where userId = $userId");
-        if($userInfo){
-            return $userInfo;
-        }
-        return false;
+        return $userInfo?$userInfo:[];
     }
 
-
+    /**
+     * 上传图片
+     * @param $file
+     * @return int
+     */
     public function uploadHeadImage($file)
     {
         $config = server()->Config('Config')['uploadHeadImage'];
         $code=model('Upload',$config)->upload($file);
-        if(is_string($code)){
-            $code = $this->updateUserByUserId(['gravatar'=>$code])?200:-202;
-        }
         return $code;
+    }
+
+    public function saveImagePathToDb()
+    {
+        $path = model('Upload')->uploadPath();
+        return $this->updateUserByUserId(['gravatar'=>$path])?true:false;
     }
 
 }

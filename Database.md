@@ -58,8 +58,7 @@ INSERT INTO `api_log` (`id`, `api`, `code`, `msg`, `data`, `time`, `_GET`, `_POS
 -- 表的结构 `bloodpress`
 --
 
-
-CREATE TABLE   `bloodpress` (
+CREATE TABLE IF NOT EXISTS `bloodpress` (
   `bloodpressId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `shrink` int(5) NOT NULL,
@@ -68,6 +67,7 @@ CREATE TABLE   `bloodpress` (
   `type` int(2) NOT NULL DEFAULT '0',
   `time` int(11) NOT NULL,
   `createDay` int(11) NOT NULL,
+  `day` int(1) NOT NULL COMMENT '1:day,0:night',
   `sort` int(11) NOT NULL DEFAULT '0',
   `active` int(2) NOT NULL DEFAULT '0',
   `des` varchar(128) DEFAULT NULL,
@@ -83,8 +83,29 @@ CREATE TABLE IF NOT EXISTS `device` (
   `deviceId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `device` varchar(128) NOT NULL,
+  `deviceTypeId` int(11) NOT NULL,
   PRIMARY KEY (`deviceId`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `device_type`
+--
+
+CREATE TABLE IF NOT EXISTS `device_type` (
+  `deviceTypeId` int(11) NOT NULL AUTO_INCREMENT,
+  `type` char(11) NOT NULL,
+  PRIMARY KEY (`deviceTypeId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `device_type`
+--
+
+INSERT INTO `device_type` (`deviceTypeId`, `type`) VALUES
+(1, 'bloodpress'),
+(2, 'ecg'),
+(3, 'watch');
+
 
 --
 -- 表的结构 `token`

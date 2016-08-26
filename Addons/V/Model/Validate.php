@@ -18,6 +18,13 @@ class Validate implements ModelInterface
         // TODO: Implement depend() method.
     }
 
+    /**
+     * 校验数字字母及位数
+     * @param string $str
+     * @param int $min
+     * @param int $max
+     * @return boolean
+     */
     public function validateNumberLetter($str,$min=null,$max=null)
     {
         $min = $min?:5;
@@ -26,7 +33,12 @@ class Validate implements ModelInterface
         return (preg_match($preg,$str))?true:false;
     }
 
-    //校验请求参数存在性和非空
+    /**
+     * 校验请求参数存在性和非空
+     * @param array $field
+     * @param array $field
+     * @return boolean
+     */
     public function validateParams($field=[],Array $req)
     {
         if(!$this->isExistParams($field,$req))return false;
@@ -34,7 +46,11 @@ class Validate implements ModelInterface
         return true;
     }
 
-    //验证数组中是否存在空值
+    /**
+     * 验证数组中是否存在空值
+     * @param array $array
+     * @return boolean
+     */
     public function isEmpty(Array $array)
     {
         if(!is_array($array))return false;
@@ -59,8 +75,14 @@ class Validate implements ModelInterface
         return true;
     }
 
-    //检验请求参数数据类型是否正确
-    //可以用来校验参数是否存在及数据类型
+    /**
+     * 检验请求参数数据类型是否正确
+     * @param array $req
+     * @param array $string
+     * @param array $int
+     * @param array $array
+     * @return array
+     */
     public function validateParamsType(Array $req,$string=[],$int=[],$array=[])
     {
         $result = array();

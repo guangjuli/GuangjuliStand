@@ -32,10 +32,14 @@ class Sms implements ModelInterface
         $this->curlopt_url = $this->config[$configHandle]['curlopt_url'];
     }
 
+    /**
+     * 发送短信
+     * @return int
+     */
     public function sendMessage($mobile)
     {
         $array_data = $this->useThreeApiSend($mobile);
-        return $array_data['code']==1?$array_data['authCode']:false;
+        return $array_data['code']==1?$array_data['authCode']:null;
     }
 
     //验证码

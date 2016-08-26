@@ -11,8 +11,13 @@ namespace Addons\Model;
 
 class Usergroup
 {
+    /**
+     * 获取用户组map集合
+     * @return array
+     */
     public function getMapUserGroup()
     {
-        return server('Db')->getMap("select groupId,groupName from user_group");
+       $map = server('Db')->getMap("select groupId,groupName from user_group");
+       return $map?$map:[];
     }
 }
