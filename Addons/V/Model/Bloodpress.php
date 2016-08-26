@@ -63,7 +63,7 @@ class Bloodpress
      */
     public function getBloodLogByDateAndType(Array $req)
     {
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $req['userId']?:bus('tokenInfo')['userId'];
         $type = intval($req['type']);
         $createDay = intval($req['createDay']);
         $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay from bloodpress where `userId`=$userId and `type`=$type and `createDay`=$createDay");
@@ -77,9 +77,9 @@ class Bloodpress
      * 1:白天，0：晚上，折线图未用到，方便饼状图使用
      * @return array
      */
-    public function getBloodLineGraphByDate($createDay,$day=null)
+    public function getBloodLineGraphByDate($createDay,$day=null,$userId=null)
     {
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $userId?:bus('tokenInfo')['userId'];
         $createDay = intval($createDay);
         //$peiChart是饼状图所查询条件，此处并未使用
         $peiChart = $day||$day===0?"and `day`=$day":'';
@@ -103,9 +103,9 @@ class Bloodpress
      * 1:白天，0：晚上，柱状图未用到，方便饼状图使用
      * @return array
      */
-    public function getBloodBarGraphByDate($createDay,$day=null)
+    public function getBloodBarGraphByDate($createDay,$day=null,$userId=null)
     {
-        $bloodInfo=$this->getBloodLineGraphByDate($createDay,$day);
+        $bloodInfo=$this->getBloodLineGraphByDate($createDay,$day,$userId);
         if(!$bloodInfo)return [];
         $data = $this->barGraphAlgorithm($bloodInfo);
         return $data?$data:[];
@@ -233,15 +233,4 @@ class Bloodpress
         return $result?$result:[];
     }
 
-    public function returnNews($code=null)
-    {
-        $config = [
-          200=>'Succeed',
-          -200=>'error',
-          -201=>'缺失重要参数',
-          -202=>'存在格式不正确参数',
-          -203=>'System Exception'
-        ];
-        return $code?$config[$code]:$config;
-    }
 }

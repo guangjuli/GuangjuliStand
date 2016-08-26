@@ -30,7 +30,7 @@ class Upload implements ModelInterface
      * @param $isNeedHttp
      * @return int
      */
-    public function upload($file,$isNeedHttp='Yes')
+    public function upload($file)
     {
         if (empty($file['name']))return -101;
         if($file['size'] >$this->sizeLimit) return -200;
@@ -45,9 +45,8 @@ class Upload implements ModelInterface
         $target_path = $directory . md5($file['name']. microtime() . rand(1000000, 9999999)) . '.' . $extName;
         //上传开始
         if (move_uploaded_file($file['tmp_name'], $target_path)) {
-            $path = $this->isAbsolutePath($target_path,$isNeedHttp);
             bus([
-               'uploadPath'=>$path
+               'uploadPath'=>$target_path
             ]);
             return 200;
         } else {
@@ -55,9 +54,11 @@ class Upload implements ModelInterface
         }
     }
 
-    public function uploadPath()
+    public function uploadPath($isNeedHttp='Yes')
     {
-        return bus('uploadPath');
+        $isNeedHttp = $isNeedHttp=='Yes'?'Yes':'No';
+        $path = $this->isAbsolutePath(bus('uploadPath'),$isNeedHttp);
+        return $path;
     }
 
     private function isAbsolutePath($target_path,$need='Yes')

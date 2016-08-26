@@ -24,7 +24,7 @@ class Register implements ModelInterface
         ];
     }
 
-    public function registerConfig($code='')
+    public function registerConfig($code=null)
     {
         $config = [
             200  =>'succeed',
@@ -50,7 +50,7 @@ class Register implements ModelInterface
     public function validateRegisterReq(Array $req)
     {
         //验证请求参数
-        $field = ['verify','time','deviceId','phone','password','type'];
+        $field = ['verify','time','deviceId','phone','password','type','deviceType'];
         if(!model('Validate')->validateParams($field,$req))return $code = -204;
         if(!model('Token')->verify($req))return $code = -205;
         if(!model('Validate')->validateNumberLetter($req['password']))return $code = -203;
@@ -69,8 +69,8 @@ class Register implements ModelInterface
             'password'=>$req['password'],
             'groupId'=>$type,
             $device =>1,
-            ],
             'deviceTypeId'=>$req['deviceType']
+            ],
         ]);
         return $code = 200;
     }
@@ -79,15 +79,16 @@ class Register implements ModelInterface
      * 注册
      * @return boolean
      */
-    public function register(){
-        if(!bus('register'))return false;
-        $register = bus('register');
+    public function register($register=[]){
+        $register = $register?$register:bus('register');
+        if(!$register)return false;
+        $register['login']=$register['login']?:$register['phone'];
         $userId = model('User')->insertUserReturnId($register);
         if(empty($userId))return false;
         $device = [
           'userId'=>$userId,
           'device'=>$register['device'],
-          'deviceTypeId'=>bus('deviceTypeId')
+          'deviceTypeId'=>$register['deviceTypeId']
         ];
         $checkIsInsert = model('Device')->insertDevice($device);
         if(!$checkIsInsert)return false;
@@ -103,7 +104,7 @@ class Register implements ModelInterface
     {
         $field = ['phone','verify','time','deviceId'];
         if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -207;
-        if(model('User')->isExistUserByLogin($req['phone']))return -400;
+        if(model('User')->isExistUserByLogin($req['phone']))return -401;
         return 200;
     }
 
@@ -114,8 +115,7 @@ class Register implements ModelInterface
      */
     public function registerCheckCode($phone)
     {
-        $authCode = model('Sms','register')->sendMessage($phone);
-        return $authCode?$authCode:null;
+        return model('Sms','register')->sendMessage($phone);
     }
 
 }

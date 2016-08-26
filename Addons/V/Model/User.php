@@ -139,9 +139,9 @@ class User implements ModelInterface
      * 根据userId获取用户信息
      * @return array
      */
-    public function getUserInfoByUserId()
+    public function getUserInfoByUserId($userId=null)
     {
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $userId?$userId:bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select * from user where userId = $userId");
         return $userInfo?$userInfo:[];
     }

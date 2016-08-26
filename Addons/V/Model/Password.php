@@ -60,9 +60,9 @@ class Password implements ModelInterface
      * @param $password
      * @return boolean
      */
-    public function resetPassword($password)
+    public function resetPassword($password,$userId=null)
     {
-        return model('User')->updateUserByUserId(['password'=>$password]);
+        return model('User')->updateUserByUserId(['password'=>$password],$userId);
     }
 
     /**
@@ -70,7 +70,7 @@ class Password implements ModelInterface
      * @param $req
      * @return int
      */
-    public function findPasswordValidateReq($req)
+    public function findPasswordValidateReq(Array $req)
     {
        $field = ['password','confirm_password','verify','time','deviceId'];
         //验证用户是否存在
@@ -95,9 +95,10 @@ class Password implements ModelInterface
      * @param $password
      * @return boolean
      */
-    public function findPassword($password)
+    public function findPassword($password,$userId=null)
     {
-        return model('User')->updateUserByUserId(['password'=>$password],bus('findPassword')['userId']);
+        $userId= $userId?:bus('findPassword')['userId'];
+        return model('User')->updateUserByUserId(['password'=>$password],$userId);
     }
 
     /**

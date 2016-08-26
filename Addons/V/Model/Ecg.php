@@ -51,11 +51,12 @@ class Ecg
     {
         //上传心电文件
         $config = server()->Config('Config')['uploadEcg'];
-        $pathOrCode=model('Upload',$config)->upload($file,'No');
-        if(!is_string($pathOrCode)) return $pathOrCode;
+        $code=model('Upload',$config)->upload($file);
+        if($code!=200)return $code;
+        $path = model('Upload',$config)->uploadPath('No');
         //上传成功存储数据库
         $req['story']['userId'] = bus('tokenInfo')['userId'];
-        $req['story']['savePath'] = $pathOrCode;
+        $req['story']['savePath'] = $path;
         $check = server('Db')->autoExecute('ecg',$req['story'], 'INSERT');
         $check = $check?true:false;
         return $check;
