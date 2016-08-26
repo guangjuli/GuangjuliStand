@@ -83,8 +83,29 @@ CREATE TABLE IF NOT EXISTS `device` (
   `deviceId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `device` varchar(128) NOT NULL,
+  `deviceTypeId` int(11) NOT NULL,
   PRIMARY KEY (`deviceId`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `device_type`
+--
+
+CREATE TABLE IF NOT EXISTS `device_type` (
+  `deviceTypeId` int(11) NOT NULL AUTO_INCREMENT,
+  `type` char(11) NOT NULL,
+  PRIMARY KEY (`deviceTypeId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `device_type`
+--
+
+INSERT INTO `device_type` (`deviceTypeId`, `type`) VALUES
+(1, 'bloodpress'),
+(2, 'ecg'),
+(3, 'watch');
+
 
 --
 -- 表的结构 `token`

@@ -1,8 +1,8 @@
 <?php
 
 namespace Addons\Controller;
-use Addons\Traits\AjaxReturn;
 
+use Addons\Model\AjaxReturn;
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -11,29 +11,30 @@ use Addons\Traits\AjaxReturn;
  */
 class Token
 {
-    use AjaxReturn;
+
 
     public function doAccesstokenPost()
     {
-        $req = req('Post');
-        if(model('token')->validateTokenReq($req)){
-            $token = model('Token')->accessToken(req('Post'));
-            if (empty($token)) {
-                $this->AjaxReturn([
-                    'code' => -200,
-                    'msg' => '获取失败',
-                    'data' => "" ]);
-            } else {
-                $this->AjaxReturn([
-                    'data' => $token
-                ]);
-            }
+        $token = model('Token')->accessToken(req('Post'));
+        if(empty($token)){
+            AjaxReturn::AjaxReturn([
+               'code'=>-200
+            ]);
         }else{
-            $this->AjaxReturn([
-                'code' => -201,
-                'msg' => '没有权限',
-                ]);
+            AjaxReturn::AjaxReturn([
+               'code'=>200,
+                'msg'=>'Succeed',
+                'data'=>$token
+            ]);
         }
+    }
+
+    public function doIndex()
+    {
+        view('',[
+                'verify'=>md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800')
+        ]
+        );
     }
 
 }
