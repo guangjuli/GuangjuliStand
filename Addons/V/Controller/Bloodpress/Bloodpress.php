@@ -127,8 +127,5 @@ class Bloodpress extends BaseController
             'data' => $pieChartInfo
         ]);
     }
-    public function doIndex()
-    {
-        view();
-    }
+
 }

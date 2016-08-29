@@ -8,14 +8,9 @@ namespace Addons\Controller;
  * Date: 2016-08-16
  * Time: 10:16
  */
-class Token extends BaseController
+class Token
 {
     use \Addons\Traits\AjaxReturn;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function doAccesstokenPost()
     {
@@ -31,14 +26,6 @@ class Token extends BaseController
                 'data'=>$token
             ]);
         }
-    }
-
-    public function doIndex()
-    {
-        view('',[
-                'verify'=>md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800')
-        ]
-        );
     }
 
 }

@@ -15,7 +15,6 @@ class User implements ModelInterface
 {
     public function depend()
     {
-        // TODO: Implement depend() method.
         return[
             'Model::Token',
             'Model::Validate',
@@ -33,8 +32,7 @@ class User implements ModelInterface
     public function getUserByLogin($login)
     {
         $user = server('Db')->getRow("select * from user where login = '$login'");
-        $user = $user?$user:[];
-        return $user;
+        return $user?:[];
     }
     /**
      * 判断用户是否存在
@@ -44,8 +42,7 @@ class User implements ModelInterface
     public function isExistUserByLogin($login)
     {
         $user = $this->getUserByLogin($login);
-        $check = empty($user)?false:true;
-        return $check;
+        return empty($user)?false:true;
     }
 
     /**
@@ -56,8 +53,7 @@ class User implements ModelInterface
     public function insertUser(Array $array)
     {
         $insert = server('Db')->autoExecute('user', $array, 'INSERT');
-        $check = $insert?true:false;
-        return $check;
+        return $insert?true:false;
     }
 
     /**
@@ -132,18 +128,33 @@ class User implements ModelInterface
         $filed = implode(',',$filed);
         $userId = bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
-        return $userInfo?$userInfo:[];
+        return $userInfo?:[];
     }
 
     /**
      * 根据userId获取用户信息
+     * @param $userId
      * @return array
      */
     public function getUserInfoByUserId($userId=null)
-    {
+    {   //参数设置
         $userId = $userId?$userId:bus('tokenInfo')['userId'];
+        $userId = intval($userId);
+        if(empty($userId)) return [];
+        //执行sql
         $userInfo = server('Db')->getRow("select * from user where userId = $userId");
-        return $userInfo?$userInfo:[];
+        return $userInfo?:[];
+    }
+
+    /**
+     * 判断用户是否存在
+     * @param int $userId
+     * @return boolean
+     */
+    public function isExistUserByUserId($userId)
+    {
+        $user = $this->getUserInfoByUserId($userId);
+        return empty($user)?false:true;
     }
 
     /**
@@ -153,7 +164,7 @@ class User implements ModelInterface
      */
     public function uploadHeadImage($file)
     {
-        $config = server()->Config('Config')['uploadHeadImage'];
+        $config = server()->Config('V')['uploadHeadImage'];
         $code=model('Upload',$config)->upload($file);
         return $code;
     }
