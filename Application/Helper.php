@@ -1,49 +1,14 @@
 <?php
 
 
-    //转交控制权,给view对象
-    if (! function_exists('assign')) {
-        function assign($key = null, $value = [])
-        {
-            return app('Smarty')->router(req('Router'))->assign($key, $value);
-        }
-    }
 
     /*
-    |-------------------------------------------------------
-    | 确定的函数
-    |-------------------------------------------------------
+     |-------------------------------------------------------
+     | 封装
+     |-------------------------------------------------------
     */
 
-    if (! function_exists('view')) {
-        function view($tpl = null, $data = [])
-        {
-            server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->display($tpl,$data);
-//            $views = server('View')->router(req('Router'));
-//            $views->display($tpl, $data);
-        }
-    }
-
-    if (! function_exists('fetch')) {
-        function fetch($tpl = null, $data = [])
-        {
-            return server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->fetch($tpl,$data);
-    //            $views = server('View')->router(req('Router'));
-    //            $views->display($tpl, $data);
-        }
-    }
-
-    if (! function_exists('WidgetView')) {
-        function WidgetView($tpl = null, $data = [])
-        {
-            $tpl = $tpl?ucfirst($tpl):sc('widget');
-            return server('Smarty')->path('../Widget/Views/')->router()->fetch('../'.$tpl,$data);
-        }
-    }
-
-
-
-/**
+    /**
      * 对APP application server 进行封装
      */
     if (! function_exists('app')) {
@@ -138,8 +103,7 @@
 
     /*
     |------------------------------------------------------
-    | @param $arr
-    | 取代print_r()的调试函数
+    | 系统 全局
     |------------------------------------------------------
     */
     if (! function_exists('D')) {
@@ -156,9 +120,36 @@
 
 
     /*
-    |------------------------------------------------------
-    | 对数据进行魔术变换
-    |------------------------------------------------------
+     * 调试用 终止,并且显示回溯
+     * */
+    function halt($str){
+        //Log::fatal($str.' debug_backtrace:'.var_export(debug_backtrace(), true));
+        headers();
+        if(dc('debug')){
+            echo "<pre>";
+            debug_print_backtrace();
+            echo "</pre>";
+        }
+        echo $str;
+        exit;
+    }
+    //输出头信息
+    function headers($st = '')
+    {
+        switch($st){
+            case "gbk":
+                header("Content-type: text/html; charset=GBK");
+                break;
+            default;
+                header("Content-type: text/html; charset=utf-8");
+                break;
+        }
+    }
+
+    /*
+     |------------------------------------------------------
+     | 对数据进行魔术变换
+     |------------------------------------------------------
     */
     function saddslashes($string) {
         if(is_array($string)) {
@@ -205,19 +196,12 @@
         }
     }
 
-    //输出头信息
-    function headers($st = '')
-    {
-        switch($st){
-            case "gbk":
-                header("Content-type: text/html; charset=GBK");
-                break;
-            default;
-                header("Content-type: text/html; charset=utf-8");
-            break;
-        }
-    }
 
+    /*
+    |------------------------------------------------------
+    | 频道 数据流
+    |------------------------------------------------------
+    */
     /*
     |------------------------------------------------------
     | 数据流 bus sc dc
@@ -252,27 +236,6 @@
         }
     }
 
-    /*
-     * 调试用 终止,并且显示回溯
-     * */
-    function halt($str){
-        //Log::fatal($str.' debug_backtrace:'.var_export(debug_backtrace(), true));
-        headers();
-        if(dc('debug')){
-            echo "<pre>";
-            debug_print_backtrace();
-            echo "</pre>";
-        }
-        echo $str;
-        exit;
-    }
-
-
-    /*
-    |------------------------------------------------------
-    | 频道 数据流
-    |------------------------------------------------------
-    */
     if (! function_exists('channel')) {
         function channel($channel,$args = 0,$key = '', $value = array())
         {
@@ -280,6 +243,18 @@
         }
     }
 
+
+    /**
+     * ===============================================
+     * ads相关
+     * ===============================================
+     */
+
+    /**
+     * @param string $ads
+     *
+     * @return string
+     */
     function gata($ads = '') {
         //获取数据 或页面widget
         //利用bus进行对象存储,避免多次实例化
@@ -287,29 +262,100 @@
         return $data;
     }
 
-    function adsdata($ads = '') {
+    /**
+     * @param string $ads
+     *
+     * @return string
+     */
+    function adsdata($ads = '',$params) {
         //获取数据 或页面widget
         //利用bus进行对象存储,避免多次实例化
-        $data =  \App\Ads::getInstance()->ads($ads);
+        $data =  \App\Ads::getInstance()->ads($ads,$params);
         return $data;
     }
 
+    /**
+     * @param string $ads
+     *
+     * @return string
+     */
     function Widget($ads = '') {
         $data =  \App\Ads::getInstance()->ads($ads);
         return $data;
     }
+
+
+
+
+
+
+
+
+
+    /**
+     * ===============================================
+     * 视图
+     * ===============================================
+     */
+    //转交控制权,给view对象
+    if (! function_exists('assign')) {
+        function assign($key = null, $value = [])
+        {
+            return app('Smarty')->router(req('Router'))->assign($key, $value);
+        }
+    }
+
+    /*
+    |-------------------------------------------------------
+    | 确定的函数
+    |-------------------------------------------------------
+    */
+
+    if (! function_exists('view')) {
+        function view($tpl = null, $data = [])
+        {
+            server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->display($tpl,$data);
+    //            $views = server('View')->router(req('Router'));
+    //            $views->display($tpl, $data);
+        }
+    }
+
+    if (! function_exists('fetch')) {
+        function fetch($tpl = null, $data = [])
+        {
+            return server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->fetch($tpl,$data);
+            //            $views = server('View')->router(req('Router'));
+            //            $views->display($tpl, $data);
+        }
+    }
+
+    if (! function_exists('WidgetView')) {
+        function WidgetView($tpl = null, $data = [])
+        {
+            $tpl = $tpl?ucfirst($tpl):sc('widget');
+            return server('Smarty')->path('../Widget/Views/')->router()->fetch('../'.$tpl,$data);
+        }
+    }
+
+    /**
+     * ===============================================
+     * smarty插件
+     * ===============================================
+     */
 
     /**
      * 页面widget 在tpl文件中进行调用
      * @param $params
      * @return mixed
      */
+    function smarty_function_widget($_ads = '',$params = []) {
+        return \App\Ads::getInstance()->ads($_ads);
+    }
+
+
 //function smarty_function_widget($_params = '',$params = []) {
 //    //根据参数输出页面widget
 //    return \Widget\Bootstrap::Run($_params['name']);
 ////        return (new App\Model\Widget)->$params['name']();
 //}
 
-    function smarty_function_widget($_ads = '',$params = []) {
-        return Widget($_ads['ads']);
-    }

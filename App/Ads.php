@@ -1,7 +1,127 @@
 <?php
 namespace App;
 
-class Ads
+class AdsBase
+{
+    private $package = '';
+
+    private function getpackage($ads = ''){
+        $_ads  = explode('/',trim($ads, '/'));
+        if(empty($_ads[0])) return $this->package;
+        return $_ads[0];
+    }
+
+    /**
+     * @param string $ads
+     * Markdown文档读取
+     * @return string
+     */
+    function help($ads = ''){
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Help.md';
+        if(!is_file($file)) return '';
+        $nr = server('Parsedown')->text(file_get_contents($file));
+        return $nr;
+    }
+
+    function readme($ads = ''){
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Readme.md';
+        if(!is_file($file)) return '';
+        $nr = server('Parsedown')->text(file_get_contents($file));
+        return $nr;
+    }
+
+    function api($ads = ''){
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Api.md';
+        if(!is_file($file)) return '';
+        $nr = server('Parsedown')->text(file_get_contents($file));
+        return $nr;
+    }
+
+    /**
+     * @param string $ads
+     * Data 数据读取
+     * @return string
+     */
+    function DataInfo($ads = ''){
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Data.Info.php';
+        if(!is_file($file)) return [];
+        $nr = include($file);
+        return $nr;
+    }
+
+    function DataConfig($ads = ''){
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Data.Config.php';
+        if(!is_file($file)) return [];
+        $nr = include($file);
+        return $nr;
+    }
+
+    function DataApi($ads = '')
+    {
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Data.Api.php';
+        if(!is_file($file)) return [];
+        $nr = include($file);
+        return $nr;
+    }
+    /**
+     * @param string $ads
+     * Sql 读取
+     * @return string
+     */
+    function SqlInstall($ads = '')
+    {
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Install.sql';
+        if(!is_file($file)) return '';
+        $nr = file_get_contents($file);
+        return $nr;
+    }
+    function SqlUnInstall($ads = '')
+    {
+        $Package = $this->getpackage($ads);
+        $file = __DIR__.'/../Ads/'.ucfirst($Package).'/Uninstall.sql';
+        if(!is_file($file)) return '';
+        $nr = file_get_contents($file);
+        return $nr;
+    }
+
+    /**
+     * @param string $a
+     * 指定package
+     * @return $this
+     */
+    public function Package($ads = '')
+    {
+        $Package = $this->getpackage($ads);
+        $this->package = $Package;
+        return $this;
+    }
+
+    /**
+     * todo 待完善
+     * 依赖关系,更多资源
+     */
+    public function depend(){}
+    public function bedepend(){}
+    public function dependtable(){}
+    public function menu(){}
+    public function icon(){}
+
+    /**
+     * 调用接口
+     */
+    public function ads($ads = '',$params = []){}
+    public function pds($ads = '',$params = []){}
+
+}
+
+class Ads extends AdsBase
 {
     private $_config = array();
     public static $_instance = null;
@@ -27,120 +147,78 @@ class Ads
         return self::$_instance;
     }
 
+    /**
+     * 通过gui走rui路由
+     */
     public static function Gui()
     {
         $controller = new \Ads\Gui\Controller\Home\Home();
         return $controller->doIndex();
     }
 
+    /**
+     * 特殊形式,强制GUI调用
+     */
     public static function Run($ads = '')
     {
-        /**
-         * 特殊形式,强制GUI调用
-         */
         if (empty($ads)) $ads = req('Ads');
-        //下面三个相同
         return self::getInstance()->pds($ads);
-//        return self::getInstance()->Package($ads[0])->d($ads[1])->s($ads[2]);
-//        return self::getInstance()->Package("$ads[0]")->ds("$ads[1]/$ads[2]");
     }
 
-    public function Package($a = '')
-    {
-        $this->_package = $a;
-        return $this;
-    }
-
-    public function d($d = '')
-    {
-        $this->_d = $d;
-        return $this;
-    }
-
-    public function params($params = '')
-    {
-        $this->_params = $params;
-        return $this;
-    }
-
-    public function s($s = '')
-    {
-        $ds  = explode('/',trim($s, '/'));
-        $this->_s = $ds[0];
-        if(!empty($ds[1]))$this->_params = $ds[1];
-        return $this->doMothed();
-    }
-
-    public function ds($ds = '')
-    {
-        $ds  = explode('/',trim($ds, '/'));
-        $this->_d = $ds[0];
-        $this->_s = $ds[1];
-        if(!empty($ds[2]))$this->_s = $ds[2];
-        return $this->doMothed();
-    }
-
-    public function pds($ads = '')
+    public function pds($ads = '',$params = [])
     {
         $ads  = explode('/',trim($ads, '/'));
         $this->_package = $ads[0];
         $this->_d = $ads[1];
         $this->_s = $ads[2];
         $this->_params = $ads[3];
-        return $this->doMothed();
+        return $this->doMothed($params);
     }
     //同pds
-    public function ads($ads = '')
+    public function ads($ads = '',$params = [])
     {
         $ads  = explode('/',trim($ads, '/'));
         $this->_package = $ads[0];
         $this->_d = $ads[1];
         $this->_s = $ads[2];
         $this->_params = $ads[3];
-        return $this->doMothed();
+        return $this->doMothed($params);
     }
 
-
-    public function doMothed()
+    /**
+     * @return string
+     * 上面全部是变换,最终会走这个路口
+     * 执行
+     */
+    public function doMothed($params = [])
     {
         if(empty($this->_package)) return '';
+        $this->Package($this->_package);;         //注册
         if(empty($this->_d)) $this->_d = 'Home';
         if(empty($this->_s)) $this->_s = 'Index';
         //===========================================================
         if($this->_packagelist[$this->_package][$this->_d]){
         }else{
             $ob = "\\Ads\\".ucfirst($this->_package).'\\Controller\\'.ucfirst($this->_d)."\\".ucfirst($this->_d);
-            $this->_packagelist[$this->_package][$this->_d] = new $ob();
+            if(class_exists($ob)){
+                $this->_packagelist[$this->_package][$this->_d] = new $ob();
+            }else{
+                echo "Miss Class :: $ob";
+            }
         }
+        $rc = '';
         $mothed = 'do'.$this->_s;
-        return $this->_packagelist[$this->_package][$this->_d]->$mothed($this->_params);
-//        return $this->Package($this->_package)->Controller($this->_d)->Mothed($this->_s,$this->_params);
+        if ($this->_packagelist[$this->_package][$this->_d]) {
+            $this->_packagelist[$this->_package][$this->_d]->_p = $this->_package;
+            $this->_packagelist[$this->_package][$this->_d]->_d = $this->_d;
+            $this->_packagelist[$this->_package][$this->_d]->_s = $this->_s;
+            $this->_packagelist[$this->_package][$this->_d]->_params = $this->_params;
+            $this->_packagelist[$this->_package][$this->_d]->_pds = $this->_package.'/'.$this->_d.'/'.$this->_s.'/'.$this->_params;
+            
+            $rc = $this->_packagelist[$this->_package][$this->_d]->$mothed($params);
+        }
+        echo $rc;
+        return $rc;
     }
-
-
-    //pagckage的方法
-    //widget
-    function help(){}
-    function setup(){}
-    //data
-    function depend(){}
-    function menu(){}
-    function bedepend(){}
-    function dependtable(){}
-    function icon(){}
-    function api(){}
-    function info(){}
-
-//    function ds(ds,$params){}     //执行ds
-//    function d(){}     //执行d
-//    function s($s,$params){}     //执行s
-
-
-/**
- * 输出的集中形式
- * 1 : widget输出 [ads路由输出]
- * 2 : 输出数据 [api]
- * 3 : debug界面 用于查看和调试 也是widget界面 但是接受参数
- */
 
 }

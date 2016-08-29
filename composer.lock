@@ -746,12 +746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shampeak/GraceServer.git",
-                "reference": "861d1234420223c852dc442313f9045d0098e9af"
+                "reference": "cc19e85bc63cc193d7c1d3ba171f010e9590183a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/861d1234420223c852dc442313f9045d0098e9af",
-                "reference": "861d1234420223c852dc442313f9045d0098e9af",
+                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/cc19e85bc63cc193d7c1d3ba171f010e9590183a",
+                "reference": "cc19e85bc63cc193d7c1d3ba171f010e9590183a",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
                 }
             ],
             "description": "dev",
-            "time": "2016-08-27 18:45:47"
+            "time": "2016-08-29 01:34:31"
         },
         {
             "name": "knplabs/gaufrette",
@@ -1102,12 +1102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "b5044f6c999c0555fd2e7c889e8dc3f0246876de"
+                "reference": "43c5f01b0ee4a730b1c57465481ace750db2274c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/b5044f6c999c0555fd2e7c889e8dc3f0246876de",
-                "reference": "b5044f6c999c0555fd2e7c889e8dc3f0246876de",
+                "url": "https://api.github.com/repos/symfony/console/zipball/43c5f01b0ee4a730b1c57465481ace750db2274c",
+                "reference": "43c5f01b0ee4a730b1c57465481ace750db2274c",
                 "shasum": ""
             },
             "require": {
@@ -1156,7 +1156,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-19 06:48:55"
+            "time": "2016-08-27 17:36:37"
         },
         {
             "name": "symfony/polyfill-mbstring",

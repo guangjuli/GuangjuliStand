@@ -17,17 +17,18 @@ class Home extends BaseController
      */
     public function doIndex()
     {
-        //后台根路径
-        $root = adsdata('base/data/Rootpath');
+
+//        $res = \App\Ads::getInstance()->package('Sim')->help();
+        //$res = \App\Ads::getInstance()->pds('base/home/index',['title'=>'testtitle']);
+D(req());
+D($res);
+        R('/ads/');
 
 
 
 
-//        echo $root;
-        D(adsdata('Menu/Home/Data'));
-        //echo adsdata('Menu/Home/NavLeft');
-       // echo adsdata('Menu/Home/NavLeft');
-        //(new \Ads\Menu\Controller\Home\Home())->Nav();
+        D(req());
+
     }
 
 

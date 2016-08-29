@@ -12,7 +12,32 @@
     <link href="/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
+
+
+
+
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <th width="150">Package</th>
+                    <th>信息</th>
+                    <th>数据</th>
+                    <th>Widget</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Base</td>
+                        <td>Api / Help / Readme / Install / Unstall / Config.Setup</td>
+                        <td>Depend Bedepend Api</td>
+                        <td>Data / Widget</td>
+                    </tr>
+                <tbody>
+
+            </table>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <table class="table table-striped table-hover">

@@ -7,6 +7,8 @@ class Ads extends BaseController
 
     use \App\Traits\AjaxReturnHtml;
 
+    private $packagisturi = 'http://packagist.phpleague.cn//list.json';
+
     public function __construct(){
         parent::__construct();
     }
@@ -41,7 +43,7 @@ class Ads extends BaseController
         $tm  = intval(application('data')->get('Adsremote.tm'));
         if((time() - $tm > 3)  || empty($res)){
             //获取远程数据
-            $uri = "http://my.so/list.json";
+            $uri = $this->packagisturi;
             $list = file_get_contents($uri);
             $res = json_decode($list,true);
             foreach($res as $key=>$value){
@@ -191,12 +193,6 @@ class Ads extends BaseController
         foreach($res as $key=>$value){
             $rc[$value['ads']][$value['version']] = $value;
         }
-
-
-//D($rc);
-
-
-
         view('',[
             'rc'=>$rc
         ]);

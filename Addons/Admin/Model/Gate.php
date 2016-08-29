@@ -6,7 +6,6 @@ class Gate implements \Grace\Base\ModelInterface
 {
 
     /**
-     * todo application覆盖
      * Gate constructor.
      */
     public function __construct()
@@ -40,7 +39,6 @@ class Gate implements \Grace\Base\ModelInterface
 
     /**
      * 是否已经登录
-     * //todo
      * @return bool
      */
     public function isLogin()
@@ -50,7 +48,6 @@ class Gate implements \Grace\Base\ModelInterface
 
     /**
      * 是否管理员
-     * //todo
      * @return bool
      */
     public function isAdmin()

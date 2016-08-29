@@ -10,12 +10,15 @@ class Home extends BaseController {
     /**
      * 后台首页
      */
-    public function doIndex()
+    public function doIndex($params = [])
     {
+        //return print_r($params,true);
+        return $this->_s;
     }
 
     public function doDemo()
     {
+
         Model('ApiLog')->sniffer();
         D(req());
         echo \Grace\Req\Uri::getInstance()->getar();
