@@ -40,6 +40,8 @@ class Bootstrap
             'Get' => $req->get,
             'Post' => $req->post,
             'Env' => $req->env,
+            'Ads' => trim($req->ads,'/'),
+            'Adsbase' => '/'.$controller.'/'.$mothed.'/',
             'Router' => [
                 'type' => $req->env['REQUEST_METHOD'],
                 'controller' => ucfirst(strtolower($controller)),

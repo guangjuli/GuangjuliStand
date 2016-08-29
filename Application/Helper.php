@@ -280,12 +280,36 @@
         }
     }
 
-/**
+    function gata($ads = '') {
+        //获取数据 或页面widget
+        //利用bus进行对象存储,避免多次实例化
+        $data =  \App\Ads::getInstance()->ads($ads);
+        return $data;
+    }
+
+    function adsdata($ads = '') {
+        //获取数据 或页面widget
+        //利用bus进行对象存储,避免多次实例化
+        $data =  \App\Ads::getInstance()->ads($ads);
+        return $data;
+    }
+
+    function Widget($ads = '') {
+        $data =  \App\Ads::getInstance()->ads($ads);
+        return $data;
+    }
+
+    /**
      * 页面widget 在tpl文件中进行调用
      * @param $params
      * @return mixed
      */
-    function smarty_function_widget($_params = '',$params = []) {
-        return \Widget\Bootstrap::Run($_params['name']);
-//        return (new App\Model\Widget)->$params['name']();
+//function smarty_function_widget($_params = '',$params = []) {
+//    //根据参数输出页面widget
+//    return \Widget\Bootstrap::Run($_params['name']);
+////        return (new App\Model\Widget)->$params['name']();
+//}
+
+    function smarty_function_widget($_ads = '',$params = []) {
+        return Widget($_ads['ads']);
     }

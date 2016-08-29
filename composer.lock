@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f06866eb70ff2bed76a0659d293338e0",
+    "hash": "859beb67484fec5f0e057c205f7504fa",
     "content-hash": "2ecf7d228e0a2f3c202178caf7e3a5b7",
     "packages": [
         {
@@ -344,12 +344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "e69d1cf3bddd269e76d68eb81823c01f02b230d0"
+                "reference": "f84b0c161c76737aee32ca793e90bfe5082a7fd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/e69d1cf3bddd269e76d68eb81823c01f02b230d0",
-                "reference": "e69d1cf3bddd269e76d68eb81823c01f02b230d0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/f84b0c161c76737aee32ca793e90bfe5082a7fd3",
+                "reference": "f84b0c161c76737aee32ca793e90bfe5082a7fd3",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
-                "symfony/console": "2.*"
+                "symfony/console": "2.*||^3.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -407,7 +407,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2016-07-15 21:22:45"
+            "time": "2016-08-25 20:25:20"
         },
         {
             "name": "doctrine/inflector",
@@ -746,12 +746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shampeak/GraceServer.git",
-                "reference": "c07eace874f9a92a855a8b31e3ce4a1ed174bfd5"
+                "reference": "861d1234420223c852dc442313f9045d0098e9af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/c07eace874f9a92a855a8b31e3ce4a1ed174bfd5",
-                "reference": "c07eace874f9a92a855a8b31e3ce4a1ed174bfd5",
+                "url": "https://api.github.com/repos/shampeak/GraceServer/zipball/861d1234420223c852dc442313f9045d0098e9af",
+                "reference": "861d1234420223c852dc442313f9045d0098e9af",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
                 }
             ],
             "description": "dev",
-            "time": "2016-08-18 02:08:30"
+            "time": "2016-08-27 18:45:47"
         },
         {
             "name": "knplabs/gaufrette",
@@ -1164,12 +1164,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "8a6bdec191138e01c92ae026e5aacb7b3e66267d"
+                "reference": "988cbed31ec9493057bcfc545b13447521849702"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/8a6bdec191138e01c92ae026e5aacb7b3e66267d",
-                "reference": "8a6bdec191138e01c92ae026e5aacb7b3e66267d",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/988cbed31ec9493057bcfc545b13447521849702",
+                "reference": "988cbed31ec9493057bcfc545b13447521849702",
                 "shasum": ""
             },
             "require": {
@@ -1215,7 +1215,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-06-29 14:58:48"
+            "time": "2016-08-17 08:39:54"
         },
         {
             "name": "twig/twig",
