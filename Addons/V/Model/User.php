@@ -153,7 +153,7 @@ class User implements ModelInterface
      */
     public function uploadHeadImage($file)
     {
-        $config = server()->Config('Config')['uploadHeadImage'];
+        $config = server()->Config('V')['uploadHeadImage'];
         $code=model('Upload',$config)->upload($file);
         return $code;
     }

@@ -21,7 +21,7 @@ class Token implements ModelInterface
     private $expires='';
     public function __construct()
     {
-        $this->config = server()->Config('Config')['token'];
+        $this->config = server()->Config('V')['token'];
         $this->clientSecret = $this->config['clientSecret'];
         $this->expires = $this->config['expires'];
     }
@@ -185,22 +185,16 @@ class Token implements ModelInterface
 
     public function verifyToken($token)
     {
-        $router = req()['Router'];
-        $module = server()->Config('Config')['api_needlessCheckTokenMethod'][$router['module']];
-        if($module){
-            if(!in_array($router['mothed'],$module)){
-                $tokenInfo =$this->isEnableToken($token);
-                if($tokenInfo){
-                    bus([
-                        'tokenInfo'=>$tokenInfo
-                    ]);
-                }else{
-                    $this->AjaxReturn([
-                        'code'=>-500,
-                        'msg'=>'token is not in a valid'
-                    ]);
-                }
-            }
+        $tokenInfo =$this->isEnableToken($token);
+        if($tokenInfo){
+            bus([
+                'tokenInfo'=>$tokenInfo
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-500,
+                'msg'=>'token is not in a valid'
+            ]);
         }
     }
 

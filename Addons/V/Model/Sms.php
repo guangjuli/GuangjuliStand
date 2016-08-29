@@ -26,7 +26,7 @@ class Sms implements ModelInterface
     public function __construct($configHandle)
     {
         //读取短信配置信息  apikey   ,messageContent
-        $this->config = server()->Config('Config')['SMS'];
+        $this->config = server()->Config('V')['SMS'];
         $this->apikey = $this->config['apikey'];
         $this->messageContent = $this->config[$configHandle]['messageContent'];
         $this->curlopt_url = $this->config[$configHandle]['curlopt_url'];

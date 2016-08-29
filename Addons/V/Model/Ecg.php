@@ -17,7 +17,7 @@ class Ecg  implements ModelInterface
     {
         return[
           'Server::Db',
-            
+          'Model::Upload',
         ];
     }
 
@@ -60,7 +60,7 @@ class Ecg  implements ModelInterface
     public function insertEcgLog($file,$req)
     {
         //上传心电文件
-        $config = server()->Config('Config')['uploadEcg'];
+        $config = server()->Config('V')['uploadEcg'];
         $code=model('Upload',$config)->upload($file);
         if($code!=200)return $code;
         $path = model('Upload',$config)->uploadPath('No');
