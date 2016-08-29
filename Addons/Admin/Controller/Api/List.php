@@ -1,10 +1,10 @@
 <?php
-namespace App\Controller;
+namespace Addons\Controller;
 
 
 class Api extends BaseController {
 
-    use \App\Traits\AjaxReturn;
+    use \Addons\Traits\AjaxReturn;
 
     public function __construct(){
         parent::__construct();

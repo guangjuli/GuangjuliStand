@@ -34,7 +34,7 @@
 
             <div class="row">
                 <div class="col-md-6 ">
-                    <form class="form-horizontal" method="post" action="">
+                    <form class="form-horizontal" method="post" action="/admin/set/gui/">
 
                         <div class="form-group">
                             <label for="inputPassword3" class="col-sm-2 control-label">面包屑</label>

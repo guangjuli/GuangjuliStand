@@ -71,7 +71,7 @@
             var tag = '.vu';
             $.ajax({
                 type: "POST",
-                url: '/login/',
+                url: '/admin/login/',
                 data: $(tag).serialize(),
                 dataType:'json',
                 success: function(data){

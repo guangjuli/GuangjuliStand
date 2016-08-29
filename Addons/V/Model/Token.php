@@ -9,16 +9,19 @@
 namespace Addons\Model;
 
 
+use Addons\Traits\AjaxReturn;
 use Grace\Base\ModelInterface;
 
 class Token implements ModelInterface
 {
+    use AjaxReturn;
+
     private $config=array();
     private $clientSecret='';
     private $expires='';
     public function __construct()
     {
-        $this->config = server()->Config('Config')['token'];
+        $this->config = server()->Config('V')['token'];
         $this->clientSecret = $this->config['clientSecret'];
         $this->expires = $this->config['expires'];
     }
@@ -35,7 +38,7 @@ class Token implements ModelInterface
 
     /**
      * 获取token表信息
-     * @param $accessToken
+     * @param string $accessToken
      * @return array
      */
     public function getTokenInfo($accessToken)
@@ -47,6 +50,7 @@ class Token implements ModelInterface
 
     /**
      * 获取通行证accessToken
+     * @param array $req
      * @return array
      */
     public function accessToken($req)
@@ -67,8 +71,9 @@ class Token implements ModelInterface
 
     /**
      * 判断token有效性
-     * @param $token
+     * @param string $token
      * @return array
+     * 如果有效返回tokenInfo否则返回[]
      */
     public function isEnableToken($token)
     {
@@ -82,27 +87,25 @@ class Token implements ModelInterface
 
     /**
      * 从数据库获取token信息
-     * @param $accessToken
+     * @param string $accessToken
      * @return array
      */
     private function getTokenInfoFromSql($accessToken)
     {
         $tokenInfo = server('Db')->getRow("select * from token where `accessToken`='$accessToken'");
-        $tokenInfo = $tokenInfo?$tokenInfo:[];
-        return $tokenInfo;
+        return  $tokenInfo?$tokenInfo:[];
     }
 
     /**
      * 根据userId判断token是否存在
-     * @param $userId
+     * @param int $userId
      * @return boolean
      */
     private function isExistTokenByUserId($userId)
     {
         $userId = intval($userId);
         $tokenId = server('Db')->getOne("select tokenId from token where `userId` = $userId");
-        $check = $tokenId?true:false;
-        return $check;
+        return $tokenId?true:false;
     }
 
     /**
@@ -140,8 +143,10 @@ class Token implements ModelInterface
 
     /**
      * 生成token
+     * @param array $req
+     * @return boolean
      */
-    //TODO:算法待修改，一个用户可能有多台设备，设备编号不唯一，加入deviceId，同一用户token不唯一
+    //TODO:算法待修改，一个用户可能有多台设备，设备编号不唯一，加入deviceId，同一用户token不唯一,计算token修改
     private function token($req)
     {
         //验证verify是够正确
@@ -166,6 +171,7 @@ class Token implements ModelInterface
     /**
      * 校验verify是否正确
      * @param array $req
+     * $req中包含键名 'verigy','deviceId','login'or'phone','time'
      * @return boolean
      */
     public function verify($req)
@@ -177,6 +183,26 @@ class Token implements ModelInterface
         //TODO: 校验设备编号正确性
         if ($verify != MD5($deviceId . $this->clientSecret . $login . $time))return false;
         return true;
+    }
+
+
+    /**
+     * 校验token有效性
+     * @param string $token
+     */
+    public function verifyToken($token)
+    {
+        $tokenInfo =$this->isEnableToken($token);
+        if($tokenInfo){
+            bus([
+                'tokenInfo'=>$tokenInfo
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-500,
+                'msg'=>'token is not in a valid'
+            ]);
+        }
     }
 
 

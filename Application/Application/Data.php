@@ -50,7 +50,7 @@ class Data
     public function save($value)
     {
         if(empty($this->key))$this->key = 'Default';
-        if (!preg_match('/^[0-9a-zA-Z.]+$/',$this->key))
+        if (!preg_match('/^[0-9a-zA-Z._]+$/',$this->key))
         {
             halt('Application::Application\Application\Data Key error');
         }
@@ -63,12 +63,16 @@ class Data
     public function read()
     {
         if(empty($this->key))$this->key = 'Default';
-        if (!preg_match('/^[0-9a-zA-Z.]+$/',$this->key))
+        if (!preg_match('/^[0-9a-zA-Z._]+$/',$this->key))
         {
             halt('Application::Application\Application\Data Key error');
         }
         $file = $this->rootpath.$this->key.'.data';
-        $nr = file_get_contents($file);
+        if(is_file($file)){
+            $nr = file_get_contents($file);
+        }else{
+            $nr = '';
+        }
         $nr = json_decode($nr,true);
         return $nr;
     }

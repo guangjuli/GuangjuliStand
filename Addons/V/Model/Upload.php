@@ -21,13 +21,14 @@ class Upload implements ModelInterface
 
     public function depend()
     {
-        // TODO: Implement depend() method.
+        return[
+
+        ];
     }
 
     /**
      * 上传
      * @param $file
-     * @param $isNeedHttp
      * @return int
      */
     public function upload($file)
@@ -54,6 +55,12 @@ class Upload implements ModelInterface
         }
     }
 
+    /**
+     * 获取文件存储路径
+     * @param string $isNeedHttp
+     * 可选择：Yes/No,    Yes代表绝对路径，No及其他字符代表相对路径
+     * @return int
+     */
     public function uploadPath($isNeedHttp='Yes')
     {
         $isNeedHttp = $isNeedHttp=='Yes'?'Yes':'No';
@@ -73,7 +80,7 @@ class Upload implements ModelInterface
         return $path;
     }
 
-    public function returnMsg($code=null){
+    public function returnMsg($code){
         $config = [
             -101    => 'Upload file not found!',
             -200    => 'The file extension is limited',
@@ -82,6 +89,6 @@ class Upload implements ModelInterface
             -202    =>'System Exception!',
             200     =>'Succeed',
         ];
-        return $code?$config[$code]:$config;
+        return $config[$code];
     }
 }

@@ -1,11 +1,10 @@
 <?php
 namespace Addons\Controller;
 
-use Addons\Traits\AjaxReturnHtml;
 
 class Login extends BaseController {
 
-    use AjaxReturnHtml;
+    use \Addons\Traits\AjaxReturnHtml;
 
     public function __construct(){
         parent::__construct();
@@ -19,7 +18,7 @@ class Login extends BaseController {
         if(Model('Event')->AdminAuth_auth($_POST['password'])){
             $this->AjaxReturn([
                 'code'=>200,
-                'url'=>'/'
+                'url'=>'/admin/'
             ]);
         }else{
             $this->AjaxReturn([
@@ -43,7 +42,7 @@ class Login extends BaseController {
      */
     public function doLogout()
     {
-        Model('Event')->AdminAuth_Logout("/login");
+        Model('Event')->AdminAuth_Logout("/admin/login");
         exit;
     }
 
