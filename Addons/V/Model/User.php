@@ -137,13 +137,29 @@ class User implements ModelInterface
 
     /**
      * 根据userId获取用户信息
+     * @param $userId
      * @return array
      */
     public function getUserInfoByUserId($userId=null)
-    {
+    {   //参数设置
         $userId = $userId?$userId:bus('tokenInfo')['userId'];
+        $userId = intval($userId);
+        if(empty($userId)) return [];
+        //执行sql
         $userInfo = server('Db')->getRow("select * from user where userId = $userId");
         return $userInfo?$userInfo:[];
+    }
+
+    /**
+     * 判断用户是否存在
+     * @param int $userId
+     * @return boolean
+     */
+    public function isExistUserByUserId($userId)
+    {
+        $user = $this->getUserInfoByUserId($userId);
+        $check = empty($user)?false:true;
+        return $check;
     }
 
     /**

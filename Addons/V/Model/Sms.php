@@ -34,6 +34,7 @@ class Sms implements ModelInterface
 
     /**
      * 发送短信
+     * @param string $mobile
      * @return int
      */
     public function sendMessage($mobile)

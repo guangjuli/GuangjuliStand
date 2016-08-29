@@ -36,10 +36,10 @@ class Validate implements ModelInterface
     /**
      * 校验请求参数存在性和非空
      * @param array $field
-     * @param array $field
+     * @param array $req
      * @return boolean
      */
-    public function validateParams($field=[],Array $req)
+    public function validateParams($field,Array $req)
     {
         if(!$this->isExistParams($field,$req))return false;
         if(!$this->isEmpty($req))return false;
