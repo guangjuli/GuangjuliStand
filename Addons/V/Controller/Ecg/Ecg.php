@@ -46,12 +46,21 @@ class Ecg  extends BaseController
         ]);
     }
 
-    //TODO:待修改
+
     public function doUploadecglogPost()
     {
-        D(bus('tokenInfo'));
-        $code = model('Ecg')->insertEcgLog($_FILES['tfile']);
+        $code = model('Ecg')->uploadEcg($_FILES['tfile']);
         $msg  = model('Upload')->returnMsg($code);
+        if($code==200){
+            if(model('Ecg')->insertEcgLog(req('Post'))){
+                $this->AjaxReturn([
+                    'code' => $code,
+                    'msg'  =>$msg
+                ]);
+            }
+            $code = -200;
+            $msg = 'error';
+        }
         $this->AjaxReturn([
             'code' => $code,
             'msg'  =>$msg

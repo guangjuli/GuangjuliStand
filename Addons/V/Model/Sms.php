@@ -20,7 +20,9 @@ class Sms implements ModelInterface
     private $curlopt_url = ''; //请求dingdongcloud接口
     public function depend()
     {
-        // TODO: Implement depend() method.
+        return[
+
+        ];
     }
 
     public function __construct($configHandle)

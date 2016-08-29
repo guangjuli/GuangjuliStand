@@ -9,8 +9,17 @@
 namespace Addons\Model;
 
 
-class Bloodpress
+use Grace\Base\ModelInterface;
+
+class Bloodpress implements ModelInterface
 {
+    public function depend()
+    {
+        return[
+          'Server::Db'
+        ];
+    }
+
     /**
      * 按时间戳删除血压记录
      * @param int $time

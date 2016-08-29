@@ -15,7 +15,6 @@ class User implements ModelInterface
 {
     public function depend()
     {
-        // TODO: Implement depend() method.
         return[
             'Model::Token',
             'Model::Validate',

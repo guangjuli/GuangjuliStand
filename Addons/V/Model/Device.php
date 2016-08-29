@@ -16,7 +16,9 @@ class Device implements ModelInterface
     public function depend()
     {
         return[
-          'Server::Db'
+            'Server::Db',
+            'Model::Validate',
+            'Model::User'
         ];
     }
 
