@@ -62,11 +62,23 @@ class Bootstrap
 
         $req = server('req');
 
+        //ads补全
+        $___ads = trim($req->ads,'/');
+        if(!empty($___ads)){
+            $___adsar = explode('/',$___ads);
+            $___adsar[1] = $___adsar[1]?:'home';
+            $___adsar[2] = $___adsar[2]?:'index';
+            $___ads = implode('/',$___adsar);
+        }
+
+
         req([                   //req ���ģ��
             'Get'   => $req->get,
             'Post'  => $req->post,
             'Env'   => $req->env,
             'Request'   => $request,
+            'Ads'   => $___ads,
+            'Adsbase' => '/'.$module.'/'.$controller.'/'.$mothed.'/',
             'Router'=> [
                 'type'      => $req->env['REQUEST_METHOD'],
                 'module'    => ucfirst(strtolower($module)),
