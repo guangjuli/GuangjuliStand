@@ -44,7 +44,7 @@ class Bloodpress extends BaseController
     public function doUploadbloodlogPost()
     {
         //未校验待存储参数
-        $boolean = model('Bloodpress')->insertBloodLog(req('Post')['story']);
+        $boolean = model('Bloodpress')->insertBloodLog(req('Post'));
         $code = $boolean?200:-200;
         $this->AjaxReturn([
             'code' => $code

@@ -33,8 +33,7 @@ class User implements ModelInterface
     public function getUserByLogin($login)
     {
         $user = server('Db')->getRow("select * from user where login = '$login'");
-        $user = $user?$user:[];
-        return $user;
+        return $user?:[];
     }
     /**
      * 判断用户是否存在
@@ -44,8 +43,7 @@ class User implements ModelInterface
     public function isExistUserByLogin($login)
     {
         $user = $this->getUserByLogin($login);
-        $check = empty($user)?false:true;
-        return $check;
+        return empty($user)?false:true;
     }
 
     /**
@@ -56,8 +54,7 @@ class User implements ModelInterface
     public function insertUser(Array $array)
     {
         $insert = server('Db')->autoExecute('user', $array, 'INSERT');
-        $check = $insert?true:false;
-        return $check;
+        return $insert?true:false;
     }
 
     /**
@@ -132,7 +129,7 @@ class User implements ModelInterface
         $filed = implode(',',$filed);
         $userId = bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
-        return $userInfo?$userInfo:[];
+        return $userInfo?:[];
     }
 
     /**
@@ -147,7 +144,7 @@ class User implements ModelInterface
         if(empty($userId)) return [];
         //执行sql
         $userInfo = server('Db')->getRow("select * from user where userId = $userId");
-        return $userInfo?$userInfo:[];
+        return $userInfo?:[];
     }
 
     /**
@@ -158,8 +155,7 @@ class User implements ModelInterface
     public function isExistUserByUserId($userId)
     {
         $user = $this->getUserInfoByUserId($userId);
-        $check = empty($user)?false:true;
-        return $check;
+        return empty($user)?false:true;
     }
 
     /**

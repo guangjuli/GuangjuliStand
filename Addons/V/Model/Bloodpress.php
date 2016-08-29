@@ -50,19 +50,29 @@ class Bloodpress
     /**
      * 插入血压记录
      * @param array $req
-     * 请求参数 包含：type,createDay,time,shrink,diastole,bpm,day,userId
+     * 请求参数 包含：type,createDay,time,shrink,diastole,bpm,day,userId   ,批量插入
      * @return boolean
      */
     public function insertBloodLog(Array $req)
     {
-        //校验参数的存在性和非空
-        $fields = ['type','createDay','time','shrink','diastole','bpm','day','userId'];   //校验标准
+        //插入bloodpress表
         $userId = $req['userId']?:bus('tokenInfo')['userId'];
-        $req['userId'] = intval($userId);
-        if(!model('Validate')->validateParams($fields,$req)) return false;
-        //执行sql
-        $insert = server('Db')->autoExecute('user', $req, 'INSERT');
-        return $insert?true:false;
+        //拼装值组成的字符串
+        $insert = array();
+        foreach($req['story'] as $v){
+            $v['userId'] = $userId;
+            $insert[] = '('.implode(',',$v).')';
+        }
+        $insert = implode(',',$insert);     //值
+        //拼装键名组成的字符串
+        $params = current($req['story']);
+        $params['userId'] = $userId;
+        $fields = '('.implode(',',array_keys($params)).')';   //字段名
+        $fields = str_replace("'",'`',$fields);
+        //拼装sql语句
+        $sql = "insert into bloodpress $fields  values $insert";
+        $check = server('Db')->query($sql);
+        return $check?true:false;
     }
 
     /**
@@ -97,7 +107,7 @@ class Bloodpress
         //参数处理
         $userId = $userId?:bus('tokenInfo')['userId'];
         $createDay = intval($createDay);
-        if(empty($userId)||empty($createDay)||!is_int($day)) return [];
+        if(empty($userId)||empty($createDay)) return [];
         $peiChart = $day||$day===0?"and `day`='$day'":'';
         //执行sql
         $bloodInfo = server('Db')->getAll("select shrink,diastole,bpm from bloodpress where `userId`=$userId and `createDay`='$createDay' $peiChart");

@@ -17,13 +17,12 @@ class User
     public  function doFindpasswordPost()
     {
         $code = model('Password')->findPasswordValidateReq(req('Post'));
-        $msg = model('Password')->returnNews();
         if($code==200){
-            $code = model('Password')->findPassword(req('Post')['password'])?200:-200;
+            $code = model('Password')->findPassword(req('Post')['password'],bus('findPassword')['userId'])?200:-200;
         }
         $this->AjaxReturn([
             'code' => $code,
-            'msg' => $msg[$code],
+            'msg' => model('Password')->returnNews($code),
         ]);
     }
 

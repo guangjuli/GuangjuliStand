@@ -75,14 +75,13 @@ class User extends BaseController
     //知道原密码重置密码
     public function doResetpasswordPost()
     {
-        $code = model('Password')->resetPasswordValidateReq(req('Post'));
-        $msg = model('Password')->returnNews();
+        $code = model('Password')->resetPasswordValidateReq(req('Post')['old_password'],req('Post')['password'],req('Post')['confirm_password']);
         if($code==200){
              $code = model('Password')->resetPassword(req('Post')['password'])?200:-200;
         }
         $this->AjaxReturn([
             'code' => $code,
-            'msg' => $msg[$code],
+            'msg' => model('Password')->returnNews($code),
         ]);
     }
 }
