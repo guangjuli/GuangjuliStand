@@ -267,7 +267,7 @@
      *
      * @return string
      */
-    function adsdata($ads = '',$params) {
+    function adsdata($ads = '',$params = array()) {
         //获取数据 或页面widget
         //利用bus进行对象存储,避免多次实例化
         $data =  \App\Ads::getInstance()->ads($ads,$params);
@@ -348,8 +348,8 @@
      * @param $params
      * @return mixed
      */
-    function smarty_function_widget($_ads = '',$params = []) {
-        return \App\Ads::getInstance()->ads($_ads);
+    function smarty_function_widget($params = []) {
+        return \App\Ads::getInstance()->ads($params['ads']);
     }
 
 

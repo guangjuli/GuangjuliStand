@@ -147,14 +147,24 @@ class Ads extends AdsBase
         return self::$_instance;
     }
 
+
+
     /**
      * 通过gui走rui路由
      */
     public static function Gui()
     {
-        $controller = new \Ads\Gui\Controller\Home\Home();
-        return $controller->doIndex();
+        //如果post 响应提交
+        if(req('Router')['type'] == 'POST'){
+            $ads = req('Ads');
+            $html = self::getInstance()->pds($ads);
+            return $html;
+        }else{
+            $controller = new \Ads\Gui\Controller\Home\Home();
+            return $controller->doIndex();
+        }
     }
+
 
     /**
      * 特殊形式,强制GUI调用
@@ -208,16 +218,30 @@ class Ads extends AdsBase
         }
         $rc = '';
         $mothed = 'do'.$this->_s;
+
+        if(req('Router')['type'] == 'POST'){
+            //对uri路由过来的进行post响应
+            $__ads  = explode('/',trim(req('Ads'), '/'));
+            $__ads[1]?:"Home";
+            $__ads[2]?:"Index";
+            if(strtolower($__ads[0].$__ads[1].$__ads[2]) == strtolower($this->_package.$this->_d.$this->_s)){
+                $mothed = $mothed.'Post';
+            }
+        }
+
+        /**
+         * 根据type决定是否加post后缀
+         */
+
         if ($this->_packagelist[$this->_package][$this->_d]) {
             $this->_packagelist[$this->_package][$this->_d]->_p = $this->_package;
             $this->_packagelist[$this->_package][$this->_d]->_d = $this->_d;
             $this->_packagelist[$this->_package][$this->_d]->_s = $this->_s;
             $this->_packagelist[$this->_package][$this->_d]->_params = $this->_params;
             $this->_packagelist[$this->_package][$this->_d]->_pds = $this->_package.'/'.$this->_d.'/'.$this->_s.'/'.$this->_params;
-            
+
             $rc = $this->_packagelist[$this->_package][$this->_d]->$mothed($params);
         }
-        echo $rc;
         return $rc;
     }
 
