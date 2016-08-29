@@ -28,12 +28,4 @@ class Token
         }
     }
 
-    public function doIndex()
-    {
-        view('',[
-                'verify'=>md5('dsaffsd1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800')
-        ]
-        );
-    }
-
 }

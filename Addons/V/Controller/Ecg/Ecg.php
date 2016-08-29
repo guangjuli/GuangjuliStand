@@ -57,9 +57,4 @@ class Ecg  extends BaseController
             'msg'  =>$msg
         ]);
     }
-
-    public function doIndex()
-    {
-        view();
-    }
 }
