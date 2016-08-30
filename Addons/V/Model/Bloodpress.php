@@ -64,7 +64,6 @@ class Bloodpress implements ModelInterface
      */
     public function insertBloodLog(Array $req)
     {
-        //插入bloodpress表
         $userId = $req['userId']?:bus('tokenInfo')['userId'];
         //拼装值组成的字符串
         $insert = array();

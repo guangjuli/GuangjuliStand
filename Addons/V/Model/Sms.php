@@ -15,7 +15,7 @@ use Grace\Base\ModelInterface;
 class Sms implements ModelInterface
 {
     private $config = array();
-    private $apikey = '';     //dingdongcloud用户密匙
+    private $apiKey = '';     //dingdongcloud用户密匙
     private $messageContent = '';
     private $curlopt_url = ''; //请求dingdongcloud接口
     public function depend()
@@ -29,7 +29,7 @@ class Sms implements ModelInterface
     {
         //读取短信配置信息  apikey   ,messageContent
         $this->config = server()->Config('V')['SMS'];
-        $this->apikey = $this->config['apikey'];
+        $this->apiKey = $this->config['apiKey'];
         $this->messageContent = $this->config[$configHandle]['messageContent'];
         $this->curlopt_url = $this->config[$configHandle]['curlopt_url'];
     }
@@ -49,7 +49,7 @@ class Sms implements ModelInterface
     private function useThreeApiSend($mobile){
         $code = rand(100000,999999);
         $content = $this->messageContent.$code;
-        $data=array('content'=>urlencode($content),'apikey'=>$this->apikey,'mobile'=>$mobile);
+        $data=array('content'=>urlencode($content),'apikey'=>$this->apiKey,'mobile'=>$mobile);
         $ch = curl_init();
         /* 设置验证方式 */
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept:text/plain;charset=utf-8', 'Content-Type:application/x-www-form-urlencoded','charset=utf-8'));

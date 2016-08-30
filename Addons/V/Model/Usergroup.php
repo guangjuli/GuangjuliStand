@@ -27,6 +27,6 @@ class Usergroup implements ModelInterface
     public function getMapUserGroup()
     {
        $map = server('Db')->getMap("select groupId,groupName from user_group");
-       return $map?$map:[];
+       return $map?:[];
     }
 }
