@@ -31,6 +31,7 @@ class User implements ModelInterface
      */
     public function getUserByLogin($login)
     {
+        if(!is_string($login))return [];
         $user = server('Db')->getRow("select * from user where login = '$login'");
         return $user?:[];
     }

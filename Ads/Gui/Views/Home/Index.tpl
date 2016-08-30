@@ -12,31 +12,34 @@
     <link href="/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
-<h3>nav</h3>
-{widget ads='gui/home/Nav'}
 
-<h3>navleft</h3>
-{widget ads='gui/home/NavLeft'}
+{widget ads=$gui_Nav}
 
-<h3>Levelthree</h3>
-{widget ads='gui/home/Levelthree'}
-<!-- content -->
 
-<h3>Breadcrumb</h3>
-<!-- Breadcrumb -->
-{widget ads='gui/home/Breadcrumb'}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            {widget ads=$gui_Navleft}
 
-<h3>Tip</h3>
-<!-- Tip -->
-{widget ads='gui/home/Tip'}
-<!-- menuthree -->
+        </div>
+        <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Breadcrumb -->
 
-<h3>nr</h3>
-{widget ads='gui/home/Footer'}
+            {widget ads=$gui_Breadcrumb}
+            <!-- Tip -->
+            <!-- menuthree -->
+            {widget ads=$gui_NavLevelThree}
 
-<h3>Footer</h3>
-<!-- /content -->
-{widget ads='gui/home/Footer'}
+            <div style="margin: 0px 0px 20px 0px;"></div>
+
+            <!-- content -->
+
+           {$gui_html}
+
+            <!-- /content -->
+        </div>
+    </div>
+</div>
 
 <!-- Bootstrap core JavaScript -->
 <script src="/assets/js/jquery-1.11.1.min.js"></script>

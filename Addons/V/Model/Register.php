@@ -84,9 +84,10 @@ class Register implements ModelInterface
      * 如果参数经过validateRegisterReq(Array $req)校验，此参数可不填写
      * @return boolean
      */
+    //TODO:分别插入了不同的表，需要事务控制，user,device
     public function register($register=[]){
         //参数校验
-        $register = $register?$register:bus('register');
+        $register = $register?:bus('register');
         if(!$register)return false;
         $register['login']=$register['login']?:$register['phone'];
         //执行sql->user

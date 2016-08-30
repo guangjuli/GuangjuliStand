@@ -177,11 +177,13 @@ class Ads extends AdsBase
 
     public function pds($ads = '',$params = [])
     {
+
         $ads  = explode('/',trim($ads, '/'));
         $this->_package = $ads[0];
         $this->_d = $ads[1];
         $this->_s = $ads[2];
         $this->_params = $ads[3];
+
         return $this->doMothed($params);
     }
     //同pds
@@ -192,6 +194,7 @@ class Ads extends AdsBase
         $this->_d = $ads[1];
         $this->_s = $ads[2];
         $this->_params = $ads[3];
+
         return $this->doMothed($params);
     }
 
@@ -202,6 +205,7 @@ class Ads extends AdsBase
      */
     public function doMothed($params = [])
     {
+
         if(empty($this->_package)) return '';
         $this->Package($this->_package);;         //注册
         if(empty($this->_d)) $this->_d = 'Home';
@@ -210,6 +214,7 @@ class Ads extends AdsBase
         if($this->_packagelist[$this->_package][$this->_d]){
         }else{
             $ob = "\\Ads\\".ucfirst($this->_package).'\\Controller\\'.ucfirst($this->_d)."\\".ucfirst($this->_d);
+
             if(class_exists($ob)){
                 $this->_packagelist[$this->_package][$this->_d] = new $ob();
             }else{
@@ -232,14 +237,12 @@ class Ads extends AdsBase
         /**
          * 根据type决定是否加post后缀
          */
-
         if ($this->_packagelist[$this->_package][$this->_d]) {
             $this->_packagelist[$this->_package][$this->_d]->_p = $this->_package;
             $this->_packagelist[$this->_package][$this->_d]->_d = $this->_d;
             $this->_packagelist[$this->_package][$this->_d]->_s = $this->_s;
             $this->_packagelist[$this->_package][$this->_d]->_params = $this->_params;
             $this->_packagelist[$this->_package][$this->_d]->_pds = $this->_package.'/'.$this->_d.'/'.$this->_s.'/'.$this->_params;
-
             $rc = $this->_packagelist[$this->_package][$this->_d]->$mothed($params);
         }
         return $rc;

@@ -31,6 +31,7 @@ class Upload implements ModelInterface
      * @param $file
      * @return int
      */
+    //TODO:异常处理
     public function upload($file)
     {
         if (empty($file['name']))return -101;
