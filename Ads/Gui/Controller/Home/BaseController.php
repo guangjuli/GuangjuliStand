@@ -9,26 +9,30 @@ class BaseController{
 
     }
 
+    /**
+     * @return array
+     * 返回可以调用的api
+     */
+    public function doApi(){
+        return [
+        ];
+    }
 
-//    public function actions()
-//    {
-//
-//    }
-//
-//    public function behaviors()
-//    {
-//        return [
-//            'access' => [
-//                'only' => [],                         //行为限定
-//                    'rules' => [
-//                    [
-//                        'actions' => [],              //行为限定
-//                        'allow' => true,              //判定
-//                        'roles' => ['G'],
-//                    ],
-//                ],
-//            ],
-//        ];
-//    }
+    /**
+     * @return array
+     * 返回依赖关系
+     */
+    public function doDepend()
+    {
+        return [
+        ];
+    }
+
+    public function doDependTable()
+    {
+        return [
+            'Menu'
+        ];
+    }
 
 }

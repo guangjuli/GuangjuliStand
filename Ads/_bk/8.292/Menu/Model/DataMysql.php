@@ -24,7 +24,7 @@ class DataMysql implements \Grace\Base\ModelInterface
      */
     public function menuLibIndex()
     {
-        //todo 转数据库
+
         return [
             [
                 'title' => '设置',
@@ -50,7 +50,7 @@ class DataMysql implements \Grace\Base\ModelInterface
      */
     public function menuLib()
     {
-        //todo 转数据库
+
         return [
             'asdf/asdf/asfd'=>[
                 'title' => 'Dashboard',

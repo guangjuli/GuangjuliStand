@@ -18,49 +18,24 @@ class Home extends BaseController
      */
     public function doIndex()
     {
+        //echo adsdata('gui/home/IsAdminLogin');
         //test it : http://gst.so/Man?base/home/index
+        $html = \App\Ads::Run();
         server('Smarty')->ads('gui/home/index')->display('',[
-            "Nav"         =>"gui/home/Nav",
-            "Navleft"     =>"gui/home/Navleft",
-            "Breadcrumb"  =>"gui/home/Breadcrumb",
-            "Tip"         =>"gui/home/Tip",
-            "Levelthree"  =>"gui/home/Levelthree",
-            "Footer"      =>"gui/home/Footer",
-            'html'      => \App\Ads::Run()
+            "gui_Nav"         => 'Menu/Widget/Nav',
+            "gui_Navleft"     =>"Menu/Widget/Navleft",
+            "gui_NavLevelThree"  =>"Menu/Widget/NavLevelThree",
+            "gui_Breadcrumb"  =>"Menu/Widget/Breadcrumb",
+//            "gui_Tip"         =>"Menu/home/Tip",
+//            "gui_Footer"      =>"gui/home/Footer",
+            'gui_html'      => $html
         ]);
     }
 
-    public function doNav()
+
+    public function doIsAdminLogin()
     {
-        return 'nav';
+        return Application('AdminAuth')->isLogin();
     }
-
-    public function doNavleft()
-    {
-        return 'navleft';
-    }
-
-    public function doBreadcrumb()
-    {
-        return 'doBreadcrumb';
-    }
-
-    public function doTip()
-    {
-        return 'doTip';
-    }
-
-    public function doLevelthree()
-    {
-        return 'doLevelthree';
-    }
-
-    public function doFooter()
-    {
-        return 'doFooter';
-    }
-
-
-
 
 }
