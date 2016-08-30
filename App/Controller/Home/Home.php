@@ -18,28 +18,30 @@ class Home extends BaseController
     public function doIndex()
     {
 
+        \App\Ads::Run();
 
-//
-//        //当前菜单
-        $menu = adsdata('data/data/Menuall');
-//
-//        //当前菜单top
-        $menutop = adsdata('data/data/Menutop');
-//
-
-
-
-        D($menutop);
-
-//        $res = \App\Ads::getInstance()->package('Sim')->help();
-        //$res = \App\Ads::getInstance()->pds('base/home/index',['title'=>'testtitle']);
-        R('/ads/');
+       // $res = adsdata('Map/Home/Det');
+        D($res);
 
 
 
 
-        D(req());
+//        $res = adsdata('data/home/Api');     //平行菜单
 
+//        $res = adsdata('Menu/widget/Breadcrumb');     //平行菜单
+       // $res = adsdata('Menu/data/MenuId');
+        //$res = adsdata('Menu/widget/Nav');
+
+//        $res = adsdata('data/data/AdminBase');
+//        $res = adsdata('Menu/data/widgetNav');
+//        $res = adsdata('Menu/widget/Nav');
+        $res = adsdata('Menu/Widget/NavLevelThree');
+
+echo $res;
+        exit;
+        D($res);
+//        D(req());
+//        R('/ads/');
     }
 
 

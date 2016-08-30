@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Data\Controller\Home;
+namespace Ads\Usergroup\Controller\Html;
 
 //hook
 class BaseController{
@@ -14,14 +14,6 @@ class BaseController{
      */
     public function doApi(){
         return [
-            'data/menu/MenuLevelThree',
-            'data/menu/MenuTop',
-            'data/menu/Menu',
-            'data/menu/MenuSec',
-            'data/menu/List',
-            'data/menu/TopId',
-            'data/menu/MenuId',
-            'data/menu/ParendId',
         ];
     }
 
