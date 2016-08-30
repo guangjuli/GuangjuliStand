@@ -44,8 +44,7 @@ class Token implements ModelInterface
     public function getTokenInfo($accessToken)
     {
         $check = $this->getTokenInfoFromSql($accessToken);
-        $info = $check?$check:[];
-        return $info;
+        return $check?$check:[];
     }
 
     /**
@@ -77,7 +76,7 @@ class Token implements ModelInterface
      */
     public function isEnableToken($token)
     {
-        if(!$token)return [];
+        if(!is_string($token)||empty($token))return [];
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return [];
         $enableTime = intval($tokenInfo['createAt'])+intval($tokenInfo['expireIn']);
@@ -92,6 +91,7 @@ class Token implements ModelInterface
      */
     private function getTokenInfoFromSql($accessToken)
     {
+        if(!is_string($accessToken)) return [];
         $tokenInfo = server('Db')->getRow("select * from token where `accessToken`='$accessToken'");
         return  $tokenInfo?$tokenInfo:[];
     }
@@ -171,7 +171,7 @@ class Token implements ModelInterface
     /**
      * 校验verify是否正确
      * @param array $req
-     * $req中包含键名 'verigy','deviceId','login'or'phone','time'
+     * $req中包含键名 'verify','deviceId','login'or'phone','time'
      * @return boolean
      */
     public function verify($req)
