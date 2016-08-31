@@ -23,7 +23,7 @@
                     <td>{$item['active']}</td>
                     <td>
                         <a href="/man/?usergroup/html/edit&id={$item['groupId']}">修改</a>
-                        <a class="shamget" rel="/man/res?usergroup/html/delete&id={$item['groupId']}" comfirm="是否删除?">删除</a>
+                        <a class="shamget" rel="/man/?usergroup/html/delete&id={$item['groupId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>
             {/foreach}

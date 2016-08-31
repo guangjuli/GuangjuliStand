@@ -44,6 +44,67 @@ class Data {
     }
 
     /**
+     * 选择菜单的时候要用
+     */
+    public function doMenc($id = 0) //排除掉本菜单和下级菜单   - 三级 显示所有 二级 显示一级和二级 一级 显示一级和二级
+    {
+        //首先对本id 进行处理
+        $level = 1;
+        $res = $res2 = [];
+        if($id){
+            //计算本id层级
+            $res = server('db')->getcol("select menuId from menu where parentId =$id");
+            if(empty($res)){
+                $level = 1;
+
+                //所有的,除了本id
+
+            }else{
+                //发现有子目录
+                //检查子菜单有没有子菜单
+                $res2 = server('db')->getcol("select menuId from menu where parentId in(select menuId from menu where parentId =$id)");
+                if(empty($res2)){
+                    $level = 2;
+                    //所有的,一级二级的二级的
+
+                }else {
+                    $level = 3;
+                    //不能更改了,
+                }
+            }
+        }
+        //获得level
+        $list = $this->menuList;
+        $____dis[0] = '顶级菜单';
+        if($level == 1){
+            //所有的,除了自己id
+            if(!empty($id))unset($list[$id]);
+            foreach($list as $key=>$value){
+                if($value['parentId'] ==0){
+                    $____dis[$key] = "　|---".$value['title'];
+                    foreach($list as $k=>$v) {
+                        if($value['menuId'] == $v['parentId']) {
+                            $____dis[$k] = "　　|---".$v['title'];
+                        }
+                    }
+                }
+            }
+        }
+        if($level == 2){
+            //有子菜单
+            //所有的,除了自己id
+            unset($list[$id]);
+            foreach($list as $key=>$value){
+                if($value['parentId'] ==0){
+                    $____dis[$key] = "|---".$value['title'];
+                }
+            }
+        }
+        //echo $level;
+        return $____dis;
+    }
+
+        /**
      * 第三层平行菜单
      * 要跟当前同级
      * 第三集合
