@@ -28,6 +28,7 @@
  * api      //widget
  * depend       //返回depend数据
  * setup        //返回setup界面
+ * menu     返回菜单数据 insert 进入menu表
  */
 ```
 
@@ -35,12 +36,6 @@
 ```
 Base/wd/setup   //widget约定存放
 Base/wd/setup   //响应
-
-获取ads
-$this->pds =
-
-
-
 ```
 
 ### 具体方法
@@ -162,4 +157,3 @@ req('Abase')
 //[Ads] => asdf/asdfasdf/asdf       问好后面的
 //[Adsbase] => /Home/Index/         uri 在响应的时候用上
 ```
-
