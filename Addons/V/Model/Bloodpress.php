@@ -57,30 +57,60 @@ class Bloodpress implements ModelInterface
     }
 
     /**
-     * 插入血压记录
+     * 相同字段的数据批量插入(相同：字符，顺序，个数等都相同)
+     * [['name'=>'test','age'=>18],['name'=>'hero','age'=>21]，['name'=>'hero','age'=>21]
+     *      ，['name'=>'hero'],'name'=>'test']该函数会对键名：3,'name'进行过滤，即不会插入,其标准以键名0对应的键值数组为标准
      * @param array $req
-     * 请求参数 包含：type,createDay,time,shrink,diastole,bpm,day,userId   ,批量插入
+     * @param string $table
      * @return boolean
      */
-    public function insertBloodLog(Array $req)
+    public function batchInsert(Array $req,$table)
     {
-        $userId = $req['userId']?:bus('tokenInfo')['userId'];
+        //获取表的字段
+        $field_names = server('Db')->getCol('DESC '.$table);
+        if(empty($field_names)) return false;
+        //待插入数据必须以数组的形式存在
+        $firstData = current($req);   //插入字段是以第一个键值的键名为标准
+        if(!is_array($firstData)||empty($firstData)) return false;
+        //验证并拼装待插入字段
+        $insertFields = array_keys($firstData);  //待插入字段组成的数组
+        foreach($insertFields as $v){            //检查待插入字段存在性
+            $v = trim(str_replace("'",'',$v));
+            if(!in_array($v,$field_names))return false;
+        }
+        $fields = '('.implode(',',$insertFields).')';
+        $fields = str_replace("'",'`',$fields); // $fields待插入字段拼装成的字符串
         //拼装值组成的字符串
         $insert = array();
-        foreach($req['story'] as $v){
-            $v['userId'] = $userId;
-            $insert[] = '('.implode(',',$v).')';
+        foreach($req as $k=>$v){
+            if(is_array($v)){
+                if(empty(array_diff_assoc($insertFields,array_keys($v)))){
+                    $valueArray = array_values($v);
+                    $valueString = '';
+                    foreach($valueArray as $value){
+                        $valueString.="'".$value."',";
+                    }
+                    $insert[] = '('.rtrim($valueString,',').')';
+                }
+            }  //对不是数组，及字段同标准字段不一致的进行过滤
         }
-        $insert = implode(',',$insert);     //值
-        //拼装键名组成的字符串
-        $params = current($req['story']);
-        $params['userId'] = $userId;
-        $fields = '('.implode(',',array_keys($params)).')';   //字段名
-        $fields = str_replace("'",'`',$fields);
+        $insert = implode(',',$insert);   //由待插入数据拼装成的字符串
+        if(empty($insert)) return false;
         //拼装sql语句
-        $sql = "insert into bloodpress $fields  values $insert";
+        $sql = "insert into {$table}{$fields}values{$insert}";
         $check = server('Db')->query($sql);
         return $check?true:false;
+    }
+
+    public function insertBloodLog(Array $req)
+    {
+        $userId = intval($req['userId'])?:bus('tokenInfo')['userId'];
+        $insertData = array();
+        foreach($req['story']as $v){
+            $v['userId'] = $userId;
+            $insertData[] = $v;
+        }
+        return $this->batchInsert($insertData,'bloodpress');
     }
 
     /**
