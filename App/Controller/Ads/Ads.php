@@ -7,7 +7,7 @@ class Ads extends BaseController
 
     use \App\Traits\AjaxReturnHtml;
 
-    private $packagisturi = 'http://packagist.phpleague.cn//list.json';
+    private $packagisturi = 'http://packagist.phpleague.cn/list.json';
 
     public function __construct(){
         parent::__construct();
