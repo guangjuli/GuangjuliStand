@@ -48,7 +48,7 @@
                     <td>{$item['apiId']}</td>
                     <td>{$item['v']}</td>
                     <td>{$item['type']}</td>
-                    <td><a href="/api/log?id={$item['apiId']}">{$item['api']}</a></td>
+                    <td><a href="/admin/api/log?id={$item['apiId']}">{$item['api']}</a></td>
                     <td>{$item['title']}</td>
                     <td>
                        {if $item['active'] eq 1}
@@ -60,9 +60,9 @@
 
                     </td>
                     <td>
-                        <a href="/api/log?id={$item['apiId']}">日志</a>
-                        <a href="/api/list/edit?id={$item['apiId']}">修改</a>
-                        <a class="shamget" rel="/api/list/delete?id={$item['apiId']}" comfirm="是否删除?">删除</a>
+                        <a href="/admin/api/log?id={$item['apiId']}">日志</a>
+                        <a href="/admin/api/list/edit?id={$item['apiId']}">修改</a>
+                        <a class="shamget" rel="/admin/api/list/delete?id={$item['apiId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>
                 {/foreach}

@@ -24,7 +24,7 @@ class Register implements ModelInterface
         ];
     }
 
-    public function registerConfig($code=null)
+    public function registerConfig($code)
     {
         $config = [
             200  =>'succeed',
@@ -38,30 +38,33 @@ class Register implements ModelInterface
             -402 =>'该设备不存在',
             -208 =>'note send error, could you please resend',
         ];
-        $return = $code?$config[$code]:$config;
-        return $return;
+        return $config[$code];
     }
 
     /**
      * 校验注册请求
-     * @param $req
+     * @param array $req
      * @return int
+     * 200表示成功，其他编码查看registerConfig($code)显示对应文本
      */
     public function validateRegisterReq(Array $req)
     {
         //验证请求参数
         $field = ['verify','time','deviceId','phone','password','type','deviceType'];
+        //验证用户令牌
         if(!model('Validate')->validateParams($field,$req))return $code = -204;
         if(!model('Token')->verify($req))return $code = -205;
-        if(!model('Validate')->validateNumberLetter($req['password']))return $code = -203;
+        //验证用户是否存在
         if(model('User')->isExistUserByLogin($req['phone']))return $code = -401;
-
-        //验证通过，将待存储数据加入bus()
-        //TODO:groupId写死了
-        $type = strtolower($req['type'])=='android'?'20':'18';
+        //验证密码格式
+        if(!model('Validate')->validateNumberLetter($req['password']))return $code = -203;
+        //校验设备类型
         $deviceTypeMap = model('Device')->getDeviceTypeMap();
         $device = $deviceTypeMap[$req['deviceType']];
         if(!$device) return -402;
+        //验证通过，将待存储数据加入bus()
+        //TODO:groupId写死了
+        $type = strtolower($req['type'])=='android'?'20':'18';
         //TODO: 密码尚没有加密
         bus(['register'=>[
             'device'=>$req['deviceId'],
@@ -77,14 +80,20 @@ class Register implements ModelInterface
 
     /**
      * 注册
+     * @param array $register
+     * 如果参数经过validateRegisterReq(Array $req)校验，此参数可不填写
      * @return boolean
      */
+    //TODO:分别插入了不同的表，需要事务控制，user,device
     public function register($register=[]){
-        $register = $register?$register:bus('register');
+        //参数校验
+        $register = $register?:bus('register');
         if(!$register)return false;
         $register['login']=$register['login']?:$register['phone'];
+        //执行sql->user
         $userId = model('User')->insertUserReturnId($register);
         if(empty($userId))return false;
+        //执行sql->device
         $device = [
           'userId'=>$userId,
           'device'=>$register['device'],
@@ -96,22 +105,25 @@ class Register implements ModelInterface
     }
 
     /**
-     * 注册短信验证码
+     * 注册短信验证码验证请求参数
      * @param array $req
      * @return int
      */
     public function registerCheckCodeValidateReq(Array $req)
     {
+        //验证用户令牌
         $field = ['phone','verify','time','deviceId'];
         if(!model('Validate')->validateParams($field,$req)||!model('Token')->verify($req)) return -205;
+        //验证手机号是否已存在
         if(model('User')->isExistUserByLogin($req['phone']))return -401;
         return 200;
     }
 
     /**
      * 注册短信验证码
-     * @param int $phone
+     * @param string $phone
      * @return int
+     * 如果成功返回验证码
      */
     public function registerCheckCode($phone)
     {

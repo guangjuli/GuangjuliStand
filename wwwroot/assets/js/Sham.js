@@ -135,6 +135,11 @@ $(function() {
     /**
      * 显示拟态对话框
      */
+    $('.shamboxn').click(function(){
+        var title = $(this).attr("title")
+        showAjaxModaln($(this).attr("rel"),title)
+    });
+
     $('.shambox').click(function(){
         var title = $(this).attr("title")
         showAjaxModal($(this).attr("rel"),title)
@@ -144,7 +149,11 @@ $(function() {
         var title = $(this).attr("title")
         showAjaxModall($(this).attr("rel"),title)
     });
-	
+    $('.shamboxnl').click(function(){
+        var title = $(this).attr("title")
+        showAjaxModalnl($(this).attr("rel"),title)
+    });
+
 });
 
 
@@ -190,6 +199,30 @@ function setc(name){
  * @param url
  * @param title
  */
+
+function showAjaxModaln(url,title)
+{
+    $('.modal_ok').unbind("click");
+    if ( $("#modal-sham").length > 0 ) {
+    } else {
+        $(document.body).append("<!-- Modal sham (Ajax Modal)--><div class=\"modal fade\" id=\"modal-sham\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button><h4 class=\"modal-title\">Title</h4></div><div class=\"modal-body\">Content is loading...</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-white modal_close\" data-dismiss=\"modal\">关闭</button></div></div></div></div>");
+    }
+    jQuery('#modal-sham').modal('show', {backdrop: 'static'});
+    jQuery.ajax({
+        url: url,
+        success: function(response)
+        {
+            console.log(url);
+            jQuery('#modal-sham .modal-title').html(title);
+            jQuery('#modal-sham .modal-body').html(response);
+            var JS = $("script[type='text/dialog']").html();
+            eval(JS);
+        }
+    });
+}
+
+
+
 function showAjaxModal(url,title)
 {
     $('.modal_ok').unbind("click");
@@ -231,3 +264,26 @@ function showAjaxModall(url,title)
         }
     });
 }
+
+
+function showAjaxModalnl(url,title)
+{
+    $('.modal_ok').unbind("click");
+    if ( $("#modal-shamL").length > 0 ) {
+    } else {
+        $(document.body).append("<!-- Modal sham (Ajax Modal)--><div class=\"modal fade\" id=\"modal-shamL\"><div class=\"modal-dialog modal-lg\" style=\"width:60%\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button><h4 class=\"modal-title\">Title</h4></div><div class=\"modal-body\">Content is loading...</div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-white modal_close\" data-dismiss=\"modal\">关闭</button></div></div></div></div>");
+    }
+    jQuery('#modal-shamL').modal('show', {backdrop: 'static'});
+    jQuery.ajax({
+        url: url,
+        success: function(response)
+        {
+            console.log(url);
+            jQuery('#modal-shamL .modal-title').html(title);
+            jQuery('#modal-shamL .modal-body').html(response);
+            var JS = $("script[type='text/dialog']").html();
+            eval(JS);
+        }
+    });
+}
+

@@ -23,18 +23,9 @@ class Gate implements ModelInterface
     //凡是token必须的接口都要接受token检验后才能调用相应的方法
     public function verifyToken($token)
     {
-       $tokenInfo =model('Token')->isEnableToken($token);
-       if($tokenInfo){
-            bus([
-               'tokenInfo'=>$tokenInfo
-            ]);
-       }else{
-           AjaxReturn::AjaxReturn([
-              'code'=>-500,
-               'msg'=>'token is not in a valid'
-           ]);
-       }
+        model('Token')->verifyToken($token);
     }
+
 
 
 }

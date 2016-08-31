@@ -9,30 +9,49 @@
 namespace Addons\Model;
 
 
-class Bloodpress
+use Grace\Base\ModelInterface;
+
+class Bloodpress implements ModelInterface
 {
+    public function depend()
+    {
+        return[
+          'Server::Db'
+        ];
+    }
+
     /**
      * 按时间戳删除血压记录
-     * @param $time
+     * @param int $time
+     * @param int $userId
      * @return boolean
      */
-    public function deleteBloodLogByTimestamp($time)
+    public function deleteBloodLogByTimestamp($time,$userId=null)
     {
+        //参数校验
         $time = intval($time);
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $userId?:bus('tokenInfo')['userId'];
+        $userId = intval($userId);
+        if(empty($time)||empty($userId))return false;
+        //执行sql
         $check = server('Db')->query("delete from bloodpress where `userId`= $userId and `time`= $time");
         return $check?true:false;
     }
 
     /**
      * 按日期删除血压记录
-     * @param $createDay
+     * @param int $createDay
+     * @param int $userId
      * @return boolean
      */
-    public function deleteBloodLogByDate($createDay)
+    public function deleteBloodLogByDate($createDay,$userId=null)
     {
+        //参数校验
         $createDay = intval($createDay);
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $userId?:bus('tokenInfo')['userId'];
+        $userId = intval($userId);
+        if(empty($createDay)||empty($userId)) return  false;
+        //执行sql
         $check = server('Db')->query("delete from bloodpress where `userId`= $userId and `createDay`= $createDay");
         return $check?true:false;
     }
@@ -40,50 +59,67 @@ class Bloodpress
     /**
      * 插入血压记录
      * @param array $req
+     * 请求参数 包含：type,createDay,time,shrink,diastole,bpm,day,userId   ,批量插入
      * @return boolean
      */
     public function insertBloodLog(Array $req)
     {
-        //插入bloodpress表
-        $userId = bus('tokenInfo')['userId'];
+        $userId = $req['userId']?:bus('tokenInfo')['userId'];
+        //拼装值组成的字符串
         $insert = array();
         foreach($req['story'] as $v){
             $v['userId'] = $userId;
             $insert[] = '('.implode(',',$v).')';
         }
-        $insert = implode(',',$insert);
-        $check = server('Db')->query("insert into bloodpress(type,createDay,time,shrink,diastole,bpm,day,userId)values $insert");
+        $insert = implode(',',$insert);     //值
+        //拼装键名组成的字符串
+        $params = current($req['story']);
+        $params['userId'] = $userId;
+        $fields = '('.implode(',',array_keys($params)).')';   //字段名
+        $fields = str_replace("'",'`',$fields);
+        //拼装sql语句
+        $sql = "insert into bloodpress $fields  values $insert";
+        $check = server('Db')->query($sql);
         return $check?true:false;
     }
 
     /**
      * 通过日期和类型获取血压记录
      * @param array $req
+     * $req 包含键名有：type,createDay,userId
      * @return array
      */
     public function getBloodLogByDateAndType(Array $req)
     {
+        //校验参数
         $userId = $req['userId']?:bus('tokenInfo')['userId'];
+        $userId = intval($userId);
         $type = intval($req['type']);
         $createDay = intval($req['createDay']);
+        if(empty($userId)||empty($type)||empty($createDay)) return [];
+        //执行sql
         $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay from bloodpress where `userId`=$userId and `type`=$type and `createDay`=$createDay");
         return $bloodInfo?$bloodInfo:[];
     }
 
     /**
      * 通过日期获取血压折线图
-     * @param $createDay
-     * @param $day
+     * @param int $createDay
+     * @param int $day
      * 1:白天，0：晚上，折线图未用到，方便饼状图使用
+     * @param int $userId
      * @return array
      */
     public function getBloodLineGraphByDate($createDay,$day=null,$userId=null)
     {
+        //参数处理
         $userId = $userId?:bus('tokenInfo')['userId'];
         $createDay = intval($createDay);
-        //$peiChart是饼状图所查询条件，此处并未使用
-        $peiChart = $day||$day===0?"and `day`=$day":'';
+        if(empty($userId)||empty($createDay)) return [];
+        $peiChart = $day||$day===0?"and `day`='$day'":'';
+        //执行sql
         $bloodInfo = server('Db')->getAll("select shrink,diastole,bpm from bloodpress where `userId`=$userId and `createDay`='$createDay' $peiChart");
+        //返回值处理
         if($bloodInfo){
             $data = array();
             foreach($bloodInfo as $v){
@@ -98,9 +134,10 @@ class Bloodpress
 
     /**
      * 通过日期获取血压柱状图
-     * @param $createDay
-     * @param $day
+     * @param int $createDay
+     * @param int $day
      * 1:白天，0：晚上，柱状图未用到，方便饼状图使用
+     * @param int $userId
      * @return array
      */
     public function getBloodBarGraphByDate($createDay,$day=null,$userId=null)
@@ -137,8 +174,9 @@ class Bloodpress
 
     /**
      * 根据白天夜晚或全天获取饼状图
-     * @param $createDay
-     * @param $day
+     * @param int $createDay
+     * @param string $day
+     * $day可选值：day,night,'',空代表全天
      * @return array
      */
     public function getPieChartByDay($createDay,$day='')
@@ -169,7 +207,7 @@ class Bloodpress
             $countValue=array_count_values($allValue);   //对数据进行统计出现次数
             $numValue = array();   //初始化存储次数的数组
             foreach($countValue as $k=>$v){
-                $key = floor($k/10);     //数据分割以10为单位
+                $key = intval(floor($k/10));     //数据分割以10为单位
                 $numValue[$key][] =$v;
             }  //将十位以上相同的数据分组
             if(!empty($numValue)){

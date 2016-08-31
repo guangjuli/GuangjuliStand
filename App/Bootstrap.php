@@ -35,11 +35,22 @@ class Bootstrap
         $controller = ($get['c'] ?: (isset($get['C']) ? $get['C'] : '')) ?: 'Home';
         $mothed = ($get['a'] ?: (isset($get['A']) ? $get['A'] : '')) ?: 'Index';
 
+        //ads补全
+        $___ads = trim($req->ads,'/');
+        if(!empty($___ads)){
+            $___adsar = explode('/',$___ads);
+            $___adsar[1] = $___adsar[1]?:'home';
+            $___adsar[2] = $___adsar[2]?:'index';
+            $___ads = implode('/',$___adsar);
+        }
+
         //创建路由数据
         req([
             'Get' => $req->get,
             'Post' => $req->post,
             'Env' => $req->env,
+            'Ads' => $___ads,
+            'Adsbase' => '/'.$controller.'/'.$mothed.'/',
             'Router' => [
                 'type' => $req->env['REQUEST_METHOD'],
                 'controller' => ucfirst(strtolower($controller)),

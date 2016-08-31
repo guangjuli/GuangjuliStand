@@ -9,8 +9,17 @@
 namespace Addons\Model;
 
 
-class Usergroup
+use Grace\Base\ModelInterface;
+
+class Usergroup implements ModelInterface
 {
+    public function depend()
+    {
+        return[
+          'Server::Db'
+        ];
+    }
+
     /**
      * 获取用户组map集合
      * @return array
@@ -18,6 +27,6 @@ class Usergroup
     public function getMapUserGroup()
     {
        $map = server('Db')->getMap("select groupId,groupName from user_group");
-       return $map?$map:[];
+       return $map?:[];
     }
 }
