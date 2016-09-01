@@ -1,6 +1,6 @@
 <!-- content -->
 <div class="row">
-    <div class="col-md-3 ">
+    <div class="col-md-4">
         <table class="table table-hover" id="dt1">
             <tbody>
             {foreach from=$toplist key=$key item=$item}
@@ -16,7 +16,7 @@
             </tbody>
         </table>
      </div>
-    <div class="col-md-3 ">
+    <div class="col-md-4">
     {if $smarty.get.topid neq ''}
         <table class="table table-hover" id="dt1">
             <tbody>
