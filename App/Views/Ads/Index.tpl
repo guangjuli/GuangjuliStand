@@ -14,84 +14,104 @@
 <body>
 
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/admin/">ADM</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li>
+                    <a href="javacript:void(0)"><span aria-hidden="true"></span>列表</a>
+                </li>
+                <li>
+                    <a href="/ads/download"><span aria-hidden="true"></span>下载</a>
+                </li>
+                <li>
+                    <a href="/ads/makezip"><span aria-hidden="true"></span>打包</a>
+                </li>
+                <li>
+                    <a href="/ads/upload"><span aria-hidden="true"></span>发布</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <th width="150">Package</th>
-                    <th>信息</th>
-                    <th>数据</th>
-                    <th>Widget</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Base</td>
-                        <td>Api / Help / Readme / Install / Unstall / Config.Setup</td>
-                        <td>Depend Bedepend Api</td>
-                        <td>Data / Widget</td>
-                    </tr>
-                <tbody>
+        <div class="col-sm-3 col-md-2 sidebar">
+            <!-- ul class="nav nav-sidebar">
+                    <li ><a href=""> 说明</a></li>
+            </ul -->
 
-            </table>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
+        <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!-- Breadcrumb -->
+            <div style="margin: 0px 0px 20px 0px;"></div>
+
+
             <table class="table table-striped table-hover">
                 <thead>
-                <th>123123123</th>
-                <th>123123123</th>
-                <th>123123123</th>
-                <th>123123123</th>
+                <th>功能包</th>
+                <th>版本</th>
+                <th>名称</th>
+                <th>说明</th>
                 <th>操作</th>
                 </thead>
                 {foreach from=$rc key=key item=item}
-                {foreach from=$item key=k item=i}
-                <tr>
-                    <td>{$key}</td>
-                    <td>{$k}</td>
-                    <td>{$i['title']}</td>
-                    <td><pre>{$i['des']}</pre></td>
-                    <td>
-                        {if $i['isdownload'] neq 1}
-                            <a class="shamget" comfirm="下载?" rel="/ads/download/?target={$i['key']}">下载</a>
-                        {else}
-                            下载
-                        {/if}
-                        {if $i['isdownload'] eq 1 && $i['islockfile'] neq 1}
-                            <a class="shamget" rel="/ads/install/?target={$i['key']}">安装</a>
-                        {else}
-                            安装
-                        {/if}
-                        {if $i['islockfile'] eq 1}
-                            <a class="shamget" comfirm="删除操作会造成信息丢失,请谨慎操作" rel="/ads/uninstall/?target={$i['key']}">卸载</a>
-                        {else}
-                            卸载
-                        {/if}
+                    {foreach from=$item key=k item=i}
+                        <tr>
+                            <td>{$key}</td>
+                            <td>{$k}</td>
+                            <td>{$i['title']}</td>
+                            <td><pre>{$i['des']}</pre></td>
+                            <td>
+                                {if $i['isdownload'] neq 1}
+                                    <a class="shamget" comfirm="下载?" rel="/ads/download/?target={$i['key']}">下载</a>
+                                {else}
+                                    下载
+                                {/if}
+                                {if $i['isdownload'] eq 1 && $i['islockfile'] neq 1}
+                                    <a class="shamget" rel="/ads/install/?target={$i['key']}">安装</a>
+                                {else}
+                                    安装
+                                {/if}
+                                {if $i['islockfile'] eq 1}
+                                    <a class="shamget" comfirm="删除操作会造成信息丢失,请谨慎操作" rel="/ads/uninstall/?target={$i['key']}">卸载</a>
+                                {else}
+                                    卸载
+                                {/if}
 
-                        {if $i['islockfile'] eq 1}
-                        <a class="shamboxnl" title="设置" rel="/ads/setup/?target={$i['key']}">设置</a>
-                        {else}
-                        设置
-                        {/if}
-                        API
+                                {if $i['islockfile'] eq 1}
+                                    <a class="shamboxnl" title="设置" rel="/ads/setup/?target={$i['key']}">设置</a>
+                                {else}
+                                    设置
+                                {/if}
+                                API
 
 
-                    </td>
-                </tr>
-                {/foreach}
+                            </td>
+                        </tr>
+                    {/foreach}
                 {/foreach}
             </table>
+
+
+            <!-- /content -->
         </div>
-        <!-- div class="col-sm-3 col-md-2 sidebar">
-        </div>
-        <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        </div -->
     </div>
 </div>
+
+
 
 <!-- Bootstrap core JavaScript -->
 <script src="/assets/js/jquery-1.11.1.min.js"></script>
