@@ -71,6 +71,18 @@ class User implements ModelInterface
     }
 
     /**
+     * 根据userId删除用户
+     * @param int $userId
+     * @return boolean
+     */
+    public function deleteUserByUserId($userId)
+    {
+        $userId = intval($userId);
+        $check=server('Db')->query("delete from user where `userId`=$userId");
+        return $check?true:false;
+    }
+
+    /**
      * 插入用户返回id
      * @param array $array
      * @param int $userId
@@ -108,7 +120,7 @@ class User implements ModelInterface
      * @param array $req
      * @return int
      */
-    public function validateUserReq($req)
+    public function validateUserReq(Array $req)
     {
         $req['gender']=intval($req['gender']);
         $config = $this->paramsConfig();
@@ -121,13 +133,14 @@ class User implements ModelInterface
     //TODO:待指定详细返回值
     /**
      * 依据token获取用户信息
+     * @param int $userId
      * @return array
      */
-    public function getUserInfoByToken()
+    public function getUserInfoByToken($userId=null)
     {
         $filed=['trueName','login','gravatar','gender','birthday','height'];
         $filed = implode(',',$filed);
-        $userId = bus('tokenInfo')['userId'];
+        $userId = intval($userId)?:bus('tokenInfo')['userId'];
         $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
         return $userInfo?:[];
     }
@@ -139,8 +152,7 @@ class User implements ModelInterface
      */
     public function getUserInfoByUserId($userId=null)
     {   //参数设置
-        $userId = $userId?$userId:bus('tokenInfo')['userId'];
-        $userId = intval($userId);
+        $userId = intval($userId)?:bus('tokenInfo')['userId'];
         if(empty($userId)) return [];
         //执行sql
         $userInfo = server('Db')->getRow("select * from user where userId = $userId");

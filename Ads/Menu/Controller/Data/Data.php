@@ -3,6 +3,7 @@ namespace Ads\Menu\Controller\Data;
 
 class Data {
 
+    private $baseurl = '/man/';
 
     private $ads = '';
     private $menu = [];        //当前菜单
@@ -202,7 +203,8 @@ class Data {
 
     public function doBreadcrumb()
     {
-        $base = adsdata('data/define/AdminBase');
+        //$base = adsdata('data/define/AdminBase');
+        $base = $this->baseurl;
         $res = [
             'top' => $this->menuList[$this->topId],
             'parent'=> $this->menuList[$this->parendId],
@@ -216,7 +218,8 @@ class Data {
 
     public function doNavLevelThree()
     {
-        $base = adsdata('data/define/AdminBase');
+        //$base = adsdata('data/define/AdminBase');
+        $base = $this->baseurl;
         $res = $this->doMenuLevelThree();
         foreach($res as $key=>$value){
             $res[$key]['path'] = $base.'?'.$value['ads'];
@@ -226,7 +229,9 @@ class Data {
 
     public function doWidgetNav()
     {
-        $base = adsdata('data/define/AdminBase');
+//        $base = adsdata('data/define/AdminBase');
+        $base = '/man/';
+        $base = $this->baseurl;
         $res = $this->doMenuTop();
         foreach($res as $key=>$value){
             $res[$key]['path'] = $base.'?'.$value['ads'];
@@ -236,7 +241,8 @@ class Data {
 
     public function doWidgetNavLeft()
     {
-        $base = adsdata('data/define/AdminBase');
+       // $base = adsdata('data/define/AdminBase');
+        $base = $this->baseurl;
         $res = $this->doMenuSec();
 
         //获取当前的顶级id
