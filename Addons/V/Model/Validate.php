@@ -29,6 +29,7 @@ class Validate implements ModelInterface
      */
     public function validateNumberLetter($str,$min=null,$max=null)
     {
+        if(!is_string($str)||!is_int($min)||!is_int($max))return false;
         $min = $min?:5;
         $max = $max?:20;
         $preg = '/^[a-zA-Z]+[a-zA-Z0-9_]{'.$min.','.$max.'}$/';
@@ -41,7 +42,7 @@ class Validate implements ModelInterface
      * @param array $req
      * @return boolean
      */
-    public function validateParams($field,Array $req)
+    public function validateParams(Array $field,Array $req)
     {
         if(!$this->isExistParams($field,$req))return false;
         if(!$this->isEmpty($req))return false;

@@ -64,7 +64,7 @@ class Register implements ModelInterface
         if(!$device) return -402;
         //验证通过，将待存储数据加入bus()
         //TODO:groupId写死了
-        $type = strtolower($req['type'])=='android'?'20':'18';
+        $type = strtolower($req['type'])=='android'?'20':'21';
         //TODO: 密码尚没有加密
         bus(['register'=>[
             'device'=>$req['deviceId'],
@@ -84,7 +84,6 @@ class Register implements ModelInterface
      * 如果参数经过validateRegisterReq(Array $req)校验，此参数可不填写
      * @return boolean
      */
-    //TODO:分别插入了不同的表，需要事务控制，user,device
     public function register($register=[]){
         //参数校验
         $register = $register?:bus('register');
@@ -100,7 +99,10 @@ class Register implements ModelInterface
           'deviceTypeId'=>$register['deviceTypeId']
         ];
         $checkIsInsert = model('Device')->insertDevice($device);
-        if(!$checkIsInsert)return false;
+        if(!$checkIsInsert){        //如果设备表插入不成功，就删除刚插入user表的数据，最好用事务控制
+            model('User')->deleteUserByUserId($userId);
+            return false;
+        }
         return true;
     }
 

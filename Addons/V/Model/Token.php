@@ -147,7 +147,7 @@ class Token implements ModelInterface
      * @return boolean
      */
     //TODO:算法待修改，一个用户可能有多台设备，设备编号不唯一，加入deviceId，同一用户token不唯一,计算token修改
-    private function token($req)
+    private function token(Array $req)
     {
         //验证verify是够正确
         if(!$this->verify($req)) return false;

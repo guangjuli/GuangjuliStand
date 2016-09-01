@@ -2,27 +2,90 @@
 namespace Ads\Config\Controller\Html;
 
 class Html {
+    use \App\Traits\AjaxReturnHtml;
 
     public function doIndex(){
     }
 
+    //编辑
     public function doEdit()
     {
-        return '管理修改';
+        $id = intval(req('Get')['id']);
+        $info = server('Db')->getRow("select * from system_config where id = {$id}");
+        $type = $this->group('CONFIG_TYPE_LIST');
+        $group = $this->group('CONFIG_GROUP_LIST');
+        return  server('Smarty')->ads('config/html/manedit')->fetch('',[
+            'row' => $info,
+            'type'=>$type,
+            'group'=>$group
+        ]);
     }
 
+    public function doEditPost()
+    {
+        $req = req('Post');
+        $id = intval($req['id']);
+        $where = "id = {$id}";
+        unset($req['id']);
+        $req = saddslashes($req);
+        server('db')->autoExecute('system_config',$req,'UPDATE',$where);
+        R("/man/?config/html/man");
+    }
 
+    //添加
     public function doAdd()
     {
-        return '管理添加';
+        $type = $this->group('CONFIG_TYPE_LIST');
+        $group = $this->group('CONFIG_GROUP_LIST');
+        return  server('Smarty')->ads('config/html/manadd')->fetch('',[
+            'type'=>$type,
+            'group'=>$group
+        ]);
+    }
+
+    public function doAddPost()
+    {
+        $req = saddslashes(req('Post'));
+        server('db')->autoExecute('system_config',$req,'INSERT');
+        R("/man/?config/html/man");
     }
 
     /**
-     * 对配置数据的管理
+     * 配置数据的显示
      */
     public function doMan()
     {
-        return '管理主界面';
+        $list = server('db')->getall("select * from `system_config` order by sort desc,id desc");
+        return  server('Smarty')->ads('config/html/man')->fetch('',[
+            'list' => $list
+        ]);
+    }
+
+    //删除
+    public function doDelete(){
+        $id = intval(req('Get')['id']);
+        server('db')->query("delete from system_config WHERE id = {$id}");
+        $this->AjaxReturn([
+        ]);
+    }
+
+    /**
+     * @param string $name
+     * 根据system_config的值生成map数组
+     * @return array
+     */
+    private function group($name)
+    {
+        $group = adsdata('config/data/config',$name);
+        $groupar = explode("\n",$group);
+        $_g = [];
+        foreach($groupar as $key=>$value){
+            if(!empty($value)){
+                $_ar = explode(":",trim($value,"\r"));
+                $_g[$_ar[0]] = $_ar[1];
+            }
+        }
+        return $_g;
     }
 
     /**
@@ -66,7 +129,6 @@ class Html {
                 $_g[$_ar[0]] = $_ar[1];
             }
         }
-
 
         //D($_list);
         return  server('Smarty')->ads('Config/html/list')->fetch('',[
