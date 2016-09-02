@@ -130,25 +130,39 @@ CREATE TABLE `token` (
   PRIMARY KEY (`tokenId`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
 --
 -- 表的结构 `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
   `groupId` int(11) NOT NULL DEFAULT '1',
   `login` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
+  `nickName` varchar(164) NOT NULL,
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `des` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+--
+-- 表的结构 `user_info`
+--
+
+CREATE TABLE IF NOT EXISTS `user_info` (
+  `userInfoId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
   `email` varchar(64) DEFAULT NULL,
   `mobile` varchar(64) DEFAULT NULL,
   `QQ` varchar(64) DEFAULT NULL,
   `weixin` varchar(64) DEFAULT NULL,
   `weibo` varchar(64) DEFAULT NULL,
   `accessToken` varchar(64) NOT NULL DEFAULT 'accessToken',
-  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateAt` int(11) DEFAULT NULL,
-  `expire` int(11) NOT NULL DEFAULT '0',
-  `nickName` varchar(128) DEFAULT NULL,
   `trueName` varchar(128) DEFAULT NULL,
   `birthday` varchar(128) DEFAULT NULL,
   `gender` varchar(128) DEFAULT NULL,
@@ -157,14 +171,18 @@ CREATE TABLE `user` (
   `addr` varchar(128) DEFAULT NULL,
   `gravatar` varchar(128) DEFAULT NULL,
   `height` varchar(16) DEFAULT NULL,
-  `bloodpress` int(2) NOT NULL DEFAULT '0',
-  `ecg` int(2) NOT NULL DEFAULT '0',
-  `watch` int(2) NOT NULL DEFAULT '0',
-  `active` int(11) NOT NULL DEFAULT '0',
+  `bloodpress` tinyint(1) NOT NULL DEFAULT '0',
+  `ecg` tinyint(1) NOT NULL DEFAULT '0',
+  `watch` tinyint(1) NOT NULL DEFAULT '0',
+  `expire` int(11) NOT NULL DEFAULT '0',
+  `createAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateAt` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
   `sort` int(11) NOT NULL DEFAULT '0',
   `des` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`userId`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`userInfoId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 --
 -- 表的结构 `user_group`
