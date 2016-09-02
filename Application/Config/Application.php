@@ -6,4 +6,5 @@ return [
     'Demo'      => 'Application\Application\Demo',
     'AdminAuth' => 'Application\Application\AdminAuth',
     'Config'    => 'Application\Application\Config',
+    'Validate'  => 'Application\Application\Validate'
 ];

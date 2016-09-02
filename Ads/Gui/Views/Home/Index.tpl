@@ -10,6 +10,13 @@
     <link href="/assets/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/color.css" rel="stylesheet">
     <link href="/assets/css/dashboard.css" rel="stylesheet">
+    <script src="/assets/js/jquery-1.11.1.min.js"></script>
+    <style type="text/css">
+        .error{
+            color:red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -42,7 +49,6 @@
 </div>
 
 <!-- Bootstrap core JavaScript -->
-<script src="/assets/js/jquery-1.11.1.min.js"></script>
 <script src="/assets/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="/assets/js/Sham.js"></script>
 <script type="text/javascript">

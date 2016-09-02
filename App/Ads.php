@@ -189,12 +189,14 @@ class Ads extends AdsBase
     //同pds
     public function ads($ads = '',$params = [])
     {
+
+
+
         $ads  = explode('/',trim($ads, '/'));
         $this->_package = $ads[0];
         $this->_d = $ads[1];
         $this->_s = $ads[2];
         $this->_params = $ads[3];
-
         return $this->doMothed($params);
     }
 

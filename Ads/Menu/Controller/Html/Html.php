@@ -25,13 +25,13 @@ class Html extends BaseController {
         $parentid = intval(req('Get')['parentid']);
 
         if($topid){
-            $seclist = app('db')->getall("select * from menu where parentId = $topid");
+            $seclist = app('db')->getall("select * from menu where parentId = $topid order by sort desc,menuId desc");
         }
         if($parentid){
-            $list = app('db')->getall("select * from menu where parentId = $parentid");
+            $list = app('db')->getall("select * from menu where parentId = $parentid order by sort desc,menuId desc");
         }
 
-        $toplist = app('db')->getall("select * from menu where parentId = 0");
+        $toplist = app('db')->getall("select * from menu where parentId = 0 order by sort desc,menuId desc");
 
         return  server('Smarty')->ads('menu/html/list')->fetch('',[
             'toplist' => $toplist,

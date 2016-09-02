@@ -3,7 +3,7 @@ namespace Ads\Gui\Controller\Html;
 
 class Html
 {
-    use \Ads\Traits\AjaxReturnHtml;
+    use \App\Traits\AjaxReturnHtml;
 
     public function doLoginPost(){
 
@@ -34,9 +34,6 @@ class Html
         $url = '/man/login/';
         Application('AdminAuth')->logout($url);
     }
-
-
-
 
 
 }

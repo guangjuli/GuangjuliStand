@@ -7,197 +7,191 @@ class Ads extends BaseController
 
     use \App\Traits\AjaxReturnHtml;
 
-    private $packagisturi = 'http://packagist.phpleague.cn//list.json';
+    private $server = 'http://packagist.phpleague.cn/';
+    private $packagisturi = 'http://packagist.phpleague.cn/list.json';
 
     public function __construct(){
         parent::__construct();
-    }
 
-    public function doSetup()
-    {
-        $res = $this->doGetlist();
-        $lb = $res[req('Get')['target']];
-
-        //四个固定的widget
-        $adssetup = $lb['ads'].'/sys/setup';
-        $adshelp = $lb['ads'].'/sys/help';
-        $adsapi = $lb['ads'].'/sys/api';
-        $adsreadme = $lb['ads'].'/sys/readme';
-        view('',[
-            'adssetup' => $lb['ads'].'/sys/setup',
-            'adshelp' => $lb['ads'].'/sys/help',
-            'adsapi' => $lb['ads'].'/sys/api',
-            'adsreadme' => $lb['ads'].'/sys/readme',
-        ]);
-    }
-
-    private function doGetlist()
-    {
-        /**
-         * 约定计算
-         * 1 ： 是否已经下载、
-         * 2 ： 是否已经安装，如果安装，安装版本是多少
-         */
-        //获取本地数据
-        $res = application('data')->get('Adsremote');
-        $tm  = intval(application('data')->get('Adsremote.tm'));
-        if((time() - $tm > 3)  || empty($res)){
-            //获取远程数据
-            $uri = $this->packagisturi;
-            $list = file_get_contents($uri);
-            $res = json_decode($list,true);
-            foreach($res as $key=>$value){
-                $res[$key]['key']       = $key;
-                $res[$key]['local']     = APPROOT.'../Ads/zip/'.$key.'.zip';
-                $res[$key]['isdownload']  = is_file($res[$key]['local']);
-
-                $res[$key]['installsql'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/Install.sql';
-                $res[$key]['uninstallsql'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/Uninstall.sql';
-                $res[$key]['path']       = APPROOT.'../Ads/'.ucfirst($value['ads']).'/';
-                $res[$key]['readmefile'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/Readme.md';
-                $res[$key]['islockfile'] = is_file($res[$key]['readmefile']);
-                $res[$key]['lockfile'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/install.lock';
-                $res[$key]['islockfile'] = is_file($res[$key]['lockfile']);
-            }
-            application('data')->set('Adsremote',$res);
-            application('data')->set('Adsremote.tm',time());
-        }
-        //添加chr
-        $path = APPROOT.'../Ads/zip/';
+        //检查文件夹
+        $path = APPROOT.'../Cache/zip/';
         !is_dir($path) && mkdir($path);
-        return $res;
-    }
-
-    public function delpath($path = ''){
-        if(is_dir($path)){
-            if($handle = opendir($path)){
-                while(false !== ($item = readdir($handle))){
-                    if($item!= '.' && $item != '..'){
-                        if(is_dir("$path/$item")){
-                            $this->delpath("$path/$item");
-                        }else{
-                            unlink("$path/$item");
-                        }
-                    }
-                }
-            }
-        }
-        closedir($handle);
-        rmdir($path);
-        return true;
-    }
-
-    public function doUninstall()
-    {
-        $res = $this->doGetlist();
-        $lb = $res[req('Get')['target']];
-
-        //先解压
-        $path = $lb['path'];
+        $path = APPROOT.'../Cache/upzip/';
         !is_dir($path) && mkdir($path);
-
-
-        /**
-         * 依赖检查
-         */
-
-
-        // 1 执行unstall.sql
-        if(is_file($lb['uninstallsql'])){
-            $sql = file_get_contents($lb['uninstallsql']);
-            $sql = str_replace("\n",'',$sql);
-            $sql = str_replace("\r",'',$sql);
-            if(!empty($sql)){
-                \Grace\Server\Server::getInstance()->make('db')->query($sql);
-            }
-        }
-
-        //删除文件
-        $this->delpath($path);
-
-        $this->AjaxReturn([
-            'code' => 200,
-            'msg'=>"卸载完成",
-            'js' => 'if(data.code>0){alert(data.msg);location.reload();}else{alert(data.msg);}'
-        ]);
-
     }
 
-    public function doInstall()
-    {
-        $res = $this->doGetlist();
-        $lb = $res[req('Get')['target']];
-        //路径
-        $path = $lb['path'];
-        !is_dir($path) && mkdir($path);
+//    public function doSetup()
+//    {
+//        $res = $this->doGetlist();
+//        $lb = $res[req('Get')['target']];
+//
+//        //四个固定的widget
+//        $adssetup = $lb['ads'].'/sys/setup';
+//        $adshelp = $lb['ads'].'/sys/help';
+//        $adsapi = $lb['ads'].'/sys/api';
+//        $adsreadme = $lb['ads'].'/sys/readme';
+//        view('',[
+//            'adssetup' => $lb['ads'].'/sys/setup',
+//            'adshelp' => $lb['ads'].'/sys/help',
+//            'adsapi' => $lb['ads'].'/sys/api',
+//            'adsreadme' => $lb['ads'].'/sys/readme',
+//        ]);
+//    }
+////foreach($res as $key=>$value){
+////    $res[$key]['key']       = $key;
+////    $res[$key]['local']     = APPROOT.'../Ads/zip/'.$key.'.zip';
+////    $res[$key]['isdownload']  = is_file($res[$key]['local']);
+////    $res[$key]['installsql'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/Install.sql';
+////    $res[$key]['uninstallsql'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/Uninstall.sql';
+////    $res[$key]['path']       = APPROOT.'../Ads/'.ucfirst($value['ads']).'/';
+////    $res[$key]['readmefile'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/Readme.md';
+////    $res[$key]['islockfile'] = is_file($res[$key]['readmefile']);
+////    $res[$key]['lockfile'] = APPROOT.'../Ads/'.ucfirst($value['ads']).'/install.lock';
+////    $res[$key]['islockfile'] = is_file($res[$key]['lockfile']);
+////}
+//
+//
+//
+//    public function delpath($path = ''){
+//        if(is_dir($path)){
+//            if($handle = opendir($path)){
+//                while(false !== ($item = readdir($handle))){
+//                    if($item!= '.' && $item != '..'){
+//                        if(is_dir("$path/$item")){
+//                            $this->delpath("$path/$item");
+//                        }else{
+//                            unlink("$path/$item");
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        closedir($handle);
+//        rmdir($path);
+//        return true;
+//    }
+//
+//    public function doUninstall()
+//    {
+//        $res = $this->doGetlist();
+//        $lb = $res[req('Get')['target']];
+//
+//        //先解压
+//        $path = $lb['path'];
+//        !is_dir($path) && mkdir($path);
+//
+//
+//        /**
+//         * 依赖检查
+//         */
+//
+//
+//        // 1 执行unstall.sql
+//        if(is_file($lb['uninstallsql'])){
+//            $sql = file_get_contents($lb['uninstallsql']);
+//            $sql = str_replace("\n",'',$sql);
+//            $sql = str_replace("\r",'',$sql);
+//            if(!empty($sql)){
+//                \Grace\Server\Server::getInstance()->make('db')->query($sql);
+//            }
+//        }
+//
+//        //删除文件
+//        $this->delpath($path);
+//
+//        $this->AjaxReturn([
+//            'code' => 200,
+//            'msg'=>"卸载完成",
+//            'js' => 'if(data.code>0){alert(data.msg);location.reload();}else{alert(data.msg);}'
+//        ]);
+//
+//    }
+//
+//    public function doInstall()
+//    {
+//        $res = $this->doGetlist();
+//        $lb = $res[req('Get')['target']];
+//        //路径
+//        $path = $lb['path'];
+//        !is_dir($path) && mkdir($path);
+//
+//        /**
+//         * 依赖检查
+//         */
+//
+//
+//        //解压
+//        if(!is_file($lb['readmefile'])){
+//            $this->get_zip_originalsize($lb['local'],$path);
+//        }
+//
+//        if(!is_file($lb['lockfile'])){
+//            //安装sql
+//            if(is_file($lb['installsql'])){
+//                $sql = file_get_contents($lb['installsql']);
+//                $sql = str_replace("\n",'',$sql);
+//                $sql = str_replace("\r",'',$sql);
+//                if(!empty($sql)){
+//                    \Grace\Server\Server::getInstance()->make('db')->query($sql);
+//                }
+//            }
+//            @file_put_contents($lb['lockfile'],'123');
+//        }
+//        $this->AjaxReturn([
+//            'code' => 200,
+//            'msg'=>"安装完成",
+//            'js' => 'if(data.code>0){alert(data.msg);location.reload();}else{alert(data.msg);}'
+//        ]);
+//
+//    }
+//
+//    public function doDownload()
+//    {
+//        //获取本地的文件地址
+//        $res = $this->doGetlist();
+//        //====================================================
+//        $lb = $res[req('Get')['target']];
+//        $remote = $lb['zip'];
+//        $local = $lb['local'];
+//
+//        $data = @file_get_contents($remote);
+//        @file_put_contents($local,$data);
+//
+//        $this->AjaxReturn([
+//            'code' => 200,
+//            'msg'=>"下载完成",
+//            'js' => 'if(data.code>0){alert(data.msg);location.reload();}else{alert(data.msg);}'
+//        ]);
+//    }
 
-        /**
-         * 依赖检查
-         */
 
 
-        //解压
-        if(!is_file($lb['readmefile'])){
-            $this->get_zip_originalsize($lb['local'],$path);
-        }
-
-        if(!is_file($lb['lockfile'])){
-            //安装sql
-            if(is_file($lb['installsql'])){
-                $sql = file_get_contents($lb['installsql']);
-                $sql = str_replace("\n",'',$sql);
-                $sql = str_replace("\r",'',$sql);
-                if(!empty($sql)){
-                    \Grace\Server\Server::getInstance()->make('db')->query($sql);
-                }
-            }
-            @file_put_contents($lb['lockfile'],'123');
-        }
-        $this->AjaxReturn([
-            'code' => 200,
-            'msg'=>"安装完成",
-            'js' => 'if(data.code>0){alert(data.msg);location.reload();}else{alert(data.msg);}'
-        ]);
-
-    }
-
-    public function doDownload()
-    {
-        //获取本地的文件地址
-        $res = $this->doGetlist();
-        //====================================================
-        $lb = $res[req('Get')['target']];
-        $remote = $lb['zip'];
-        $local = $lb['local'];
-
-        $data = @file_get_contents($remote);
-        @file_put_contents($local,$data);
-
-        $this->AjaxReturn([
-            'code' => 200,
-            'msg'=>"下载完成",
-            'js' => 'if(data.code>0){alert(data.msg);location.reload();}else{alert(data.msg);}'
-        ]);
-    }
 
     public function doIndex()
     {
-        //到这里进行
-        //\Ads\Bootstrap::Run();
         //获取本地数据
-        $res = $this->doGetlist();
+        $res = $this->doGetRemotelist();
         //==================================================
-       // D($res);
+        //计算所有的package
 
-        //对获取到的res进行重新计算,用于页面排序显示
         foreach($res as $key=>$value){
+            $list[] = $value['ads'];
+
             $rc[$value['ads']][$value['version']] = $value;
         }
+      //  array_diff($list);
+     //   D($list);
+
         view('',[
             'rc'=>$rc
         ]);
     }
 
+    /**
+     * @param $filename
+     * @param $path
+     * 解压文件
+     */
     private function get_zip_originalsize($filename, $path) {
         //先判断待解压的文件是否存在
 //        if(!file_exists($filename)){
@@ -245,9 +239,27 @@ class Ads extends BaseController
         $thistime = $endtime[0]+$endtime[1]-($starttime[0]+$starttime[1]);
         $thistime = round($thistime,3); //保留3为小数
 //        echo "<p>解压完毕！，本次解压花费：$thistime 秒。</p>";
+        return true;
     }
 
 
-
+    /**
+     * @return mixed
+     * 获取远程列表数据
+     */
+    private function doGetRemotelist()
+    {
+        //获取本地数据
+        $res = application('data')->path('ads')->get('Adsremote');
+        $tm  = intval(application('data')->path('ads')->get('Adsremote.tm'));
+        if((time() - $tm > 3600)  || empty($res)){
+            //获取远程数据
+            $list = file_get_contents($this->packagisturi);
+            $res = json_decode($list,true);
+            application('data')->path('ads')->set('Adsremote',$res);
+            application('data')->path('ads')->set('Adsremote.tm',time());
+        }
+        return $res;
+    }
 
 }
