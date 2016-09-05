@@ -9,9 +9,13 @@
 namespace Ads\User\Controller\Html;
 
 
-class Html
+class Html extends BaseController
 {
     use \App\Traits\AjaxReturnHtml;
+
+    public function __construct(){
+        parent::__construct();
+    }
 
     public function doIndex()
     {
@@ -154,7 +158,7 @@ class Html
     }
 
     //获取用户组的map集合
-    private function getUserGroupMap()
+    public function getUserGroupMap()
     {
         $group = array();
         if($this->isExistTable('user_group')){
