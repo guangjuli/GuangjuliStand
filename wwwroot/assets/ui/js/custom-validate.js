@@ -8,7 +8,7 @@ function customValidate(id){
                 $(element).parent().next().append( error);
             },
             rules: {
-                nickName: {
+                cnickName: {
                     required: true,
                     minlength: 2
                 },
@@ -36,7 +36,7 @@ function customValidate(id){
                 }
             },
             messages: {
-                nickName: "请输入昵称",
+                cnickName: "请输入昵称",
                 email: {
                     required: "请输入Email地址",
                     email: "请输入正确的email地址"
@@ -70,7 +70,7 @@ jQuery.validator.addMethod("isMobile", function(value, element) {
 }, "请正确填写您的手机号码");
 
 jQuery.validator.addMethod("isPassword", function(value, element) {
-    var password = /^[a-zA-Z]+[a-zA-Z0-9_]{6,19}$/;
+    var password = /^[a-zA-Z]+[a-zA-Z0-9_]{5,19}$/;
     return this.optional(element) || (password.test(value));
 }, "密码格式错误");
 

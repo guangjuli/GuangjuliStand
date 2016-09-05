@@ -4,9 +4,9 @@
             <div class="form-group">
                 <label for="login" class="col-sm-2 control-label">登录名</label>
                 <div class="col-sm-7">
-                    <input name="login" value="{$row['login']}" class="form-control"  placeholder="登录名">
+                    <input name="login" id="login" value="{$row['login']}" class="form-control"  placeholder="登录名" onblur="checkLogin()">
                 </div>
-                <div class="col-sm-3 error"></div>
+                <div class="col-sm-3 error">{$checkLogin}</div>
             </div>
             <div class="form-group">
                 <label for="groupId" class="col-sm-2 control-label">用户组</label>
@@ -75,7 +75,8 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-7">
-                    <button type="submit" class="btn btn-default add">添加</button>
+                    <input type="hidden" name="type" value="add">
+                    <a class="btn btn-default nscpostformerror" rel="#addForm">添加</a>
                 </div>
             </div>
 
@@ -87,23 +88,24 @@
 <script type="text/javascript" src="/assets/ui/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/assets/ui/js/custom-validate.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.add').click(function(){
-            var tag = '#addForm';
-            $.ajax({
-                type: "Post",
-                url: $(tag).attr("action"),
-                data: $(tag).serialize(),
-                dataType:'json',
-                success: function(data){
-                    var param = eval(data.msg);
-                    showErrorMsg(param)
-                },
-                error : function() {
+    function checkLogin(){
+        var tag = '#login';
+        $.ajax({
+            type: "Post",
+            url: "/man/?user/html/checklogin",
+            data:{
+                'login':$(tag).val()
+            },
+            dataType:"json",
+            success: function(data){
+                var param = eval(data.msg);
+                showErrorMsg(param)
+            },
+            error : function() {
 
-                }
-            });
+            }
         });
-    });
+    }
     customValidate('addForm');
+
 </script>

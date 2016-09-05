@@ -40,6 +40,7 @@ class User implements ModelInterface
      * @param string $login
      * @return boolean
      */
+
     public function isExistUserByLogin($login)
     {
         $user = $this->getUserByLogin($login);

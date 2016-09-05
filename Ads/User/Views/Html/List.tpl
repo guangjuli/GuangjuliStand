@@ -1,7 +1,7 @@
 
 <!-- content -->
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-11">
         <table class="table table-striped table-hover" id="dt1">
             <thead>
             <th>ID</th>
