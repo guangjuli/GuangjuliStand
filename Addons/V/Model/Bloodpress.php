@@ -106,7 +106,8 @@ class Bloodpress implements ModelInterface
     {
         $userId = intval($req['userId'])?:bus('tokenInfo')['userId'];
         $insertData = array();
-        foreach($req['story']as $v){
+        $story= json_decode($req['story'],true);
+        foreach($story as $v){
             $v['userId'] = $userId;
             $insertData[] = $v;
         }
@@ -126,7 +127,7 @@ class Bloodpress implements ModelInterface
         $userId = intval($userId);
         $type = intval($req['type']);
         $createDay = intval($req['createDay']);
-        if(empty($userId)||empty($type)||empty($createDay)) return [];
+        if(empty($userId)||empty($createDay)) return [];
         //执行sql
         $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay from bloodpress where `userId`=$userId and `type`=$type and `createDay`=$createDay");
         return $bloodInfo?$bloodInfo:[];

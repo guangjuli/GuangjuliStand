@@ -39,13 +39,6 @@
                 <div class="col-sm-3 error"></div>
             </div>
             <div class="form-group">
-                <label for="nickName" class="col-sm-2 control-label">昵称</label>
-                <div class="col-sm-7">
-                    <input name="nickName" value="{$row['nickName']}" class="form-control"  placeholder="昵称">
-                </div>
-                <div class="col-sm-3 error"></div>
-            </div>
-            <div class="form-group">
                 <label for="des" class="col-sm-2 control-label">描述</label>
                 <div class="col-sm-7">
                     <input  name="des" value="{$row['des']}"  class="form-control"  placeholder="描述">

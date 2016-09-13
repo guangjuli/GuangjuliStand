@@ -20,7 +20,6 @@ function customValidate(id){
                     isMobile : true
                 },
                 email: {
-                    required: true,
                     email: true
                 },
                 password: {
@@ -33,12 +32,17 @@ function customValidate(id){
                     minlength: 6,
                     equalTo: "#password",
                     isPassword:true
+                },
+                height:{
+                    isHeight:true
+                },
+                mobile:{
+                    isMobile:true
                 }
             },
             messages: {
                 cnickName: "请输入昵称",
                 email: {
-                    required: "请输入Email地址",
                     email: "请输入正确的email地址"
                 },
                 login : {
@@ -56,6 +60,12 @@ function customValidate(id){
                     minlength: "不小于6个字符",
                     equalTo: "两次输入不一致",
                     isPassword:"密码格式错误"
+                },
+                height:{
+                    isHeight:"请输入30-210的整数"
+                },
+                mobile:{
+                    isMobile:"请输入正确的手机号"
                 }
             }
         });
@@ -75,7 +85,18 @@ jQuery.validator.addMethod("isPassword", function(value, element) {
     return this.optional(element) || (password.test(value));
 }, "密码格式错误");
 
-//
+//验证身高
+jQuery.validator.addMethod("isHeight", function(value, element) {
+    var height = /^[0-9]{2,3}$/;
+    return this.optional(element) || (height.test(value)&& value>30 && value<210);
+}, "请输入30-210的数字");
+
+
+
+
+
+
+
 function showErrorMsg(error){
     for( var o in error){
         $("input").each(

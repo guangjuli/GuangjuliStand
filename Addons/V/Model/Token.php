@@ -80,7 +80,7 @@ class Token implements ModelInterface
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return [];
         $enableTime = intval($tokenInfo['createAt'])+intval($tokenInfo['expireIn']);
-        if($enableTime<time())return [];
+        //if($enableTime>time())return [];
         return $tokenInfo;
     }
 
@@ -181,7 +181,8 @@ class Token implements ModelInterface
         $login = $req['login']?:$req['phone'];
         $time = $req['time'];
         //TODO: 校验设备编号正确性
-        if ($verify != MD5($deviceId . $this->clientSecret . $login . $time))return false;
+        $check = md5($deviceId . $this->clientSecret . $login . $time);
+        if ($verify !=$check )return false;
         return true;
     }
 

@@ -40,32 +40,20 @@ class Password implements ModelInterface
     }
 
     /**
-     * 重置密码验证请求参数
+     * 重置密码
      * @param string $oldPassword
      * @param string $newPassword
-     * @param string $confirmPassword
-     * @param int $userId
-     * @return int
-     */
-    public function resetPasswordValidateReq($oldPassword,$newPassword,$confirmPassword,$userId=null)
-    {
-        if($this->checkPassword($oldPassword,$userId)){
-            $code = model('Validate')->validateNumberLetter($newPassword)?($newPassword==$confirmPassword?200:-201):-203;
-        }else{
-            $code= -202;
-        }
-        return $code;
-    }
-
-    /**
-     * 重置密码
-     * @param string $password
      * @param int $userId
      * @return boolean
      */
-    public function resetPassword($password,$userId=null)
+    public function resetPassword($oldPassword,$newPassword,$userId=null)
     {
-        return model('User')->updateUserByUserId(['password'=>$password],$userId);
+        $check = false;
+        $userId = $userId?$userId:bus('tokenInfo')['userId'];
+        if($this->checkPassword($oldPassword,$userId)){
+            $check = model('User')->updateUserByUserId(['password'=>$newPassword],$userId);
+        }
+        return $check;
     }
 
     /**
@@ -82,18 +70,14 @@ class Password implements ModelInterface
        $userInfo = model('User')->getUserByLogin($req['phone']);
        if(empty($userInfo))return -206;
         //参数存在性检验
-        $field = ['password','confirm_password','verify','time','deviceId'];
+        $field = ['password','verify','time','deviceId'];
        if(!model('Validate')->validateParams($field,$req))return -204;
-       //校验密码一致性及密码格式
-       $code = model('Validate')->validateNumberLetter($req['password'])?($req['password']==$req['confirm_password']?200:-201):-203;
-       if($code==200){
-           bus([
-              'findPassword'=>[
-                  'userId'=>$userInfo['userId']
-              ]
-           ]);
-       }
-       return $code;
+        bus([
+            'findPassword'=>[
+                'userId'=>$userInfo['userId']
+            ]
+        ]);
+        return 200;
     }
 
     /**

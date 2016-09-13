@@ -110,8 +110,7 @@ class User implements ModelInterface
             'returnNews'=>[
                 200 =>'succeed',
                 -201 => '必填参数不能为空',
-                -202 => '存在格式不正确数据',
-                -200 => '系统异常'
+                -202 => '存在格式不正确数据'
             ]
         ];
     }
@@ -142,7 +141,7 @@ class User implements ModelInterface
         $filed=['trueName','login','gravatar','gender','birthday','height'];
         $filed = implode(',',$filed);
         $userId = intval($userId)?:bus('tokenInfo')['userId'];
-        $userInfo = server('Db')->getRow("select $filed from user where userId = $userId");
+        $userInfo = server('Db')->getRow("select $filed from user u,user_info ui where u.userId = $userId");
         return $userInfo?:[];
     }
 
@@ -186,7 +185,7 @@ class User implements ModelInterface
     public function saveImagePathToDb()
     {
         $path = model('Upload')->uploadPath();
-        return $this->updateUserByUserId(['gravatar'=>$path])?true:false;
+        return model('Userinfo')->updateUserInfo(['gravatar'=>$path]);
     }
 
 }

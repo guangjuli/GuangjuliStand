@@ -12,18 +12,10 @@
             <th>身高</th>
             <th>mobile</th>
             <th>email</th>
-            <th>qq</th>
-            <th>weixin</th>
-            <th>weibo</th>
-            <th>是否婚配</th>
-            <th>区域</th>
-            <th>地址</th>
-            <th>头像</th>
             <th>血压</th>
             <th>心电</th>
             <th>腕表</th>
             <th>有效期</th>
-            <th>描述</th>
             <th>排序</th>
             <th>active</th>
             <th width="150">操作</th>
@@ -34,27 +26,20 @@
                     <td>{$item['userInfoId']}</td>
                     <td>{$item['userId']}</td>
                     <td>{$item['trueName']}</td>
-                    <td>{$item['gender']}</td>
+                    <td>{if $item['gender'] eq 1}男{else}女{/if}</td>
                     <td>{$item['birthday']}</td>
                     <td>{$item['height']}</td>
                     <td>{$item['mobile']}</td>
                     <td>{$item['email']}</td>
-                    <td>{$item['qq']}</td>
-                    <td>{$item['weixin']}</td>
-                    <td>{$item['weibo']}</td>
-                    <td>{$item['signer']}</td>
-                    <td>{$item['zone']}</td>
-                    <td>{$item['addr']}</td>
-                    <td>{$item['gravatar']}</td>
-                    <td>{$item['bloodpress']}</td>
+                   <td>{$item['bloodpress']}</td>
                     <td>{$item['ecg']}</td>
                     <td>{$item['watch']}</td>
                     <td>{$item['expire']}</td>
-                    <td>{$item['des']}</td>
                     <td>{$item['sort']}</td>
                     <td>{$item['active']}</td>
                     <td>
-                        <a href="/man/?userinfo/html/edit&id={$item['groupId']}">修改</a>
+                        <a href="/man/?userinfo/html/detail&userId={$item['userId']}">详情</a>
+                        <a href="/man/?userinfo/html/edit&userId={$item['userId']}">修改</a>
                         <a class="shamget" rel="/man/?userinfo/html/delete&id={$item['userInfoId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>

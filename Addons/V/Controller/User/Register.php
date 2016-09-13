@@ -39,7 +39,9 @@ class User
                 $this->AjaxReturn([
                     'code' => $code,
                     'msg'  => $msg,
-                    'data' =>$authCode
+                    'data' =>[
+                        'authCode'=>$authCode
+                    ]
                 ]);
             }
             $code = -200;

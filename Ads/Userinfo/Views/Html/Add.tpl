@@ -1,5 +1,5 @@
 <div class="row">
-    <form class="form-horizontal" method="post" action="/man/?userinfo/html/add" id="addForm">
+    <form class="form-horizontal" method="post" action="/man/?userinfo/html/add" id="addForm" enctype="multipart/form-data">
         <div class="col-md-7">
             <div class="form-group">
                 <label for="userId" class="col-sm-2 control-label">用户Id</label>
@@ -7,6 +7,15 @@
                     <input name="userId" id="userId" value="{$row['userId']}" class="form-control"  placeholder="用户Id" onblur="checkUserId()">
                 </div>
                 <div class="col-sm-3 error"></div>
+            </div>
+            <div class="row form-group">
+                <label for="headImage" class="col-sm-2 control-label">头像</label>
+                <div class="col-sm-2">
+                    {widget ads='userinfo/crop/Uploadimage'}
+                </div>
+                <div style="color: #8e8b8b; margin-top: 10px;">
+                    提示：上传头像后会自动创建用户,之后仍需编辑其他信息，请根据提示前往编辑页面
+                </div>
             </div>
             <div class="form-group">
                 <label for="trueName" class="col-sm-2 control-label">真实姓名</label>
@@ -112,12 +121,6 @@
                 </div>
                 <div class="col-sm-3 error"></div>
             </div>
-            <div class="row form-group">
-                <label for="headImage" class="col-sm-2 control-label">头像</label>
-                <div class="col-sm-7">
-                    <input type="file" class="file" name="file" id="file">
-                </div>
-            </div>
             <div class="form-group">
                 <label for="bloodpress" class="col-sm-2 control-label">血压</label>
                 <div class="col-sm-7">
@@ -193,8 +196,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-7">
-                    <input type="hidden" name="type" value="add">
-                    <a class="btn btn-default nscpostformerror" rel="#addForm">添加</a>
+                    <a class="btn btn-primary nscpostformerror" rel="#addForm" id="add">添加</a>
                 </div>
             </div>
 
@@ -241,29 +243,6 @@
             });
         });
     }
-    /*//上传头像
-    initFileInput('file', '/user/index/add/');
-    function initFileInput(ctrlName, uploadUrl) {
-        var control = $('#' + ctrlName);
-        control.fileinput({
-            language: 'zh', //设置语言
-            uploadUrl: uploadUrl, //上传的地址
-            allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀
-            enctype: 'multipart/form-data',
-            showUpload: false, //是否显示上传按钮
-            showCaption: false,//是否显示标题
-            fileSingle:true,
-            browseClass: "btn btn-primary", //按钮样式
-            fileActionSettings:{
-                showDrag: false,
-                showRemove: false,
-                showUpload:false,
-                showZoom:false
-            }
-        }).on("fileuploaded", function (event, data, previewId, index) {
-            var msg = eval(data.response); //转为json对象
-        }).on('fileerror', function(event, data, msg) {
-            alert("异常！");
-        });
-    }*/
+
 </script>
+
