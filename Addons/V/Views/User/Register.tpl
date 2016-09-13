@@ -1,7 +1,7 @@
 <form action="/v/user/register" method="post">
     <input type="text" name="time" value="1471276800">
     <input type="text" name="deviceId" value="dsaffsd">
-    <input type="text" name="phone" value="18810487612">
+    <input type="text" name="phone" value="188">
     <input type="text" name="type" value="android">
     <input type="text" name="password" value="a12a456b">
     <input type="text" name="checkcode" value="23456">
@@ -11,7 +11,7 @@
 </form>
 
 <form action="/v/User/userinfo" method="post">
-    <input type="text" name="token" value="833b6c3014973a05f07c3ebd6344391c">
+    <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
     <input type="text" name="trueName" value="baby">
     <input type="text" name="gender" value=0>
     <input type="text" name="birthday" value="2016-8-19">
@@ -19,13 +19,13 @@
 </form>
 
 <form action="/v/user/upuserimage" method="post" enctype="multipart/form-data">
-    <input type="text" name="token" value="833b6c3014973a05f07c3ebd6344391c">
+    <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
    <input type="file" name="tfile">
     <input type="submit" value="提交">
 </form>
 
 <form action="/v/User/resetpassword" method="post">
-    <input type="text" name="token" value="833b6c3014973a05f07c3ebd6344391c">
+    <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
     <input type="text" name="password" value="abc34Ac6">
     <input type="text" name="confirm_password" value="abc34Ac6">
     <input type="text" name="old_password" value="a12a456b">

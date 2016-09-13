@@ -41,6 +41,11 @@ class Validate implements ModelInterface
         return (preg_match($mobile,$str))?true:false;
     }
 
+    public function validateInt($int){
+        $checkInt = '/^[1-9][0-9]*$/';
+        return (preg_match($checkInt,$int))?true:false;
+    }
+
     /**
      * 校验请求参数存在性和非空
      * @param array $field

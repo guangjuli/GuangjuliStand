@@ -56,8 +56,6 @@ class Register implements ModelInterface
         if(!model('Token')->verify($req))return $code = -205;
         //验证用户是否存在
         if(model('User')->isExistUserByLogin($req['phone']))return $code = -401;
-        //验证密码格式
-        if(!model('Validate')->validateNumberLetter($req['password']))return $code = -203;
         //校验设备类型
         $deviceTypeMap = model('Device')->getDeviceTypeMap();
         $device = $deviceTypeMap[$req['deviceType']];

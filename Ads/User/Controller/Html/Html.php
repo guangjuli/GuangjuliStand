@@ -9,9 +9,13 @@
 namespace Ads\User\Controller\Html;
 
 
-class Html
+class Html extends BaseController
 {
     use \App\Traits\AjaxReturnHtml;
+
+    public function __construct(){
+        parent::__construct();
+    }
 
     public function doIndex()
     {
@@ -39,32 +43,32 @@ class Html
     }
     public function doAddPost()
     {
-        $login = req('Post')['login'];
-        $checkLogin = server('Db')->getOne("select `userId` from user where `login` = '{$login}'");
-        if($checkLogin){
-            $msg['login'] = '该用户已存在';
-            $this->AjaxReturn([
-                'msg'   => $msg,
-                'url'   =>'/man/?user/html/add'
-            ]);
-        }
         $req = req('Post');
-        if($this->validateUser($req)){
-            $req = saddslashes($req);
-            server('Db')->autoExecute('user', $req, 'INSERT');
-            R('/man/?user/html/list');
-        }
-        return  server('Smarty')->ads('user/html/add')->fetch('',[
-            'row'=>$req
+        //校验用户参数
+        $this->validateUser($req);
+        //添加进Db
+        $req = saddslashes($req);
+        server('Db')->autoExecute('user', $req, 'INSERT');
+        $this->AjaxReturn([
+            'code'=>200,
+            'msg'=>'',
+            'url'=>'/man/?user/html/list'
         ]);
     }
 
-    private function validateUser(Array $req)
+    //响应手机号验证请求
+    public function doCheckloginPost()
     {
-        if(!application('Validate')->validatePhone($req['login']))return false;
-        if(!application('Validate')->validateNumberLetter($req['password']))return false;
-        if($req['password']!=$req['confirm_password'])return false;
-        return true;
+        $login = req('Post')['login'];
+        if(application('Validate')->validatePhone($login)){
+            $checkLogin = server('Db')->getOne("select `userId` from user where `login` = '{$login}'");
+            if($checkLogin){
+                $msg['login'] = '该用户已存在';
+                $this->AjaxReturn([
+                    'msg'   => $msg,
+                ]);
+            }
+        }
     }
 
     //修改
@@ -81,12 +85,18 @@ class Html
     public function doEditPost()
     {
         $req = req('Post');
+        //校验用户参数
+        $this->validateUser($req);
         $userId = intval($req['userId']);
         unset($req['userId']);
         $where = "`userId` = {$userId}";
         $req = saddslashes($req);
         server('Db')->autoExecute('user', $req, 'UPDATE',$where);
-        R('/man/?user/html/list');
+        $this->AjaxReturn([
+            'code'=>200,
+            'msg'=>'',
+            'url'=>'/man/?user/html/list'
+        ]);
     }
 
     //删除
@@ -110,8 +120,45 @@ class Html
         return $check?true:false;
     }
 
+    //校验用户参数
+    //适用于添加用户和编辑用户
+    private function validateUser(Array $req)
+    {
+        //校验电话格式
+        if(application('Validate')->validatePhone($req['login'])){
+            $login = $req['login'];
+            $checkUserId = server('Db')->getOne("select `userId` from user where `login` = '{$login}'");
+            $dbLogin = null;
+            if($req['userId']){
+                $dbLogin = server('Db')->getOne("select `login` from user where `userId` = '{$req['userId']}'");
+            }
+            //校验修改
+            if(!empty($dbLogin)&&$login!=$dbLogin&&$req['type']=='edit'){
+                if($checkUserId){
+                    $msg['login']='该用户已存在';
+                }
+            }
+            //校验添加
+            if($req['type']=='add'){
+                if($checkUserId){
+                    $msg['login']='该用户已存在';
+                }
+            }
+        }else{
+            $msg['login']='请正确输入';
+        }
+        if(!application('Validate')->validateNumberLetter($req['password']))$msg['password']='密码格式错误';
+        if($req['password']!=$req['confirm_password'])$msg['confirm_password']='两次输入不一致';
+        if(!empty($msg)){
+            $this->AjaxReturn([
+                'code'=>-200,
+                'msg'=>$msg
+            ]);
+        }
+    }
+
     //获取用户组的map集合
-    private function getUserGroupMap()
+    public function getUserGroupMap()
     {
         $group = array();
         if($this->isExistTable('user_group')){
