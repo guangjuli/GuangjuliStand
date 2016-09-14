@@ -1,6 +1,5 @@
 <?php
-
-namespace Ads\Map\Controller\Home;
+namespace Ads\Api\Controller\Home;
 
 //hook
 class BaseController{
@@ -12,9 +11,8 @@ class BaseController{
      * @return array
      * 返回可以调用的api
      */
-    public function doApi(){
-        return [
-        ];
+    public function doVersion(){
+        return '1.0';
     }
 
     /**
@@ -24,6 +22,8 @@ class BaseController{
     public function doDepend()
     {
         return [
+            'asdf',
+            'asdf',
         ];
     }
 
@@ -34,4 +34,40 @@ class BaseController{
         ];
     }
 
+
+    public function doMenu()
+    {
+
+        $res = [
+            [
+                'title' => 'api列表',
+                'des'   => 'api相关功能',
+                'ads'   => 'api/home/index',
+                'hidden'=> 0,
+                'child' => [
+                    [ 'title' => 'api列表',
+                        'des'   => 'api相关功能',
+                        'ads'   => 'api/home/index',
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => 'api列表',
+                        'des'   => 'api相关功能',
+                        'ads'   => 'api/home/index',
+                        'hidden'=> 0,
+                    ],
+                ]
+            ]
+        ];
+//
+
+
+
+        return $res;
+    }
+
+
 }
+
+
+
+

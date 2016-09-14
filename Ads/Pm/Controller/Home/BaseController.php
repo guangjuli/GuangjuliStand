@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\Pm\Controller\Home;
 
 //hook
 class BaseController{

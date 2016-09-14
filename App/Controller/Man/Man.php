@@ -15,11 +15,6 @@ class Man extends BaseController
         \App\Ads::Gui();     //路由like http://gst.so/?sdfsdf/sdf/dsf
     }
 
-    public function doRes()
-    {
-        \App\Ads::Run();
-    }
-
     /**
      * 后台首页
      */

@@ -9,7 +9,7 @@
                     <td>[{$item['ads']}]</td>
                     <td>
                         <a href="/man/?menu/html/edit&id={$item['menuId']}">修改</a>
-                        <a class="shamget" rel="/man/res?menu/html/delete&id={$item['menuId']}" comfirm="是否删除?">删除</a>
+                        <a class="shamget" rel="/man/?menu/html/delete&id={$item['menuId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>
             {/foreach}
@@ -26,7 +26,7 @@
                     <td>[{$item['ads']}]</td>
                     <td>
                         <a href="/man/?menu/html/edit&topid={$smarty.get.topid}&id={$item['menuId']}">修改</a>
-                        <a class="shamget" rel="/man/res?menu/html/delete&topid={$smarty.get.topid}&id={$item['menuId']}" comfirm="是否删除?">删除</a>
+                        <a class="shamget" rel="/man/?menu/html/delete&topid={$smarty.get.topid}&id={$item['menuId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>
             {/foreach}
@@ -44,7 +44,7 @@
                         <td>[{$item['ads']}]</td>
                         <td>
                             <a href="/man/?menu/html/edit&topid={$smarty.get.topid}&parentid={$smarty.get.parentid}&id={$item['menuId']}">修改</a>
-                            <a class="shamget" rel="/man/res?menu/html/delete&topid={$smarty.get.topid}&parentid={$smarty.get.parentid}&id={$item['menuId']}" comfirm="是否删除?">删除</a>
+                            <a class="shamget" rel="/man/?menu/html/delete&topid={$smarty.get.topid}&parentid={$smarty.get.parentid}&id={$item['menuId']}" comfirm="是否删除?">删除</a>
                         </td>
                     </tr>
                 {/foreach}

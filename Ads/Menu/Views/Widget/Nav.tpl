@@ -18,11 +18,13 @@
             <ul class="nav navbar-nav navbar-right">
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                       <span class="glyphicon glyphicon-user"> 管理员 <span class="caret"></span>
+                       <span class="glyphicon glyphicon-user"></span> 管理员 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><span class=" glyphicon glyphicon-th-list" ></span> Map</a></li>
+                        <li><a href="?/pm/html/index"><span class=" glyphicon glyphicon-th-list" ></span> 管理</a></li>
+
                         <li><a href="#"><span class="glyphicon glyphicon-menu-hamburger" ></span> Help</a></li>
+
                         <li><a href="/man/logout"><span class="glyphicon glyphicon-off" ></span> 退出</a></li>
                     </ul>
                 </li>
