@@ -17,6 +17,11 @@ class BaseController{
         ];
     }
 
+
+    public function doVersion(){
+        return '1.0';
+    }
+
     /**
      * @return array
      * 返回依赖关系
@@ -24,6 +29,8 @@ class BaseController{
     public function doDepend()
     {
         return [
+            'asdf',
+            'asdf',
         ];
     }
 
@@ -32,6 +39,32 @@ class BaseController{
         return [
             'Menu'
         ];
+    }
+
+    public function doMenu()
+    {
+
+        $res = [
+            [
+                'title' => 'api列表',
+                'des'   => 'api相关功能',
+                'ads'   => 'api/home/index',
+                'hidden'=> 0,
+                'child' => [
+                    [ 'title' => 'api列表',
+                        'des'   => 'api相关功能',
+                        'ads'   => 'api/home/index',
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => 'api列表',
+                        'des'   => 'api相关功能',
+                        'ads'   => 'api/home/index',
+                        'hidden'=> 0,
+                    ],
+                ]
+            ]
+        ];
+        return $res;
     }
 
 }
