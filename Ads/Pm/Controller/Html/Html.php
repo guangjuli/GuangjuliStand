@@ -1,48 +1,50 @@
 <?php
-namespace Ads\Usergroup\Controller\Html;
+namespace Ads\Pm\Controller\Html;
 
-class Html extends BaseController {
+class Html  {
+
+    use \Ads\Pm\Traits\Data;
+    use \Ads\Pm\Traits\Arr;
 
     public function __construct(){
-        parent::__construct();
     }
 
     public function doIndex(){
-    }
 
-    public function doIndexc(){
-    }
+        $list = $this->getArr($this->get('pmsetup'));
+
+        $dir = [];
+        $file = [];
+        //1 检查文件夹是否存在,
+        //2 检查lock文件是否存在
+        foreach($list as $key=>$value){
+            $_dir  = APPROOT."../Ads/$value/";
+            $_file = APPROOT."../Ads/$value/Install.lock";
+            $dir[$value] = is_dir($_dir);
+            $file[$value] = is_file($_file);
+        }
 
 
-    /**
-     * 响应删除
-     */
-    public function doDelete(){
-        echo '删除'.req('Get')['id'];
-    }
 
-    public function doList(){
-        $list = server('db')->getall("select * from `user_group` order by groupId desc");
-        return  server('Smarty')->ads('usergroup/html/list')->fetch('',[
-            'list' => $list
+        return  server('Smarty')->ads('pm/html/index')->fetch('',[
+            'list' => $list,
+            'dir'  => $dir,
+            'file' => $file,
         ]);
     }
 
-    public function doAdd(){
-        return  server('Smarty')->ads('usergroup/html/add')->fetch('',[
-        ]);
+    public function doSetupPost()
+    {
+        $pmsetup = $this->getStr($this->getArr(req('Post')['pmsetup']));
+        $this->set('pmsetup',$pmsetup);
+        R('/man/?pm/html/setup');
     }
 
-    public function doEdit(){
-        return  server('Smarty')->ads('usergroup/html/edit')->fetch('',[
+    public function doSetup(){
+        return  server('Smarty')->ads('pm/html/setup')->fetch('',[
+            'pmsetup' => $this->get('pmsetup')
         ]);
     }
-
-
-//    public function doDet(){
-//        return server('Smarty')->ads('group/home/index')->fetch('',[
-//        ]);
-//    }
 
 
 }

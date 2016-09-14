@@ -88,6 +88,36 @@ $(function() {
 			  }  
 		});
 	});
+    //必须参数 根据rel 选定form
+    //shampostform 标记
+    //rel 标记
+    //返回错误信息
+    $('.nscpostformerror').click(function(){
+        var tag = $(this).attr("rel");
+        $.ajax({
+            type: "POST",
+            url: $(tag).attr("action"),
+            data: $(tag).serialize(),
+            dataType:'json',
+            success: function(data){
+                if(data.code==200)eval(data.js);
+                var error = eval(data.msg);
+                for( var o in error){
+                    $("input").each(
+                        function(){
+                            if($(this).attr("name")== o){
+                                $(this).parent().next().children().remove();
+                                $(this).parent().next().append("<div>"+error[o]+"</div>");
+                            }
+                        }
+                    );
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    });
 
 
 

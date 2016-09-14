@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 //hook
 class BaseController{
 

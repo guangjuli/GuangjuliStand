@@ -1,18 +1,17 @@
 <?php
-namespace Ads\Map\Controller\Home;
+namespace Ads\Pm\Controller\Home;
 
 class Home extends BaseController {
+
+    use \Ads\Pm\Traits\Data;
 
     public function __construct(){
         parent::__construct();
     }
 
-//    public function doIndex(){
-//    }
-//
-//    public function doDet(){
-//        return server('Smarty')->ads('group/home/index')->fetch('',[
-//        ]);
-//    }
+    public function doIndex(){
+
+    }
+
 
 }

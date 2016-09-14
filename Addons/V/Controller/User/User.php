@@ -22,7 +22,7 @@ class User extends BaseController
         $msg = model('User')->paramsConfig()['returnNews'];
         $code = model('User')->validateUserReq(req('Post'));
         if($code==200){
-            $check = model('User')->updateUserByUserId(req('Post'));
+            $check = model('Userinfo')->submitUserInfo(req('Post'));
             if($check){
                 $this->AjaxReturn([
                     'code' => $code,
@@ -41,10 +41,10 @@ class User extends BaseController
             ]);
         }
     }
-    //获取用户信息
+    //获取用户信息,操作的是user_info表
     public function doUserinfoPost()
     {
-        $userInfo=model('User')->getUserInfoByToken();
+        $userInfo=model('Userinfo')->getUsrInfoDetailByUserId();
         if(!empty($userInfo)){
             $this->AjaxReturn([
                 'code'=>200,
@@ -75,13 +75,44 @@ class User extends BaseController
     //知道原密码重置密码
     public function doResetpasswordPost()
     {
-        $code = model('Password')->resetPasswordValidateReq(req('Post')['old_password'],req('Post')['password'],req('Post')['confirm_password']);
-        if($code==200){
-             $code = model('Password')->resetPassword(req('Post')['password'])?200:-200;
-        }
+        $req = req('Post');
+        $code = model('Password')->resetPassword($req['old_password'],$req['password'])?200:-200;
         $this->AjaxReturn([
-            'code' => $code,
-            'msg' => model('Password')->returnNews($code),
+            'code'=>$code,
         ]);
+    }
+
+    //用户登录
+    public function doLoginPost()
+    {
+        $req = saddslashes(req('Post'));
+        $user = model('User')->getUserByLogin($req['login']);
+        if(empty($user)){
+            $this->AjaxReturn([
+                'code'=>-200,
+                'msg'=>'该用户不存在',
+            ]);
+        }else{
+            if($user['password']!=$req['password']){
+                $this->AjaxReturn([
+                    'code'=>-201,
+                    'msg'=>'密码错误',
+                ]);
+            }
+            $token = model('Token')->accessToken(req('Post'));
+            if(empty($token)){
+                $this->AjaxReturn([
+                    'code'=>-202,
+                    'msg'=>'没有权限',
+                ]);
+            }
+            $this->AjaxReturn([
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>[
+                    'token'=>$token
+                ]
+            ]);
+        }
     }
 }
