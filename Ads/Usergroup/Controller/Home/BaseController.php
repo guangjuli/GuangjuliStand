@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\Usergroup\Controller\Home;
 
 //hook
 class BaseController{
@@ -46,20 +46,25 @@ class BaseController{
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '用户组',
+                'des'   => '管理菜单',
+                'ads'   => 'usergroup/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '列表',
+                        'des'   => '用户列表',
+                        'ads'   => 'usergroup/html/list',
                         'hidden'=> 0,
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'usergroup/html/add',
                         'hidden'=> 0,
+                    ],
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'usergroup/html/edit',
+                        'hidden'=> 1,
                     ],
                 ]
             ]

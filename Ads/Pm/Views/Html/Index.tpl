@@ -32,11 +32,11 @@
                     <td>
                         <a class="shamboxnl" rel="/?/pm/read/readme&chr={$item}">Readme</a>
                         <a class="shamboxnl" rel="/?/pm/read/Help&chr={$item}">Help</a>
-                        <a class="shamboxnl" rel="/?/pm/read/Api&chr={$item}">Api</a>
                         -
                         <a class="shamboxnl" rel="/?/pm/read/Installsql&chr={$item}">Install.sql</a>
                         <a class="shamboxnl" rel="/?/pm/read/UnInstallsql&chr={$item}">UnInstall.sql</a>
                          -
+                        <a class="shamboxnl" rel="/?/pm/read/Api&chr={$item}">Api</a>
                         <a class="shamboxnl" rel="/?/pm/read/Menu&chr={$item}">Menu</a>
                         <a class="shamboxnl" rel="/?/pm/read/Depend&chr={$item}">Depend</a>
                         <a class="shamboxnl" rel="/?/pm/read/Dependtable&chr={$item}">Dependtable</a>
@@ -53,12 +53,13 @@
                         <span class="label {if $zip[$item]}label-danger{/if}">Zip</span>
                     </td>
                     <td>
+                        <!--
                         <a href="/?/pm/html/up&chr={$item}">上传</a>
                         下载
                         安装
                         卸载
+                        -->
                         <a href="/?/pm/html/inmenu&chr={$item}">安装菜单</a>
-
                     </td>
                 </tr>
             {/foreach}
