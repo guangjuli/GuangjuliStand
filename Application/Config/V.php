@@ -1,6 +1,16 @@
 <?php
 
 return [
+    //依据数据库user_group映射配置用户组,当表更改的时候请更新此配置
+    'userGroup'=>[
+        'system'=>1,      //系统管理员1
+        'system2'=>2,     //系统管理员2
+        'organization'=>11,  //组织
+        'department'=>10,    //科室
+        'doctor'=>12,        //医生
+        'android'=>20,      //安卓用户
+        'ios'=>21           //ios用户
+    ],
     /*nsc添加*/
     'token'=>[
         'clientSecret'=>'1cda067b175ab0e9e1fdfe8dcd7d71ff',
