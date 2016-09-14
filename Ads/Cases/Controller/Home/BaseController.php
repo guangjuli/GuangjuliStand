@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\Cases\Controller\Home;
 
 //hook
 class BaseController{
@@ -41,20 +41,25 @@ class BaseController{
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '病历',
+                'des'   => '病历',
+                'ads'   => 'cases/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '列表',
+                        'des'   => '用户列表',
+                        'ads'   => 'cases/html/list',
                         'hidden'=> 0,
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'cases/html/add',
                         'hidden'=> 0,
+                    ],
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'cases/html/edit',
+                        'hidden'=> 1,
                     ],
                 ]
             ]

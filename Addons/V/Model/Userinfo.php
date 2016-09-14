@@ -56,69 +56,7 @@ class Userinfo
         return $userInfoDetail?:[];
     }
 
-    //分割用户信息,将用户信息划分为，基础，社会，生活方式等部分
-    public function getCutUserInfo($userId){
-        $info = $this->getUsrInfoDetailByUserId($userId);
-        if(!empty($info)){
-            return [
-                'information' => [
-                    'trueName'=>$info['trueName'],
-                    'phone'=>$info['login'],
-                    'gender'=>$info['gender'],
-                    'age'=>$info['age'],
-                    'address'=>$info['addr']
-                ],
-                'basic'=>[
-                    'hipline'=>$info['hipline'],
-                    'weight'=>$info['weight'],
-                    'height'=>$info['height'],
-                    'bmi'=>$info['bmi'],
-                    'waist'=>$info['waist']
-                ],
-                'relevantSocial'=>[
-                    'workEnv'=>$info['workEnv'],
-                    'familyStates'=>$info['familyStates'],
-                    'psychosis'=>$info['psychosis'],
-                    'education'=>$info['education']
-                ],
-                'lifeStyle'=>[
-                    'smoke'=>$info['smoke'],
-                    'nervous'=>$info['nervous'],
-                    'sportType'=>$info['sportType'],
-                    'sportTime'=>$info['sportTime'],
-                    'drinkwine'=>$info['drinkwine'],
-                    'weightTrends'=>$info['weightTrends']
-                ],
-            ];
-        }
-        return[];
-    }
 
-    //获取患者列表,包含平均年龄，人数
-    //relation是user_relationship的字段值由id串组成，用‘，’分隔开
-    public function getUserListByUserId($relation)
-    {
-        //并未对$relation进行过多验证，非用户输入项
-        $patientList = array();
-        if(!empty($relation)){
-            $sql = 'select `userId`, `trueName`,`age`,`gender` from user_info where `userId`in'.'('.$relation.')';
-            $list = server('Db')->getAll($sql,'userId');
-            if($list){
-                //计算人数
-                $num = count($list);
-                //计算平均年龄
-                $total = 0;
-                for($i=0;$i<$num;$i++){
-                  $total+=$list[$i]['age'];
-                }
-                $avgAge = $total/$num;
-                $patientList['number']=$num;
-                $patientList['averageAge']=$avgAge;
-                $patientList['patientList'] = $list;
-            }
-        }
-        return $patientList;
-    }
 
 
 

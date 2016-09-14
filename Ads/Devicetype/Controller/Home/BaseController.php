@@ -57,25 +57,29 @@ class BaseController{
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '设备类型',
+                'des'   => '设备类型',
+                'ads'   => 'devicetype/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '列表',
+                        'des'   => '用户列表',
+                        'ads'   => 'devicetype/html/list',
                         'hidden'=> 0,
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'devicetype/html/add',
                         'hidden'=> 0,
+                    ],
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'devicetype/html/edit',
+                        'hidden'=> 1,
                     ],
                 ]
             ]
         ];
         return $res;
     }
-
 }

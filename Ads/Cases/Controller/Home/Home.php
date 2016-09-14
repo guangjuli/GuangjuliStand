@@ -1,5 +1,5 @@
 <?php
-namespace Ads\Map\Controller\Home;
+namespace Ads\Cases\Controller\Home;
 
 class Home extends BaseController {
 
