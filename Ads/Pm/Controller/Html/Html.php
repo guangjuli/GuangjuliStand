@@ -6,6 +6,7 @@ class Html  {
     use \Ads\Pm\Traits\Data;
     use \Ads\Pm\Traits\Arr;
     use \Ads\Pm\Traits\PostRequest;
+    use \Ads\Pm\Traits\AjaxReturnHtml;
 
     public function __construct(){
     }
@@ -58,7 +59,9 @@ class Html  {
                 }
             }
         }
-        R('/man/?/pm/html/index');
+        $this->AjaxReturn([
+            'url'=>'/man/?/pm/html/index'
+        ]);
     }
 
     public function doUp()

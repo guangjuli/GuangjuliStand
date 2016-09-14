@@ -59,7 +59,7 @@
                         安装
                         卸载
                         -->
-                        <a href="/?/pm/html/inmenu&chr={$item}">安装菜单</a>
+                        <a class="shamget" rel="/?/pm/html/inmenu&chr={$item}" comfirm="更新菜单?">安装菜单</a>
                     </td>
                 </tr>
             {/foreach}
