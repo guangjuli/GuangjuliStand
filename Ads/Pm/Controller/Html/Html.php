@@ -10,20 +10,32 @@ class Html  {
     }
 
     public function doIndex(){
-        $str = $this->get('pmsetup');
-        $ar = $this->getArr($str);
-        $Str2 = $this->getStr($ar);
-        D($Str2);
 
-D($Str2);
-    }
+        $list = $this->getArr($this->get('pmsetup'));
 
-    public function doList(){
+        $dir = [];
+        $file = [];
+        //1 检查文件夹是否存在,
+        //2 检查lock文件是否存在
+        foreach($list as $key=>$value){
+            $_dir  = APPROOT."../Ads/$value/";
+            $_file = APPROOT."../Ads/$value/Install.lock";
+            $dir[$value] = is_dir($_dir);
+            $file[$value] = is_file($_file);
+        }
+
+
+
+        return  server('Smarty')->ads('pm/html/index')->fetch('',[
+            'list' => $list,
+            'dir'  => $dir,
+            'file' => $file,
+        ]);
     }
 
     public function doSetupPost()
     {
-        $pmsetup = trim(req('Post')['pmsetup']);
+        $pmsetup = $this->getStr($this->getArr(req('Post')['pmsetup']));
         $this->set('pmsetup',$pmsetup);
         R('/man/?pm/html/setup');
     }
