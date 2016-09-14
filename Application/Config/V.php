@@ -9,7 +9,8 @@ return [
         'department'=>10,    //科室
         'doctor'=>12,        //医生
         'android'=>20,      //安卓用户
-        'ios'=>21           //ios用户
+        'ios'=>21,           //ios用户
+        'casualUser'=>22    //临时用户
     ],
     /*nsc添加*/
     'token'=>[

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Userinfo\Controller\Home;
+namespace Ads\User\Controller\Home;
 
 //hook
 class BaseController{
@@ -46,35 +46,25 @@ class BaseController{
 
         $res = [
             [
-                'title' => '用户详情',
-                'des'   => '用户详情',
-                'ads'   => 'userinfo/html/index',
+                'title' => '用户',
+                'des'   => '用户',
+                'ads'   => 'user/html/index',
                 'hidden'=> 0,
-                'sort'=> 0,
                 'child' => [
                     [ 'title' => '列表',
-                        'des'   => '列表',
-                        'ads'   => 'userinfo/html/list',
+                        'des'   => '用户列表',
+                        'ads'   => 'user/html/list',
                         'hidden'=> 0,
-                        'sort'=> 90,
                     ],
                     [ 'title' => '添加',
                         'des'   => '添加',
-                        'ads'   => 'userinfo/html/add',
+                        'ads'   => 'user/html/add',
                         'hidden'=> 0,
-                        'sort'=> 20,
                     ],
-                    [ 'title' => '编辑',
-                        'des'   => '编辑',
-                        'ads'   => 'userinfo/html/edit',
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'user/html/edit',
                         'hidden'=> 1,
-                        'sort'=> 30,
-                    ],
-                    [ 'title' => '详情',
-                        'des'   => '详情',
-                        'ads'   => 'userinfo/html/detail',
-                        'hidden'=> 1,
-                        'sort'=> 30,
                     ],
                 ]
             ]
