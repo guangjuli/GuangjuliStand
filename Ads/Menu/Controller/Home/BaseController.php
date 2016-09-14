@@ -50,20 +50,29 @@ class BaseController{
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '菜单',
+                'des'   => '菜单',
+                'ads'   => 'menu/html/index',
                 'hidden'=> 0,
+                'sort'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '列表',
+                        'des'   => '列表',
+                        'ads'   => 'menu/html/list',
                         'hidden'=> 0,
+                        'sort'=> 90,
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'menu/html/add',
                         'hidden'=> 0,
+                        'sort'=> 20,
+                    ],
+                    [ 'title' => '编辑',
+                        'des'   => '编辑',
+                        'ads'   => 'menu/html/edit',
+                        'hidden'=> 1,
+                        'sort'=> 30,
                     ],
                 ]
             ]
