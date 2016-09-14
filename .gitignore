@@ -59,4 +59,9 @@ tests
 Cache/
 tests
 V/Views/
+<<<<<<< HEAD
+_widget/
+=======
 _Widget/
+>>>>>>> refs/remotes/origin/masterApp
+Pb/

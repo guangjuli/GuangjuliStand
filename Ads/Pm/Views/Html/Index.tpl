@@ -48,11 +48,17 @@
                         View
                     </td>
                     <td>
-                        <span class="label {if $file[$item]}label-primary{/if}">Lock</span>
-                        <span class="label label-info">File</span>
+                        <span class="label {if $dir[$item]}label-info{/if}">Dir</span>
+                        <span class="label {if $file[$item]}label-warning{/if}">Lock</span>
+                        <span class="label {if $zip[$item]}label-danger{/if}">Zip</span>
                     </td>
                     <td>
-下载 安装 卸载 安装菜单
+                        <a href="/?/pm/html/up&chr={$item}">上传</a>
+                        下载
+                        安装
+                        卸载
+                        <a href="/?/pm/html/inmenu&chr={$item}">安装菜单</a>
+
                     </td>
                 </tr>
             {/foreach}
