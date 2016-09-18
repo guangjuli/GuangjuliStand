@@ -1,5 +1,5 @@
 <?php
-namespace Ads\Userinfo\Traits;
+namespace Ads\Patient\Traits;
 
 /**
  * Created by PhpStorm.

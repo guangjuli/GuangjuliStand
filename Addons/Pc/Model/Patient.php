@@ -8,21 +8,21 @@
 
 namespace Addons\Model;
 
-
+//患者
 class Userinfo
 {
     public function updateUserInfo(Array $array,$userId=null)
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;
-        $insert = server('Db')->autoExecute('user_info', $array, 'UPDATE',"`userId`=$userId");
+        $insert = server('Db')->autoExecute('patient', $array, 'UPDATE',"`userId`=$userId");
         return $insert?true:false;
     }
 
     public function isExistUserInfoById($id)
     {
         if(!is_int($id))return false;
-        $id = server('Db')->getOne("select `userId` from user_info where `userId`=$id");
+        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
         return $id?true:false;
     }
 
@@ -31,7 +31,7 @@ class Userinfo
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;
         $array['userId'] = $userId;
-        $insert = server('Db')->autoExecute('user_info', $array, 'INSERT');
+        $insert = server('Db')->autoExecute('patient', $array, 'INSERT');
         return $insert?true:false;
     }
 
@@ -49,16 +49,17 @@ class Userinfo
 
     //TODO:待指定获取用户信息的具体参数,目前调试阶段返回全部信息,
     //用户信息表，userId，也是唯一的
-    public function getUsrInfoDetailByUserId($userId)
+    public function getUsrInfoDetailByUserId($userId,$orgId)
     {
-        $userId = $userId?:bus('tokenInfo')['userId'];
-        $userInfoDetail = server('Db')->getRow("select * from user_info where `userId`={$userId}");
+        $userId = intval($userId);
+        $orgId = intval($orgId);
+        $userInfoDetail = server('Db')->getRow("select * from patient where `userId`={$userId} and `orgId`={$orgId}");
         return $userInfoDetail?:[];
     }
 
-    //分割用户信息,将用户信息划分为，基础，社会，生活方式等部分
-    public function getCutUserInfo($userId){
-        $info = $this->getUsrInfoDetailByUserId($userId);
+    //分割患者信息,将用户信息划分为，基础，社会，生活方式等部分
+    public function getCutUserInfo($userId,$orgId){
+        $info = $this->getUsrInfoDetailByUserId($userId,$orgId);
         if(!empty($info)){
             return [
                 'information' => [
@@ -95,26 +96,26 @@ class Userinfo
     }
 
     //获取患者列表,包含平均年龄，人数
-    //relation是user_relationship的字段值由id串组成，用‘，’分隔开
-    public function getUserListByUserId($relation)
+    //由机构划分
+    public function getUserList(array $userIdList)
     {
-        //并未对$relation进行过多验证，非用户输入项
         $patientList = array();
-        if(!empty($relation)){
-            $sql = 'select `userId`, `trueName`,`age`,`gender` from user_info where `userId`in'.'('.$relation.')';
-            $list = server('Db')->getAll($sql,'userId');
-            if($list){
+        if(!empty($userIdList)){
+            $list = implode(',',$userIdList);
+            $sql = 'select `userId`, `trueName`,`age`,`gender` from patient where `userId`in'.'('.$list.')';
+            $userList = server('Db')->getAll($sql,'userId');
+            if($userList){
                 //计算人数
-                $num = count($list);
+                $num = count($userList);
                 //计算平均年龄
                 $total = 0;
                 for($i=0;$i<$num;$i++){
-                    $total+=$list[$i]['age'];
+                    $total+=$$userList[$i]['age'];
                 }
                 $avgAge = $total/$num;
                 $patientList['number']=$num;
                 $patientList['averageAge']=$avgAge;
-                $patientList['patientList'] = $list;
+                $patientList['patientList'] = $userList;
             }
         }
         return $patientList;

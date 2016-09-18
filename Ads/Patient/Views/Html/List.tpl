@@ -38,9 +38,9 @@
                     <td>{$item['sort']}</td>
                     <td>{$item['active']}</td>
                     <td>
-                        <a href="/man/?userinfo/html/detail&userId={$item['userId']}">详情</a>
-                        <a href="/man/?userinfo/html/edit&userId={$item['userId']}">修改</a>
-                        <a class="shamget" rel="/man/?userinfo/html/delete&id={$item['userInfoId']}" comfirm="是否删除?">删除</a>
+                        <a href="/man/?patient/html/detail&userId={$item['userId']}">详情</a>
+                        <a href="/man/?patient/html/edit&userId={$item['userId']}">修改</a>
+                        <a class="shamget" rel="/man/?patient/html/delete&id={$item['userInfoId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>
             {/foreach}

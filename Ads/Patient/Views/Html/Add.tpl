@@ -1,5 +1,5 @@
 <div class="row">
-    <form class="form-horizontal" method="post" action="/man/?userinfo/html/add" id="addForm" enctype="multipart/form-data">
+    <form class="form-horizontal" method="post" action="/man/?patient/html/add" id="addForm" enctype="multipart/form-data">
         <div class="col-md-7">
             <div class="form-group">
                 <label for="userId" class="col-sm-2 control-label">用户Id</label>
@@ -11,7 +11,7 @@
             <div class="row form-group">
                 <label for="headImage" class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-2">
-                    {widget ads='userinfo/crop/Uploadimage'}
+                    {widget ads='patient/crop/Uploadimage'}
                 </div>
                 <div style="color: #8e8b8b; margin-top: 10px;">
                     提示：上传头像后会自动创建用户,之后仍需编辑其他信息，请根据提示前往编辑页面

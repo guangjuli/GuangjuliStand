@@ -12,10 +12,10 @@ namespace Addons\Model;
 class Cases
 {
     //case 病历
-    public function getCasesByUserId($userId)
+    public function getPersonalCases($userId,$orgId)
     {
         $userId = intval($userId);
-        $cases = server('Db')->getAll("select `disease`,`medication`,`sideEffect`,`beginTime`,`endTime` from case where `userId`={$userId}");
+        $cases = server('Db')->getAll("select `disease`,`medication`,`sideEffect`,`beginTime`,`endTime` from case where `userId`={$userId} and `orgId`={$orgId}");
         return $cases?:[];
     }
 }

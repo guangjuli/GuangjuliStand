@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Userinfo\Controller\Html;
+namespace Ads\Patient\Controller\Html;
 
 //hook
 class BaseController{

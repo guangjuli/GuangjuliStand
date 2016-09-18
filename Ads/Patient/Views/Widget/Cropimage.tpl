@@ -83,7 +83,7 @@
         $('#confirm_upload').click(function(){
             var fromData = new FormData($('form')[0]);
            $.ajax({
-                url:'/man/?userinfo/crop/uploadimage',
+                url:'/man/?patient/crop/uploadimage',
                 type:'POST',
                 data:fromData,
                 dataType:'JSON',

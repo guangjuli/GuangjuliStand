@@ -1,8 +1,8 @@
 <?php
 
-namespace Ads\Userinfo\Controller\Crop;
+namespace Ads\Patient\Controller\Crop;
 
-  use Ads\Userinfo\Traits\User;
+
 
   class Crop {
     private $src;
@@ -14,8 +14,9 @@ namespace Ads\Userinfo\Controller\Crop;
     private $savePath;
 
     use \App\Traits\AjaxReturnHtml;
-    use User;
-    public function doUploadimagePost(){
+    use \Ads\Patient\Traits\User;
+    public function doUploadimagePost()
+    {
       $this->savePath = server()->Config('V')['uploadHeadImage']['savePath'];
       $req = req('Post');
       $this -> setData($req['avatar_data']);
@@ -30,10 +31,10 @@ namespace Ads\Userinfo\Controller\Crop;
           if(!empty($old_image)&&file_exists($old_image)){
             unlink($old_image);
           }
-          server('db')->autoExecute('user_info',$res,'UPDATE',"userId = {$req['userId']}");
+          server('db')->autoExecute('patient',$res,'UPDATE',"userId = {$req['userId']}");
         }else{
           $res['userId'] = $req['userId'];
-          server('db')->autoExecute('user_info',$res,'INSERT');
+          server('db')->autoExecute('patient',$res,'INSERT');
         }
         $this->AjaxReturn([
             'code'  => 200,
@@ -52,7 +53,7 @@ namespace Ads\Userinfo\Controller\Crop;
 
     public function doUploadimage()
     {
-      return  server('Smarty')->ads('userinfo/widget/cropimage')->fetch('',[
+      return  server('Smarty')->ads('patient/widget/cropimage')->fetch('',[
         ]);
     }
 

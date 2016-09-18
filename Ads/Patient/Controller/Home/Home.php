@@ -1,5 +1,5 @@
 <?php
-namespace Ads\Userinfo\Controller\Home;
+namespace Ads\Patient\Controller\Home;
 
 class Home extends BaseController {
 

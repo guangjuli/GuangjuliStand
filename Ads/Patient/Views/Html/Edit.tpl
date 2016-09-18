@@ -1,5 +1,5 @@
 <div class="row">
-    <form class="form-horizontal" method="post" action="/man/?userinfo/html/edit" id="editForm" enctype="multipart/form-data">
+    <form class="form-horizontal" method="post" action="/man/?patient/html/edit" id="editForm" enctype="multipart/form-data">
         <div class="col-md-7">
             <div class="form-group">
                 <label for="userId" class="col-sm-2 control-label">用户Id</label>
@@ -11,7 +11,7 @@
             <div class="row form-group">
                 <label for="headImage" class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-2">
-                    {widget ads='userinfo/crop/Uploadimage'}
+                    {widget ads='patient/crop/Uploadimage'}
                 </div>
             </div>
             <div class="form-group">
