@@ -107,9 +107,6 @@ class AdsBase
      * todo 待完善
      * 依赖关系,更多资源
      */
-    public function depend(){}
-    public function bedepend(){}
-    public function dependtable(){}
     public function menu(){}
     public function icon(){}
 

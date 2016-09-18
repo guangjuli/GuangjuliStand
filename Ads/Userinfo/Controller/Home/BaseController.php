@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\Userinfo\Controller\Home;
 
 //hook
 class BaseController{
@@ -17,6 +17,11 @@ class BaseController{
         ];
     }
 
+
+    public function doVersion(){
+        return '1.0';
+    }
+
     /**
      * @return array
      * 返回依赖关系
@@ -24,6 +29,8 @@ class BaseController{
     public function doDepend()
     {
         return [
+            'asdf',
+            'asdf',
         ];
     }
 
@@ -32,6 +39,47 @@ class BaseController{
         return [
             'Menu'
         ];
+    }
+
+    public function doMenu()
+    {
+
+        $res = [
+            [
+                'title' => '用户详情',
+                'des'   => '用户详情',
+                'ads'   => 'userinfo/html/index',
+                'hidden'=> 0,
+                'sort'=> 0,
+                'child' => [
+                    [ 'title' => '列表',
+                        'des'   => '列表',
+                        'ads'   => 'userinfo/html/list',
+                        'hidden'=> 0,
+                        'sort'=> 90,
+                    ],
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'userinfo/html/add',
+                        'hidden'=> 0,
+                        'sort'=> 20,
+                    ],
+                    [ 'title' => '编辑',
+                        'des'   => '编辑',
+                        'ads'   => 'userinfo/html/edit',
+                        'hidden'=> 1,
+                        'sort'=> 30,
+                    ],
+                    [ 'title' => '详情',
+                        'des'   => '详情',
+                        'ads'   => 'userinfo/html/detail',
+                        'hidden'=> 1,
+                        'sort'=> 30,
+                    ],
+                ]
+            ]
+        ];
+        return $res;
     }
 
 }

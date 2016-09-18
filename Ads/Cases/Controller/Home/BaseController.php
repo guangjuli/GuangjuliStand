@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\Cases\Controller\Home;
 
 //hook
 class BaseController{
@@ -10,11 +10,10 @@ class BaseController{
 
     /**
      * @return array
-     * 返回可以调用的api
+     * 返回版本
      */
-    public function doApi(){
-        return [
-        ];
+    public function doVersion(){
+        return '1.0';
     }
 
     /**
@@ -24,6 +23,8 @@ class BaseController{
     public function doDepend()
     {
         return [
+            'asdf',
+            'asdf',
         ];
     }
 
@@ -32,6 +33,38 @@ class BaseController{
         return [
             'Menu'
         ];
+    }
+
+
+    public function doMenu()
+    {
+
+        $res = [
+            [
+                'title' => '病历',
+                'des'   => '病历',
+                'ads'   => 'cases/html/index',
+                'hidden'=> 0,
+                'child' => [
+                    [ 'title' => '列表',
+                        'des'   => '用户列表',
+                        'ads'   => 'cases/html/list',
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'cases/html/add',
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'cases/html/edit',
+                        'hidden'=> 1,
+                    ],
+                ]
+            ]
+        ];
+        return $res;
     }
 
 }

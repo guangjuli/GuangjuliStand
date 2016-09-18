@@ -10,11 +10,10 @@ class BaseController{
 
     /**
      * @return array
-     * 返回可以调用的api
+     * 返回版本
      */
-    public function doApi(){
-        return [
-        ];
+    public function doVersion(){
+        return '1.0';
     }
 
     /**
@@ -24,6 +23,8 @@ class BaseController{
     public function doDepend()
     {
         return [
+            'asdf',
+            'asdf',
         ];
     }
 
@@ -34,4 +35,32 @@ class BaseController{
         ];
     }
 
+    public function doMenu()
+    {
+
+        $res = [
+            [
+                'title' => '界面管理',
+                'des'   => '界面管理',
+                'ads'   => 'pm/html/index',
+                'hidden'=> 0,
+                'child' => [
+                    [ 'title' => '列表',
+                        'des'   => '列表',
+                        'ads'   => 'pm/html/list',
+                        'sort'=> 10,
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => '设置',
+                        'des'   => '模块设置',
+                        'ads'   => 'pm/html/setup',
+                        'sort'=> 8,
+                        'hidden'=> 0,
+                    ],
+                ]
+            ]
+        ];
+        return $res;
+    }
+    
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\User\Controller\Home;
 
 //hook
 class BaseController{
@@ -10,8 +10,14 @@ class BaseController{
 
     /**
      * @return array
-     * 返回版本
+     * 返回可以调用的api
      */
+    public function doApi(){
+        return [
+        ];
+    }
+
+
     public function doVersion(){
         return '1.0';
     }
@@ -35,32 +41,35 @@ class BaseController{
         ];
     }
 
-
     public function doMenu()
     {
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '用户',
+                'des'   => '用户',
+                'ads'   => 'user/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '列表',
+                        'des'   => '用户列表',
+                        'ads'   => 'user/html/list',
                         'hidden'=> 0,
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'user/html/add',
                         'hidden'=> 0,
+                    ],
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'user/html/edit',
+                        'hidden'=> 1,
                     ],
                 ]
             ]
         ];
         return $res;
     }
-
 
 }

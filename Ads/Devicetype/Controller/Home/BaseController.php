@@ -27,11 +27,21 @@ class BaseController{
 
     /**
      * @return array
+     * 返回版本
+     */
+    public function doVersion(){
+        return '1.0';
+    }
+
+    /**
+     * @return array
      * 返回依赖关系
      */
     public function doDepend()
     {
         return [
+            'asdf',
+            'asdf',
         ];
     }
 
@@ -42,4 +52,34 @@ class BaseController{
         ];
     }
 
+    public function doMenu()
+    {
+
+        $res = [
+            [
+                'title' => '设备类型',
+                'des'   => '设备类型',
+                'ads'   => 'devicetype/html/index',
+                'hidden'=> 0,
+                'child' => [
+                    [ 'title' => '列表',
+                        'des'   => '用户列表',
+                        'ads'   => 'devicetype/html/list',
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => '添加',
+                        'des'   => '添加',
+                        'ads'   => 'devicetype/html/add',
+                        'hidden'=> 0,
+                    ],
+                    [ 'title' => '修改',
+                        'des'   => '修改',
+                        'ads'   => 'devicetype/html/edit',
+                        'hidden'=> 1,
+                    ],
+                ]
+            ]
+        ];
+        return $res;
+    }
 }

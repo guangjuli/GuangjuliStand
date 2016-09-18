@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs" style="margin: 0px 0px 10px 0px;" role="tablist">
     <li role="presentation">
-        <a href="/man/?/pm/html/index">
+        <a href="/man/?/pm/html/list">
             <span class="glyphicon glyphicon-home"></span>
             列表
         </a>
@@ -11,6 +11,13 @@
             设置
         </a>
     </li>
+    <li role="presentation">
+        <a href="/man/?/pm/html/guisetup">
+            <span class="glyphicon glyphicon-home"></span>
+            界面设置
+        </a>
+    </li>
+
 </ul>
 
     <div class="row">
