@@ -217,7 +217,7 @@
         var tag = '#userId';
         $.ajax({
             type: "Post",
-            url: "/man/?userinfo/html/checkuserid",
+            url: "/man/?patient/html/checkuserid",
             data:{
                 'userId':$(tag).val()
             },
