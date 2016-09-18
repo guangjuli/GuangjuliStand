@@ -1,5 +1,5 @@
 <div class="row">
-    <form class="form-horizontal" method="post" action="/man/?userinfo/html/add" id="addForm" enctype="multipart/form-data">
+    <form class="form-horizontal" method="post" action="/man/?patient/html/add" id="addForm" enctype="multipart/form-data">
         <div class="col-md-7">
             <div class="form-group">
                 <label for="userId" class="col-sm-2 control-label">用户Id</label>
@@ -137,7 +137,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-7">
-                    <a href="/man/?userinfo/html/list" class="btn btn-primary">返回</a>
+                    <a href="/man/?patient/html/list" class="btn btn-primary">返回</a>
                 </div>
             </div>
 

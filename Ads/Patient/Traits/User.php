@@ -1,5 +1,5 @@
 <?php
-namespace Ads\Userinfo\Traits;
+namespace Ads\Patient\Traits;
 
 /**
  * Created by PhpStorm.
@@ -14,7 +14,7 @@ trait User{
     public function isExistUserInfoById($id)
     {
         $id = intval($id);
-        $id = server('Db')->getOne("select `userId` from user_info where `userId`=$id");
+        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
         return $id?true:false;
     }
 
@@ -28,7 +28,7 @@ trait User{
     public function getUserImage($id)
     {
         $id = intval($id);
-        $image = server('Db')->getOne("select `gravatar` from user_info where `userId`=$id");
+        $image = server('Db')->getOne("select `gravatar` from patient where `userId`=$id");
         return $image?:'';
     }
 }

@@ -1,17 +1,20 @@
 <div class="row">
-    <form class="form-horizontal" method="post" action="/man/?userinfo/html/edit" id="editForm" enctype="multipart/form-data">
+    <form class="form-horizontal" method="post" action="/man/?patient/html/add" id="addForm" enctype="multipart/form-data">
         <div class="col-md-7">
             <div class="form-group">
                 <label for="userId" class="col-sm-2 control-label">用户Id</label>
                 <div class="col-sm-7">
-                    {$row['userId']}
+                    <input name="userId" id="userId" value="{$row['userId']}" class="form-control"  placeholder="用户Id" onblur="checkUserId()">
                 </div>
                 <div class="col-sm-3 error"></div>
             </div>
             <div class="row form-group">
                 <label for="headImage" class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-2">
-                    {widget ads='userinfo/crop/Uploadimage'}
+                    {widget ads='patient/crop/Uploadimage'}
+                </div>
+                <div style="color: #8e8b8b; margin-top: 10px;">
+                    提示：上传头像后会自动创建用户,之后仍需编辑其他信息，请根据提示前往编辑页面
                 </div>
             </div>
             <div class="form-group">
@@ -193,8 +196,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-7">
-                    <input type="hidden" name="userId" value="{$row['userId']}">
-                    <a class="btn btn-primary nscpostformerror" rel="#editForm" id="edit">编辑</a>
+                    <a class="btn btn-primary nscpostformerror" rel="#addForm" id="add">添加</a>
                 </div>
             </div>
 
@@ -211,6 +213,24 @@
 <script type="text/javascript" src="/assets/ui/js/bootstrap-datepicker.zh-CN.min.js"></script>
 
 <script type="text/javascript">
+    function checkUserId(){
+        var tag = '#userId';
+        $.ajax({
+            type: "Post",
+            url: "/man/?patient/html/checkuserid",
+            data:{
+                'userId':$(tag).val()
+            },
+            dataType:"json",
+            success: function(data){
+                var param = eval(data.msg);
+                showErrorMsg(param)
+            },
+            error : function() {
+
+            }
+        });
+    }
     customValidate('addForm');
 
     //日历
@@ -225,3 +245,4 @@
     }
 
 </script>
+

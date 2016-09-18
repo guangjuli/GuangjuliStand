@@ -1,5 +1,5 @@
 <?php
-namespace Ads\Userinfo\Controller\Html;
+namespace Ads\Patient\Controller\Html;
 
 class Html extends BaseController {
     use \App\Traits\AjaxReturnHtml;
@@ -20,8 +20,8 @@ class Html extends BaseController {
     }
 
     public function doList(){
-        $list = server('db')->getall("select * from `user_info` order by sort desc,userInfoId desc");
-        return  server('Smarty')->ads('userinfo/html/list')->fetch('',[
+        $list = server('db')->getall("select * from `patient` order by sort desc,userInfoId desc");
+        return  server('Smarty')->ads('patient/html/list')->fetch('',[
             'list' => $list
         ]);
     }
@@ -32,7 +32,7 @@ class Html extends BaseController {
      */
     public function doDelete(){
         $id = intval(req('Get')['id']);
-        server('db')->query("delete from user_info WHERE userInfoId = $id");
+        server('db')->query("delete from patient WHERE userInfoId = $id");
         $this->AjaxReturn([
         ]);
     }
@@ -53,19 +53,19 @@ class Html extends BaseController {
         }
         //添加
         if(!empty($insert)){
-            server('db')->autoExecute('user_info',$insert,'INSERT');
+            server('db')->autoExecute('patient',$insert,'INSERT');
         }
         $this->AjaxReturn([
             'code'=>200,
             'msg'=>'',
-            'url'=>'/man/?userinfo/html/list'
+            'url'=>'/man/?patient/html/list'
         ]);
     }
 //            "userInfo_cropImage"         => 'Userinfo/Widget/Cropimage',
 
 
     public function doAdd(){
-        return server('Smarty')->ads('userinfo/html/add')->fetch('',[
+        return server('Smarty')->ads('patient/html/add')->fetch('',[
         ]);
     }
 
@@ -92,7 +92,7 @@ class Html extends BaseController {
         $userId = intval(req("Post")['userId']);
         if(application('Validate')->validateInt($userId)){
             $login = server('Db')->getOne("select `login` from user where userId = {$userId} ");
-            $msg['userId'] = $this->isExistUserInfoById($userId)?"该用户已存在,<a href='/man/?userinfo/html/edit&userId={$userId}'>请前往编辑</a>":($login?'ok':'没有找到该用户');
+            $msg['userId'] = $this->isExistUserInfoById($userId)?"该用户已存在,<a href='/man/?patient/html/edit&userId={$userId}'>请前往编辑</a>":($login?'ok':'没有找到该用户');
         }else{
             $msg['userId']='格式不正确';
         }
@@ -109,18 +109,18 @@ class Html extends BaseController {
     {
         $res = req('Post');
         $id = intval($res['userId']);//
-        server('db')->autoExecute('user_info',$res,'UPDATE',"userId = $id");
+        server('db')->autoExecute('patient',$res,'UPDATE',"userId = $id");
         $this->AjaxReturn([
             'code'=>200,
             'msg'=>'',
-            'url'=>'/man/?userinfo/html/list'
+            'url'=>'/man/?patient/html/list'
         ]);
     }
 
     public function doEdit(){
         $id = intval(req('Get')['userId']);
-        $row = server('db')->getrow("select * from user_info where userId = $id");
-        return  server('Smarty')->ads('userinfo/html/edit')->fetch('',[
+        $row = server('db')->getrow("select * from patient where userId = $id");
+        return  server('Smarty')->ads('patient/html/edit')->fetch('',[
            'row' => $row
         ]);
     }
@@ -129,10 +129,10 @@ class Html extends BaseController {
     public function doDetail()
     {
         $id = intval(req('Get')['userId']);
-        $row = server('Db')->getRow("select * from user_info where `userId`={$id}");
+        $row = server('Db')->getRow("select * from patient where `userId`={$id}");
         $source  = $_SERVER['SERVER_NAME'];
         $row['gravatar'] = 'http://'.$source.ltrim($row['gravatar'],'.');
-        return  server('Smarty')->ads('userinfo/html/detail')->fetch('',[
+        return  server('Smarty')->ads('patient/html/detail')->fetch('',[
             'row' => $row
         ]);
     }
@@ -143,7 +143,7 @@ class Html extends BaseController {
     public function isExistUserInfoById($id)
     {
         if(!is_int($id))return false;
-        $id = server('Db')->getOne("select `userId` from user_info where `userId`=$id");
+        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
         return $id?true:false;
     }
 

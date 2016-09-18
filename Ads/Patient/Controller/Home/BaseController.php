@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Userinfo\Controller\Home;
+namespace Ads\Patient\Controller\Home;
 
 //hook
 class BaseController{
@@ -48,31 +48,31 @@ class BaseController{
             [
                 'title' => '用户详情',
                 'des'   => '用户详情',
-                'ads'   => 'userinfo/html/index',
+                'ads'   => 'patient/html/index',
                 'hidden'=> 0,
                 'sort'=> 0,
                 'child' => [
                     [ 'title' => '列表',
                         'des'   => '列表',
-                        'ads'   => 'userinfo/html/list',
+                        'ads'   => 'patient/html/list',
                         'hidden'=> 0,
                         'sort'=> 90,
                     ],
                     [ 'title' => '添加',
                         'des'   => '添加',
-                        'ads'   => 'userinfo/html/add',
+                        'ads'   => 'patient/html/add',
                         'hidden'=> 0,
                         'sort'=> 20,
                     ],
                     [ 'title' => '编辑',
                         'des'   => '编辑',
-                        'ads'   => 'userinfo/html/edit',
+                        'ads'   => 'patient/html/edit',
                         'hidden'=> 1,
                         'sort'=> 30,
                     ],
                     [ 'title' => '详情',
                         'des'   => '详情',
-                        'ads'   => 'userinfo/html/detail',
+                        'ads'   => 'patient/html/detail',
                         'hidden'=> 1,
                         'sort'=> 30,
                     ],

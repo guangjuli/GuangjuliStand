@@ -15,14 +15,14 @@ class Userinfo
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;
-        $insert = server('Db')->autoExecute('user_info', $array, 'UPDATE',"`userId`=$userId");
+        $insert = server('Db')->autoExecute('patient', $array, 'UPDATE',"`userId`=$userId");
         return $insert?true:false;
     }
 
     public function isExistUserInfoById($id)
     {
         if(!is_int($id))return false;
-        $id = server('Db')->getOne("select `userId` from user_info where `userId`=$id");
+        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
         return $id?true:false;
     }
 
@@ -31,7 +31,7 @@ class Userinfo
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;
         $array['userId'] = $userId;
-        $insert = server('Db')->autoExecute('user_info', $array, 'INSERT');
+        $insert = server('Db')->autoExecute('patient', $array, 'INSERT');
         return $insert?true:false;
     }
 
@@ -52,7 +52,7 @@ class Userinfo
     public function getUsrInfoDetailByUserId($userId=null)
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
-        $userInfoDetail = server('Db')->getRow("select * from user_info where `userId`={$userId}");
+        $userInfoDetail = server('Db')->getRow("select * from patient where `userId`={$userId}");
         return $userInfoDetail?:[];
     }
 

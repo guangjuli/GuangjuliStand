@@ -133,6 +133,11 @@ class Bloodpress implements ModelInterface
         return $bloodInfo?$bloodInfo:[];
     }
 
+    public function getSingleBloodLogByPage($userId,$page,$num)
+    {
+
+    }
+
     /**
      * 通过日期获取血压折线图
      * @param int $createDay

@@ -14,7 +14,7 @@ class Html extends BaseController {
     public function doList(){
         $list = server('Db')->getAll("select * from `case` order by sort desc,caseId desc");
         //多表查询，user表，user_info表
-        $user = server('Db')->getAll("select u.userId,login,trueName,gender from user u ,user_info",'userId');
+        $user = server('Db')->getAll("select u.userId,login,trueName,gender from user u ,patient",'userId');
         $newList = array();
         for($i=0;$i<count($list);$i++){
             if($user[$list[$i]['userId']]){
@@ -87,7 +87,7 @@ class Html extends BaseController {
     //获取患者信息
     private function getPatientInfo($table,$where){
         $patient = array();
-        $sql = "select u.userId,login,trueName,gender,addr from user u,user_info us
+        $sql = "select u.userId,login,trueName,gender,addr from user u,patient us
                         where u.userId=us.userId and u.userId=(select userId from {$table} where {$where})";
         $row = server('Db')->getRow($sql);
         if($row){

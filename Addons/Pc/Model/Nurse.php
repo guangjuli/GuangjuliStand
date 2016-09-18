@@ -11,13 +11,14 @@ namespace Addons\Model;
 
 class Nurse
 {
-    //获取患者信息
+    //获取患者档案
     public function getPatientInfo($userId)
     {
         //分别获取对应的参数
-        $userBasic = model('Userinfo')->getCutUserInfo($userId);
+        $orgId = model('User')->getOrgIdByUserId(bus('tokenInfo')['userId']);
+        $userBasic = model('Patient')->getCutUserInfo($userId,$orgId);
         if($userBasic){
-            $cases = model('Cases')->getCasesByUserId($userId);
+            $cases = model('Cases')->getPersonalCases($userId,$orgId);
             $contacts = model('Contacts')->getContacts($userId);
             $userBasic['contacts']=$contacts;
             $userBasic['diseaseList'] = $cases;
@@ -29,27 +30,28 @@ class Nurse
     {
         //临时用户，用户组
         $groupId = server()->Config('V')['userGroup']['casualUser'];
+        //获取患者的orgId
+        $orgId = model('User')->getOrgIdByUserId(bus('tokenInfo')['userId']);
         //添加到user表
+        $login = $this->getUserLogin();
+        $password = $this->getPassword();
         $user=[
-          'login'=>$this->getUserLogin(),
-          'password'=>$this->getPassword(),
-          'groupId'=>$groupId
+          'login'=>$login,
+          'password'=>$password,
+          'groupId'=>$groupId,
+          'orgId'=>$orgId
         ];
         $userId=model('User')->insertUserReturnId($user);
-        if(!empty($userId)){
-            //添加到user_info表
-            if(model('Userinfo')->insertUserInfo($req,$userId)){
-                //添加到user_relationship表
-                $relation = model('Userrelationship')->getUserRelationshipByUserId($userId);
-                if($relation){
-                    model('Userrelationship')->insertRelationship($relationship,$userId);
-                }else{
-                    model('Userrelationship')->updateRelationship($relationship,$userId);
-                }
-                $insertRelation=$relation?$relation.','.$userId:$userId;
-
+        if($userId){
+            $check = model('Patient')->insertUserInfo($req,$userId);
+            if($check){
+                return[
+                    'login'=>$login,
+                    'password'=>$password
+                ];
             }
         }
+        return [];
     }
 
     private function getRandChar($length,$strPol){
@@ -62,14 +64,14 @@ class Nurse
     }
 
     //自动生成login登录，临时用户
-    public function getUserLogin()
+    private function getUserLogin()
     {
         $strPol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         return $this->getRandChar(11,$strPol);
     }
 
     //生成临时用户密码
-    public function getPassword()
+    private function getPassword()
     {
         $strPol = "0123456789abcdefghijklmnopqrstuvwxyz";
         return $this->getRandChar(6,$strPol);

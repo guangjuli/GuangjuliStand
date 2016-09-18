@@ -11,14 +11,15 @@ namespace Addons\Model;
 
 class News
 {
-     //relation是user_relationship的字段值由id串组成，用‘，’分隔开
-    public function getNewsList($relation)
+    //获取组织机构患者未被查看的消息列表
+    public function getNewsList(array $userId)
     {
-        //并未对$relation进行过多验证，非用户输入项,从数据库获取
         $newList = array();
-        if(!empty($relation)){
-            $sql = 'select userId, createTime,newsType from news where `userId` in '.'('.$relation.')';
+        if(!empty($userId)){
+            $list = implode(',',$userId);
+            $sql = 'select userId, createTime,newsType from news where `userId` in '.'('.$list.') and `active`=0';
             $newList = server('Db')->getAll($sql,'userId');
+            $newList = $newList?:[];
         }
         return $newList;
     }
