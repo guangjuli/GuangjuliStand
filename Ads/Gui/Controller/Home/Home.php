@@ -21,6 +21,10 @@ class Home extends BaseController
         //echo adsdata('gui/home/IsAdminLogin');
         //test it : http://gst.so/Man?base/home/index
         $html = \App\Ads::Run();
+
+        //todo
+        //$config = application('data')->get('AdminGuiConfig');       //界面配置
+
         server('Smarty')->ads('gui/home/index')->display('',[
             "gui_Nav"         => 'Menu/Widget/Nav',
             "gui_Navleft"     =>"Menu/Widget/Navleft",
@@ -31,7 +35,6 @@ class Home extends BaseController
             'gui_html'      => $html
         ]);
     }
-
 
     public function doIsAdminLogin()
     {
