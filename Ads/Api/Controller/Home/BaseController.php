@@ -39,24 +39,41 @@ class BaseController{
     {
 
         $res = [
-            [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
-                'hidden'=> 0,
-                'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
-                        'hidden'=> 0,
-                    ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
-                        'hidden'=> 0,
-                    ],
-                ]
-            ]
+                [
+                    'title' => 'API管理',
+                    'des'   => 'API管理',
+                    'ads'   => 'api/html/index',
+                    'hidden'=> 0,
+                    'sort'  => 9,
+                    'child' => [
+                        [
+                            'title' => 'API列表',
+                            'des'   => 'API列表',
+                            'ads'   => 'api/html/list',
+                            'hidden'=> 0,
+                            'sort'  => 9,
+                        ],
+                        [ 'title' => '添加',
+                            'des'   => 'api相关功能',
+                            'ads'   => 'api/html/add',
+                            'hidden'=> 0,
+                            'sort'  => 5,
+                        ],
+                        [ 'title' => '修改',
+                            'des'   => 'api相关功能',
+                            'ads'   => 'api/html/edit',
+                            'hidden'=> 1,
+                            'sort'  => 9,
+                        ],
+                        [
+                            'title' => 'API日志',
+                            'des'   => 'API日志',
+                            'ads'   => 'api/html/log',
+                            'hidden'=> 0,
+                            'sort'  => 0,
+                        ],                    ]
+                ],
+
         ];
         return $res;
     }
