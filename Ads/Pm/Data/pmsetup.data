@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-"config\nmenu\nusergroup\nuser\npatient\ndevicetype\ncases\napi"
-=======
-"config\nmenu\nusergroup\nuser\nuserinfo\ndevicetype\ncases\napi\npm"
->>>>>>> refs/remotes/origin/masterApp
+"config\nmenu\nusergroup\nuser\npatient\ndevicetype\ncases\napi\npm"
