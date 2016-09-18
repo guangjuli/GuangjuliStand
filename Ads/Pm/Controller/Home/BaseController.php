@@ -40,19 +40,21 @@ class BaseController{
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '界面管理',
+                'des'   => '界面管理',
+                'ads'   => 'pm/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '列表',
+                        'des'   => '列表',
+                        'ads'   => 'pm/html/list',
+                        'sort'=> 10,
                         'hidden'=> 0,
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '设置',
+                        'des'   => '模块设置',
+                        'ads'   => 'pm/html/setup',
+                        'sort'=> 8,
                         'hidden'=> 0,
                     ],
                 ]

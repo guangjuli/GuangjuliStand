@@ -10,7 +10,10 @@ class Html  {
 
     public function __construct(){
     }
+    public function doIndex()
+    {
 
+    }
     /**
      * 安装菜单
      */
@@ -60,10 +63,11 @@ class Html  {
             }
         }
         $this->AjaxReturn([
-            'url'=>'/man/?/pm/html/index'
+            'url'=>'/man/?/pm/html/list'
         ]);
     }
 
+    /*
     public function doUp()
     {
         $url = 'http://gst.so/Up.php';
@@ -94,13 +98,9 @@ class Html  {
         }
         R('/man/?/pm/html/index');
     }
+*/
 
-
-
-
-
-
-    public function doIndex(){
+    public function doList(){
         $list = $this->getArr($this->get('pmsetup'));
         $dir = [];
         $file = [];
@@ -116,7 +116,7 @@ class Html  {
             $zip[$value] = is_file($_zip);
         }
 
-        return  server('Smarty')->ads('pm/html/index')->fetch('',[
+        return  server('Smarty')->ads('pm/html/List')->fetch('',[
             'list' => $list,
             'dir'  => $dir,
             'file' => $file,
@@ -136,6 +136,29 @@ class Html  {
             'pmsetup' => $this->get('pmsetup')
         ]);
     }
+
+    public function doGuisetupPost()
+    {
+        $res = [
+            'Breadcrumb' => intval(req('Post')['Breadcrumb']),
+            'Tip' => intval(req('Post')['Tip']),
+            'Footer' => intval(req('Post')['Footer']),
+        ];
+        //保存
+        application('data')->set('AdminGuiConfig', $res);
+
+        R("/man/?/pm/html/guisetup");
+    }
+
+    public function doGuisetup(){
+        $config = application('data')->get('AdminGuiConfig');
+        return  server('Smarty')->ads('pm/html/guisetup')->fetch('',[
+            'pmsetup'   => $this->get('pmsetup'),
+            'config'    => $config
+        ]);
+    }
+
+
 
 
 }
