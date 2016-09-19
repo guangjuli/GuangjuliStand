@@ -175,16 +175,16 @@
 
     //页面跳转
     function R($url, $time=0, $msg='') {
-        $url = str_replace(array("\n", "\r"), '', $url);
+        $url = str_replace(array("\n", "\r"), '', $url);//子字符串替换，\n与\r都替换为空
         if (empty($msg))
             $msg = "系统将在{$time}秒之后自动跳转到{$url}！";
-        if (!headers_sent()) {
+        if (!headers_sent()) {//函数检查 HTTP 标头是否已被发送以及在哪里被发送。 如果报头已发送，则返回 true，否则返回 false。一旦报头块已经发送，就不能使用 header() 函数 来发送其它的标头。使用此函数至少可以避免与 HTTP 标头有关的错误信息。
             // redirect
             if (0 === $time) {
-                header('Location: ' . $url);
+                header('Location: ' . $url);//使用header函数进行跳转页面；其中$url就是将要跳转的url了。
             } else {
-                header("refresh:{$time};url={$url}");
-                headers();
+                header("refresh:{$time};url={$url}");//使用header在某个时间后执行跳转
+                headers();//配置头文件，默认utf-8，可以设置为GBK
                 echo($msg);
             }
             exit();

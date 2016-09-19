@@ -1,43 +1,66 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-    <title>用户登录</title>
-    <link href="images/login.css" rel="stylesheet" type="text/css" />
+    <title>{$title}</title>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+    <meta name="author" content="Mike Yarmish" />
+    <meta name="description" content="Your website description goes here" />
+    <meta name="keywords" content="your,keywords,goes,here" />
+    <link rel="stylesheet" href="/demoimages/mike03.css" type="text/css" />
 </head>
+
 <body>
+<div id="container" >
+    <div id="headerWrap">
+        <div id="header">
+            <h1><a href="http://www.865171.cn" title="free-css-templates">{$title}</a></h1>
+            <ul id="navigation">
+                {foreach from=$pagename key=key item=item}
+                    <li><a href="">{$item}</a></li>
+                {/foreach}
 
-<div id="login">
-
-    <div id="top">
-        <div id="top_left"><img src="images/login_03.gif" /></div>
-        <div id="top_center"></div>
+            </ul>
+        </div>
     </div>
+    <div id="content">
+        <div id="contentHeader">
+            <div id="siteDescription"><p>一个简单的demo，用于学习MV和smarty</p></div>
+        </div>
 
-    <div id="center">
-        <div id="center_left"></div>
-        <div id="center_middle">
-            <div id="user">用 户
-                <input type="text" name="textfield" />
+        <div id="main">
+            <div class="post">
+                <h2>Open Source Template</h2>
+                <p>{$content1}</p>
             </div>
-            <div id="password">密   码
-                <input type="password" name="textfield2" />
+            <div class="post">
+                <h2>Design Features</h2>
+                <p>The template is optimized for 800x resolution but looks nice at different resolutions too.
+                    The main header with menu is liquid and change it's width in different resolutions.
+                    Content colums are easly changeble by float property in CSS.</p>
+                <blockquote><p>Some blockquote text which is showed as an example how it looks like.</p></blockquote>
+                Example of an un-ordered list:
+                <ul>
+                    <li>That is</li>
+                    <li>how it</li>
+                    <li>looks like</li>
+                </ul>
+
             </div>
-            <div id="btn"><a href="#">登录</a><a href="#">清空</a></div>
+        </div>
+
+        <div id="secondary">
+            <h2>About</h2>
+            <p>Here could be some sidebar. You can put here whatever you want. May be some linkroll or some
+                additional information</p>
+            <h2>Version</h2>
+            <p>Template: 1.0</p>
+            <p>Current template version: 1.0</p>
 
         </div>
-        <div id="center_right"></div>
-    </div>
-    <div id="down">
-        <div id="down_left">
-            <div id="inf">
-                <span class="inf_text">版本信息</span>
-                <span class="copyright">管理信息系统 2008 v2.0</span>
-            </div>
-        </div>
-        <div id="down_center"></div>
     </div>
 
 </div>
+
+
 </body>
 </html>

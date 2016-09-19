@@ -1,0 +1,5 @@
+This template is an open source template. It's distributing under Creative Commons 2.5 licence.
+                    That means that you can use it in any way you like. All I ask for is that you leave the "Design by ..."
+                    link in the footer of the site.	If you would like to remove that line, or if you are interested
+                    in professional services that are related to webdesign or this layout (such as custom design,
+                    branding, scripting or programming), please contact me through my website for more information!
