@@ -24,7 +24,7 @@
     </div>
     <div id="content">
         <div id="contentHeader">
-            <div id="siteDescription"><p>一个简单的demo，用于学习MV和smarty</p></div>
+            <div id="siteDescription"><p>一个简单的demo，用于学习MVC和smarty</p></div>
         </div>
 
         <div id="main">
