@@ -133,9 +133,12 @@ class Bloodpress implements ModelInterface
         return $bloodInfo?$bloodInfo:[];
     }
 
-    public function getSingleBloodLogByPage($userId,$page,$num)
+    public function getSingleBloodLogByPage($userId=null,$page,$num)
     {
-
+        $userId = $userId?:bus('tokenInfo')['userId'];
+        $base = ($page-1)*$num;
+        $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay from bloodpress where `userId`={$userId} and `type`=0 limit $base,$num");
+        return $bloodInfo?:[];
     }
 
     /**

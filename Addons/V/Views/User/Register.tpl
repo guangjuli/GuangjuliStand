@@ -53,3 +53,22 @@
     <input type="submit" value="提交">
 </form>
 
+<form action="/v/User/Contacts" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="submit" value="提交">
+</form>
+
+<form action="/v/User/Contacts/delete" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="contactsId" value="1">
+    <input type="submit" value="提交">
+</form>
+
+<form action="/v/User/Contacts/insert" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="name" value="小静">
+    <input type="text" name="phone" value="110">
+    <input type="text" name="relationship" value="姐妹">
+    <input type="submit" value="提交">
+</form>
+
