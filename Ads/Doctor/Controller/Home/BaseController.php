@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Cases\Controller\Home;
+namespace Ads\Doctor\Controller\Home;
 
 //hook
 class BaseController{
@@ -10,8 +10,14 @@ class BaseController{
 
     /**
      * @return array
-     * 返回版本
+     * 返回可以调用的api
      */
+    public function doApi(){
+        return [
+        ];
+    }
+
+
     public function doVersion(){
         return '1.0';
     }
@@ -35,43 +41,32 @@ class BaseController{
         ];
     }
 
-
     public function doMenu()
     {
 
         $res = [
             [
-                'title' => '病历',
-                'des'   => '病历',
-                'ads'   => 'cases/html/index',
+                'title' => '医生',
+                'des'   => '医生',
+                'ads'   => 'doctor/html/index',
                 'hidden'=> 0,
                 'child' => [
                     [ 'title' => '列表',
                         'des'   => '用户列表',
-                        'ads'   => 'cases/html/list',
+                        'ads'   => 'doctor/html/list',
                         'hidden'=> 0,
-                        'sort' =>30
+                        'sort'  =>30
                     ],
                     [ 'title' => '添加',
                         'des'   => '添加',
-                        'ads'   => 'cases/html/add',
+                        'ads'   => 'doctor/html/add',
                         'hidden'=> 0,
                     ],
                     [ 'title' => '修改',
                         'des'   => '修改',
-                        'ads'   => 'cases/html/edit',
+                        'ads'   => 'doctor/html/edit',
                         'hidden'=> 1,
                     ],
-                    [ 'title' => '病历列表',
-                        'des'   => '病历列表',
-                        'ads'   => 'cases/html/detail',
-                        'hidden'=> 1,
-                    ],
-                    [ 'title' => '病历',
-                        'des'   => '病历',
-                        'ads'   => 'cases/html/cases',
-                        'hidden'=> 1,
-                    ]
                 ]
             ]
         ];

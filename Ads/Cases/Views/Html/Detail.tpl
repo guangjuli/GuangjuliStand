@@ -22,9 +22,9 @@
                     <td>{$item['endTime']}</td>
                     <td>{$item['sort']}</td>
                     <td>
-                        <a href="/man/?cases/html/detail&id={$item['caseId']}">详情</a>
+                        <a href="/man/?cases/html/cases&id={$item['caseId']}&patientId={$item['userId']}">详情</a>
                         <a href="/man/?cases/html/edit&caseId={$item['caseId']}&userId={$item['userId']}">修改</a>
-                        <a class="shamget" rel="/man/?cases/html/delete&id={$item['caseId']}" comfirm="是否删除?">删除</a>
+                        <a class="shamget" rel="/man/?cases/html/detaildelete&id={$item['caseId']}" comfirm="是否删除?">删除</a>
                     </td>
                 </tr>
             {/foreach}
@@ -32,7 +32,7 @@
         </table>
     </div>
     <div class="col-md-3 ">
-
+        {widget ads='patient/userinfo/Getpatientinfo'}
     </div>
 </div>
 

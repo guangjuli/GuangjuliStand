@@ -90,7 +90,8 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="userId" value="{$row['userId']}">
                     <input type="hidden" name="caseId" value="{$row['caseId']}">
-                    <a  class="btn btn-default nscpostformerror" rel="#editForm" id="edit">编辑</a>
+                    <a  class="btn btn-primary nscpostformerror" rel="#editForm" id="edit">编辑</a>
+                    <a  class="btn btn-default" href="/man/?cases/html/detail&id={$row['userId']}&patientId={$row['userId']}">返回</a>
                 </div>
             </div>
 

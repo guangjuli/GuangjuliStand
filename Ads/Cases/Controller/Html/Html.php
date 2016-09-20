@@ -10,7 +10,7 @@ class Html extends BaseController {
 
 
 
-
+    //患者列表
     public function doList(){
         $list = server('Db')->getMap("select userId,count(*) as num from `case` group by userId order by sort desc,caseId desc");
         //多表查询，user表，user_info表
@@ -26,13 +26,13 @@ class Html extends BaseController {
             'list' => $newList
         ]);
     }
-
+    //患者病历列表
     public function doDetail()
     {
         $userId=req('Get')['id'];
         $userId = intval($userId);
         //查询病例
-        $cases = server('Db')->getAll("select * from `case` where `userId`='{$userId}'");
+        $cases = server('Db')->getAll("select * from `case` where `userId`='{$userId}' order by beginTime desc");
         $cases = $cases?:[];
         //获取具体的就诊医院详情
         $org = array();
@@ -46,18 +46,45 @@ class Html extends BaseController {
             $organization = server('Db')->getAll("select `orgId`,`orgName`,`orgAddr` from `organization` where `orgId`in {$stringOrg}",'orgId');
         }
         //获取用户信息
-        $userInfo = server('Db')->getAll("select `login`,`trueName`,`gender`,`age`,`addr`,`height`,`weight`,`workEnv`,`identityCard`, from `case` where `userId`='{$userId}'");
         return  server('Smarty')->ads('cases/html/detail')->fetch('',[
             'list' => $cases,
             'organization'=>$organization
         ]);
     }
+    //患者病历详情
+    public function doCases()
+    {
+        $caseId = req('Get')['id'];
+        $caseId = intval($caseId);
+        $cases = server('Db')->getRow("select * from `case` where `caseId`='{$caseId}'");
+        //初始化返回参数
+        $doctor=array();
+        $organization = array();
+        if($cases){
+            $doctor = server('Db')->getRow("select trueName,login,gender,age,office,jobTitle from doctor d,user u where u.userId=d.userId and u.userId = {$cases['doctorId']}");
+            $organization = server('Db')->getRow("select orgName,orgAddr from organization where orgId = '{$cases['orgId']}'");
+        }
+        return  server('Smarty')->ads('cases/html/cases')->fetch('',[
+            'list' => $cases,
+            'organization'=>$organization,
+            'doctor'=>$doctor
+        ]);
+    }
     /**
-     * 响应删除
+     * 单个病历删除
      */
-    public function doDelete(){
+    public function doDetaildelete(){
         $id = intval(req('Get')['id']);
         server('db')->query("delete from `case` WHERE caseId = $id");
+        $this->AjaxReturn([
+        ]);
+    }
+    /**
+     * 某人名下所有病历删除
+     */
+    public function doListdelete(){
+        $id = intval(req('Get')['id']);
+        server('db')->query("delete from `case` WHERE userId = $id");
         $this->AjaxReturn([
         ]);
     }

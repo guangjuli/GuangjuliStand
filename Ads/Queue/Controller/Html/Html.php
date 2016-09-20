@@ -18,6 +18,8 @@ class Html  {
      */
     public function doChannel($data)
     {
+        //todo
+
         return $data;
     }
 
@@ -26,7 +28,7 @@ class Html  {
 /*
 channel : 1,        //任务频道
 begin   : 1,        //开始标记
-pressstop : 0,
+pressstop : 1,
 pressid : 0,
 width   : 0,
 num     : 0,
