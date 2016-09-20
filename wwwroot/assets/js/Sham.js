@@ -107,7 +107,15 @@ $(function() {
                         function(){
                             if($(this).attr("name")== o){
                                 $(this).parent().next().children().remove();
-                                $(this).parent().next().append("<div>"+error[o]+"</div>");
+                                $(this).parent().next().append("<label class=\"error\" for="+o+" generated=\"true\">"+error[o]+"</label>");
+                            }
+                        }
+                    );
+                    $("textarea").each(
+                        function(){
+                            if($(this).attr("name")== o){
+                                $(this).parent().next().children().remove();
+                                $(this).parent().next().append("<label class=\"error\" for="+o+"  generated=\"true\">"+error[o]+"</label>");
                             }
                         }
                     );

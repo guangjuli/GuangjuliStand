@@ -52,41 +52,49 @@
                     <input name="endTime" value="" class="form-control" placeholder="结束时间">
                 </div>
             </div>
-
-            <div class="form-group">
-                <label for="hospital" class="col-sm-2 control-label">医院</label>
+            <div class="row form-group">
+                <label for="error" class="col-sm-3 control-label" style="color: #8e8b8b;">除排序外以下信息均为必填</label>
+            </div>
+            <div class="row form-group">
+                <label for="orgId" class="col-sm-2 control-label">医院</label>
                 <div class="col-sm-7">
-                    <input name="hospital" value="" class="form-control" placeholder="医院">
+                    <select class="form-control" name="orgId">
+                        {foreach from=$row['org'] key=key item=item}
+                            <option value="{$key}" {if $key eq $row['orgId']}selected="selected"{/if}>{$item}</option>
+                        {/foreach}
+                    </select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="hosaddr" class="col-sm-2 control-label">医院地址</label>
+                <label for="disease" class="col-sm-2 control-label">病情描述</label>
                 <div class="col-sm-7">
-                    <input  name="hosaddr" value="" class="form-control" placeholder="医院地址">
+                    <textarea  name="disease" class="form-control" cols="5"></textarea>
                 </div>
+                <div class="error col-sm-3"></div>
             </div>
 
             <div class="form-group">
-                <label for="diseaseDetail" class="col-sm-2 control-label">病情描述</label>
+                <label for="medication" class="col-sm-2 control-label">用药</label>
                 <div class="col-sm-7">
-                    <textarea  name="diseaseDetail" class="form-control" cols="5"></textarea>
+                    <textarea  name="medication" class="form-control" cols="5"></textarea>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="medicine" class="col-sm-2 control-label">用药</label>
-                <div class="col-sm-7">
-                    <textarea  name="medicine" class="form-control" cols="5"></textarea>
-                </div>
+                <div class="error col-sm-3"></div>
             </div>
             <div class="form-group">
                 <label for="sideEffect" class="col-sm-2 control-label">副作用</label>
                 <div class="col-sm-7">
                     <textarea  name="sideEffect" class="form-control" cols="5"></textarea>
                 </div>
+                <div class="error col-sm-3"></div>
             </div>
-
+            <div class="form-group">
+                <label for="doctorName" class="col-sm-2 control-label">诊断医生</label>
+                <div class="col-sm-7">
+                    <input  name="doctorName" value="{$row['doctorName']}" class="form-control" placeholder="诊断医生">
+                </div>
+                <div class="col-sm-3 error"></div>
+            </div>
             <div class="form-group">
                 <label for="sort" class="col-sm-2 control-label">排序</label>
                 <div class="col-sm-7">
@@ -97,7 +105,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">添加</button>
+                    <a  class="btn btn-primary nscpostformerror" rel="#addForm" id="add">添加</a>
                 </div>
             </div>
 
@@ -109,7 +117,7 @@
 <link href="/assets/ui/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 <script type="text/javascript" src="/assets/ui/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="/assets/ui/js/bootstrap-datepicker.zh-CN.min.js"></script>
-
+<script type="text/javascript" src="/assets/ui/js/jquery.validate.js"></script>
 <script type="text/javascript">
     //日历
     customCalender('datetimepicker1');
@@ -121,7 +129,48 @@
             });
         });
     }
-
+    //校验
+    function customValidate(id){
+        $(document).ready(function() {
+            $("#"+id).validate({
+                onfocusout: function(element) { $(element).valid(); },
+                errorPlacement: function(error, element) {
+                    // Append error within linked label
+                    $(element).parent().next().children().remove();
+                    $(element).parent().next().append( error);
+                },
+                rules: {
+                    disease: {
+                        required: true
+                    },
+                    medication: {
+                        required: true
+                    },
+                    sideEffect:{
+                        required:true
+                    },
+                    doctorName:{
+                        required:true
+                    }
+                },
+                messages: {
+                    disease : {
+                        required : "不能为空"
+                    },
+                    medication: {
+                        required: "不能为空"
+                    },
+                    sideEffect: {
+                        required: "不能为空"
+                    },
+                    doctorName:{
+                        required: "不能为空"
+                    }
+                }
+            });
+        });
+    }
+    customValidate('addForm');
     //用户信息的遍历显示，和删除
     $(document).ready(function(){
         $('#check').click(function(){
