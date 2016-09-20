@@ -111,9 +111,9 @@ class Html extends BaseController
     {
         $userId = intval($userId);
         //判断关联表user_info是否存在，若存在一同删除指定id行
-        $isExistTableUserInfo = $this->isExistTable('user_info');
+        $isExistTableUserInfo = $this->isExistTable('patient');
         if($isExistTableUserInfo){
-            server('Db')->query("delete from `user_info` where `userId`={$userId}");
+            server('Db')->query("delete from `patient` where `userId`={$userId}");
         }
         //删除user表信息
         $check = server('Db')->query("delete from `user` where `userId`={$userId}");
