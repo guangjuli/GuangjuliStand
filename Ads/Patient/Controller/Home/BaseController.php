@@ -46,8 +46,8 @@ class BaseController{
 
         $res = [
             [
-                'title' => '用户详情',
-                'des'   => '用户详情',
+                'title' => '患者',
+                'des'   => '患者',
                 'ads'   => 'patient/html/index',
                 'hidden'=> 0,
                 'sort'=> 0,

@@ -154,10 +154,10 @@ class Html extends BaseController
         }
     }
 
-    //获取用户组的map集合
+    //获取机构的map集合
     public function getOrgMap()
     {
-        $org = server('Db')->getMap("select orgId,orgName from organization");
+        $org = server('Db')->getMap("select orgId,orgName from organization where active=1");
         return $org?:[];
     }
 

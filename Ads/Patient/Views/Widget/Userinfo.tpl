@@ -81,8 +81,8 @@
     {if !empty($disease)}
         {foreach from=$disease key=key item=item}
             <div class="row form-group">
-                <div class="col-sm-5">&nbsp;</div>
-                <div class="col-sm-7">{$item}</div>
+                <div class="col-sm-3">&nbsp;</div>
+                <div class="col-sm-9">{$item}</div>
             </div>
         {/foreach}
     {else}
@@ -97,9 +97,10 @@
     {if !empty($contacts)}
         {foreach from=$contacts key=key item=item}
             <div class="row form-group">
-                <div class="col-sm-5">姓名：</div><div class="col-sm-7">{$item['name']}</div>
-                <div class="col-sm-5">关系：</div><div class="col-sm-7">{$item['relationship']}</div>
-                <div class="col-sm-5">电话：</div><div class="col-sm-7">{$item['phone']}</div>
+                <div class="col-sm-12" style="margin-left: 20px;">联系人{$key+1}</div>
+                <div class="col-sm-1">&nbsp;</div><div class="col-sm-3">姓名：</div><div class="col-sm-8">{$item['name']}</div>
+                <div class="col-sm-1">&nbsp;</div><div class="col-sm-3">关系：</div><div class="col-sm-8">{$item['relationship']}</div>
+                <div class="col-sm-1">&nbsp;</div><div class="col-sm-3">电话：</div><div class="col-sm-8">{$item['phone']}</div>
             </div>
         {/foreach}
     {else}
@@ -108,4 +109,21 @@
             <div class="col-sm-9">暂无统计</div>
         </div>
     {/if}
+    <div class="row form-group">
+        <div class='col-sm-12' style="font-weight: bold; color: #2c2c29">使用设备</div>
+    </div>
+    <div style="margin-left: 20px;">
+        <div class="row form-group">
+            <div class="col-sm-4">心电：</div>
+            <div class='col-sm-8'>{if $patientInfo['ecg'] eq 1}使用{else}*{/if}</div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-4">血压：</div>
+            <div class='col-sm-8'>{if $patientInfo['bloodpress'] eq 1}使用{else}*{/if}</div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-4">腕表：</div>
+            <div class='col-sm-8'>{if $patientInfo['watch'] eq 1}使用{else}*{/if}</div>
+        </div>
+    </div>
 </div>
