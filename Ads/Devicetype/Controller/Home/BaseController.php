@@ -66,6 +66,7 @@ class BaseController{
                         'des'   => '用户列表',
                         'ads'   => 'devicetype/html/list',
                         'hidden'=> 0,
+                        'sort'  =>30
                     ],
                     [ 'title' => '添加',
                         'des'   => '添加',

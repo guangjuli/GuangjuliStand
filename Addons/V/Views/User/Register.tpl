@@ -19,7 +19,7 @@
 </form>
 
 <form action="/v/user/upuserimage" method="post" enctype="multipart/form-data">
-    <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
    <input type="file" name="tfile">
     <input type="submit" value="提交">
 </form>
@@ -50,6 +50,25 @@
     <input type="text" name="time" value="1471276800">
     <input type="text" name="deviceId" value="dsaffsd">
     <input type="text" name="verify" value="{$verify}">
+    <input type="submit" value="提交">
+</form>
+
+<form action="/v/User/Contacts" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="submit" value="提交">
+</form>
+
+<form action="/v/User/Contacts/delete" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="contactsId" value="1">
+    <input type="submit" value="提交">
+</form>
+
+<form action="/v/User/Contacts/insert" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="name" value="小静">
+    <input type="text" name="phone" value="110">
+    <input type="text" name="relationship" value="姐妹">
     <input type="submit" value="提交">
 </form>
 

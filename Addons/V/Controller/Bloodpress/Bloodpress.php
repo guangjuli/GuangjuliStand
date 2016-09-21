@@ -71,6 +71,22 @@ class Bloodpress extends BaseController
         ]);
     }
 
+    public function doGetsinglebloodlogPost()
+    {
+        $page = req('Post')['page'];
+        $bloodInfo = model('Bloodpress')->getSingleBloodLogByPage(null,$page,100);
+        if(empty($bloodInfo)){
+            $this->AjaxReturn([
+                'code' => -200
+            ]);
+        }
+        $this->AjaxReturn([
+            'code' =>200,
+            'msg'  =>'succeed',
+            'data' => $bloodInfo
+        ]);
+    }
+
     /**
      * doGetbloodlinegraphbydatePost
      *依据日期获取血压折线图

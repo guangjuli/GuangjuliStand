@@ -188,4 +188,23 @@ class User implements ModelInterface
         return model('Userinfo')->updateUserInfo(['gravatar'=>$path]);
     }
 
+    /**
+     * 根据orgId获取用户列表
+     * @param $orgId
+     * @return array
+     */
+    public function getUserListByOrgId($orgId)
+    {
+        $orgId = intval($orgId);
+        $userList = server('Db')->getAll("select userId from user where orgId={$orgId}");
+        return $userList?:[];
+    }
+
+    public function getOrgIdByUserId($userId)
+    {
+        $userId = intval($userId);
+        $orgId = server('Db')->getOne("select `orgId` from user where `userId` = {$userId}");
+        return $orgId?:null;
+    }
+
 }

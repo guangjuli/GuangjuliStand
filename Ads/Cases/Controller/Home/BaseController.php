@@ -50,6 +50,7 @@ class BaseController{
                         'des'   => '用户列表',
                         'ads'   => 'cases/html/list',
                         'hidden'=> 0,
+                        'sort' =>30
                     ],
                     [ 'title' => '添加',
                         'des'   => '添加',
@@ -61,6 +62,16 @@ class BaseController{
                         'ads'   => 'cases/html/edit',
                         'hidden'=> 1,
                     ],
+                    [ 'title' => '病历列表',
+                        'des'   => '病历列表',
+                        'ads'   => 'cases/html/detail',
+                        'hidden'=> 1,
+                    ],
+                    [ 'title' => '病历',
+                        'des'   => '病历',
+                        'ads'   => 'cases/html/cases',
+                        'hidden'=> 1,
+                    ]
                 ]
             ]
         ];

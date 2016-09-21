@@ -21,7 +21,7 @@
                        <span class="glyphicon glyphicon-user"></span> 管理员 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="?/pm/html/index"><span class=" glyphicon glyphicon-th-list" ></span> 管理</a></li>
+                        <li><a href="?/pm/html/list"><span class=" glyphicon glyphicon-th-list" ></span> 管理</a></li>
 
                         <li><a href="#"><span class="glyphicon glyphicon-menu-hamburger" ></span> Help</a></li>
 
