@@ -12,7 +12,7 @@ class Html extends BaseController {
 
 
     public function doList(){
-        $list = server('db')->getall("select * from `organization` order by sort desc,orgId desc");
+        $list = server('db')->getAll("select * from `organization` order by sort desc,orgId desc");
         return  server('Smarty')->ads('organization/html/list')->fetch('',[
             'list' => $list
         ]);

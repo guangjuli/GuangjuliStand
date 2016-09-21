@@ -19,7 +19,7 @@
 </form>
 
 <form action="/v/user/upuserimage" method="post" enctype="multipart/form-data">
-    <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
    <input type="file" name="tfile">
     <input type="submit" value="提交">
 </form>

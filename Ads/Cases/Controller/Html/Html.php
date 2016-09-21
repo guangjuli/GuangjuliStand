@@ -43,7 +43,7 @@ class Html extends BaseController {
         }
         if(!empty($org)){
             $stringOrg = '('.implode(',',$org).')';
-            $organization = server('Db')->getAll("select `orgId`,`orgName`,`orgAddr` from `organization` where `orgId`in {$stringOrg}",'orgId');
+            $organization = server('Db')->getAll("select `orgId`,`orgName`,`orgAddr` from `organization` where `orgId`in {$stringOrg} and active=1",'orgId');
         }
         //获取用户信息
         return  server('Smarty')->ads('cases/html/detail')->fetch('',[
@@ -62,7 +62,7 @@ class Html extends BaseController {
         $organization = array();
         if($cases){
             $doctor = server('Db')->getRow("select trueName,login,gender,age,office,jobTitle from doctor d,user u where u.userId=d.userId and u.userId = {$cases['doctorId']}");
-            $organization = server('Db')->getRow("select orgName,orgAddr from organization where orgId = '{$cases['orgId']}'");
+            $organization = server('Db')->getRow("select orgName,orgAddr from organization where orgId = '{$cases['orgId']}' and active=1");
         }
         return  server('Smarty')->ads('cases/html/cases')->fetch('',[
             'list' => $cases,
@@ -129,7 +129,7 @@ class Html extends BaseController {
     }
 
     public function doAdd(){
-        $row['org'] = server('Db')->getMap("select orgId,orgName from `organization`");
+        $row['org'] = server('Db')->getMap("select orgId,orgName from `organization` where active=1");
         return  server('Smarty')->ads('cases/html/add')->fetch('',[
             'row'=>$row
         ]);
@@ -162,7 +162,7 @@ class Html extends BaseController {
         $this->AjaxReturn([
             'code'=>200,
             'msg'=>'',
-            'url'=>'/man/?cases/html/list'
+            'url'=>"/man/?cases/html/detail&id={$res['userId']}&patientId={$res['userId']}"
         ]);
     }
 
@@ -175,7 +175,7 @@ class Html extends BaseController {
             $row['doctorName'] = server('Db')->getOne("select `trueName` from doctor where `userId` = '{$row['doctorId']}'");
         }
         if($row['orgId']){
-            $row['org'] = server('Db')->getMap("select orgId,orgName from `organization`");
+            $row['org'] = server('Db')->getMap("select orgId,orgName from `organization` where active=1");
         }
         return  server('Smarty')->ads('cases/html/edit')->fetch('',[
             'row' => $row,
@@ -188,7 +188,7 @@ class Html extends BaseController {
         $userId = server('Db')->getOne("select userId from doctor where `trueName`='{$doctorName}'");
         if($userId){
             $IdList = server('Db')->getRow("select `userId`,`groupId`,`orgId` from user where `userId`='{$userId}'") ;
-            $doctorId = server('Db')->getOne("select `groupId` from  user_group where groupChr='doctor'");
+            $doctorId = server('Db')->getOne("select `groupId` from  user_group where chr='doctor'");
             if($doctorId!=$IdList['groupId']||$IdList['orgId']!=$orgId){
                 $this->AjaxReturn([
                     'code'=>-201,
