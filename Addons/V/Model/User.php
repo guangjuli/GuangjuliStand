@@ -184,8 +184,16 @@ class User implements ModelInterface
 
     public function saveImagePathToDb()
     {
-        $path = model('Upload')->uploadPath();
-        return model('Userinfo')->updateUserInfo(['gravatar'=>$path]);
+        $path = model('Upload')->uploadPath('NO');
+        $gravatar = model('Userinfo')->getGravatarByUserId();
+        $check = model('Userinfo')->submitUserInfo(['gravatar'=>$path]);
+        if($check){
+            if(!empty($gravatar)){
+                @unlink($gravatar);
+            }
+            $check = model('Upload')->isAbsolutePath($path,'Yes');
+        }
+        return $check;
     }
 
 }

@@ -14,6 +14,7 @@
             </div>
             <div class="col-sm-1">&nbsp;</div>
         </div>
+        <hr class="hr4 col-sm-10">
         <div class="col-sm-10">
             {widget ads='patient/userinfo/Getpatientinfo'}
         </div>
@@ -53,5 +54,6 @@
     .col-sm-7 div{
         margin-top: 7px;
     }
+    .hr4{ height:2px;border:none;border-top:2px solid #9d9d9d;}
 </style>
 

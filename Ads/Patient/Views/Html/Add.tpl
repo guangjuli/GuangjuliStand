@@ -42,6 +42,7 @@
                     </select>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
                 <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">基本信息</div>
@@ -147,6 +148,7 @@
                     <div class="col-sm-3 error"></div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
                 <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">详细信息</div>
@@ -263,6 +265,7 @@
                     <div class="col-sm-3 error"></div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
                 <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">使用设备</div>
@@ -314,29 +317,40 @@
                     </div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
-                <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">联系人</div>
+                <div class="col-sm-2" style="font-weight: bold; color: #2c2c29">联系人</div>
+                <div class="col-sm-2" style="position: relative; right: 60px;">
+                    <span class="glyphicon glyphicon-plus col-sm-4 btn btn-default" onclick="addContacts()"></span>
+                </div>
             </div>
             <div style="margin-left: 50px; color: #0f0f0f">
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">联系人1</div>
+                <div class="form-group" id="addContacts1">
+                    <div class="col-sm-2 control-label num" id="num1">联系人1</div>
                     <div class="col-sm-7">
-                        <label for="contact_trueName" class="col-sm-3 control-label">姓名</label>
-                        <div class="col-sm-9">
-                            <input name="contact_trueName" value="" class="form-control"  placeholder="联系人姓名">
+                        <div class="form-group">
+                            <label for="contact_trueName" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-9">
+                                <input name="contact[1][trueName]" value="" class="form-control"  placeholder="联系人姓名">
+                            </div>
                         </div>
-                        <label for="contact_relationship" class="col-sm-3 control-label">关系</label>
-                        <div class="col-sm-9">
-                            <input name="contact_relationship" value="" class="form-control"  placeholder="与患者亲属关系">
+                        <div class="form-group">
+                            <label for="contact_relationship" class="col-sm-2 control-label">关系</label>
+                            <div class="col-sm-9">
+                                <input name="contact[1][relationship]" value="" class="form-control"  placeholder="与患者亲属关系">
+                            </div>
                         </div>
-                        <label for="contact_phone" class="col-sm-3 control-label">手机号</label>
-                        <div class="col-sm-9">
-                            <input name="contact_phone" value="" class="form-control"  placeholder="联系人手机号">
+                        <div class="form-group">
+                            <label for="contact_phone" class="col-sm-2 control-label">手机号</label>
+                            <div class="col-sm-9">
+                                <input name="contact[1][phone]" value="" class="form-control"  placeholder="联系人手机号">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="form-group">
                 <label for="des" class="col-sm-2 control-label">描述</label>
                 <div class="col-sm-7">
@@ -397,5 +411,42 @@
         });
     }
 
-</script>
+    function addContacts(){
+        var newId = $(".num:last").attr("id");
+        var b=newId.split('m');
+        var i=parseInt(b[1])+1;
+        var phone='phone';
+        var relationship = 'relationship';
+        var trueName='trueName';
+        if($('.num').length<3){
+            $('#addContacts'+b[1]).after(
+                    "<div class='form-group' id='addContacts" +i+"'>" +
+                    "<div class='col-sm-2 control-label num' id='num" +i+"'>联系人" +i+"</div>" +
+                    "<div class='col-sm-7'>" +
+                    "<div class='form-group'>" +
+                    "<label for='contact_trueName' class='col-sm-2 control-label'>姓名</label>" +
+                    "<div class='col-sm-9'>" +
+                    "<input name='contact[" +i+"][" +trueName+"]' value='' class='form-control'  placeholder='联系人姓名'></div></div>" +
+                    "<div class='form-group'>" +
+                    "<label for='contact_relationship' class='col-sm-2 control-label'>关系</label> " +
+                    "<div class='col-sm-9'>" +
+                    "<input name='contact[" +i+"][" +relationship+"]' value='' class='form-control'  placeholder='与患者亲属关系'></div></div>" +
+                    "<div class='form-group'>" +
+                    "<label for='contact_phone' class='col-sm-2 control-label'>手机号</label>" +
+                    "<div class='col-sm-9'>" +
+                    "<input name='contact[" +i+"][" +phone+"]' value='' class='form-control'  placeholder='联系人手机号'></div></div></div><div class='col-sm-1'>" +
+                    "<div class='col-sm-11 glyphicon glyphicon-minus btn btn-default' onclick='deleteContacts(" +i+
+                    ")'></div></div></div>"
+            );
+        }
+    }
+    function deleteContacts(i){
+        $('#addContacts'+i).remove();
+    }
 
+</script>
+{literal}
+<style>
+    .hr4{ height:2px;border:none;border-top:2px solid #9d9d9d;}
+</style>
+{/literal}

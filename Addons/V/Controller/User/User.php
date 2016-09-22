@@ -64,11 +64,20 @@ class User extends BaseController
         $msg = model('Upload')->returnMsg();
         $code = model('User')->uploadHeadImage($file);
         if($code==200){
-            $code = model('User')->saveImagePathToDb()?200:-200;
+            $gravatar = model('User')->saveImagePathToDb();
+            if(!empty($gravatar)){
+                $this->AjaxReturn([
+                    'code'=>200,
+                    'msg'=>$msg[200],
+                    'data'=>[
+                        'gravatar'=>$gravatar
+                    ]
+                ]);
+            }
         }
         $this->AjaxReturn([
-            'code'=>$code,
-            'msg'=>$msg[$code],
+            'code'=>-200,
+            'msg'=>$msg[-200],
         ]);
     }
 
