@@ -41,6 +41,7 @@
                     </select>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
                 <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">基本信息</div>
@@ -146,6 +147,7 @@
                     <div class="col-sm-3 error"></div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
                 <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">详细信息</div>
@@ -262,6 +264,7 @@
                     <div class="col-sm-3 error"></div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
             <div class="row form-group">
                 <div class="col-sm-1">&nbsp;</div>
                 <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">使用设备</div>
@@ -313,6 +316,70 @@
                     </div>
                 </div>
             </div>
+            <hr class="hr4 col-sm-10">
+            <div class="row form-group">
+                <div class="col-sm-1">&nbsp;</div>
+                <div class="col-sm-2" style="font-weight: bold; color: #2c2c29">联系人</div>
+                <div class="col-sm-2" style="position: relative; right: 60px;">
+                    <span class="glyphicon glyphicon-plus col-sm-4 btn btn-default" onclick="addContacts()"></span>
+                </div>
+            </div>
+            <div style="margin-left: 50px; color: #0f0f0f">
+                <div class="form-group" id="addContacts1">
+                    <div class="col-sm-2 control-label num" id="num1">联系人1</div>
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <label for="contact_trueName" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-9">
+                                <input name="contact[0][trueName]" value="{$firstContact['name']}" class="form-control"  placeholder="联系人姓名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_relationship" class="col-sm-2 control-label">关系</label>
+                            <div class="col-sm-9">
+                                <input name="contact[0][relationship]" value="{$firstContact['relationship']}" class="form-control"  placeholder="与患者亲属关系">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_phone" class="col-sm-2 control-label">手机号</label>
+                            <div class="col-sm-9">
+                                <input name="contact[0][phone]" value="{$firstContact['phone']}" class="form-control"  placeholder="联系人手机号">
+                            </div>
+                        </div>
+                        <div><input type="hidden" name="contact[0][contactsId]" value="{$firstContact['contactsId']}"></div>
+                    </div>
+                </div>
+                {foreach from=$contacts key=key item=item}
+                    <div class="form-group" id="addContacts{$key+1}">
+                        <div class="col-sm-2 control-label num" id="num{$key+1}">联系人{$key+1}</div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="contact_trueName" class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-9">
+                                    <input name="contact[{$key+1}][trueName]" value="{$item['name']}" class="form-control"  placeholder="联系人姓名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_relationship" class="col-sm-2 control-label">关系</label>
+                                <div class="col-sm-9">
+                                    <input name="contact[{$key+1}][relationship]" value="{$item['relationship']}" class="form-control"  placeholder="与患者亲属关系">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_phone" class="col-sm-2 control-label">手机号</label>
+                                <div class="col-sm-9">
+                                    <input name="contact[{$key+1}][phone]" value="{$item['phone']}" class="form-control"  placeholder="联系人手机号">
+                                </div>
+                            </div>
+                            <div><input  type="hidden" name="contact[{$key+1}][contactsId]" value="{$item['contactsId']}"></div>
+                        </div>
+                        <div class='col-sm-1'>
+                            <div class='col-sm-11 glyphicon glyphicon-minus btn btn-default' onclick='deleteExistContacts({$key+1},{$item['contactsId']})'></div>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+            <hr class="hr4 col-sm-10">
             <div class="form-group">
                 <label for="des" class="col-sm-2 control-label">描述</label>
                 <div class="col-sm-7">
@@ -340,7 +407,7 @@
                     </div>
                 </div>
             </div>
-
+            <hr class="hr4 col-sm-10">
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-7">
                     <input type="hidden" name="userId" value="{$row['userId']}">
@@ -375,5 +442,61 @@
         });
     }
 
+    function addContacts(){
+        var newId = $(".num:last").attr("id");
+        var b=newId.split('m');
+        var i=parseInt(b[1])+1;
+        var phone='phone';
+        var relationship = 'relationship';
+        var trueName='trueName';
+        if($('.num').length<3){
+            $('#addContacts'+b[1]).after(
+                    "<div class='form-group' id='addContacts" +i+"'>" +
+                    "<div class='col-sm-2 control-label num' id='num" +i+"'>联系人" +i+"</div>" +
+                    "<div class='col-sm-7'>" +
+                    "<div class='form-group'>" +
+                    "<label for='contact_trueName' class='col-sm-2 control-label'>姓名</label>" +
+                    "<div class='col-sm-9'>" +
+                    "<input name='contact[" +i+"][" +trueName+"]' value='' class='form-control'  placeholder='联系人姓名'></div></div>" +
+                    "<div class='form-group'>" +
+                    "<label for='contact_relationship' class='col-sm-2 control-label'>关系</label> " +
+                    "<div class='col-sm-9'>" +
+                    "<input name='contact[" +i+"][" +relationship+"]' value='' class='form-control'  placeholder='与患者亲属关系'></div></div>" +
+                    "<div class='form-group'>" +
+                    "<label for='contact_phone' class='col-sm-2 control-label'>手机号</label>" +
+                    "<div class='col-sm-9'>" +
+                    "<input name='contact[" +i+"][" +phone+"]' value='' class='form-control'  placeholder='联系人手机号'></div></div></div><div class='col-sm-1'>" +
+                    "<div class='col-sm-11 glyphicon glyphicon-minus btn btn-default' onclick='deleteContacts(" +i+
+                    ")'></div></div></div>"
+            );
+        }
+    }
+    function deleteContacts(i){
+        $('#addContacts'+i).remove();
+    }
+    function deleteExistContacts(i,contactsId){
+        if(confirm('确定删除吗?是真的删除哦！')){
+            $.ajax({
+                type: "POST",
+                url: '/man/?patient/html/contactsdelete',
+                data: {
+                    'contactsId':contactsId
+                },
+                dataType:'json',
+                success: function(data){
+                    if(data.code==200){
+                        $('#addContacts'+i).remove();
+                    }
+                },
+                error : function() {
+                    alert("异常！");
+                }
+            });
+        }
+     }
+
 </script>
+<style>
+    .hr4{ height:2px;border:none;border-top:2px solid #9d9d9d;}
+</style>
 

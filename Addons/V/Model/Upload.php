@@ -69,7 +69,7 @@ class Upload implements ModelInterface
         return $path;
     }
 
-    private function isAbsolutePath($target_path,$need='Yes')
+    public function isAbsolutePath($target_path,$need='Yes')
     {
         $http = '';
         if($need=='Yes'){

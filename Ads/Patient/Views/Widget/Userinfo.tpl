@@ -44,7 +44,7 @@
             <div class='col-sm-8'>{if empty($patientInfo['waist'])}*{else}{$patientInfo['waist']}{/if}</div>
         </div>
     </div>
-
+    <hr class="hr4 col-sm-10">
     <div class="row form-group">
         <div class='col-sm-12' style="font-weight: bold; color: #2c2c29">详细信息</div>
     </div>
@@ -74,7 +74,7 @@
             <div class='col-sm-8'>{if $patientInfo['drinkwine'] eq '0'}从不{elseif $patientInfo['drinkwine'] eq '1'}偶尔{else}经常{/if}</div>
         </div>
     </div>
-
+    <hr class="hr4 col-sm-10">
     <div class="row form-group">
         <div class='col-sm-12' style="font-weight: bold; color: #2c2c29">既往病史</div>
     </div>
@@ -91,6 +91,7 @@
             <div class="col-sm-9">暂无统计</div>
         </div>
     {/if}
+    <hr class="hr4 col-sm-10">
     <div class="row form-group">
         <div class='col-sm-12' style="font-weight: bold; color: #2c2c29">联系人</div>
     </div>
@@ -109,6 +110,7 @@
             <div class="col-sm-9">暂无统计</div>
         </div>
     {/if}
+    <hr class="hr4 col-sm-10">
     <div class="row form-group">
         <div class='col-sm-12' style="font-weight: bold; color: #2c2c29">使用设备</div>
     </div>
@@ -126,4 +128,8 @@
             <div class='col-sm-8'>{if $patientInfo['watch'] eq 1}使用{else}*{/if}</div>
         </div>
     </div>
+    <hr class="hr4 col-sm-10">
 </div>
+<style>
+    .hr4{ height:2px;border:none;border-top:2px solid #9d9d9d;}
+</style>

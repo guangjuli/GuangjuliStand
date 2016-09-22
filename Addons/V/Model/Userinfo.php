@@ -56,6 +56,13 @@ class Userinfo
         return $userInfoDetail?:[];
     }
 
+    public function getGravatarByUserId($userId=null)
+    {
+        $userId = $userId?:bus('tokenInfo')['userId'];
+        $gravatar = server('Db')->getOne("select gravatar from patient where `userId`={$userId}");
+        return $gravatar?:'';
+    }
+
 
 
 
