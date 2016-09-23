@@ -1,18 +1,10 @@
 <div class="row">
-    <form class="form-horizontal" method="post" action="/man/?usergroup/html/add">
+    <form class="form-horizontal" method="post" action="/man/?diseaselist/html/add">
         <div class="col-md-6 ">
-
             <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">组名</label>
+                <label for="diseaseName" class="col-sm-2 control-label">疾病分类</label>
                 <div class="col-sm-10">
-                    <input name="groupName" value="" class="form-control" placeholder="组名">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">标识</label>
-                <div class="col-sm-10">
-                    <input name="chr" value="" class="form-control" placeholder="标识">
+                    <input name="diseaseName" value="" class="form-control" placeholder="疾病名">
                 </div>
             </div>
 

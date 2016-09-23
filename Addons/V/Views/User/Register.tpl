@@ -1,12 +1,10 @@
-<form action="/v/user/register" method="post">
+<form action="/v/user/login" method="post">
     <input type="text" name="time" value="1471276800">
     <input type="text" name="deviceId" value="dsaffsd">
-    <input type="text" name="phone" value="188">
+    <input type="text" name="login" value="18810487666">
     <input type="text" name="type" value="android">
-    <input type="text" name="password" value="a12a456b">
-    <input type="text" name="checkcode" value="23456">
+    <input type="text" name="password" value="dsfsfdsfd">
     <input type="text" name="verify" value="{$verify}">
-    <input type="text" name="deviceType" value="1">
     <input type="submit" value="提交">
 </form>
 
@@ -69,6 +67,13 @@
     <input type="text" name="name" value="小静">
     <input type="text" name="phone" value="110">
     <input type="text" name="relationship" value="姐妹">
+    <input type="submit" value="提交">
+</form>
+<form action="/v/User/Questionservey" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="eatHabits" value="1">
+    <input type="text" name="drinkwine" value="1">
+    <input type="text" name="SBP" value="60">
     <input type="submit" value="提交">
 </form>
 

@@ -64,6 +64,13 @@
                     <div class="col-sm-3 error"></div>
                 </div>
                 <div class="form-group">
+                    <div class="col-sm-2 control-label">身份证</div>
+                    <div class="col-sm-7">
+                        <input name="identityCard" value="{$row['identityCard']}" class="form-control"  placeholder="身份证">
+                    </div>
+                    <div class="col-sm-3 error"></div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-2 control-label">性别</div>
                     <div class="col-sm-7">
                         <div class="radio">
@@ -78,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row form-group">
+                {*<div class="row form-group">
                     <div  class="col-sm-2 control-label">出生日期</div>
                     <div class='col-sm-3'>
                         <div class='input-group date' id='datetimepicker1'>
@@ -88,6 +95,13 @@
                     </span>
                         </div>
                     </div>
+                </div>*}
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">年龄</div>
+                    <div class="col-sm-7">
+                        <input name="age" value="{$row['age']}" class="form-control"  placeholder="年龄，整数">
+                    </div>
+                    <div class="col-sm-3 error"></div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-2 control-label">身高</div>
@@ -103,7 +117,7 @@
                     </div>
                     <div class="col-sm-3 error"></div>
                 </div>
-                <div class="form-group">
+                {*<div class="form-group">
                     <div  class="col-sm-2 control-label">邮箱</div>
                     <div class="col-sm-7">
                         <input name="email" value="{$row['email']}" class="form-control"  placeholder="邮箱">
@@ -138,94 +152,13 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div>*}
                 <div class="form-group">
                     <div  class="col-sm-2 control-label">地址</div>
                     <div class="col-sm-7">
                         <input name="addr" id="addr" value="{$row['addr']}" class="form-control"  placeholder="地址">
                     </div>
                     <div class="col-sm-3 error"></div>
-                </div>
-            </div>
-            <hr class="hr4 col-sm-10">
-            <div class="row form-group">
-                <div class="col-sm-1">&nbsp;</div>
-                <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">详细信息</div>
-            </div>
-            <div style="margin-left: 50px; color: #0f0f0f">
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">身份证</div>
-                    <div class="col-sm-7">
-                        <input name="identityCard" value="{$row['identityCard']}" class="form-control"  placeholder="身份证">
-                    </div>
-                    <div class="col-sm-3 error"></div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">饮食习惯</div>
-                    <div class="col-sm-7">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="eatHabits"  value="0" {if $row['eatHabits'] eq '0'}checked{/if}>
-                                偏淡
-                            </label>
-                            <label>
-                                <input type="radio" name="eatHabits"  value="1" {if $row['eatHabits'] eq '1'}checked{/if}>
-                                适中
-                            </label>
-                            <label>
-                                <input type="radio" name="eatHabits"  value="2" {if $row['eatHabits'] eq '2'}checked{/if}>
-                                偏咸
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">是否饮酒</div>
-                    <div class="col-sm-7">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="drinkwine"  value="0" {if $row['drinkwine'] eq '0'}checked{/if}>
-                                从不
-                            </label>
-                            <label>
-                                <input type="radio" name="drinkwine"  value="1" {if $row['drinkwine'] eq '1'}checked{/if}>
-                                偶尔
-                            </label>
-                            <label>
-                                <input type="radio" name="drinkwine"  value="2" {if $row['drinkwine'] eq '2'}checked{/if}>
-                                经常
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">精神紧张</div>
-                    <div class="col-sm-7">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="nervous"  value="0" {if $row['nervous'] eq '0'}checked{/if}>
-                                从不
-                            </label>
-                            <label>
-                                <input type="radio" name="nervous"  value="1" {if $row['nervous'] eq '1'}checked{/if}>
-                                偶尔
-                            </label>
-                            <label>
-                                <input type="radio" name="nervous"  value="2" {if $row['nervous'] eq '2'}checked{/if}>
-                                经常
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">疾病</div>
-                    <div class="col-sm-7">
-                        <div class="checkbox">
-                            {foreach from=$disease key=key item=item}
-                                <label class="col-sm-3"><input  type="checkbox" name="diseaseList"  value="{$key}">{$item}</label>
-                            {/foreach}
-                        </div>
-                    </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-2 control-label">臀围</div>
@@ -238,13 +171,6 @@
                     <div  class="col-sm-2 control-label">腰围</div>
                     <div class="col-sm-7">
                         <input name="waist" value="{$row['waist']}" class="form-control"  placeholder="腰围">
-                    </div>
-                    <div class="col-sm-3 error"></div>
-                </div>
-                <div class="form-group">
-                    <div  class="col-sm-2 control-label">工作环境</div>
-                    <div class="col-sm-7">
-                        <input name="workEnv" value="{$row['workEnv']}" class="form-control"  placeholder="工作环境">
                     </div>
                     <div class="col-sm-3 error"></div>
                 </div>
@@ -262,6 +188,81 @@
                         <input name="DBP" value="{$row['DBP']}" class="form-control"  placeholder="舒张压">
                     </div>
                     <div class="col-sm-3 error"></div>
+                </div>
+            </div>
+            <hr class="hr4 col-sm-10">
+            <div class="row form-group">
+                <div class="col-sm-1">&nbsp;</div>
+                <div class="col-sm-11" style="font-weight: bold; color: #2c2c29">问卷调查</div>
+            </div>
+            <div style="margin-left: 50px; color: #0f0f0f">
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">饮食习惯</div>
+                    <div class="col-sm-7">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="eatHabits"  value="0" {if $question['eatHabits'] eq '0'}checked{/if}>
+                                偏淡
+                            </label>
+                            <label>
+                                <input type="radio" name="eatHabits"  value="1" {if $question['eatHabits'] eq '1'}checked{/if}>
+                                适中
+                            </label>
+                            <label>
+                                <input type="radio" name="eatHabits"  value="2" {if $question['eatHabits'] eq '2'}checked{/if}>
+                                偏咸
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">是否饮酒</div>
+                    <div class="col-sm-7">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="drinkwine"  value="0" {if $question['drinkwine'] eq '0'}checked{/if}>
+                                从不
+                            </label>
+                            <label>
+                                <input type="radio" name="drinkwine"  value="1" {if $question['drinkwine'] eq '1'}checked{/if}>
+                                偶尔
+                            </label>
+                            <label>
+                                <input type="radio" name="drinkwine"  value="2" {if $question['drinkwine'] eq '2'}checked{/if}>
+                                经常
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">精神紧张</div>
+                    <div class="col-sm-7">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="nervous"  value="0" {if $question['nervous'] eq '0'}checked{/if}>
+                                从不
+                            </label>
+                            <label>
+                                <input type="radio" name="nervous"  value="1" {if $question['nervous'] eq '1'}checked{/if}>
+                                偶尔
+                            </label>
+                            <label>
+                                <input type="radio" name="nervous"  value="2" {if $question['nervous'] eq '2'}checked{/if}>
+                                经常
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">疾病</div>
+                    <div class="col-sm-7">
+                        <div class="checkbox">
+                            {foreach from=$disease key=key item=item}
+                                <label class="col-sm-3"><input  type="checkbox" name="diseaseList[]"  value="{$key}"
+                                    {if in_array($key,$question['diseaseList'])}checked{/if}>{$item}</label>
+                            {/foreach}
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr class="hr4 col-sm-10">

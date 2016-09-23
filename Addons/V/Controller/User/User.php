@@ -91,37 +91,24 @@ class User extends BaseController
         ]);
     }
 
-    //用户登录
-    public function doLoginPost()
+    public function doQuestionserveyPost()
     {
-        $req = saddslashes(req('Post'));
-        $user = model('User')->getUserByLogin($req['login']);
-        if(empty($user)){
+        $res = req('Post');
+        if($res['disease']){
+            $res['disease']=implode(',',$res['disease']);
+        }
+        $check = model('Question')->questionSubmit($res,bus('tokenInfo')['userId']);
+        if($check){
             $this->AjaxReturn([
-                'code'=>-200,
-                'msg'=>'该用户不存在',
+                'code' => 200,
+                'msg' => 'succeed'
             ]);
         }else{
-            if($user['password']!=$req['password']){
-                $this->AjaxReturn([
-                    'code'=>-201,
-                    'msg'=>'密码错误',
-                ]);
-            }
-            $token = model('Token')->accessToken(req('Post'));
-            if(empty($token)){
-                $this->AjaxReturn([
-                    'code'=>-202,
-                    'msg'=>'没有权限',
-                ]);
-            }
             $this->AjaxReturn([
-                'code'=>200,
-                'msg'=>'succeed',
-                'data'=>[
-                    'token'=>$token
-                ]
+                'code' => -200,
+                'msg' => 'error'
             ]);
         }
     }
+
 }

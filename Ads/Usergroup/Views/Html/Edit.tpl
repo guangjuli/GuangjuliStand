@@ -12,7 +12,7 @@
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">标识</label>
                 <div class="col-sm-10">
-                    <input name="groupChr" value="{$row['groupChr']}" class="form-control" placeholder="标识">
+                    <input name="chr" value="{$row['chr']}" class="form-control" placeholder="标识">
                 </div>
             </div>
 

@@ -15,16 +15,17 @@ class Userinfo
         $userId = req('Get')['patientId'];
         $userId = intval($userId);
         //获取患者基本信息
-        $patientInfo = server('Db')->getRow("select `login`,`trueName`,`gender`,`age`,`addr`,`height`,`weight`,`workEnv`,
-          `identityCard`,`diseaseList`,`nervous`,`drinkwine`,`bloodpress`,`ecg`,`watch` from `patient` p ,`user` u where u.userId=p.userId and  u.userId='{$userId}'");
+        $patientInfo = server('Db')->getRow("select `login`,`trueName`,`gender`,`age`,`addr`,`height`,`weight`,
+          `identityCard`,`bloodpress`,`ecg`,`watch` from `patient` p ,`user` u where u.userId=p.userId and  u.userId='{$userId}'");
         //获取患者联系人
         $contacts = server('Db')->getAll("select name,phone,relationship from contacts where userId='{$userId}'");
         $patientInfo = $patientInfo?:[];
         $contacts = $contacts?:[];
         $disease = array();
         //获取患者既往病史
-        if($patientInfo['diseaseList']){
-            $diseaseArray = explode(',',$patientInfo['diseaseList']);
+        $question = adsdata('patient/html/getquestion',$userId);
+        if($question['diseaseList']){
+            $diseaseArray = explode(',',$question['diseaseList']);
             $diseaseList = server('Db')->getMap("select diseaseId,diseaseName from disease_list");
             foreach($diseaseArray as $v){
                 $disease[] = $diseaseList[$v];
@@ -33,7 +34,8 @@ class Userinfo
         return  server('Smarty')->ads('patient/widget/userinfo')->fetch('',[
             'patientInfo'=>$patientInfo,
             'contacts'=>$contacts,
-            'disease'=>$disease
+            'disease'=>$disease,
+            'question'=>$question
         ]);
     }
 }

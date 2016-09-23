@@ -63,15 +63,15 @@
         </div>
         <div class="row form-group">
             <div class="col-sm-4">饮食偏好：</div>
-            <div class='col-sm-8'>{if $patientInfo['eatHabits'] eq '0'}偏淡{elseif $patientInfo['eatHabits'] eq '1'}适中{else}偏咸{/if}</div>
+            <div class='col-sm-8'>{if $question['eatHabits'] eq '0'}偏淡{elseif $question['eatHabits'] eq '1'}适中{else}偏咸{/if}</div>
         </div>
         <div class="row form-group">
             <div class="col-sm-4">精神紧张：</div>
-            <div class='col-sm-8'>{if $patientInfo['nervous'] eq '0'}从不{elseif $patientInfo['nervous'] eq '1'}偶尔{else}经常{/if}</div>
+            <div class='col-sm-8'>{if $question['nervous'] eq '0'}从不{elseif $question['nervous'] eq '1'}偶尔{else}经常{/if}</div>
         </div>
         <div class="row form-group">
             <div class="col-sm-4">是否饮酒：</div>
-            <div class='col-sm-8'>{if $patientInfo['drinkwine'] eq '0'}从不{elseif $patientInfo['drinkwine'] eq '1'}偶尔{else}经常{/if}</div>
+            <div class='col-sm-8'>{if $question['drinkwine'] eq '0'}从不{elseif $question['drinkwine'] eq '1'}偶尔{else}经常{/if}</div>
         </div>
     </div>
     <hr class="hr4 col-sm-10">
