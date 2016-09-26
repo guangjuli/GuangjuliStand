@@ -39,16 +39,15 @@ class Html extends BaseController {
         if(in_array($req['option'],$option)&&in_array($req['table'],$table)){
            if(!empty($req['value'])){
                //执行查询操作
-               $value = saddslashes($req['value']);
-               $userInfo = server('Db')->getAll("select u.userId,login,trueName from user u,{$req['table']} t where u.userId=t.userId and `{$req['option']}`='{$value}'",'userId');
-                if($userInfo){
+               $value = saddslashes(trim($req['value']));
+               $sql= "select u.userId,login,trueName from user u,{$req['table']} t where u.userId=t.userId and `{$req['option']}`='{$value}'";
+               $userInfo = server('Db')->getAll($sql,'userId');
+               if($userInfo){
                     foreach($userInfo as $v){
                         if($v['userId']) $userIdArray[]=$v['userId'];
                     }
                     if(!empty($userIdArray)){
-                        $userIdString = '('.implode(',',$userIdArray).')';
-                        $sql = "select * from token where `userId`in {$userIdString}";
-                        $tokenInfo = server('Db')->getAll($sql);
+                        $tokenInfo = $this->batchSearchToken($userIdArray);
                         if($tokenInfo){
                             $this->AjaxReturn([
                                 'code'=>200,
@@ -72,6 +71,20 @@ class Html extends BaseController {
         return  server('Smarty')->ads('token/html/search')->fetch('',[
 
         ]);
+    }
+
+    public function batchSearchToken($userIdArray)
+    {
+        $userIdString = '('.implode(',',$userIdArray).')';
+        $sql = "select * from token where `userId`in {$userIdString}";
+        $tokenInfo = server('Db')->getAll($sql);
+        $tokenInfo = $tokenInfo?:[];
+        foreach($tokenInfo as $k=>$v){
+            if($v['userId'])$userId[]=$v['userId'];
+            $enableTime = intval($v['createAt'])+intval($v['expireIn']);
+            $tokenInfo[$k]['expireIn']=$enableTime>time()?'有效':'过期';
+        }
+        return $tokenInfo;
     }
 
 }

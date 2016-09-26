@@ -56,6 +56,12 @@ class BaseController{
                         'ads'   => 'token/html/list',
                         'hidden'=> 0,
                         'sort'  =>30
+                    ],
+                    [ 'title' => '查询',
+                        'des'   => '查询',
+                        'ads'   => 'token/html/search',
+                        'hidden'=> 0,
+                        'sort'  =>10
                     ]
                 ]
             ]
