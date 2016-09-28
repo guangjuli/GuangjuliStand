@@ -9,26 +9,36 @@ class Man extends BaseController
         parent::__construct();
     }
 
-    public function doIndexPost()
+    /**
+     * 前端响应地址
+     * like /man/res/?aa/dd/ss
+     */
+    public function doRes()
     {
-        //前台调用
-        \App\Ads::Gui();     //路由like http://gst.so/?sdfsdf/sdf/dsf
+        \App\Ads::Run();
     }
+
+    public function doResPost()
+    {
+        \App\Ads::Run();
+    }
+
 
     /**
      * 后台首页
      */
     public function doIndex()
     {
-        //前台调用
-        \App\Ads::Gui();     //路由like http://gst.so/?sdfsdf/sdf/dsf
+        \App\Ads::Gui();
     }
 
-    public function doLoginPost()
+    /**
+     * //don't use it
+     * //todo to be remove
+     */
+    public function doIndexPost()
     {
-        //前台调用
-        \App\Ads::Run();
-
+        \App\Ads::Gui();
     }
 
     /**
@@ -36,7 +46,8 @@ class Man extends BaseController
      */
     public function doLogin()
     {
-        adsdata('gui/html/Login');
+        R('/man/res?gui/html/Login');
+        //adsdata('gui/html/Login');
     }
 
     public function doLogout()
