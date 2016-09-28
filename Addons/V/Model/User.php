@@ -102,9 +102,9 @@ class User implements ModelInterface
     {
         return[
             //必填参数
-            'field' => ['trueName','gender','birthday'],
+            'field' => ['trueName'],
             //参数为string类型
-            'string' => ['trueName','birthday'],
+            'string' => ['trueName'],
             //参数为int类型
             'int' => ['gender'],
             'returnNews'=>[

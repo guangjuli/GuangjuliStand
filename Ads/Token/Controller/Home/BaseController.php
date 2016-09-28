@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Bloodpress\Controller\Home;
+namespace Ads\Token\Controller\Home;
 
 //hook
 class BaseController{
@@ -10,8 +10,14 @@ class BaseController{
 
     /**
      * @return array
-     * 返回版本
+     * 返回可以调用的api
      */
+    public function doApi(){
+        return [
+        ];
+    }
+
+
     public function doVersion(){
         return '1.0';
     }
@@ -35,33 +41,32 @@ class BaseController{
         ];
     }
 
-
     public function doMenu()
     {
 
         $res = [
             [
-                'title' => '测量数据',
-                'des'   => '测量数据',
-                'ads'   => 'bloodpress/html/index',
+                'title' => 'Token',
+                'des'   => '列表',
+                'ads'   => 'token/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => '患者列表',
-                        'des'   => '患者列表',
-                        'ads'   => 'bloodpress/html/list',
+                    [ 'title' => '列表',
+                        'des'   => '列表',
+                        'ads'   => 'token/html/list',
                         'hidden'=> 0,
-                        'sort'  => 30
+                        'sort'  =>30
                     ],
-                    [ 'title' => '数据统计',
-                        'des'   => '数据统计',
-                        'ads'   => 'bloodpress/html/statistics',
+                    [ 'title' => '查询',
+                        'des'   => '查询',
+                        'ads'   => 'token/html/search',
                         'hidden'=> 0,
-                    ],
+                        'sort'  =>10
+                    ]
                 ]
             ]
         ];
         return $res;
     }
-
 
 }

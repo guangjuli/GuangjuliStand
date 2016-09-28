@@ -80,7 +80,7 @@ class Token implements ModelInterface
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return [];
         $enableTime = intval($tokenInfo['createAt'])+intval($tokenInfo['expireIn']);
-        //if($enableTime>time())return [];
+        //if($enableTime<time())return [];
         return $tokenInfo;
     }
 

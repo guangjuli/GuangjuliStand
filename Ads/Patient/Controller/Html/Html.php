@@ -59,6 +59,7 @@ class Html extends BaseController {
             //添加
             if(!empty($insert)){
                 server('db')->autoExecute('patient',$insert,'INSERT');
+                $this->insertQuestion($insert);
             }
             $this->AjaxReturn([
                 'code'=>200,
@@ -136,6 +137,8 @@ class Html extends BaseController {
             $this->updateContacts($res);
             $res['userId']=$id;
             $this->insertContacts($res);
+            //对question表进行更新操作
+            $this->isExistQuestion($id)?$this->updateQuestion($res,$id):$this->insertQuestion($res);
             $this->AjaxReturn([
                 'code'=>200,
                 'msg'=>'',
@@ -151,6 +154,12 @@ class Html extends BaseController {
         $disease = $this->getDiseaseListMap();
         $patientGroupId = $this->getPatientGroupIdMap();
         $contacts = $this->getContacts($id);
+        $question = $this->doGetquestion($id);
+        if(!empty($question)){
+            if($question['diseaseList']){
+                $question['diseaseList']=explode(',',$question['diseaseList']);
+            }
+        }
         $firstContact=array();
         if(!empty($contacts)){
             $firstContact = $contacts[0];
@@ -162,7 +171,8 @@ class Html extends BaseController {
             'disease'=>$disease,
             'patientGroupId'=>$patientGroupId,
             'contacts'=>$contacts,
-            'firstContact'=>$firstContact
+            'firstContact'=>$firstContact,
+            'question'=>$question
         ]);
     }
     //异步删除联系人
@@ -290,6 +300,34 @@ class Html extends BaseController {
         $contactsId = intval($contactsId);
         $check = server('Db')->query("delete from contacts where contactsId='{$contactsId}'");
         return $check?true:false;
+    }
+
+    public function insertQuestion($req)
+    {
+        $check=server('Db')->autoExecute('question',$req,'INSERT');
+        return $check?true:false;
+    }
+
+    public function updateQuestion($req,$id)
+    {
+        if($req['diseaseList']){
+            $req['diseaseList'] = implode(',',$req['diseaseList']);
+        }
+        $check = server('Db')->autoExecute('question',$req,'UPDATE',"userId = $id");
+        return $check?true:false;
+    }
+
+    public function isExistQuestion($id)
+    {
+        $question=$this->doGetquestion($id);
+        return empty($question)?false:true;
+    }
+
+    public function doGetquestion($id)
+    {
+        $userId =intval($id);
+        $question = server('Db')->getRow("select * from question where userId='{$userId}'");
+        return $question?:[];
     }
 
 }

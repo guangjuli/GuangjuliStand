@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Bloodpress\Controller\Html;
+namespace Ads\Diseaselist\Controller\Html;
 
 //hook
 class BaseController{
@@ -36,9 +36,7 @@ class BaseController{
     public function doDependTable()
     {
         return [
-            'Menu',
-            'Devicetype',
-            'User'
+            'Menu'
         ];
     }
 
