@@ -15,7 +15,6 @@ class Home extends BaseController
      */
     public function doIndex()
     {
-        \App\Ads::Run();
     }
 
 }
