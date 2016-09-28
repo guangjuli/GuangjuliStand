@@ -138,7 +138,7 @@ class Html extends BaseController {
             $res['userId']=$id;
             $this->insertContacts($res);
             //对question表进行更新操作
-            $this->updateQuestion($res,$id);
+            $this->isExistQuestion($id)?$this->updateQuestion($res,$id):$this->insertQuestion($res);
             $this->AjaxReturn([
                 'code'=>200,
                 'msg'=>'',
@@ -315,6 +315,12 @@ class Html extends BaseController {
         }
         $check = server('Db')->autoExecute('question',$req,'UPDATE',"userId = $id");
         return $check?true:false;
+    }
+
+    public function isExistQuestion($id)
+    {
+        $question=$this->doGetquestion($id);
+        return empty($question)?false:true;
     }
 
     public function doGetquestion($id)

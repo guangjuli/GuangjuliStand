@@ -1,5 +1,5 @@
 <?php
-namespace Ads\Map\Controller\Home;
+namespace Ads\Bloodpress\Controller\Home;
 
 class Home extends BaseController {
 
@@ -7,8 +7,8 @@ class Home extends BaseController {
         parent::__construct();
     }
 
-//    public function doIndex(){
-//    }
+   public function doIndex(){
+  }
 //
 //    public function doDet(){
 //        return server('Smarty')->ads('group/home/index')->fetch('',[

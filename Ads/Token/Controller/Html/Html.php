@@ -23,7 +23,7 @@ class Html extends BaseController {
         $user = array();
         if(!empty($userId)){
             $userIdString = '('.implode(',',$userId).')';
-            $user = server('Db')->getMap("select userId,login  from user where userId in $userIdString");
+            $user = server('Db')->getMap("select userId,login from user where userId in $userIdString");
         }
         return  server('Smarty')->ads('token/html/list')->fetch('',[
             'list' => $list,

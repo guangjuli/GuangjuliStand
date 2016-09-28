@@ -23,6 +23,11 @@ class User extends BaseController
         $code = model('User')->validateUserReq(req('Post'));
         if($code==200){
             $check = model('Userinfo')->submitUserInfo(req('Post'));
+            $this->AjaxReturn([
+                'code' => $code,
+                'msg' => $msg[$code],
+                'data'=> $check
+            ]);
             if($check){
                 $this->AjaxReturn([
                     'code' => $code,
@@ -94,8 +99,9 @@ class User extends BaseController
     public function doQuestionserveyPost()
     {
         $res = req('Post');
-        if($res['disease']){
-            $res['disease']=implode(',',$res['disease']);
+        if($res['diseaseList']){
+            $diseaseList = json_decode("{$res['diseaseList']}",true);
+            $res['diseaseList']=implode(',',$diseaseList);
         }
         $check = model('Question')->questionSubmit($res,bus('tokenInfo')['userId']);
         if($check){
@@ -110,5 +116,7 @@ class User extends BaseController
             ]);
         }
     }
+
+
 
 }

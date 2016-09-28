@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Map\Controller\Home;
+namespace Ads\Bloodpress\Controller\Home;
 
 //hook
 class BaseController{
@@ -41,19 +41,20 @@ class BaseController{
 
         $res = [
             [
-                'title' => 'api列表',
-                'des'   => 'api相关功能',
-                'ads'   => 'api/home/index',
+                'title' => '测量数据',
+                'des'   => '测量数据',
+                'ads'   => 'bloodpress/html/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '患者列表',
+                        'des'   => '患者列表',
+                        'ads'   => 'bloodpress/html/list',
                         'hidden'=> 0,
+                        'sort'  => 30
                     ],
-                    [ 'title' => 'api列表',
-                        'des'   => 'api相关功能',
-                        'ads'   => 'api/home/index',
+                    [ 'title' => '数据统计',
+                        'des'   => '数据统计',
+                        'ads'   => 'bloodpress/html/statistics',
                         'hidden'=> 0,
                     ],
                 ]

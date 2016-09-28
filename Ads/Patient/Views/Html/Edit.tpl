@@ -259,7 +259,11 @@
                         <div class="checkbox">
                             {foreach from=$disease key=key item=item}
                                 <label class="col-sm-3"><input  type="checkbox" name="diseaseList[]"  value="{$key}"
-                                    {if in_array($key,$question['diseaseList'])}checked{/if}>{$item}</label>
+                                   {if empty($question['diseaseList'])}>{$item}
+                                   {elseif in_array($key,$question['diseaseList'])}checked>{$item}
+                                    {else}>{$item}
+                                    {/if}
+                                </label>
                             {/foreach}
                         </div>
                     </div>

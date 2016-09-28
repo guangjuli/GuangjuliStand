@@ -43,6 +43,7 @@ class Question implements ModelInterface
         if($this->isExistQuestion($userId)){
             if($this->updateQuestion($array,$userId))$check=true;
         }else{
+            $array['userId'] = $userId;
             if($this->insertQuestion($array))$check=true;
         }
         return $check;

@@ -50,7 +50,7 @@
                     $('#searchTable').children().remove();
                     if(data.code==200){
                         $('#searchTable').html("<table class='table table-striped table-hover' id='dt2'>" +
-                                "<thead><th>ID</th><th>login</th><th>Token</th> <th>用户类型</th><th>有效性</th></thead><tbody id='searchContent'>");
+                                "<thead><th>ID</th><th>login</th><th>姓名</th><th>Token</th> <th>用户类型</th><th>有效性</th></thead><tbody id='searchContent'>");
                         var msg = eval(data.msg);
                         for( var o in msg){
                             if(o=='tokenInfo'){
@@ -58,6 +58,7 @@
                                     $('#searchContent').html('<tr>' +
                                             '<td>'+msg[o][oo]["tokenId"]+'</td>'+
                                             '<td>'+msg["userInfo"][msg[o][oo]["userId"]]["login"]+'</td>'+
+                                            '<td>'+msg["userInfo"][msg[o][oo]["userId"]]["trueName"]+'</td>'+
                                             '<td>'+msg[o][oo]["accessToken"]+'</td>'+
                                             '<td>'+msg[o][oo]["type"]+'</td>'+
                                             '<td>'+msg[o][oo]["expireIn"]+'</td></tr>');

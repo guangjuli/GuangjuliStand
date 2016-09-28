@@ -21,9 +21,10 @@ class Userinfo
 
     public function isExistUserInfoById($id)
     {
-        if(!is_int($id))return false;
-        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
-        return $id?true:false;
+        $id = intval($id);
+        $userId = server('Db')->getOne("select `userId` from patient where `userId`='{$id}'");
+        return $userId;
+        return $userId?true:false;
     }
 
     public function insertUserInfo(Array $array,$userId=null)
