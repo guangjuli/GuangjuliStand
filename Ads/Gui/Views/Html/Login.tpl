@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sign In</title>
     <!-- Bootstrap core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/assets/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             padding-top: 40px;
@@ -71,7 +72,7 @@
             var tag = '.vu';
             $.ajax({
                 type: "POST",
-                url: '/man/login?gui/html/login',
+                url: '/man/?gui/html/login',
                 data: $(tag).serialize(),
                 dataType:'json',
                 success: function(data){

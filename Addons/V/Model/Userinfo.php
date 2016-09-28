@@ -21,9 +21,10 @@ class Userinfo
 
     public function isExistUserInfoById($id)
     {
-        if(!is_int($id))return false;
-        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
-        return $id?true:false;
+        $id = intval($id);
+        $userId = server('Db')->getOne("select `userId` from patient where `userId`='{$id}'");
+        return $userId;
+        return $userId?true:false;
     }
 
     public function insertUserInfo(Array $array,$userId=null)
@@ -54,6 +55,13 @@ class Userinfo
         $userId = $userId?:bus('tokenInfo')['userId'];
         $userInfoDetail = server('Db')->getRow("select * from patient where `userId`={$userId}");
         return $userInfoDetail?:[];
+    }
+
+    public function getGravatarByUserId($userId=null)
+    {
+        $userId = $userId?:bus('tokenInfo')['userId'];
+        $gravatar = server('Db')->getOne("select gravatar from patient where `userId`={$userId}");
+        return $gravatar?:'';
     }
 
 

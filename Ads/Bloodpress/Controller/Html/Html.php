@@ -1,64 +1,68 @@
 <?php
-namespace Ads\Device\Controller\Html;
+namespace Ads\Bloodpress\Controller\Html;
+
+
+
+use Ads\Bloodpress\Traits\Statistics;
 
 class Html extends BaseController {
     use \App\Traits\AjaxReturnHtml;
-
+    use Statistics;
     public function __construct(){
         parent::__construct();
     }
 
 
-
-
     public function doList(){
         $list = server('Db')->getAll("select * from `bloodpress` group by `userId` order by bloodpressId desc");
-        $map = server('db')->getAll("select `login`,`nickName`,`trueName`,`mobile`,`email` from user",'userId');
-        return  server('Smarty')->ads('usergroup/html/list')->fetch('',[
+        $map = server('db')->getAll("select `login`,`nickName`,`trueName` from user",'userId');
+        return  server('Smarty')->ads('bloodpress/html/list')->fetch('',[
             'list' => $list,
             'map'  =>$map
         ]);
     }
 
-
-    /**
-     * 响应删除
-     */
-    public function doDelete(){
-        $id = intval(req('Get')['id']);
-        server('db')->query("delete from bloodpress WHERE bloodpressId = $id");
-        $this->AjaxReturn([
-        ]);
-    }
-
-
-    public function doAddPost()
+    //获取统计图
+    public function doStatistics()
     {
-        $res = req('Post');
-        server('db')->autoExecute('bloodpress',$res,'INSERT');
-        R('/man/?bloodpress/html/list');
-    }
-
-    public function doAdd(){
-
-        return  server('Smarty')->ads('bloodpress/html/add')->fetch('',[
+        /*$req = req('Get');
+        $data = $this->getStatistics($req['time'],$req['userId'],$req['table']);
+        return  server('Smarty')->ads('bloodpress/html/statistics')->fetch('',[
+            'data' => $data
+        ]);*/
+        //柱状图
+        //查询数据库这4列值有一行一个数据为空则排除
+        $arr['date'] = ['2016-07-09', '2016-07-10', '2016-07-12','2016-07-13','2016-07-14','2016-07-15'];
+        $arr['shrink'] = [120,87,75,120,87,75];
+        $arr['diastole'] = [110,85,70,110,85,70];
+        $arr['bpm'] = [115,89,120,115,89,120];
+        foreach($arr as $k=>$v){
+            if(is_array($v)){
+                $v=json_encode($v);
+                $arr[$k]=$v;
+            }
+        }
+        //折线图
+        $day['time'] = ['10:10', '10:20', '10:30', '10:40', '10:50', '11:00', '11:10', '11:20'];
+        $day['shrink']= [115, 112, 123, 135, 134, 123, 123, 128];
+        $day['diastole']= [ 81, 79, 72, 86, 84, 85, 88, 83] ;
+        $day['bpm'] = [ 73,76, 71, 69, 75, 77, 78, 79] ;
+        foreach($day as $k=>$v){
+            if(is_array($v)){
+                $v=json_encode($v);
+                $day[$k]=$v;
+            }
+        }
+        return  server('Smarty')->ads('bloodpress/html/statistics')->fetch('',[
+            'arr'=>$arr,
+            'day'=>$day
         ]);
     }
 
-    public function doEditPost()
+    //获取查询
+    public function doSearch()
     {
-        $res = req('Post');
-        $id = intval($res['bloodpressId']);//
-        server('db')->autoExecute('bloodpress',$res,'UPDATE',"bloodpressId = $id");
-        R('/man/?bloodpress/html/list');
-    }
 
-    public function doEdit(){
-        $id = intval(req('Get')['id']);
-        $row = server('db')->getrow("select * from bloodpress where bloodpressId = $id");
-        return  server('Smarty')->ads('bloodpress/html/edit')->fetch('',[
-            'row' => $row
-        ]);
     }
 
 }

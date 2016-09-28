@@ -17,7 +17,7 @@
                 <tr>
                     <td>{$item['groupId']}</td>
                     <td>{$item['groupName']}</td>
-                    <td>{$item['groupChr']}</td>
+                    <td>{$item['chr']}</td>
                     <td>{$item['des']}</td>
                     <td>{$item['sort']}</td>
                     <td>{$item['active']}</td>

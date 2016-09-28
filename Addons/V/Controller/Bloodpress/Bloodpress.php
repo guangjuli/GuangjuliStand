@@ -61,7 +61,8 @@ class Bloodpress extends BaseController
         $bloodInfo = model('Bloodpress')->getBloodLogByDateAndType(req('Post'));
         if(empty($bloodInfo)){
             $this->AjaxReturn([
-                'code' => -200
+                'code' => -200,
+                'msg'  => 'no data'
             ]);
         }
         $this->AjaxReturn([
@@ -77,7 +78,8 @@ class Bloodpress extends BaseController
         $bloodInfo = model('Bloodpress')->getSingleBloodLogByPage(null,$page,100);
         if(empty($bloodInfo)){
             $this->AjaxReturn([
-                'code' => -200
+                'code' => -200,
+                'msg'  => 'no data'
             ]);
         }
         $this->AjaxReturn([
@@ -96,7 +98,8 @@ class Bloodpress extends BaseController
         $bloodInfo = model('Bloodpress')->getBloodLineGraphByDate(req('Post')['createDay']);
         if(empty($bloodInfo)){
             $this->AjaxReturn([
-                'code' => -200
+                'code' => -200,
+                'data' => 'no data'
             ]);
         }
         $this->AjaxReturn([
@@ -115,7 +118,8 @@ class Bloodpress extends BaseController
         $bloodInfo=model('Bloodpress')->getBloodBarGraphByDate(req('Post')['createDay']);
         if(empty($bloodInfo)){
             $this->AjaxReturn([
-                'code' => -200
+                'code' => -200,
+                'msg'  => 'no data'
             ]);
         }
         $this->AjaxReturn([
@@ -134,7 +138,8 @@ class Bloodpress extends BaseController
         $pieChartInfo = model('Bloodpress')->getPieChartByDay(req('Post')['createDay'],req('Post')['day']);
         if(empty($pieChartInfo)){
             $this->AjaxReturn([
-                'code' => -200
+                'code' => -200,
+                'msg'  => 'no data'
             ]);
         }
         $this->AjaxReturn([

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ads\Device\Controller\Html;
+namespace Ads\Bloodpress\Controller\Html;
 
 //hook
 class BaseController{

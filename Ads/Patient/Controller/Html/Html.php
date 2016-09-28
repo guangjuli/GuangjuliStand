@@ -55,9 +55,11 @@ class Html extends BaseController {
                 }
             }
             $insert['userId']=$userId;
+            $this->insertContacts($insert);
             //添加
             if(!empty($insert)){
                 server('db')->autoExecute('patient',$insert,'INSERT');
+                $this->insertQuestion($insert);
             }
             $this->AjaxReturn([
                 'code'=>200,
@@ -119,6 +121,7 @@ class Html extends BaseController {
                 'msg'=>$msg
             ]);
         }
+        //插入user表
         server('db')->autoExecute('user',$res,'UPDATE',"userId = $id");
         if(!empty($res)){
             foreach($res as $k=>$v){
@@ -127,8 +130,15 @@ class Html extends BaseController {
                 }
             }
         }
+        //更新patient表
         if(!empty($insert)){
             server('db')->autoExecute('patient',$res,'UPDATE',"userId = $id");
+            //TODO:未验证是否插入或更改成功
+            $this->updateContacts($res);
+            $res['userId']=$id;
+            $this->insertContacts($res);
+            //对question表进行更新操作
+            $this->isExistQuestion($id)?$this->updateQuestion($res,$id):$this->insertQuestion($res);
             $this->AjaxReturn([
                 'code'=>200,
                 'msg'=>'',
@@ -143,14 +153,41 @@ class Html extends BaseController {
         $org = $this->getOrgMap();
         $disease = $this->getDiseaseListMap();
         $patientGroupId = $this->getPatientGroupIdMap();
+        $contacts = $this->getContacts($id);
+        $question = $this->doGetquestion($id);
+        if(!empty($question)){
+            if($question['diseaseList']){
+                $question['diseaseList']=explode(',',$question['diseaseList']);
+            }
+        }
+        $firstContact=array();
+        if(!empty($contacts)){
+            $firstContact = $contacts[0];
+            unset($contacts[0]);
+        }
         return  server('Smarty')->ads('patient/html/edit')->fetch('',[
            'row' => $row,
             'org'=>$org,
             'disease'=>$disease,
-            'patientGroupId'=>$patientGroupId
+            'patientGroupId'=>$patientGroupId,
+            'contacts'=>$contacts,
+            'firstContact'=>$firstContact,
+            'question'=>$question
         ]);
     }
-
+    //异步删除联系人
+    public function doContactsdeletePost()
+    {
+        if($this->deleteContacts(req('Post')['contactsId'])){
+            $this->AjaxReturn([
+                'code'=>200,
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200,
+            ]);
+        }
+    }
     //详情
     public function doDetail()
     {
@@ -202,10 +239,95 @@ class Html extends BaseController {
           'orgId'=>$req['orgId'],
           'groupId'=>$req['groupId']
         ];
-        $check = server('db')->autoExecute('user',$insert,'INSERT');
+        $check = server('Db')->autoExecute('user',$insert,'INSERT');
         $userId = null;
         if($check)$userId = server('Db')->insert_id();
         return $userId;
+    }
+
+    //对获取contacts联系人信息进行拆分重组后添加进db
+    private function insertContacts($req)
+    {
+        $check=false;
+        foreach($req['contact'] as $v){
+            $filter =array_filter($v);
+            if(!empty($filter))$contacts[]=$filter;
+        }
+        if(!empty($contacts)){
+            $connect = '';
+            for($i=0;$i<count($contacts);$i++){
+                if(!$contacts[$i]['contactsId']){
+                    $contacts[$i]['trueName']=$contacts[$i]['trueName']?:'';
+                    $contacts[$i]['relationship']=$contacts[$i]['relationship']?:'';
+                    $contacts[$i]['phone']=$contacts[$i]['phone']?:'';
+                    $contacts[$i]['userId']=$req['userId'];
+                    $connect.="('".implode("','",$contacts[$i])."'),";
+                }
+            }
+            $connect = substr(trim($connect),0,-1);
+        }
+        if(!empty($connect)){
+            $check = server('Db')->query("insert into contacts (`name`,`relationship`,`phone`,`userId`) VALUES $connect");
+            if($check)$check=true;
+        }
+        return $check;
+    }
+    //对contacts表进行更新操作
+    private function updateContacts($req){
+        foreach($req['contact'] as $v){
+            if($v['contactsId']){
+                $contactsId = intval($v['contactsId']);
+                $update=[
+                    'name'=>$v['trueName'],
+                    'phone'=>$v['phone'],
+                    'relationship'=>$v['relationship']
+                ];
+                server('db')->autoExecute('contacts',$update,'UPDATE',"contactsId='{$contactsId}'");
+            }
+        }
+    }
+    //获取联系人信息
+    public function getContacts($userId)
+    {
+        $userId = intval($userId);
+        $contacts = server('Db')->getAll("select contactsId,userId,name,phone,relationship from contacts where userId='{$userId}'");
+        return $contacts?:[];
+    }
+
+    //删除联系人
+    public function deleteContacts($contactsId)
+    {
+        $contactsId = intval($contactsId);
+        $check = server('Db')->query("delete from contacts where contactsId='{$contactsId}'");
+        return $check?true:false;
+    }
+
+    public function insertQuestion($req)
+    {
+        $check=server('Db')->autoExecute('question',$req,'INSERT');
+        return $check?true:false;
+    }
+
+    public function updateQuestion($req,$id)
+    {
+        if($req['diseaseList']){
+            $req['diseaseList'] = implode(',',$req['diseaseList']);
+        }
+        $check = server('Db')->autoExecute('question',$req,'UPDATE',"userId = $id");
+        return $check?true:false;
+    }
+
+    public function isExistQuestion($id)
+    {
+        $question=$this->doGetquestion($id);
+        return empty($question)?false:true;
+    }
+
+    public function doGetquestion($id)
+    {
+        $userId =intval($id);
+        $question = server('Db')->getRow("select * from question where userId='{$userId}'");
+        return $question?:[];
     }
 
 }
