@@ -26,11 +26,17 @@ class Patient
         return $id?true:false;
     }
 
-    public function insertUserInfo(Array $array,$userId=null)
+    public function insertPatient(Array $array,$userId=null)
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;
         $array['userId'] = $userId;
+        $insert = server('Db')->autoExecute('patient', $array, 'INSERT');
+        return $insert?true:false;
+    }
+
+    public function insertInvalidPatient(Array $array)
+    {
         $insert = server('Db')->autoExecute('patient', $array, 'INSERT');
         return $insert?true:false;
     }
@@ -53,7 +59,7 @@ class Patient
     {
         $userId = intval($userId);
         $sql = "select u.userId, login,trueName,gender,age,addr,hipline,weight,height,bmi,waist,workEnv,familyStates,psychosis,education,smoke,nervous
-                ,sportType,sportTime,drinkWine,weightTrends from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId";
+                ,sportType,sportTime,drinkWine,weightTrends from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId and active=1";
         $userInfoDetail = server('Db')->getRow($sql);
         return $userInfoDetail?:[];
     }

@@ -11,14 +11,45 @@ namespace Addons\Model;
 //联系人信息
 class Contacts
 {
-    //获取联系人
+    public function addContacts($req)
+    {
+        $contactsId = null;
+        $req['active']=0;
+        $insert = server('Db')->autoExecute('contacts', $req, 'INSERT');
+        if($insert)$contactsId = server('Db')->insert_id();
+        return $contactsId;
+    }
+
+    public function deleteContacts($userId,$contactsId)
+    {
+        $userId = intval($userId);
+        $contactsId = intval($contactsId);
+        $check = server('Db')->query("delete from contacts where `userId`=$userId and `contactsId`={$contactsId}");
+        return $check?true:false;
+    }
+
     public function getContacts($userId)
     {
         $userId = intval($userId);
-        $contacts = server('Db')->getAll("select * from contacts where userId = {$userId}");
+        $contacts = server('Db')->getAll("select * from contacts where `userId` = {$userId} and active=1");
         return $contacts?:[];
     }
 
     //批量添加联系人
+    public function batchInsertContacts(Array $contacts,$userId)
+    {
+        $userId = intval($userId);
+        foreach($contacts as $k=>$v){
+            $contacts[$k]['userId'] = $userId;
+        }
+        return model('Batchinsert')->batchInsert($contacts,'contacts');
+    }
 
+    //更新测量计划active=1;
+    public function updateContactsActiveByUserId($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("update `contacts` set active=1 where userId={$userId}");
+        return $check?true:false;
+    }
 }

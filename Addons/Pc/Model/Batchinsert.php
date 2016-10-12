@@ -11,7 +11,7 @@ namespace Addons\Model;
 
 class Batchinsert
 {
-    public function batchInsert(Array $req,$table,$userId)
+    public function batchInsert(Array $req,$table)
     {
         //获取表的字段
         $field_names = server('Db')->getCol('DESC '.$table);

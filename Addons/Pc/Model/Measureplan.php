@@ -28,6 +28,24 @@ class Measureplan
         $check = server('Db')->autoExecute('measure_plan', $insert, 'INSERT');
         return $check?true:false;
     }
+    //插入无效MeasurePlan
+    public function insertInvalidMeasurePlan($req)
+    {
+        $req = saddslashes($req);
+        //拼装带插入的数据
+        $insert['userId']=intval($req['userId']);
+        $insert['beginTime']=$req['beginTime'];
+        $insert['endTime']=$req['endTime'];
+        //去除project的字段
+        unset($req['userId']);
+        unset($req['beginTime']);
+        unset($req['endTime']);
+        //转移project字段
+        $insert['project']=serialize($req);
+        $insert['active']=0;
+        $check = server('Db')->autoExecute('measure_plan', $insert, 'INSERT');
+        return $check?true:false;
+    }
     //获取测量计划
     //$time 消息列表中的时间
     public function getOldMeasurePlan($time,$userId)
@@ -36,7 +54,7 @@ class Measureplan
         $plan = $this->getMeasurePlanByTime($time,$userId);
         $id = $plan['planId'];
         if($id){
-            $plan = server('Db')->getAll("select * from `measure_plan` where `userId` = {$userId} and `planId`<={$id}");
+            $plan = server('Db')->getAll("select * from `measure_plan` where `userId` = {$userId} and `planId`<={$id} and active=1");
             $plan=$plan?:[];
             $type = model('Measuretype')->getMeasureTypeMap();
             foreach($plan as $k=>$v){
@@ -55,7 +73,7 @@ class Measureplan
     {
         $time = date('Ymd',time());
         $userId = intval($userId);
-        $plan = server('Db')->getAll("select planId,beginTime,endTime from measure_plan where endTime<'{$time}' and userId={$userId}",'planId');
+        $plan = server('Db')->getAll("select planId,beginTime,endTime from measure_plan where endTime<'{$time}' and userId={$userId} and active=1",'planId');
         return $plan?:[];
     }
 
@@ -72,7 +90,7 @@ class Measureplan
     public function getMeasurePlanByTime($time,$userId)
     {
         $userId = intval($userId);
-        $plan = server('Db')->getRow("select planId,beginTime,endTime from measure_plan where userId={$userId} and beginTime<'{$time}' and endTime >'{$time}'");
+        $plan = server('Db')->getRow("select planId,beginTime,endTime from measure_plan where userId={$userId} and beginTime<'{$time}' and endTime >'{$time}' and active=1");
         return $plan?:[];
     }
     //获取即将实施的测量计划
@@ -80,7 +98,7 @@ class Measureplan
     {
         $planId = intval($planId);
         $userId = intval($userId);
-        $plan = server('Db')->getAll("select * from `measure_plan` where `userId` = {$userId} and `planId`>={$planId}");
+        $plan = server('Db')->getAll("select * from `measure_plan` where `userId` = {$userId} and `planId`>={$planId} and active=1");
         $plan=$plan?:[];
         $type = model('Measuretype')->getMeasureTypeMap();
         foreach($plan as $k=>$v){
@@ -93,7 +111,24 @@ class Measureplan
         }
         return $plan;
     }
-
+    //获取即将实施的测量计划2
+    public function getAfterMeasurePlan2($userId)
+    {
+        $time = date('Ymd',time());
+        $userId = intval($userId);
+        $plan = server('Db')->getAll("select * from `measure_plan` where `userId` = {$userId} and `beginTime`>={$time} and `reportId`=0 and active=1");
+        $plan=$plan?:[];
+        $type = model('Measuretype')->getMeasureTypeMap();
+        foreach($plan as $k=>$v){
+            if($v['project']){
+                $project=unserialize($v['project']);
+                foreach(array_keys($project)as $value){
+                    $v['project'][]=$type[$value];
+                }
+            }
+        }
+        return $plan;
+    }
     public function isExistMeasurePlan($planId)
     {
         $planId = intval($planId);
@@ -124,7 +159,7 @@ class Measureplan
     {
         $userId = intval($userId);
         $planId = intval($planId);
-        $project = server('Db')->getOne("select project from `measure_plan` where `userId` = {$userId} and `planId`<={$planId}");
+        $project = server('Db')->getOne("select project from `measure_plan` where `userId` = {$userId} and `planId`<={$planId} and active=1");
         $projectList = array();
         if($project){
             $type = model('Measuretype')->getMeasureTypeMap();
@@ -140,7 +175,7 @@ class Measureplan
     public function getFinalReportMeasurePlanList($reportId)
     {
         $reportId = intval($reportId);
-        $planList = server('Db')->getAll("select beginTime,endTIme,project from measure_plan where reportId = {$reportId}");
+        $planList = server('Db')->getAll("select beginTime,endTIme,project from measure_plan where reportId = {$reportId} and active=1");
         $planList=$planList?:[];
         foreach($planList as $k=>$v){
             $type = model('Measuretype')->getMeasureTypeMap();
@@ -152,4 +187,34 @@ class Measureplan
         return $planList;
     }
 
+    //批量添加维护计划
+    public function batchInsertMeasurePlan($measurePlan,$userId)
+    {
+        $req = saddslashes($measurePlan);
+        //拼装带插入的数据
+        $check = false;
+        $insert = array();
+        foreach($req as $k=>$v){
+            $insert[$k]['beginTime']=$v['beginTime'];
+            $insert[$k]['endTime']=$v['endTime'];
+            //去除project的字段
+            unset($req[$k]['beginTime']);
+            unset($req[$k]['endTime']);
+            //转移project字段
+            $insert[$k]['project']=serialize($req[$k]);
+            $insert[$k]['userId']=$userId;
+        }
+        if($insert){
+            $check = model('Batchinsert')->batchInsert($insert,'measure_plan');
+        }
+        return $check;
+    }
+
+    //更新测量计划active=1;
+    public function updateMeasurePlanActiveByUserId($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("update measure_plan set active=1 where userId={$userId}");
+        return $check?true:false;
+    }
 }
