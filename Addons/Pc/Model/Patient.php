@@ -9,7 +9,7 @@
 namespace Addons\Model;
 
 //患者
-class Userinfo
+class Patient
 {
     public function updateUserInfo(Array $array,$userId=null)
     {
@@ -49,17 +49,18 @@ class Userinfo
 
     //TODO:待指定获取用户信息的具体参数,目前调试阶段返回全部信息,
     //用户信息表，userId，也是唯一的
-    public function getUsrInfoDetailByUserId($userId,$orgId)
+    public function getUsrInfoDetailByUserId($userId)
     {
         $userId = intval($userId);
-        $orgId = intval($orgId);
-        $userInfoDetail = server('Db')->getRow("select * from patient where `userId`={$userId} and `orgId`={$orgId}");
+        $sql = "select u.userId, login,trueName,gender,age,addr,hipline,weight,height,bmi,waist,workEnv,familyStates,psychosis,education,smoke,nervous
+                ,sportType,sportTime,drinkWine,weightTrends from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId";
+        $userInfoDetail = server('Db')->getRow($sql);
         return $userInfoDetail?:[];
     }
 
     //分割患者信息,将用户信息划分为，基础，社会，生活方式等部分
-    public function getCutUserInfo($userId,$orgId){
-        $info = $this->getUsrInfoDetailByUserId($userId,$orgId);
+    public function getCutUserInfo($userId){
+        $info = $this->getUsrInfoDetailByUserId($userId);
         if(!empty($info)){
             return [
                 'information' => [
@@ -87,7 +88,7 @@ class Userinfo
                     'nervous'=>$info['nervous'],
                     'sportType'=>$info['sportType'],
                     'sportTime'=>$info['sportTime'],
-                    'drinkwine'=>$info['drinkwine'],
+                    'drinkWine'=>$info['drinkWine'],
                     'weightTrends'=>$info['weightTrends']
                 ],
             ];
@@ -109,8 +110,8 @@ class Userinfo
                 $num = count($userList);
                 //计算平均年龄
                 $total = 0;
-                for($i=0;$i<$num;$i++){
-                    $total+=$$userList[$i]['age'];
+                foreach($userList as $v){
+                    $total+=$v['age'];
                 }
                 $avgAge = $total/$num;
                 $patientList['number']=$num;
@@ -121,4 +122,28 @@ class Userinfo
         return $patientList;
     }
 
+    //获取检查报告时显示的用户信息
+    public function getFinalReportUserInfo($userId)
+    {
+        $userId = intval($userId);
+        $row = server('Db')->getRow("select trueName,hipline,waist,height,weight,bmi, orgId from user u,patient p  where u.userId = p.userId and u.userId={$userId} ");
+        $row = $row?:[];
+        if($row['orgId']){
+            $row['orgName']=model('Organization')->getOrgNameByOrgId($row['orgId']);
+            unset($row['orgId']);
+        }
+        return $row;
+    }
+
+    //获取数据页面显示的用户信息
+    public function getDataShowPageUserInfo($userId)
+    {
+        $userId = intval($userId);
+        $row = server('Db')->getRow("select trueName,age,height,weight,bmi,gender,gravatar from patient where userId = {$userId}");
+        $row= $row?:[];
+        if($row['gravatar']){
+            $row['gravatar'] =  model('Upload')->isAbsolutePath($row['gravatar']);
+        }
+        return $row;
+    }
 }

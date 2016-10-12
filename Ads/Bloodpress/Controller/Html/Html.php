@@ -15,7 +15,7 @@ class Html extends BaseController {
 
     public function doList(){
         $list = server('Db')->getAll("select * from `bloodpress` group by `userId` order by bloodpressId desc");
-        $map = server('db')->getAll("select `login`,`nickName`,`trueName` from user",'userId');
+        $map = server('db')->getAll("select u.userId,`login`,`trueName` from user u ,patient p where u.userId=p.userId",'userId');
         return  server('Smarty')->ads('bloodpress/html/list')->fetch('',[
             'list' => $list,
             'map'  =>$map
@@ -25,44 +25,61 @@ class Html extends BaseController {
     //获取统计图
     public function doStatistics()
     {
-        /*$req = req('Get');
-        $data = $this->getStatistics($req['time'],$req['userId'],$req['table']);
-        return  server('Smarty')->ads('bloodpress/html/statistics')->fetch('',[
-            'data' => $data
-        ]);*/
-        //柱状图
-        //查询数据库这4列值有一行一个数据为空则排除
-        $arr['date'] = ['2016-07-09', '2016-07-10', '2016-07-12','2016-07-13','2016-07-14','2016-07-15'];
-        $arr['shrink'] = [120,87,75,120,87,75];
-        $arr['diastole'] = [110,85,70,110,85,70];
-        $arr['bpm'] = [115,89,120,115,89,120];
-        foreach($arr as $k=>$v){
+        //$req = req('Get');
+        $data = $this->getStatistics('20160909',58,'day');
+        //柱状图数据
+        $bargraph=json_decode($data['bargraph'],true);
+        foreach($bargraph as $k=>$v){
             if(is_array($v)){
                 $v=json_encode($v);
-                $arr[$k]=$v;
+                $bargraph[$k]=$v;
             }
         }
-        //折线图
-        $day['time'] = ['10:10', '10:20', '10:30', '10:40', '10:50', '11:00', '11:10', '11:20'];
-        $day['shrink']= [115, 112, 123, 135, 134, 123, 123, 128];
-        $day['diastole']= [ 81, 79, 72, 86, 84, 85, 88, 83] ;
-        $day['bpm'] = [ 73,76, 71, 69, 75, 77, 78, 79] ;
-        foreach($day as $k=>$v){
+        //饼状图数据
+        $pieChart = json_decode($data['piecharts'],true);
+        //折线图数据
+        $linechart=json_decode($data['linechart'],true);
+        foreach($linechart as $k=>$v){
             if(is_array($v)){
                 $v=json_encode($v);
-                $day[$k]=$v;
+                $linechart[$k]=$v;
             }
         }
+        //D($linechart);
         return  server('Smarty')->ads('bloodpress/html/statistics')->fetch('',[
-            'arr'=>$arr,
-            'day'=>$day
+            'pieChart' => $pieChart,
+            'barGraph'=>$bargraph,
+            'lineChart'=>$linechart
         ]);
     }
 
     //获取查询
     public function doSearch()
     {
+        //饼状图
+        //$data = $this->getPieChartByDay('20160909',null,58);
+        //柱状图
+        /*$data = $this->getBloodBarGraphByDate('20160909',null,58);
+        $newData = array();
+        foreach($data as $k=>$v){
+            for($i=10;$i<180;$i+=10){
+                foreach($v as $kk=>$vv){
+                    if($kk==$i)
+                    {$newData[$k][]=$vv;
+                        continue;
 
+                    };
+                }
+                $newData[$k][]=0;
+            }
+        }
+        $newData = json_encode($newData);*/
+        //折线图
+        $data = $this->getBloodLineGraphByDate('20160909',null,58);
+        $data = json_encode($data);
+        D($data);
+        return  server('Smarty')->ads('bloodpress/html/search')->fetch('',[
+        ]);
     }
 
 }
