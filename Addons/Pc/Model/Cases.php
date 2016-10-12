@@ -15,7 +15,8 @@ class Cases
     public function getPersonalCases($userId,$orgId)
     {
         $userId = intval($userId);
-        $cases = server('Db')->getAll("select `disease`,`medication`,`sideEffect`,`beginTime`,`endTime` from case where `userId`={$userId} and `orgId`={$orgId}");
+        $sql = "select `disease`,`medication`,`sideEffect`,`beginTime`,`endTime` from `case` where `userId`={$userId} and `orgId`={$orgId}";
+        $cases = server('Db')->getAll($sql);
         return $cases?:[];
     }
 }

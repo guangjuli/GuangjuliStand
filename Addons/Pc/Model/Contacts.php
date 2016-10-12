@@ -18,4 +18,7 @@ class Contacts
         $contacts = server('Db')->getAll("select * from contacts where userId = {$userId}");
         return $contacts?:[];
     }
+
+    //批量添加联系人
+
 }

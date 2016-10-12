@@ -31,9 +31,9 @@ trait Statistics
         if($bloodInfo){
             $data = array();
             foreach($bloodInfo as $v){
-                $data['shrink'][] = $v['shrink'];
-                $data['diastole'][] = $v['diastole'];
-                $data['bpm'][] = $v['bpm'];
+                $data['shrink'][] = intval($v['shrink']);
+                $data['diastole'][] = intval($v['diastole']);
+                $data['bpm'][] = intval($v['bpm']);
             }
             return $data;
         }
@@ -185,9 +185,10 @@ trait Statistics
     {
         $checkTable = ['day','week','month','year'];
         if(!in_array($table,$checkTable))return [];
+        $table='statistics_'.$table;
         $time = intval($time);
         $userId = intval($userId);
-        $statistics=server('Db')->getAll("select * from {$table} where `time`='{$time}' and `userId`='{$userId}'");
+        $statistics=server('Db')->getRow("select * from {$table} where `time`='{$time}' and `userId`='{$userId}'");
         return $statistics?:[];
     }
 }

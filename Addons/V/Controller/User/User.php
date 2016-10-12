@@ -19,32 +19,25 @@ class User extends BaseController
     }
     public function doUserinfosubmitPost()
     {
-        $msg = model('User')->paramsConfig()['returnNews'];
+        /*$msg = model('User')->paramsConfig()['returnNews'];
         $code = model('User')->validateUserReq(req('Post'));
-        if($code==200){
+        if($code==200){*/
             $check = model('Userinfo')->submitUserInfo(req('Post'));
-            $this->AjaxReturn([
-                'code' => $code,
-                'msg' => $msg[$code],
-                'data'=> $check
-            ]);
             if($check){
                 $this->AjaxReturn([
-                    'code' => $code,
-                    'msg' => $msg[$code],
+                    'code' => 200
                 ]);
             }else{
                 $this->AjaxReturn([
-                    'code' => -200,
-                    'msg' => $msg[-200],
+                    'code' => -200
                 ]);
             }
-        }else{
+        /*}else{
             $this->AjaxReturn([
                 'code' => $code,
                 'msg' => $msg[$code],
             ]);
-        }
+        }*/
     }
     //获取用户信息,操作的是user_info表
     public function doUserinfoPost()

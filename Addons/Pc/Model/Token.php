@@ -160,6 +160,7 @@ class Token implements ModelInterface
         bus(['token'=>[
             'userId'=> $user['userId'],
             'login'=> $req['login'],
+            'password'=>$req['password'],
             'type'=>'pc',      //android或ios
             'token'=> $token
         ]
