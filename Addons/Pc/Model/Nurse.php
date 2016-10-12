@@ -64,6 +64,10 @@ class Nurse
         $userIdString='('.implode(',',$userIdList).')';
         $noDetection = server('Db')->getMap("select `userId`, `noDetection` from measure_plan where
             userId in {$userIdString} and beginTime<'{$time}' and endTime>'{$time}'");
+        foreach($noDetection as $k=>$v){
+            $detection = unserialize($v);
+            array_count_values($detection);
+        }
         return $noDetection?:[];
     }
 
@@ -108,5 +112,24 @@ class Nurse
         $login = saddslashes($login);
         $check = server('Db')->query("update user set orgId={$orgId} where login='{$login}'");
         return $check?true:false;
+    }
+
+    //注册患者和患者详情
+    public function insertUser($req)
+    {
+        $req['password'] = $this->getPassword();
+        $map = model('Usergroup')->getMapUserGroup();
+        $req['groupId'] = $map['casualUser'];
+        $req['active']=0;
+        $userId=model('User')->insertUser($req);
+        return $userId?:null;
+    }
+
+    //更改用户信息状态
+    public function updateUserState($userId)
+    {
+        model('Cases')->updateCasesActiveByUserId($userId);
+        model('Contacts')->updateContactsActiveByUserId($userId);
+        model('Measureplan')->updateMeasurePlanActiveByUserId($userId);
     }
 }

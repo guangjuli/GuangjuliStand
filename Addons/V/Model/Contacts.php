@@ -21,6 +21,18 @@ class Contacts
         return $contactsId;
     }
 
+    public function addInvalidContacts($req,$userId)
+    {
+        $contactsId = null;
+        $userId = intval($userId);
+        $req['userId']=$userId;
+        $req['active']=0;
+        $insert = server('Db')->autoExecute('contacts', $req, 'INSERT');
+        if($insert)$contactsId = server('Db')->insert_id();
+        return $contactsId;
+    }
+
+
     public function deleteContacts($userId,$contactsId)
     {
         $userId = intval($userId);
