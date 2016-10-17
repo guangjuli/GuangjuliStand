@@ -22,10 +22,21 @@ class Cases
 
     public function insertInvalidCases($req)
     {
+        $id=null;
         $req =saddslashes($req);
         $req['active']=0;
+        $medicine=model('Medicine')->getMedicine($req['medicineId']);
+        $medicineList = array();
+        $sideEffect = array();
+        foreach($medicine as $v){
+            $medicineList[] = $v['name'];
+            $sideEffect[] = $v['sideEffect'];
+        }
+        if(!empty($medicineList))$req['medication']=implode(',',$medicineList);
+        if(!empty($sideEffect))$req['sideEffect']=implode(',',$sideEffect);
         $insert = server('Db')->autoExecute('`case`', $req, 'INSERT');
-        return $insert?true:false;
+        if($insert)$id = server('Db')->insert_id();
+        return $id;
     }
 
     public function deleteCases($caseId)

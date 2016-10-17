@@ -32,8 +32,9 @@ class User implements ModelInterface
     public function getUserByLogin($login)
     {
         if(!is_string($login))return [];
-        $group=model('Usergroup')->getMapUserGroup();
-        $user = server('Db')->getRow("select `login`,`password` from user where login = '$login' and active=1");
+        $group=model('Usergroup')->getMapPatient();
+        $sql = "select `login`,`password` from user where login = '{$login}' and groupId in {$group} and active=1";
+        $user = server('Db')->getRow($sql);
         return $user?:[];
     }
     /**
@@ -121,6 +122,14 @@ class User implements ModelInterface
         $insert = server('Db')->autoExecute('user', $array, 'INSERT');
         if($insert)$id = server('Db')->insert_id();
         return $id;
+    }
+
+    //更新病历active=1;
+    public function updateUserActiveByUserId($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("update `user` set active=1 where userId={$userId}");
+        return $check?true:false;
     }
 
 }

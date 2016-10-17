@@ -15,7 +15,7 @@ class Healthreport
     {
         $req = saddslashes($req);
         $id = null;
-        if($req['doctorId']&&$req['patientId']){
+        if($req['userId']){
             $check = server('Db')->autoExecute('health_report', $req, 'INSERT');
             if($check){
                 $id = server('Db')->insert_id();
@@ -47,7 +47,7 @@ class Healthreport
     public function getHealthReportByUserId($userId)
     {
         $userId = intval($userId);
-        $report = server('Db')->getMap("select reportId,finalReport from health_report where `patientId`={$userId}");
+        $report = server('Db')->getMap("select reportId,finalReport from health_report where `userId`={$userId}");
         return $report?:[];
     }
 
@@ -72,5 +72,13 @@ class Healthreport
         $reportId = intval($reportId);
         $report = server('Db')->getRow("select finalReport,eatSuggest,sportPlan from health_report where reportId = {$reportId}");
         return $report?:[];
+    }
+
+    //依据planId删除健康报告
+    public function deleteFinalReportByPlanId($planId)
+    {
+        $planId = intval($planId);
+        $check = server('Db')->query("delete from health_report where planId = {$planId}");
+        return $check?true:false;
     }
 }

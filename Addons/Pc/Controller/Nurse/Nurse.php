@@ -13,8 +13,7 @@ class Nurse
 {
 
     use \Addons\Traits\AjaxReturn;
-
-    //手机号验证后直接注册
+    //手机号验证后直接注册   ok
     public function doValidateloginPost()
     {
         $req = req('Post');
@@ -47,22 +46,30 @@ class Nurse
             ]
         ]);
     }
-    //注册
+    //注册     ok
     public function doRegisterpatientPost()
     {
         $req = req('Post');
-        if(model('Patient')->insertInvalidPatient($req)){
-            model('Nurse')->updateUserState($req['userId']);
-            $this->AjaxReturn([
-                'code'=>200
-            ]);
+        if(!model('Patient')->isExistUserInfoById($req['userId'])){
+            if(model('Patient')->insertInvalidPatient($req)){
+                model('Question')->insertQuestion($req);
+                model('Nurse')->updateUserState($req['userId']);
+                $this->AjaxReturn([
+                    'code'=>200
+                ]);
+            }else{
+                $this->AjaxReturn([
+                    'code'=>-200
+                ]);
+            }
         }else{
             $this->AjaxReturn([
-                'code'=>-200
+                'code'=>-201,
+                'msg'=>'The patient has been registered'
             ]);
         }
     }
-    //添加
+    //添加   ok
     public function doAddpatientPost()
     {
         $login = req('Post')['login'];
@@ -84,7 +91,7 @@ class Nurse
             ]);
         }
     }
-    //列表
+    //列表      ok
     public function doGetpatientlistPost()
     {
         $orgId = req('Post')['orgId'];
@@ -102,7 +109,7 @@ class Nurse
             ]);
         }
     }
-    //搜索
+    //搜索    ok
     public function doSearchpatientPost()
     {
         $trueName = req('Post')['trueName'];
@@ -121,14 +128,18 @@ class Nurse
             ]);
         }
     }
-    //添加联系人
+    //添加联系人   ok
     public function doAddcontactsPost()
     {
         $req = req('Post');
-        $check = model('Contacts')->addContacts($req);
-        if($check){
+        $id = model('Contacts')->addContacts($req);
+        if($id){
             $this->AjaxReturn([
-                'code'=>200
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>[
+                    'contactsId'=>$id
+                ]
             ]);
         }else{
             $this->AjaxReturn([
@@ -136,7 +147,7 @@ class Nurse
             ]);
         }
     }
-    //删除联系人
+    //删除联系人   ok
     public function doDeletecontactsPost()
     {
         $userId=req('Post')['userId'];
@@ -152,14 +163,18 @@ class Nurse
             ]);
         }
     }
-    //添加病例
+    //添加病例      ok
     public function doAddcasesPost()
     {
         $req = req('Post');
-        $check = model('Cases')->insertInvalidCases($req);
-        if($check){
+        $id = model('Cases')->insertInvalidCases($req);
+        if($id){
             $this->AjaxReturn([
-                'code'=>200
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>[
+                    'caseId'=>$id
+                ]
             ]);
         }else{
             $this->AjaxReturn([
@@ -167,7 +182,7 @@ class Nurse
             ]);
         }
     }
-    //删除病例
+    //删除病例      ok
     public function doDeletecasesPost()
     {
         $caseId=req('Post')['caseId'];
@@ -182,14 +197,18 @@ class Nurse
             ]);
         }
     }
-    //添加维护计划
+    //添加维护计划     ok
     public function doAddmeasureplanPost()
     {
         $req = req('Post');
-        $check =  model('Nurse')->insertInvalidMeasurePlan($req);
-        if($check){
+        $id =  model('Measureplan')->insertInvalidMeasurePlan($req);
+        if($id){
             $this->AjaxReturn([
-                'code'=>200
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>[
+                    'planId'=>$id
+                ]
             ]);
         }else{
             $this->AjaxReturn([
@@ -197,7 +216,7 @@ class Nurse
             ]);
         }
     }
-    //删除维护计划
+    //删除维护计划     ok
     public function doDeletemeasureplanPost()
     {
         $userId=req('Post')['userId'];
@@ -213,7 +232,7 @@ class Nurse
             ]);
         }
     }
-    //获取患者详细信息
+    //获取患者详细信息   ok
     public function doGetpatientdetailPost()
     {
         $userId=req('Post')['userId'];
@@ -231,7 +250,7 @@ class Nurse
             ]);
         }
     }
-    //获取患者的病例
+    //获取患者的病例     ok
     public function doGetpatientcasesPost()
     {
         $userId=req('Post')['userId'];
@@ -250,7 +269,7 @@ class Nurse
             ]);
         }
     }
-    //获取患者的联系人
+    //获取患者的联系人    ok
     public function doGetpatientcontactsPost()
     {
         $userId=req('Post')['userId'];
@@ -268,24 +287,47 @@ class Nurse
             ]);
         }
     }
-    //获取患者的测量计划
+    //获取患者的测量计划    ok
     public function doGetpatientmeasureplanPost()
     {
         $userId=req('Post')['userId'];
-        $data = model('Measureplan')->getAfterMeasurePlan2($userId);
-            if($data){
-                $this->AjaxReturn([
-                    'code'=>200,
-                    'msg'=>'succeed',
-                    'data'=>$data
-                ]);
-            }else{
-                $this->AjaxReturn([
-                    'code'=>-200,
-                    'msg'=>'no data!'
-                ]);
-            }
+        $data = model('Measureplan')->getAfterMeasurePlan($userId);
+        if($data){
+            $this->AjaxReturn([
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>$data
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200,
+                'msg'=>'no data!'
+            ]);
+        }
     }
     //获取未检测项详情
+    public function doGetnodetectiondetailPost()
+    {
+        $userId=req('Post')['userId'];
+        $data = model('Measureplan')->getMeasurePlanNoMeasureProject($userId);
+        if($data){
+            $this->AjaxReturn([
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>$data
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200,
+                'msg'=>'no data!'
+            ]);
+        }
+    }
 
+
+    //测试
+    public function doTest()
+    {
+        view('',[]);
+    }
 }

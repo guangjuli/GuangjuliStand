@@ -14,13 +14,13 @@ class News
     //获取组织机构患者未被查看的消息列表
     public function getNewsList(array $userId,$page,$num)
     {
-        $page = intval($page);
+        $page = intval($page)-1;
         $num = intval($num);
         $newList = array();
         if(!empty($userId)){
             $list = '('.implode(',',$userId).')';
-            $sql = "select userId, createTime,newsType from news where `userId` in $list and `active`=0 group by createTime desc,newsType desc limit {$page},{$num}";
-            $newList = server('Db')->getAll($sql,'userId');
+            $sql = "select userId, createTime,newsType,bloodpressId,planId from news where `userId` in $list and `active`=0 order by newsType desc,createTime desc limit {$page},{$num}";
+            $newList = server('Db')->getAll($sql);
             $newList = $newList?:[];
         }
         return $newList;
@@ -35,9 +35,19 @@ class News
         if($plan){
             $beginTime = strtotime($plan['beginTime']);
             $endTime = strtotime($plan['endTime']);
-            $id = server('Db')->getCol("select bloodpressId from news where userId={$userId} and active=0 and createTime>'{$beginTime}' and createTime<'{$endTime}'");
+            $id = server('Db')->getCol("select bloodpressId from news where userId={$userId} and active=0 and createTime>='{$beginTime}' and createTime<='{$endTime}' and newsType=2");
             if($id){
                 $data=model('Bloodpress')->getBloodPressByBloodId($id);
+            }
+        }
+        //数据类型转换
+        if($data){
+            foreach($data as $k=>$v){
+                $data[$k]['bloodpressId']=intval($v['bloodpressId']);
+                $data[$k]['time']=intval($v['time']);
+                $data[$k]['shrink']=intval($v['shrink']);
+                $data[$k]['diastole']=intval($v['diastole']);
+                $data[$k]['bpm']=intval($v['bpm']);
             }
         }
         return $data;
@@ -51,9 +61,19 @@ class News
         if($plan){
             $beginTime = strtotime($plan['beginTime']);
             $endTime = strtotime($plan['endTime']);
-            $id = server('Db')->getCol("select bloodpressId from news where userId={$userId} and createTime>'{$beginTime}' and createTime<'{$endTime}'");
+            $id = server('Db')->getCol("select bloodpressId from news where userId={$userId} and createTime>'{$beginTime}' and createTime<'{$endTime}' and newsType=2");
             if($id){
                 $data=model('Bloodpress')->getBloodPressByBloodId($id);
+            }
+        }
+        //数据类型转换
+        if($data){
+            foreach($data as $k=>$v){
+                $data[$k]['bloodpressId']=intval($v['bloodpressId']);
+                $data[$k]['time']=intval($v['time']);
+                $data[$k]['shrink']=intval($v['shrink']);
+                $data[$k]['diastole']=intval($v['diastole']);
+                $data[$k]['bpm']=intval($v['bpm']);
             }
         }
         return $data;
