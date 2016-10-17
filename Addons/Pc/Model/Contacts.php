@@ -31,7 +31,12 @@ class Contacts
     public function getContacts($userId)
     {
         $userId = intval($userId);
-        $contacts = server('Db')->getAll("select * from contacts where `userId` = {$userId} and active=1");
+        $contacts = server('Db')->getAll("select contactsId,name,phone,relationship from contacts where `userId` = {$userId} and active=1");
+        if($contacts){
+            foreach($contacts as $k=>$v){
+                $contacts[$k]['contactsId']=intval($v['contactsId']);
+            }
+        }
         return $contacts?:[];
     }
 

@@ -53,6 +53,7 @@ class Usergroup implements ModelInterface
         if($map){
             $group['ios'] = $map['ios'];
             $group['android'] = $map['android'];
+            $group['casualUser']=$map['casualUser'];
         }
         if(!empty($group)){
             $groupString = '('.implode(',',$group).')';

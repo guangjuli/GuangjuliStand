@@ -49,7 +49,13 @@ class Doctor
             foreach($newsList as $v){
                 $userInfo = $list[$v['userId']];
                 if($userInfo){
-                    $returnList['patientList'][] = array_merge($userInfo,$v);
+                    $userInfo['newsType']=intval($v['newsType']);
+                    if($v['newsType']!=2){
+                       $userInfo['planId']=intval($v['planId']);
+                        unset($v['bloodpressId']);
+                    }
+                    $userInfo['createTime']=intval($v['createTime']);
+                    $returnList['patientList'][] = $userInfo;
                 }
             }
         }

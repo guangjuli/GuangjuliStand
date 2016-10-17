@@ -45,9 +45,7 @@ class User extends BaseController
         $this->AjaxReturn([
             'code'=>200,
             'msg'=>'succeed',
-            'data'=>[
-                'token'=>$token
-            ]
+            'data'=>$token
         ]);
 
     }

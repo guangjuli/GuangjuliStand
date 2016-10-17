@@ -59,9 +59,11 @@ class Token implements ModelInterface
         //更新，添加操作
         $checkInsertToken=$this->isExistTokenByUserId(bus('token')['userId'])?$this->updateToken():$this->addToken();
         if($checkInsertToken){
+            $orgId = model('User')->getOrgIdByUserId(bus('token')['userId']);
             return [
             'token'     =>bus('token')['token'],
             'expires'   =>$this->expires,
+            'orgId'     =>$orgId
             ];
         }else{
             return [];

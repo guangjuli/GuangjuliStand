@@ -11,11 +11,11 @@ namespace Addons\Model;
 
 class Bloodpress
 {
-    public function getSingleBloodPress($time,$userId)
+    public function getSingleBloodPress($planId,$userId)
     {
         //初始化返回参数
         $single = array();
-        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
+        $plan = model('Measureplan')->getPlanTimeByPlanId($planId);
         if($plan){
             $beginTime = $plan['beginTime'];
             $endTime = $plan['endTime'];
@@ -23,10 +23,24 @@ class Bloodpress
                 $single = server('Db')->getAll("select `time`,shrink,diastole,bpm,average,des from bloodpress where createDay>='{$beginTime}' and createDay<'{$endTime}' and userId={$userId} and type=0");
                 $single = $single?:[];
                 foreach($single as $k=>$v){
-                    if($v['des'])$single[$k]['des']=unserialize($v['des']);
+                    //数据类型转换
+                    $single[$k]['time']=intval($v['time']);
+                    $single[$k]['shrink']=intval($v['shrink']);
+                    $single[$k]['diastole']=intval($v['diastole']);
+                    $single[$k]['bpm']=intval($v['bpm']);
+                    $single[$k]['average']=intval($v['average']);
+                    if($v['des']){
+                        $des=unserialize($v['des']);
+                        if(is_array($des)){
+                            $des['time']=intval($des['time']);
+                            $single[$k]['des']=$des;
+                        }
+                    }else{
+                        $single[$k]['des']=array();
+                    }
                 }
             }
-            $single['planId']=$plan['planId'];
+            $single['planId']=intval($plan['planId']);
         }
         return $single;
     }
@@ -55,20 +69,26 @@ class Bloodpress
         $returnSingle = array();
         if($plan){
             $single = $this->getSingleByPlanTime($plan,$userId);
+            if($single){
+                $returnSingle['planId']=intval($single['planId']);
+                $returnSingle['beginTime']=intval($plan['beginTime']);
+                $returnSingle['endTime']=intval($plan['endTime']);
+                unset($single['planId']);
+            }
             //初始化
             $shrink = 0;
             $diastole=0;
             $bpm = 0;
             foreach($single as $v){
-                $shrink+=$v['shrink'];
-                $diastole+=$v['diastole'];
-                $bpm+=$v['bpm'];
+                $shrink+=intval($v['shrink']);
+                $diastole+=intval($v['diastole']);
+                $bpm+=intval($v['bpm']);
             }
             $num = count($single);
             if($num){
-                $returnSingle['averageShrink'] = $shrink/$num;
-                $returnSingle['averageDiastole'] = $diastole/$num;
-                $returnSingle['averageBpm'] = $bpm/$num;
+                $returnSingle['averageShrink'] = intval($shrink/$num);
+                $returnSingle['averageDiastole'] = intval($diastole/$num);
+                $returnSingle['averageBpm'] = intval($bpm/$num);
             }
         }
         return $returnSingle;
@@ -82,10 +102,24 @@ class Bloodpress
             $beginTime = $plan['beginTime'];
             $endTime = $plan['endTime'];
             if($beginTime&&$endTime){
-                $dynamic = server('Db')->getAll("select `time`,shrink,diastole,bpm,average,des from bloodpress where createDay>'{$beginTime}' and createDay<'{$endTime}' and userId={$userId} and type=1");
+                $dynamic = server('Db')->getAll("select `time`,shrink,diastole,bpm,average,des from bloodpress where createDay>='{$beginTime}' and createDay<='{$endTime}' and userId={$userId} and type=1");
                 $dynamic = $dynamic?:[];
                 foreach($dynamic as $k=>$v){
-                    if($v['des'])$dynamic[$k]['des']=unserialize($v['des']);
+                    //数据类型转换
+                    $dynamic[$k]['time']=intval($v['time']);
+                    $dynamic[$k]['shrink']=intval($v['shrink']);
+                    $dynamic[$k]['diastole']=intval($v['diastole']);
+                    $dynamic[$k]['bpm']=intval($v['bpm']);
+                    $dynamic[$k]['average']=intval($v['average']);
+                    if($v['des']){
+                        $des=unserialize($v['des']);
+                        if(is_array($des)){
+                            $des['time']=intval($des['time']);
+                            $dynamic[$k]['des']=$des;
+                        }
+                    }else{
+                        $dynamic[$k]['des']=array();
+                    }
                 }
             }
         }
@@ -115,6 +149,7 @@ class Bloodpress
     public function updateSingleReport($req)
     {
         $req = saddslashes($req);
+        if(!$req['bloodpressId'])return false;
         $bloodpressId = intval($req['bloodpressId']);
         unset($req['bloodpressId']);
         $insert=serialize($req);
@@ -132,29 +167,35 @@ class Bloodpress
     }
 
     //获取测量计划内单次测量次数
-    public function getMeasurePlanSingleCount($time,$userId)
+    public function getMeasurePlanSingleCount($userId)
     {
-        $single = $this->getSingleBloodPress($time,$userId);
-        $counts = $single?count($single)-1:0;
+        $counts=0;
+        $time = date('Ymd',time());
+        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
+        if($plan){
+            $single = $this->getSingleBloodPress($plan['planId'],$userId);
+            $counts = $single?count($single)-1:0;
+        }
         return $counts;
     }
     //获取测量计划内动态测量次数
-    public function getMeasurePlanDynamicCount($time,$userId)
+    public function getMeasurePlanDynamicCount($userId)
     {
+        $time = date('Ymd',time());
         $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
         $counts = 0;
         if($plan){
-            $counts = server('Db')->getAll("select count(createDay) from bloodpress where createDay>'{$plan['beginTime']}' and createDay<'{$plan['endTime']}'  and userId = {$userId} group by createDay");
-            $counts = $counts?:0;
+            $counts = server('Db')->getCol("select count(createDay)as 'counts' from bloodpress where createDay>'{$plan['beginTime']}' and createDay<'{$plan['endTime']}'  and userId = {$userId} group by createDay");
+            if($counts)$counts = count($counts);
         }
         return $counts;
     }
     //获取测量计划内测量次数
-    public function getMeasurePlanCount($time,$userId)
+    public function getMeasurePlanCount($userId)
     {
         $counts = array();
-        $counts['single']=$this->getMeasurePlanSingleCount($time,$userId);
-        $counts['dynamic']=$this->getMeasurePlanDynamicCount($time,$userId);
+        $counts['single']=$this->getMeasurePlanSingleCount($userId);
+        $counts['dynamic']=$this->getMeasurePlanDynamicCount($userId);
         return $counts;
     }
 

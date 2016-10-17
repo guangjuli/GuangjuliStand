@@ -66,7 +66,8 @@ class Nurse
             userId in {$userIdString} and beginTime<'{$time}' and endTime>'{$time}'");
         foreach($noDetection as $k=>$v){
             $detection = unserialize($v);
-            array_count_values($detection);
+            $counts=array_count_values($detection);
+            $noDetection[$k]=$counts[0];
         }
         return $noDetection?:[];
     }
@@ -82,8 +83,13 @@ class Nurse
             }
             if($userIdList){
                 $noDetection = $this->getNoDetectionMap($userIdList);
+                $isNewUser = model('Finalreport')->isNewUser($userIdList);
                 foreach($patientList as $k=>$v){
+                    $patientList[$k]['gender']=intval($v['gender']);
+                    $patientList[$k]['age']=intval($v['age']);
+                    $patientList[$k]['userId']=intval($v['userId']);
                     $patientList[$k]['noDetection'] = $noDetection[$v['userId']]?:0;
+                    $patientList[$k]['isNewUser'] = in_array($v['userId'],$isNewUser)?1:0;
                 }
             }
         }
@@ -95,14 +101,26 @@ class Nurse
     {
         $trueName = saddslashes($trueName);
         $orgId = intval($orgId);
-        $row = server('Db')->getRow("select u.userId,trueName,age,gender from user u,patient p where trueName='{$trueName}' and orgId={$orgId}");
-        if($row){
-            $time = date('Ymd',time());
-            $noDetection = server('Db')->getOne("select  `noDetection` from measure_plan where
-            userId = {$row['userId']} and beginTime<'{$time}' and endTime>'{$time}'");
-            $row['noDetection'] = $noDetection?:0;
+        $patientList = server('Db')->getAll("select u.userId,trueName,age,gender from user u,patient p where trueName='{$trueName}' and u.userId=p.userId  and orgId={$orgId}");
+        if($patientList){
+            $userIdList = array();
+            foreach($patientList as $v){
+               $userIdList[] =  $v['userId'];
+            }
+            if($userIdList){
+                $noDetection = $this->getNoDetectionMap($userIdList);
+                $isNewUser = model('Finalreport')->isNewUser($userIdList);
+                foreach($patientList as $k=>$v){
+                    $patientList[$k]['gender']=intval($v['gender']);
+                    $patientList[$k]['age']=intval($v['age']);
+                    $patientList[$k]['userId']=intval($v['userId']);
+                    $patientList[$k]['noDetection'] = $noDetection[$v['userId']]?:0;
+                    $patientList[$k]['isNewUser'] = in_array($v['userId'],$isNewUser)?1:0;
+                }
+            }
+
         }
-        return $row?:[];
+        return $patientList?:[];
     }
 
     //添加患者
@@ -128,6 +146,7 @@ class Nurse
     //更改用户信息状态
     public function updateUserState($userId)
     {
+        model('User')->updateUserActiveByUserId($userId);
         model('Cases')->updateCasesActiveByUserId($userId);
         model('Contacts')->updateContactsActiveByUserId($userId);
         model('Measureplan')->updateMeasurePlanActiveByUserId($userId);
