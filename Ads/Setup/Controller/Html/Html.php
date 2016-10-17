@@ -13,19 +13,60 @@ class Html {
     public function doIndex(){
     }
 
+    public function doFacadePost()
+    {
+        $id = intval(req('Post')['id']);
+        $res = req('Post');
+        $type = req('Post')['type'];
+        $chr = req('Post')['chr'];
+        server('db')->autoExecute('facede',$res,'UPDATE',"id = '$id'");
+
+        R("/man/?setup/html/facade&type=$type&chr=$chr",1,"修改完成");
+    }
+
     public function doFacade(){
 
         //根据chr来判断需要获取的数据
 
         $chrlist = server('db')->getcol('SELECT type FROM `facede` group by type');
+        $type = req('Get')['type'];
         $chr = req('Get')['chr'];
 
         //根据chr获取内容
-        
+
+       //chr list
+        $type = saddslashes($type);
+        $chr = saddslashes($chr);
+
+        $llist = server('db')->getall("SELECT * FROM `facede` where type = '$type'");
+
+        $row = server('db')->getrow("SELECT * FROM `facede` where type = '$type' and chr = '$chr'");
+
+        //=========================================
+        //模拟输出
+        if(req('Get')['io'] == 'demo'){
+            //计算模拟参数的输出
+            if($this->isjson($row['plike'])){
+                $_params = json_decode($row['plike'],true);
+            }else{
+                $_params = trim($row['plike']);
+            }
+            $_params = print_r($_params,true);
+            //计算返回的结果数据
+            $rc = @fc($row['facede'],$_params);
+            $rc = print_r($rc,true);
+       }
+        //=========================================
+
 
 
         return  server('Smarty')->ads('setup/html/facade')->fetch('',[
-            'chrlist' => $chrlist
+            'chrlist'   => $chrlist,
+            'llist'     => $llist,
+            'row'       => $row,
+
+            '_params'   => $_params,
+            'rc'        => $rc,
         ]);
     }
 
@@ -48,147 +89,105 @@ class Html {
         $ListDataAdshtml        = req('Post')['ListDataAdshtml'];
         $ListDataAdswidget      = req('Post')['ListDataAdswidget'];
 
-        $Application = $this->getMap($ListDataadsApplication);
-        $Config     = $this->getMap($ListDataadsConfig);
-        $Ads        = $this->getMap($ListDataAds);
-        $Adshtml    = $this->getMap($ListDataAdshtml);
-        $Adswidget  = $this->getMap($ListDataAdswidget);
+        $Application = $this->getArr($ListDataadsApplication);
+        $Config     = $this->getArr($ListDataadsConfig);
+        $Ads        = $this->getArr($ListDataAds);
+        $Adshtml    = $this->getArr($ListDataAdshtml);
+        $Adswidget  = $this->getArr($ListDataAdswidget);
 
         //保存
      //   D($Adswidget);
 
+        //=========================================================
+        //$Adswidget
+        $map = server('db')->getcol("SELECT chr FROM `facede` where type = 'Adswidget'");
+        //1 : 删除掉无用的
+        $ar = array_diff($map,$Adswidget);
+        foreach($ar as $key=>$value) {
+            server('db')->query("delete from facede where chr = '$value' and  type = 'Adswidget'");
+        }
+        //2 : 添加新加的
+        $ar = array_diff($Adswidget,$map);
 
+        foreach($ar as $key=>$value) {
+            $res['chr']     = $value;
+            $res['type']    = 'Adswidget';
+            server('db')->autoExecute('facede',$res,'INSERT',"chr = '$value'");
+        }
+
+
+        //=========================================================
+        //$Adshtml
+        $map = server('db')->getcol("SELECT chr FROM `facede` where type = 'Adshtml'");
+        //1 : 删除掉无用的
+        $ar = array_diff($map,$Adshtml);
+        foreach($ar as $key=>$value) {
+            server('db')->query("delete from facede where chr = '$value' and  type = 'Adshtml'");
+        }
+        //2 : 添加新加的
+        $ar = array_diff($Adshtml,$map);
+
+        foreach($ar as $key=>$value) {
+            $res['chr']     = $value;
+            $res['type']    = 'Adshtml';
+            server('db')->autoExecute('facede',$res,'INSERT',"chr = '$value'");
+        }
+
+
+        //=========================================================
+        //$Ads
+        $map = server('db')->getcol("SELECT chr FROM `facede` where type = 'Ads'");
+        //1 : 删除掉无用的
+        $ar = array_diff($map,$Ads);
+        foreach($ar as $key=>$value) {
+            server('db')->query("delete from facede where chr = '$value' and  type = 'Ads'");
+        }
+        //2 : 添加新加的
+        $ar = array_diff($Ads,$map);
+
+        foreach($ar as $key=>$value) {
+            $res['chr']     = $value;
+            $res['type']    = 'Ads';
+            server('db')->autoExecute('facede',$res,'INSERT',"chr = '$value'");
+        }
+
+
+
+
+
+
+
+
+        //=========================================================
         //$Application
-        $map = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Application'");
-        foreach($Application as $key=>$value){
-            if([$key] == $value){
-                unset($map[$key]);
-            }else{
-                if(!empty($map[$key])){      //修改
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Application';
-                    server('db')->autoExecute('facede',$res,'UPDATE',"chr = '$key'");
-                    unset($map[$key]);
-                }else{                      //添加
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Application';
-                    server('db')->autoExecute('facede',$res,'INSERT');
-                    unset($map[$key]);
-                }
-            }
+        $map = server('db')->getcol("SELECT chr FROM `facede` where type = 'Application'");
+        //1 : 删除掉无用的
+        $ar = array_diff($map,$Application);
+        foreach($ar as $key=>$value) {
+            server('db')->query("delete from facede where chr = '$value' and  type = 'Application'");
         }
-        foreach($map as $key=>$value){                  //剩下的map 删除
-            $key = saddslashes($key);
-            server('db')->query("delete from facede where chr = '$key'");
+        //2 : 添加新加的
+        $ar = array_diff($Application,$map);
+        foreach($ar as $key=>$value) {
+            $res['chr']     = $value;
+            $res['type']    = 'Application';
+            server('db')->autoExecute('facede',$res,'INSERT',"chr = '$value'");
         }
-
+        //=========================================================
         //$Config
-        $map = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Config'");
-        foreach($Config as $key=>$value){
-            if([$key] == $value){
-                unset($map[$key]);
-                unset($Config[$key]);
-            }else{
-                if(!empty($map[$key])){      //修改
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Config';
-                    server('db')->autoExecute('facede',$res,'UPDATE',"chr = '$key'");
-                    unset($map[$key]);
-                }else{                      //添加
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Config';
-                    server('db')->autoExecute('facede',$res,'INSERT');
-                    unset($map[$key]);
-                }
-            }
+        $map = server('db')->getcol("SELECT chr FROM `facede` where type = 'Config'");
+        //1 : 删除掉无用的
+        $ar = array_diff($map,$Config);
+        foreach($ar as $key=>$value) {
+            server('db')->query("delete from facede where chr = '$value' and  type = 'Config'");
         }
-        foreach($map as $key=>$value){                  //剩下的map 删除
-            $key = saddslashes($key);
-            server('db')->query("delete from facede where chr = '$key'");
+        //2 : 添加新加的
+        $ar = array_diff($Config,$map);
+        foreach($ar as $key=>$value) {
+            $res['chr']     = $value;
+            $res['type']    = 'Config';
+            server('db')->autoExecute('facede',$res,'INSERT',"chr = '$value'");
         }
-
-        //$ads
-        $map = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Ads'");
-        foreach($Ads as $key=>$value){
-            if([$key] == $value){
-                unset($map[$key]);
-            }else{
-                if(!empty($map[$key])){      //修改
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Ads';
-                    server('db')->autoExecute('facede',$res,'UPDATE',"chr = '$key'");
-                    unset($map[$key]);
-                }else{                      //添加
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Ads';
-                    server('db')->autoExecute('facede',$res,'INSERT');
-                    unset($map[$key]);
-                }
-            }
-        }
-        foreach($map as $key=>$value){                  //剩下的map 删除
-            $key = saddslashes($key);
-            server('db')->query("delete from facede where chr = '$key'");
-        }
-
-        //$adshtml
-        $map = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Adshtml'");
-        foreach($Adshtml as $key=>$value){
-            if([$key] == $value){
-                unset($map[$key]);
-            }else{
-                if(!empty($map[$key])){      //修改
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Adshtml';
-                    server('db')->autoExecute('facede',$res,'UPDATE',"chr = '$key'");
-                    unset($map[$key]);
-                }else{                      //添加
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Adshtml';
-                    server('db')->autoExecute('facede',$res,'INSERT');
-                    unset($map[$key]);
-                }
-            }
-        }
-        foreach($map as $key=>$value){                  //剩下的map 删除
-            $key = saddslashes($key);
-            server('db')->query("delete from facede where chr = '$key'");
-        }
-
-        //$adswidget
-        $map = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Adswidget'");
-        foreach($Adswidget as $key=>$value){
-            if([$key] == $value){
-                unset($map[$key]);
-            }else{
-                if(!empty($map[$key])){      //修改
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Adswidget';
-                    server('db')->autoExecute('facede',$res,'UPDATE',"chr = '$key'");
-                    unset($map[$key]);
-                }else{                      //添加
-                    $res['chr']     = $key;
-                    $res['des']     = $value;
-                    $res['type']    = 'Adswidget';
-                    server('db')->autoExecute('facede',$res,'INSERT');
-                    unset($map[$key]);
-                }
-            }
-        }
-        foreach($map as $key=>$value){                  //剩下的map 删除
-            $key = saddslashes($key);
-            server('db')->query("delete from facede where chr = '$key'");
-        }
-
 
 
 
@@ -199,43 +198,23 @@ class Html {
 
 
         //Application
-        $mapApplication = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Application'");
-        $_arr = [];
-        foreach($mapApplication as $key=>$value){
-            $_arr[] = $key.':'.$value;
-        }
+        $_arr = server('db')->getcol("SELECT chr FROM `facede` where type = 'Application'");
         $ListDataadsApplication = $this->getStr($_arr);
 
         //Config
-        $mapConfig = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Config'");
-        $_arr = [];
-        foreach($mapConfig as $key=>$value){
-            $_arr[] = $key.':'.$value;
-        }
+        $_arr = server('db')->getcol("SELECT chr FROM `facede` where type = 'Config'");
         $ListDataadsConfig = $this->getStr($_arr);
 
         //Ads
-        $mapAds = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Ads'");
-        $_arr = [];
-        foreach($mapAds as $key=>$value){
-            $_arr[] = $key.':'.$value;
-        }
+        $_arr = server('db')->getcol("SELECT chr FROM `facede` where type = 'Ads'");
         $ListDataAds = $this->getStr($_arr);
 
         //Adshtml
-        $mapAdshtml = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Adshtml'");
-        $_arr = [];
-        foreach($mapAdshtml as $key=>$value){
-            $_arr[] = $key.':'.$value;
-        }
+        $_arr = server('db')->getcol("SELECT chr FROM `facede` where type = 'Adshtml'");
         $ListDataAdshtml = $this->getStr($_arr);
 
         //Adshtml
-        $mapAdswidget = server('db')->getmap("SELECT chr,des FROM `facede` where type = 'Adswidget'");
-        $_arr = [];
-        foreach($mapAdswidget as $key=>$value){
-            $_arr[] = $key.':'.$value;
-        }
+        $_arr = server('db')->getcol("SELECT chr FROM `facede` where type = 'Adswidget'");
         $ListDataAdswidget = $this->getStr($_arr);
 
 

@@ -30,6 +30,7 @@ trait Arr
                 $arr[$key] = $value;
             }
         }
+        $arr = array_unique($arr);
         return $arr;
     }
 
@@ -60,6 +61,12 @@ trait Arr
         }
         return $res;
     }
+
+    public function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
 
 
 }
