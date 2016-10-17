@@ -36,6 +36,12 @@ class Validate implements ModelInterface
         return (preg_match($preg,$str))?true:false;
     }
 
+    public function validatePhone($str)
+    {
+        $mobile =' /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/';
+        return (preg_match($mobile,$str))?true:false;
+    }
+
     /**
      * 校验请求参数存在性和非空
      * @param array $field

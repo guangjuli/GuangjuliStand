@@ -9,7 +9,7 @@
 namespace Addons\Model;
 
 //患者
-class Userinfo
+class Patient
 {
     public function updateUserInfo(Array $array,$userId=null)
     {
@@ -21,16 +21,22 @@ class Userinfo
 
     public function isExistUserInfoById($id)
     {
-        if(!is_int($id))return false;
+        $id = intval($id);
         $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
         return $id?true:false;
     }
 
-    public function insertUserInfo(Array $array,$userId=null)
+    public function insertPatient(Array $array,$userId=null)
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;
         $array['userId'] = $userId;
+        $insert = server('Db')->autoExecute('patient', $array, 'INSERT');
+        return $insert?true:false;
+    }
+
+    public function insertInvalidPatient(Array $array)
+    {
         $insert = server('Db')->autoExecute('patient', $array, 'INSERT');
         return $insert?true:false;
     }
@@ -49,32 +55,39 @@ class Userinfo
 
     //TODO:待指定获取用户信息的具体参数,目前调试阶段返回全部信息,
     //用户信息表，userId，也是唯一的
-    public function getUsrInfoDetailByUserId($userId,$orgId)
+    public function getUsrInfoDetailByUserId($userId)
     {
         $userId = intval($userId);
-        $orgId = intval($orgId);
-        $userInfoDetail = server('Db')->getRow("select * from patient where `userId`={$userId} and `orgId`={$orgId}");
-        return $userInfoDetail?:[];
+        $sql = "select u.userId, login,trueName,gender,age,addr,hipline,weight,height,bmi,waist,smoke,nervous,sportType
+                ,sportTime,drinkWine from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId and u.active=1";
+        $detail = server('Db')->getRow($sql);
+        if($detail){
+            //数据格式转换
+            foreach($detail as $k=>$v){
+                if($k!='login'&&$k!='trueName'&&$k!='addr'&&$k!='sportType')$detail[$k]=intval($v);
+            }
+        }
+        return $detail?:[];
     }
 
     //分割患者信息,将用户信息划分为，基础，社会，生活方式等部分
-    public function getCutUserInfo($userId,$orgId){
-        $info = $this->getUsrInfoDetailByUserId($userId,$orgId);
+    public function getCutUserInfo($userId){
+        $info = $this->getUsrInfoDetailByUserId($userId);
         if(!empty($info)){
             return [
                 'information' => [
                     'trueName'=>$info['trueName'],
                     'phone'=>$info['login'],
-                    'gender'=>$info['gender'],
-                    'age'=>$info['age'],
-                    'address'=>$info['addr']
+                    'gender'=>intval($info['gender']),
+                    'age'=>intval($info['age']),
+                    'addr'=>$info['addr']
                 ],
                 'basic'=>[
-                    'hipline'=>$info['hipline'],
-                    'weight'=>$info['weight'],
-                    'height'=>$info['height'],
-                    'bmi'=>$info['bmi'],
-                    'waist'=>$info['waist']
+                    'hipline'=>intval($info['hipline']),
+                    'weight'=>intval($info['weight']),
+                    'height'=>intval($info['height']),
+                    'bmi'=>intval($info['bmi']),
+                    'waist'=>intval($info['waist'])
                 ],
                 'relevantSocial'=>[
                     'workEnv'=>$info['workEnv'],
@@ -83,11 +96,11 @@ class Userinfo
                     'education'=>$info['education']
                 ],
                 'lifeStyle'=>[
-                    'smoke'=>$info['smoke'],
-                    'nervous'=>$info['nervous'],
+                    'smoke'=>intval($info['smoke']),
+                    'nervous'=>intval($info['nervous']),
                     'sportType'=>$info['sportType'],
-                    'sportTime'=>$info['sportTime'],
-                    'drinkwine'=>$info['drinkwine'],
+                    'sportTime'=>intval($info['sportTime']),
+                    'drinkWine'=>intval($info['drinkWine']),
                     'weightTrends'=>$info['weightTrends']
                 ],
             ];
@@ -109,16 +122,51 @@ class Userinfo
                 $num = count($userList);
                 //计算平均年龄
                 $total = 0;
-                for($i=0;$i<$num;$i++){
-                    $total+=$$userList[$i]['age'];
+                foreach($userList as $v){
+                    $total+=$v['age'];
                 }
                 $avgAge = $total/$num;
                 $patientList['number']=$num;
                 $patientList['averageAge']=$avgAge;
+                foreach($userList as $k=>$v){
+                    $userList[$k]['userId']=intval($v['userId']);
+                    $userList[$k]['age']=intval($v['age']);
+                    $userList[$k]['gender']=intval($v['gender']);
+                }
                 $patientList['patientList'] = $userList;
             }
         }
         return $patientList;
     }
 
+    //获取检查报告时显示的用户信息
+    public function getFinalReportUserInfo($userId)
+    {
+        $userId = intval($userId);
+        $row = server('Db')->getRow("select trueName,hipline,waist,height,weight,bmi, orgId from user u,patient p  where u.userId = p.userId and u.userId={$userId} ");
+        $row = $row?:[];
+        if($row['orgId']){
+            $row['orgName']=model('Organization')->getOrgNameByOrgId($row['orgId']);
+            unset($row['orgId']);
+        }
+        return $row;
+    }
+
+    //获取数据页面显示的用户信息
+    public function getDataShowPageUserInfo($userId)
+    {
+        $userId = intval($userId);
+        $row = server('Db')->getRow("select trueName,age,height,weight,bmi,gender,gravatar from patient where userId = {$userId}");
+        $row= $row?:[];
+        if($row){
+            //数据格式转换
+            $row['age']=intval($row['age']);
+            $row['height']=intval($row['height']);
+            $row['weight']=intval($row['weight']);
+            $row['bmi']=intval($row['bmi']);
+            $row['gender']=intval($row['gender']);
+            if($row['gravatar'])$row['gravatar'] =  model('Upload')->isAbsolutePath($row['gravatar']);
+        }
+        return $row;
+    }
 }

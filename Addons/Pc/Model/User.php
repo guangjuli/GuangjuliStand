@@ -32,7 +32,9 @@ class User implements ModelInterface
     public function getUserByLogin($login)
     {
         if(!is_string($login))return [];
-        $user = server('Db')->getRow("select * from user where login = '$login'");
+        $group=model('Usergroup')->getMapPatient();
+        $sql = "select `login`,`password` from user where login = '{$login}' and groupId in {$group} and active=1";
+        $user = server('Db')->getRow($sql);
         return $user?:[];
     }
     /**
@@ -47,88 +49,6 @@ class User implements ModelInterface
         return empty($user)?false:true;
     }
 
-    /**
-     * 插入用户
-     * @param array $array
-     * @return boolean
-     */
-    public function insertUser(Array $array)
-    {
-        $insert = server('Db')->autoExecute('user', $array, 'INSERT');
-        return $insert?true:false;
-    }
-
-    /**
-     * 插入用户返回id
-     * @param array $array
-     * @return int
-     */
-    public function insertUserReturnId(Array $array)
-    {
-        $userId = null;
-        $insert = server('Db')->autoExecute('user', $array, 'INSERT');
-        if($insert)$userId = server('Db')->insert_id();
-        return $userId;
-    }
-
-    /**
-     * 根据userId删除用户
-     * @param int $userId
-     * @return boolean
-     */
-    public function deleteUserByUserId($userId)
-    {
-        $userId = intval($userId);
-        $check=server('Db')->query("delete from user where `userId`=$userId");
-        return $check?true:false;
-    }
-
-    /**
-     * 插入用户返回id
-     * @param array $array
-     * @param int $userId
-     * @return boolean
-     */
-    public function updateUserByUserId(Array $array,$userId=null)
-    {
-        $userId = intval($userId)?:bus('tokenInfo')['userId'];
-        //TODO: 为获取到userId错误提示
-        if(!$userId) return false;
-        $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
-        return $insert?true:false;
-    }
-
-    public function paramsConfig()
-    {
-        return[
-            //必填参数
-            'field' => ['nickName','gender','birthday'],
-            //参数为string类型
-            'string' => ['nickName','birthday'],
-            //参数为int类型
-            'int' => ['gender'],
-            'returnNews'=>[
-                200 =>'succeed',
-                -201 => '必填参数不能为空',
-                -202 => '存在格式不正确数据',
-            ]
-        ];
-    }
-
-    /**
-     * 校验用户请求
-     * @param array $req
-     * @return int
-     */
-    public function validateUserReq(Array $req)
-    {
-        $req['gender']=intval($req['gender']);
-        $config = $this->paramsConfig();
-        if(!model('Validate')->validateParams($config['field'],$req)) return -201;
-        $paramsType = model('Validate')->validateParamsType($req,$config['string'],$config['int']);
-        if(!empty($paramsType)) return -202;
-        return 200;
-    }
 
     //TODO:待指定详细返回值
     /**
@@ -169,35 +89,24 @@ class User implements ModelInterface
         $user = $this->getUserInfoByUserId($userId);
         return empty($user)?false:true;
     }
-
-    /**
-     * 上传图片
-     * @param $file
-     * @return int
-     */
-    public function uploadHeadImage($file)
-    {
-        $config = server()->Config('V')['uploadHeadImage'];
-        $code=model('Upload',$config)->upload($file);
-        return $code;
-    }
-
-    public function saveImagePathToDb()
-    {
-        $path = model('Upload')->uploadPath();
-        return model('Userinfo')->updateUserInfo(['gravatar'=>$path]);
-    }
-
     /**
      * 根据orgId获取用户列表
      * @param $orgId
      * @return array
      */
-    public function getUserListByOrgId($orgId)
+    public function getPatientListByOrgId($orgId)
     {
+        $userList = [];
+        $patient = [];
         $orgId = intval($orgId);
-        $userList = server('Db')->getAll("select userId from user where orgId={$orgId}");
-        return $userList?:[];
+        $group = model('Usergroup')->getMapPatient();
+        if(!empty($group)){
+            $userList = server('Db')->getAll("select userId from user where orgId={$orgId} and groupId in {$group}");
+        }
+        foreach($userList as $v){
+            $patient[] = $v['userId'];
+        }
+        return $patient;
     }
 
     public function getOrgIdByUserId($userId)
@@ -205,6 +114,22 @@ class User implements ModelInterface
         $userId = intval($userId);
         $orgId = server('Db')->getOne("select `orgId` from user where `userId` = {$userId}");
         return $orgId?:null;
+    }
+
+    public function insertUser(Array $array)
+    {
+        $id = null;
+        $insert = server('Db')->autoExecute('user', $array, 'INSERT');
+        if($insert)$id = server('Db')->insert_id();
+        return $id;
+    }
+
+    //更新病历active=1;
+    public function updateUserActiveByUserId($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("update `user` set active=1 where userId={$userId}");
+        return $check?true:false;
     }
 
 }

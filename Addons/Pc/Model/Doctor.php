@@ -30,31 +30,39 @@ class Doctor
 
     //TODO:待修改
     //获取患者列表，获取用户关联对象的列表信息
-    public function getPatientList($orgId)
+    public function getPatientList($orgId,$page,$num)
     {
         $returnList = array();
         //获取userId列表
-        $userIdList = model('User')->getUserListByOrgId($orgId);
+        $userIdList = model('User')->getPatientListByOrgId($orgId);
         //获取用户列表
         $patientList = model('Patient')->getUserList($userIdList);
         $list  =$patientList['patientList'];
         //消息列表
-        $newsList = model('News')->getNewsList($userIdList);
+        $newsList = model('News')->getNewsList($userIdList,$page,$num);
         if(!empty($patientList)){
             $newsNum = count($newsList);
             $returnList['number'] = $patientList['number'];
             $returnList['averageAge']= $patientList['averageAge'];
             $returnList['news']= $newsNum;
             $returnList['patientList'] = [];
-            for($i=0;$i<$newsNum;$i++){
-                $userInfo = $list[$newsList[$i]['userId']];
+            foreach($newsList as $v){
+                $userInfo = $list[$v['userId']];
                 if($userInfo){
-                    $returnList['patientList'] = array_merge($userInfo,$newsList[$i]);
+                    $userInfo['newsType']=intval($v['newsType']);
+                    if($v['newsType']!=2){
+                       $userInfo['planId']=intval($v['planId']);
+                        unset($v['bloodpressId']);
+                    }
+                    $userInfo['createTime']=intval($v['createTime']);
+                    $returnList['patientList'][] = $userInfo;
                 }
             }
         }
         return $returnList;
     }
+
+
 
 
 }

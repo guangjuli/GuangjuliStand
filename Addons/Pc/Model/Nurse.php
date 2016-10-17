@@ -26,34 +26,6 @@ class Nurse
         return $userBasic;
     }
 
-    public function addPatient($req)
-    {
-        //临时用户，用户组
-        $groupId = server()->Config('V')['userGroup']['casualUser'];
-        //获取患者的orgId
-        $orgId = model('User')->getOrgIdByUserId(bus('tokenInfo')['userId']);
-        //添加到user表
-        $login = $this->getUserLogin();
-        $password = $this->getPassword();
-        $user=[
-          'login'=>$login,
-          'password'=>$password,
-          'groupId'=>$groupId,
-          'orgId'=>$orgId
-        ];
-        $userId=model('User')->insertUserReturnId($user);
-        if($userId){
-            $check = model('Patient')->insertUserInfo($req,$userId);
-            if($check){
-                return[
-                    'login'=>$login,
-                    'password'=>$password
-                ];
-            }
-        }
-        return [];
-    }
-
     private function getRandChar($length,$strPol){
         $str = null;
         $max = strlen($strPol)-1;
@@ -77,5 +49,106 @@ class Nurse
         return $this->getRandChar(6,$strPol);
     }
 
+    //获取本医院所有的患者列表
+    public function getHosPatientList($orgId)
+    {
+        $orgId = intval($orgId);
+        $patientList = server('Db')->getAll("select trueName,gender,age,u.userId from user u,patient p  where u.userId=p.userId and orgId={$orgId}");
+        return $patientList?:[];
+    }
 
+    //获取本医院当前测量计划map
+    public function getNoDetectionMap(array $userIdList)
+    {
+        $time = date('Ymd',time());
+        $userIdString='('.implode(',',$userIdList).')';
+        $noDetection = server('Db')->getMap("select `userId`, `noDetection` from measure_plan where
+            userId in {$userIdString} and beginTime<'{$time}' and endTime>'{$time}'");
+        foreach($noDetection as $k=>$v){
+            $detection = unserialize($v);
+            $counts=array_count_values($detection);
+            $noDetection[$k]=$counts[0];
+        }
+        return $noDetection?:[];
+    }
+
+    //获取护士界面患者显示列表
+    public function getShowHosPatientList($orgId)
+    {
+        $patientList = $this->getHosPatientList($orgId);
+        if($patientList){
+            $userIdList = array();
+            foreach($patientList as $v){
+                $userIdList[] = $v['userId'];
+            }
+            if($userIdList){
+                $noDetection = $this->getNoDetectionMap($userIdList);
+                $isNewUser = model('Finalreport')->isNewUser($userIdList);
+                foreach($patientList as $k=>$v){
+                    $patientList[$k]['gender']=intval($v['gender']);
+                    $patientList[$k]['age']=intval($v['age']);
+                    $patientList[$k]['userId']=intval($v['userId']);
+                    $patientList[$k]['noDetection'] = $noDetection[$v['userId']]?:0;
+                    $patientList[$k]['isNewUser'] = in_array($v['userId'],$isNewUser)?1:0;
+                }
+            }
+        }
+        return $patientList;
+    }
+
+    //搜索某个人的列表显示信息
+    public function searchPatient($trueName,$orgId)
+    {
+        $trueName = saddslashes($trueName);
+        $orgId = intval($orgId);
+        $patientList = server('Db')->getAll("select u.userId,trueName,age,gender from user u,patient p where trueName='{$trueName}' and u.userId=p.userId  and orgId={$orgId}");
+        if($patientList){
+            $userIdList = array();
+            foreach($patientList as $v){
+               $userIdList[] =  $v['userId'];
+            }
+            if($userIdList){
+                $noDetection = $this->getNoDetectionMap($userIdList);
+                $isNewUser = model('Finalreport')->isNewUser($userIdList);
+                foreach($patientList as $k=>$v){
+                    $patientList[$k]['gender']=intval($v['gender']);
+                    $patientList[$k]['age']=intval($v['age']);
+                    $patientList[$k]['userId']=intval($v['userId']);
+                    $patientList[$k]['noDetection'] = $noDetection[$v['userId']]?:0;
+                    $patientList[$k]['isNewUser'] = in_array($v['userId'],$isNewUser)?1:0;
+                }
+            }
+
+        }
+        return $patientList?:[];
+    }
+
+    //添加患者
+    public function addPatient($orgId,$login)
+    {
+        $orgId = intval($orgId);
+        $login = saddslashes($login);
+        $check = server('Db')->query("update user set orgId={$orgId} where login='{$login}'");
+        return $check?true:false;
+    }
+
+    //注册患者和患者详情
+    public function insertUser($req)
+    {
+        $req['password'] = $this->getPassword();
+        $map = model('Usergroup')->getMapUserGroup();
+        $req['groupId'] = $map['casualUser'];
+        $req['active']=0;
+        $userId=model('User')->insertUser($req);
+        return $userId?:null;
+    }
+
+    //更改用户信息状态
+    public function updateUserState($userId)
+    {
+        model('User')->updateUserActiveByUserId($userId);
+        model('Cases')->updateCasesActiveByUserId($userId);
+        model('Contacts')->updateContactsActiveByUserId($userId);
+        model('Measureplan')->updateMeasurePlanActiveByUserId($userId);
+    }
 }

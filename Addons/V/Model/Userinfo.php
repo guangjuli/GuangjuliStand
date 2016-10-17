@@ -54,6 +54,9 @@ class Userinfo
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         $userInfoDetail = server('Db')->getRow("select * from patient where `userId`={$userId}");
+        if($userInfoDetail['gravatar']){
+            $userInfoDetail['gravatar'] = model('Upload')->isAbsolutePath($userInfoDetail['gravatar']);
+        }
         return $userInfoDetail?:[];
     }
 

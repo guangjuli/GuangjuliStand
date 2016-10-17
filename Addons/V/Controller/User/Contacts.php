@@ -42,11 +42,9 @@ class User extends BaseController
         $contactsId = req("Post")['contactsId'];
         $check = model('Contacts')->deleteContacts($userId,$contactsId);
         if($check){
-            $list = model('Contacts')->getContacts($userId);
             $this->AjaxReturn([
                 'code' => 200,
-                'msg' => 'succeed',
-                'data'=>$list
+                'msg' => 'succeed'
             ]);
         }else{
             $this->AjaxReturn([
@@ -60,13 +58,14 @@ class User extends BaseController
     {
         $req = req('Post');
         $userId = bus('tokenInfo')['userId'];
-        $check =model('Contacts')->addContacts($req,$userId);
-        if($check){
-            $list = model('Contacts')->getContacts($userId);
+        $contactsId =model('Contacts')->addContacts($req,$userId);
+        if($contactsId){
             $this->AjaxReturn([
                 'code' => 200,
                 'msg' => 'succeed',
-                'data'=>$list
+                'data'=>[
+                    'contactsId'=>$contactsId
+                ]
             ]);
         }else{
             $this->AjaxReturn([

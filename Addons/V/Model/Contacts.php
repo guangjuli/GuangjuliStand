@@ -13,11 +13,25 @@ class Contacts
 {
     public function addContacts($req,$userId)
     {
+        $contactsId = null;
         $userId = intval($userId);
         $req['userId']=$userId;
         $insert = server('Db')->autoExecute('contacts', $req, 'INSERT');
-        return $insert?true:false;
+        if($insert)$contactsId = server('Db')->insert_id();
+        return $contactsId;
     }
+
+    public function addInvalidContacts($req,$userId)
+    {
+        $contactsId = null;
+        $userId = intval($userId);
+        $req['userId']=$userId;
+        $req['active']=0;
+        $insert = server('Db')->autoExecute('contacts', $req, 'INSERT');
+        if($insert)$contactsId = server('Db')->insert_id();
+        return $contactsId;
+    }
+
 
     public function deleteContacts($userId,$contactsId)
     {

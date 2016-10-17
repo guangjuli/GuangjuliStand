@@ -87,10 +87,16 @@ class Register implements ModelInterface
         $register = $register?:bus('register');
         if(!$register)return false;
         $register['login']=$register['login']?:$register['phone'];
-        //执行sql->user
+        //注册插入user表
         $userId = model('User')->insertUserReturnId($register);
         if(empty($userId))return false;
-        //执行sql->device
+        //插入patient表
+        $patient = model('Userinfo')->insertUserInfo([],$userId);
+        if(!$patient){
+            model('User')->deleteUserByUserId($userId);
+            return false;
+        }
+        //初始化插入设备表数据，并插入设备表
         $device = [
           'userId'=>$userId,
           'device'=>$register['device'],

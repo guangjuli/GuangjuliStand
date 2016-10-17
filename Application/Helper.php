@@ -7,6 +7,87 @@
      | 封装
      |-------------------------------------------------------
     */
+    if (! function_exists('fc')) {
+        function fc($key = null,$params = null)
+        {
+            if(empty($key))return null;
+            //检索数据库,得到数据类型
+            $key = saddslashes($key);
+            $row = server('db')->getrow("select * from facede where facede = '$key'");
+
+            if($row['cache'] == 1){
+                //todo 缓存处理 读取返回
+            }
+
+            $type = $row['type'];       //Application / Config / Ads / Adshtml / Adswidget
+            switch($type){
+                case 'Application':
+                    $data = application('Data')->get($row['chr']);
+                    break;
+                case 'Config':
+                    $data = config($row['chr']);
+                    break;
+                case 'Ads':
+                case 'Adshtml':
+                case 'Adswidget':
+                $data = adsdata($row['chr'],$params);
+                    break;
+            }
+
+            if($row['cache'] == 1){
+                //todo 缓存处理 保存
+            }
+
+            return $data;
+
+        }
+    }
+
+/*0:数字1:字符2:文本3:数组4:枚举*/
+    if (! function_exists('config')) {
+        function config($name = null)
+        {
+            $name = saddslashes($name);
+            $row = server('db')->getrow("select * from system_config where name = '$name'");
+            switch($row['type']){
+                case '0':
+                    return intval($row['value']);
+                    break;
+                case '1':
+                case '2':
+                case '4':                    //枚举 用于配置本身
+                    return $row['value'];
+                    break;
+                case '3':
+                    //组 返回map
+                    $rc = explode("\n",$row['value']);
+                    $_g = [];
+                    foreach($rc as $key=>$value){
+                        if(!empty($value)){
+                            $_ar = explode(":",trim($value,"\r"));
+                            $_g[$_ar[0]] = $_ar[1];
+                        }
+                    }
+                    return $_g;
+                    break;
+                default:
+                    //
+                    break;
+            }
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 对APP application server 进行封装

@@ -62,10 +62,13 @@ class Bloodpress implements ModelInterface
      *      ，['name'=>'hero'],'name'=>'test']该函数会对键名：3,'name'进行过滤，即不会插入,其标准以键名0对应的键值数组为标准
      * @param array $req
      * @param string $table
+     * @param int $userId
      * @return boolean
      */
-    public function batchInsert(Array $req,$table)
+    public function batchInsert(Array $req,$table,$userId)
     {
+        //设置缓存key;
+        $cacheKey = $userId.'bloodPress';
         //获取表的字段
         $field_names = server('Db')->getCol('DESC '.$table);
         if(empty($field_names)) return false;
@@ -76,21 +79,29 @@ class Bloodpress implements ModelInterface
         $insertFields = array_keys($firstData);  //待插入字段组成的数组
         foreach($insertFields as $v){            //检查待插入字段存在性
             $v = trim(str_replace("'",'',$v));
-            if(!in_array($v,$field_names))return false;
+            if(!in_array($v,$field_names)) return false;
         }
         $fields = '('.implode(',',$insertFields).')';
         $fields = str_replace("'",'`',$fields); // $fields待插入字段拼装成的字符串
         //拼装值组成的字符串
         $insert = array();
+        //校验数据是否已经存入数据库
+        $isExistData = array();
+        //获取缓存
+        $cacheValue = server('Cache')->get($cacheKey);
+        $cacheValue = $cacheValue?:[];
         foreach($req as $k=>$v){
             if(is_array($v)){
-                if(empty(array_diff_assoc($insertFields,array_keys($v)))){
-                    $valueArray = array_values($v);
-                    $valueString = '';
-                    foreach($valueArray as $value){
-                        $valueString.="'".$value."',";
+                if(!in_array($v['time'],$cacheValue)){
+                    $isExistData[] = $v['time'];
+                    if(empty(array_diff_assoc($insertFields,array_keys($v)))){
+                        $valueArray = array_values($v);
+                        $valueString = '';
+                        foreach($valueArray as $value){
+                            $valueString.="'".$value."',";
+                        }
+                        $insert[] = '('.rtrim($valueString,',').')';
                     }
-                    $insert[] = '('.rtrim($valueString,',').')';
                 }
             }  //对不是数组，及字段同标准字段不一致的进行过滤
         }
@@ -99,6 +110,10 @@ class Bloodpress implements ModelInterface
         //拼装sql语句
         $sql = "insert into {$table}{$fields}values{$insert}";
         $check = server('Db')->query($sql);
+        //如果数据插入成功则添加对应的数据id缓存，用来防止重复提交问题
+        if($check){
+            server('Cache')->set($cacheKey,array_merge($cacheValue,$isExistData));
+        }
         return $check?true:false;
     }
 
@@ -111,7 +126,7 @@ class Bloodpress implements ModelInterface
             $v['userId'] = $userId;
             $insertData[] = $v;
         }
-        return $this->batchInsert($insertData,'bloodpress');
+        return $this->batchInsert($insertData,'bloodpress',$userId);
     }
 
     /**

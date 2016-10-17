@@ -97,8 +97,8 @@ class User implements ModelInterface
         $insert = server('Db')->autoExecute('user', $array, 'UPDATE',"`userId`=$userId");
         return $insert?true:false;
     }
-
-    public function paramsConfig()
+    //TODO:暂时不对用户信息进行校验
+    /*public function paramsConfig()
     {
         return[
             //必填参数
@@ -113,14 +113,14 @@ class User implements ModelInterface
                 -202 => '存在格式不正确数据'
             ]
         ];
-    }
+    }*/
 
     /**
      * 校验用户请求
      * @param array $req
      * @return int
      */
-    public function validateUserReq(Array $req)
+    /*public function validateUserReq(Array $req)
     {
         $req['gender']=intval($req['gender']);
         $config = $this->paramsConfig();
@@ -128,7 +128,7 @@ class User implements ModelInterface
         $paramsType = model('Validate')->validateParamsType($req,$config['string'],$config['int']);
         if(!empty($paramsType)) return -202;
         return 200;
-    }
+    }*/
 
     //TODO:待指定详细返回值
     /**
@@ -138,10 +138,8 @@ class User implements ModelInterface
      */
     public function getUserInfoByToken($userId=null)
     {
-        $filed=['trueName','login','gravatar','gender','birthday','height'];
-        $filed = implode(',',$filed);
         $userId = intval($userId)?:bus('tokenInfo')['userId'];
-        $userInfo = server('Db')->getRow("select $filed from user u,user_info ui where u.userId = $userId");
+        $userInfo = server('Db')->getRow("select * from user where userId = $userId");
         return $userInfo?:[];
     }
 
