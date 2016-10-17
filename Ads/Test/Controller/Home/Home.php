@@ -28,5 +28,12 @@ D($res);
         return 123;
     }
 
+    public function dodemo($params = '')
+    {
 
+        $res = "ads:test/home/demo"."\n";
+        $res .= "params:".$params;
+        return $res;
+
+    }
 }
