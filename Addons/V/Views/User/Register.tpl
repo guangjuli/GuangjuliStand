@@ -91,5 +91,14 @@
     <input type="submit" value="提交">
 </form>
 
+<form action="/v/user/login" method="post" enctype="multipart/form-data">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="login" value="123">
+    <input type="text" name="password" value="1">
+
+
+    <input type="submit" value="提交">
+</form>
+
 
 
