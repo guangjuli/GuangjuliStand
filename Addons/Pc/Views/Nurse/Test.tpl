@@ -73,7 +73,7 @@
     <input type="text" name="DBP" value="4">
     <input type="text" name="bpm" value="67">
     <input type="submit" value="提交">
-</form>   {*删除测量计划*}
+</form>   {*保存注册患者的所有信息*}
 
 <form action="/pc/nurse/Getpatientdetail" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">

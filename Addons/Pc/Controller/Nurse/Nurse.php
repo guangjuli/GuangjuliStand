@@ -46,7 +46,7 @@ class Nurse
             ]
         ]);
     }
-    //注册     ok
+    //保存     ok
     public function doRegisterpatientPost()
     {
         $req = req('Post');
@@ -54,8 +54,15 @@ class Nurse
             if(model('Patient')->insertInvalidPatient($req)){
                 model('Question')->insertQuestion($req);
                 model('Nurse')->updateUserState($req['userId']);
+                $user = model('User')->getUserInfoByUserId($req['userId']);
+                model('Sms','register')->sendMessage($user['login'],$user['password']);
                 $this->AjaxReturn([
-                    'code'=>200
+                    'code'=>200,
+                    'msg'=>'succeed',
+                    'data'=>[
+                        'login'=>$user['login'],
+                        'password'=>$user['password']
+                    ]
                 ]);
             }else{
                 $this->AjaxReturn([
@@ -74,20 +81,27 @@ class Nurse
     {
         $login = req('Post')['login'];
         $orgId = req('Post')['orgId'];
-        if(model('User')->isExistUserByLogin($login)){
-            if(model('Nurse')->addPatient($orgId,$login)){
-                $this->AjaxReturn([
-                   'code'=>200
-                ]);
+        if(model('Validate')->validatePhone($login)){
+            if(model('User')->isExistUserByLogin($login)){
+                if(model('Nurse')->addPatient($orgId,$login)){
+                    $this->AjaxReturn([
+                        'code'=>200
+                    ]);
+                }else{
+                    $this->AjaxReturn([
+                        'code'=>-200
+                    ]);
+                }
             }else{
                 $this->AjaxReturn([
-                    'code'=>-200
+                    'code'=>-201,
+                    'msg'=>'The patient does not exist'
                 ]);
             }
         }else{
             $this->AjaxReturn([
-               'code'=>-201,
-                'msg'=>'The patient does not exist'
+                'code'=>-202,
+                'msg'=>'Please enter a correct phone number'
             ]);
         }
     }
