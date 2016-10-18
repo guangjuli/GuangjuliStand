@@ -13,6 +13,15 @@ class Html {
     public function doIndex(){
     }
 
+    public function doYy()
+    {
+        $list = server('db')->getall('select * from facede');
+        return  server('Smarty')->ads('setup/html/yy')->fetch('',[
+            'list' => $list
+        ]);
+    }
+
+
     public function doFacadePost()
     {
         $id = intval(req('Post')['id']);

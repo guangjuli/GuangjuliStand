@@ -46,14 +46,20 @@ class BaseController{
 
         $res = [
             [
-                'title' => '管理',
+                'title' => '数据管理',
                 'des'   => '前端 : 设置',
                 'ads'   => 'setup/home/index',
                 'hidden'=> 0,
                 'child' => [
-                    [ 'title' => '数据中心',
+                    [ 'title' => '数据[数据源]',
                         'des'   => '修改',
                         'ads'   => 'setup/html/list',
+                        'hidden'=> 0,
+                        'sort'=>7
+                    ],
+                    [ 'title' => '数据[引用查看]',
+                        'des'   => '修改',
+                        'ads'   => 'setup/html/yy',
                         'hidden'=> 0,
                         'sort'=>7
                     ],
