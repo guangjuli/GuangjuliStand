@@ -52,6 +52,14 @@
                 </div>
 
                 <div class="col-sm-12">
+                    <label for="inputPassword3" class="control-label">检索</label>
+                    <input name="keywords" value="{$row['keywords']}" class="form-control" placeholder="关键词">
+                    <small>
+                        <span class="gray">用于检索 分割符号";"</span>
+                    </small>
+                </div>
+
+                <div class="col-sm-12">
                     <label for="inputPassword3" class="control-label">描述</label>
                     <textarea class="form-control" rows="3" placeholder="描述" name="des">{$row['des']}</textarea>
                 </div>

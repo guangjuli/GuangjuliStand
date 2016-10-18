@@ -10,13 +10,26 @@
     if (! function_exists('fc')) {
         function fc($key = null,$params = null)
         {
+
             if(empty($key))return null;
+            $key = (string)$key;
             //检索数据库,得到数据类型
             $key = saddslashes($key);
+            $data = '';
+
             $row = server('db')->getrow("select * from facede where facede = '$key'");
 
-            if($row['cache'] == 1){
-                //todo 缓存处理 读取返回
+            if($row['cache'] == 1 && !empty($row['expire'])){       //缓存
+                //===========================================================
+                $_params = '';
+                if(!empty($params))$_params = serialize($params);
+                $cachekey = md5($key.$_params);
+                //===========================================================
+
+                if(server('cache')->has($cachekey)){
+                    $data = server('cache')->get($cachekey);
+                    return $data;
+                }
             }
 
             $type = $row['type'];       //Application / Config / Ads / Adshtml / Adswidget
@@ -34,8 +47,8 @@
                     break;
             }
 
-            if($row['cache'] == 1){
-                //todo 缓存处理 保存
+            if($row['cache'] == 1 && !empty($row['expire'])){   //缓存
+                server('cache')->set($cachekey,$data,intval($row['expire']));
             }
 
             return $data;
