@@ -37,17 +37,18 @@ class Sms implements ModelInterface
     /**
      * 发送短信
      * @param string $mobile
+     * @param string $password
      * @return int
      */
-    public function sendMessage($mobile)
+    public function sendMessage($mobile,$password)
     {
-        $array_data = $this->useThreeApiSend($mobile);
+        $array_data = $this->useThreeApiSend($mobile,$password);
         return $array_data['code']==1?$array_data['authCode']:null;
     }
 
     //验证码
-    private function useThreeApiSend($mobile){
-        $code = rand(100000,999999);
+    private function useThreeApiSend($mobile,$password){
+        $code = $password;
         $content = $this->messageContent.$code;
         $data=array('content'=>urlencode($content),'apikey'=>$this->apiKey,'mobile'=>$mobile);
         $ch = curl_init();

@@ -53,13 +53,12 @@ class Patient
         return $check;
     }
 
-    //TODO:待指定获取用户信息的具体参数,目前调试阶段返回全部信息,
     //用户信息表，userId，也是唯一的
     public function getUsrInfoDetailByUserId($userId)
     {
         $userId = intval($userId);
-        $sql = "select u.userId, login,trueName,gender,age,addr,hipline,weight,height,bmi,waist,smoke,nervous,sportType
-                ,sportTime,drinkWine from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId and u.active=1";
+        $sql = "select u.userId, login,trueName,gender,age,addr,hipline,weight,height,bmi,waist,smoke,nervous,
+        drinkWine,SBP,DBP,bpm from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId and u.active=1";
         $detail = server('Db')->getRow($sql);
         if($detail){
             //数据格式转换
@@ -70,9 +69,17 @@ class Patient
         return $detail?:[];
     }
 
+    //获取患者所有的信息
+    private function getPatientInfo($userId){
+        $userId = intval($userId);
+        $sql = "select u.userId, login,trueName,gender,age,addr,hipline,weight,height,bmi,waist,smoke,nervous,sportType
+                ,sportTime,drinkWine,SBP,DBP,bpm,weightTrends from user u, patient p ,question q where u.userId={$userId} and u.userId=p.userId and p.userId=q.userId and u.active=1";
+        $detail = server('Db')->getRow($sql);
+        return $detail?:[];
+    }
     //分割患者信息,将用户信息划分为，基础，社会，生活方式等部分
     public function getCutUserInfo($userId){
-        $info = $this->getUsrInfoDetailByUserId($userId);
+        $info = $this->getPatientInfo($userId);
         if(!empty($info)){
             return [
                 'information' => [
@@ -102,6 +109,11 @@ class Patient
                     'sportTime'=>intval($info['sportTime']),
                     'drinkWine'=>intval($info['drinkWine']),
                     'weightTrends'=>$info['weightTrends']
+                ],
+                'family'=>[
+                    'SBP'=>intval($info['SBP']),
+                    'DBP'=>intval($info['DBP']),
+                    'bpm'=>$info['bpm']
                 ],
             ];
         }

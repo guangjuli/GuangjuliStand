@@ -53,7 +53,7 @@ class Nurse
     public function getHosPatientList($orgId)
     {
         $orgId = intval($orgId);
-        $patientList = server('Db')->getAll("select trueName,gender,age,u.userId from user u,patient p  where u.userId=p.userId and orgId={$orgId}");
+        $patientList = server('Db')->getAll("select trueName,gender,age,u.userId from user u,patient p  where u.userId=p.userId and orgId={$orgId} and u.active=1");
         return $patientList?:[];
     }
 
@@ -101,7 +101,7 @@ class Nurse
     {
         $trueName = saddslashes($trueName);
         $orgId = intval($orgId);
-        $patientList = server('Db')->getAll("select u.userId,trueName,age,gender from user u,patient p where trueName='{$trueName}' and u.userId=p.userId  and orgId={$orgId}");
+        $patientList = server('Db')->getAll("select u.userId,trueName,age,gender from user u,patient p where trueName like'%{$trueName}%' and u.userId=p.userId  and orgId={$orgId}");
         if($patientList){
             $userIdList = array();
             foreach($patientList as $v){
