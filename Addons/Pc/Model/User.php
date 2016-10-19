@@ -37,6 +37,19 @@ class User implements ModelInterface
         $user = server('Db')->getRow($sql);
         return $user?:[];
     }
+
+    //通过login获取医生信息
+    public function getDoctorByLogin($login,$type)
+    {
+        $login = saddslashes($login);
+        $group = model('Usergroup')->getMapDoctorAndNurse();
+        $user = array();
+        if($group[$type]){
+            $sql = "select userId,login,password from user where login='{$login}' and groupId = {$group[$type]} and active=1";
+            $user = server('Db')->getRow($sql);
+        }
+        return $user?:[];
+    }
     /**
      * 判断用户是否存在
      * @param string $login
@@ -129,6 +142,14 @@ class User implements ModelInterface
     {
         $userId = intval($userId);
         $check = server('Db')->query("update `user` set active=1 where userId={$userId}");
+        return $check?true:false;
+    }
+
+    //删除临时账户
+    public function deleteInvalidUser($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("delete from user  where userId={$userId} and active=0");
         return $check?true:false;
     }
 

@@ -151,4 +151,13 @@ class Nurse
         model('Contacts')->updateContactsActiveByUserId($userId);
         model('Measureplan')->updateMeasurePlanActiveByUserId($userId);
     }
+
+    //删除临时用户信息
+    public function deleteInvalidUserInfo($userId)
+    {
+        model('Cases')->deleteAllInvalidCases($userId);
+        model('Contacts')->deleteAllInvalidContacts($userId);
+        model('Measureplan')->deleteAllInvalidMeasurePlan($userId);
+        model('User')->deleteInvalidUser($userId);
+    }
 }

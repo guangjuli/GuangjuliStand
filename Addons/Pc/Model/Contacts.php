@@ -28,6 +28,14 @@ class Contacts
         return $check?true:false;
     }
 
+    //重置操作，删除所有临时联系人
+    public function deleteAllInvalidContacts($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("delete from `contacts` where `userId`={$userId} and active=0");
+        return $check?true:false;
+    }
+
     public function getContacts($userId)
     {
         $userId = intval($userId);

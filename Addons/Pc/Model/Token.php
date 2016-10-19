@@ -118,7 +118,6 @@ class Token implements ModelInterface
     {
         $res['login']       = bus('token')['login'];
         $res['accessToken'] = bus('token')['token'];
-        $res['type']        = bus('token')['type'];
         $res['createAt']    = time();
         $res['expireIn']    = intval($this->expires);
         $insert = server('Db')->autoExecute('token', $res, 'UPDATE', '`userId`='.bus('token')['userId']);
@@ -135,7 +134,6 @@ class Token implements ModelInterface
         $res['login']       = bus('token')['login'];
         $res['userId']      = bus('token')['userId'];
         $res['accessToken'] = bus('token')['token'];
-        $res['type']        = bus('token')['type'];
         $res['createAt']    = time();
         $res['expireIn']    = intval($this->expires);
         $insert = server('Db')->autoExecute('token', $res, 'INSERT');
@@ -154,7 +152,7 @@ class Token implements ModelInterface
         //验证verify是够正确
         if(!$this->verify($req)) return false;
         //验证用户是否存在
-        $user = model('User')->getUserByLogin($req['login']);
+        $user = model('User')->getDoctorByLogin($req['login'],$req['type']);
         if(empty($user))return false;
         //生成token
         $token = md5($req['login'] . '_' . microtime(true) . '_' . rand(100000000, 999999999));
@@ -179,11 +177,9 @@ class Token implements ModelInterface
     public function verify($req)
     {
         $verify = $req['verify'];
-        $deviceId = $req['deviceId'];
-        $login = $req['login']?:$req['phone'];
+        $login = $req['login'];
         $time = $req['time'];
-        //TODO: 校验设备编号正确性
-        $check = md5($deviceId . $this->clientSecret . $login . $time);
+        $check = md5($this->clientSecret.$login.$time);
         if ($verify !=$check )return false;
         return true;
     }

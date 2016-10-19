@@ -96,7 +96,7 @@ class Doctor /*extends BaseController*/
     public function doGeturgentnewsdataPost()
     {
         $req = req('Post');
-        $data = model('News')->getNewsDataId($req['time'],$req['userId']);
+        $data = model('News')->getNewsDataId($req['time'],$req['userId'],$req['orgId']);
         if($data){
             $this->AjaxReturn([
                 'code'=>200,
@@ -114,7 +114,7 @@ class Doctor /*extends BaseController*/
     public function doGeturgentnewsalldataPost()
     {
         $req = req('Post');
-        $data = model('News')->getNewsAllData($req['time'],$req['userId']);
+        $data = model('News')->getNewsAllData($req['time'],$req['userId'],$req['orgId']);
         if($data){
             $this->AjaxReturn([
                 'code'=>200,
@@ -391,7 +391,7 @@ class Doctor /*extends BaseController*/
     public function doGetMeasureplancountPost()
     {
         $req = req('Post');
-        $counts = model('Bloodpress')->getMeasurePlanCount($req['userId']);
+        $counts = model('Bloodpress')->getMeasurePlanCount($req['userId'],$req['orgId']);
         $this->AjaxReturn([
            'code'=>200,
             'msg'=>'succeed',
@@ -462,7 +462,8 @@ class Doctor /*extends BaseController*/
     public function doGetnobeginmeasureplanPost()
     {
         $userId=req('Post')['userId'];
-        $data = model('Measureplan')->getAfterMeasurePlan($userId);
+        $orgId = req('Post')['orgId'];
+        $data = model('Measureplan')->getAfterMeasurePlan($userId,$orgId);
         if($data){
             $this->AjaxReturn([
                 'code'=>200,
@@ -480,7 +481,8 @@ class Doctor /*extends BaseController*/
     public function doGetfinishmeasureplanPost()
     {
         $userId=req('Post')['userId'];
-        $data = model('Measureplan')->getOldMeasurePlan($userId);
+        $orgId = req('Post')['orgId'];
+        $data = model('Measureplan')->getOldMeasurePlan($userId,$orgId);
         if($data){
             $this->AjaxReturn([
                 'code'=>200,
@@ -494,8 +496,37 @@ class Doctor /*extends BaseController*/
             ]);
         }
     }
-
-
+    //添加测量计划
+    public function doInsertmeasureplanPost()
+    {
+        $req = req('Post');
+        $check = model('Measureplan')->insertMeasurePlan($req);
+        if($check){
+            $this->AjaxReturn([
+                'code'=>200
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200
+            ]);
+        }
+    }
+    //删除测量计划
+    public function doDeletemeasureplanPost()
+    {
+        $userId = req('Post')['userId'];
+        $planId = req('Post')['planId'];
+        $check = model('Measureplan')->deleteMeasurePlan($userId,$planId);
+        if($check){
+            $this->AjaxReturn([
+                'code'=>200
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200
+            ]);
+        }
+    }
 
     public function doTest(){
         view('',[]);

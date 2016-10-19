@@ -30,4 +30,12 @@ class Token
         }
     }
 
+
+    public function doTest(){
+        $a = md5('1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800');
+        view('',[
+            'verify'=> $a
+        ]);
+    }
+
 }
