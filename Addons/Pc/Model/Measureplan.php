@@ -17,6 +17,7 @@ class Measureplan
         $req = saddslashes($req);
         //拼装带插入的数据
         $insert['userId']=intval($req['userId']);
+        $insert['orgId'] = intval($req['orgId']);
         $insert['beginTime']=date('Ymd',strtotime($req['beginTime']));
         $insert['endTime']=date('Ymd',strtotime($req['endTime']));
         //去除project的字段
@@ -35,6 +36,7 @@ class Measureplan
         $req = saddslashes($req);
         //拼装带插入的数据
         $insert['userId']=intval($req['userId']);
+        $insert['orgId'] = intval($req['orgId']);
         $insert['beginTime']=date('Ymd',strtotime($req['beginTime']));
         $insert['endTime']=date('Ymd',strtotime($req['endTime']));
         //去除project的字段
@@ -50,11 +52,12 @@ class Measureplan
     }
     //获取测量计划
     //$time 消息列表中的时间
-    public function getOldMeasurePlan($userId)
+    public function getOldMeasurePlan($userId,$orgId)
     {
         $userId = intval($userId);
+        $orgId = intval($orgId);
         $time = date('Ymd',time());
-        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `userId` = {$userId} and `endTime`<='{$time}' and active=1");
+        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `userId` = {$userId} and `endTime`<='{$time}' and `orgId`={$orgId} and active=1");
         $plan=$plan?:[];
         $type = model('Measuretype')->getMeasureTypeMap();
         foreach($plan as $k=>$v){
@@ -70,18 +73,20 @@ class Measureplan
         return $plan;
     }
     //获取测量计划的时间范围map
-    public function getOldMeasurePlanTimeMap($userId)
+    public function getOldMeasurePlanTimeMap($userId,$orgId)
     {
         $time = date('Ymd',time());
         $userId = intval($userId);
-        $plan = server('Db')->getAll("select planId,beginTime,endTime from measure_plan where endTime<='{$time}' and userId={$userId} and active=1",'planId');
+        $orgId = intval($orgId);
+        $plan = server('Db')->getAll("select planId,beginTime,endTime from measure_plan where endTime<='{$time}' and userId={$userId} and orgId= {$orgId} and active=1",'planId');
         return $plan?:[];
     }
     //获取测量计划时间已过没有生产报告的计划信息
-    public function getOldMeasurePlanNoReport()
+    public function getOldMeasurePlanNoReport($orgId)
     {
         $time = date('Ymd',time());
-        $plan = server('Db')->query("select planId,beginTime,endTime from measure_plan where endTime<='{$time}' and reportId=0 ");
+        $orgId = intval($orgId);
+        $plan = server('Db')->query("select planId,beginTime,endTime from measure_plan where endTime<='{$time}' and orgId= {$orgId} and reportId=0 ");
         $plan?:[];
     }
     //删除测量计划
@@ -92,13 +97,22 @@ class Measureplan
         $check = server('Db')->query("delete from measure_plan where `userId`={$userId} and `planId`={$planId}");
         return $check?true:false;
     }
-    //获取测量计划的id
-    //$time  20160810
-    public function getMeasurePlanByTime($time,$userId)
+
+    //重置操作，删除所有临时测量计划
+    public function deleteAllInvalidMeasurePlan($userId)
     {
         $userId = intval($userId);
+        $check = server('Db')->query("delete from `measure_plan` where `userId`={$userId} and active=0");
+        return $check?true:false;
+    }
+    //获取测量计划的id
+    //$time  20160810
+    public function getMeasurePlanByTime($time,$userId,$orgId)
+    {
+        $userId = intval($userId);
+        $orgId = intval($orgId);
         $time = date('Ymd',strtotime($time));
-        $plan = server('Db')->getRow("select planId,beginTime,endTime from measure_plan where userId={$userId} and beginTime<='{$time}' and endTime >='{$time}' and active=1");
+        $plan = server('Db')->getRow("select planId,beginTime,endTime from measure_plan where orgId={$orgId} and  userId={$userId} and beginTime<='{$time}' and endTime >='{$time}' and active=1");
         return $plan?:[];
     }
     /*//获取即将实施的测量计划
@@ -120,11 +134,12 @@ class Measureplan
         return $plan;
     }*/
     //获取即将实施的测量计划2
-    public function getAfterMeasurePlan($userId)
+    public function getAfterMeasurePlan($userId,$orgId)
     {
         $time = date('Ymd',time());
         $userId = intval($userId);
-        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `userId` = {$userId} and `beginTime`>{$time} and `reportId`=0 and active=1");
+        $orgId = intval($orgId);
+        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `orgId`={$orgId} and `userId` = {$userId} and `beginTime`>{$time} and `reportId`=0 and active=1");
         $plan=$plan?:[];
         $type = model('Measuretype')->getMeasureTypeMap();
         foreach($plan as $k=>$v){
@@ -178,11 +193,12 @@ class Measureplan
 
 
     //获取测量计划项目列表
-    public function getMeasurePlanProject($planId,$userId)
+    public function getMeasurePlanProject($planId,$userId,$orgId)
     {
         $userId = intval($userId);
         $planId = intval($planId);
-        $project = server('Db')->getOne("select project from `measure_plan` where `userId` = {$userId} and `planId`<={$planId} and active=1");
+        $orgId = intval($orgId);
+        $project = server('Db')->getOne("select project from `measure_plan` where `orgId`={$orgId} and `userId` = {$userId} and `planId`<={$planId} and active=1");
         $projectList = array();
         if($project){
             $type = model('Measuretype')->getMeasureTypeMap();
@@ -244,11 +260,12 @@ class Measureplan
     }
 
     //获取未测量项目列表
-    public function getMeasurePlanNoMeasureProject($userId)
+    public function getMeasurePlanNoMeasureProject($userId,$orgId)
     {
         $time = date('Ymd',time());
         $userId = intval($userId);
-        $row = server('Db')->getRow("select beginTime,endTime,noDetection from measure_plan where `beginTime`<='{$time}' and `endTime`>='{$time}' and userId={$userId}");
+        $orgId = intval($orgId);
+        $row = server('Db')->getRow("select beginTime,endTime,noDetection from measure_plan where `beginTime`<='{$time}' and `endTime`>='{$time}' and userId={$userId} and orgId= {$orgId} and active=1");
         $noDetection = array();
         if($row['noDetection']){
             $detection = unserialize($row['noDetection']);

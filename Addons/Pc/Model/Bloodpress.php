@@ -167,11 +167,11 @@ class Bloodpress
     }
 
     //获取测量计划内单次测量次数
-    public function getMeasurePlanSingleCount($userId)
+    public function getMeasurePlanSingleCount($userId,$orgId)
     {
         $counts=0;
         $time = date('Ymd',time());
-        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
+        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId,$orgId);
         if($plan){
             $single = $this->getSingleBloodPress($plan['planId'],$userId);
             $counts = $single?count($single)-1:0;
@@ -179,10 +179,10 @@ class Bloodpress
         return $counts;
     }
     //获取测量计划内动态测量次数
-    public function getMeasurePlanDynamicCount($userId)
+    public function getMeasurePlanDynamicCount($userId,$orgId)
     {
         $time = date('Ymd',time());
-        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
+        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId,$orgId);
         $counts = 0;
         if($plan){
             $counts = server('Db')->getCol("select count(createDay)as 'counts' from bloodpress where createDay>'{$plan['beginTime']}' and createDay<'{$plan['endTime']}'  and userId = {$userId} group by createDay");
@@ -191,11 +191,11 @@ class Bloodpress
         return $counts;
     }
     //获取测量计划内测量次数
-    public function getMeasurePlanCount($userId)
+    public function getMeasurePlanCount($userId,$orgId)
     {
         $counts = array();
-        $counts['single']=$this->getMeasurePlanSingleCount($userId);
-        $counts['dynamic']=$this->getMeasurePlanDynamicCount($userId);
+        $counts['single']=$this->getMeasurePlanSingleCount($userId,$orgId);
+        $counts['dynamic']=$this->getMeasurePlanDynamicCount($userId,$orgId);
         return $counts;
     }
 

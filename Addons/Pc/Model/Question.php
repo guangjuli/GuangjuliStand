@@ -18,4 +18,13 @@ class Question
         $check = server('Db')->autoExecute('question', $insert, 'INSERT');
         return $check?true:false;
     }
+
+    public function updateQuestion($req)
+    {
+        $req = saddslashes($req);
+        $userId = $req['userId'];
+        $insert = ['nervous'=>$req['nervous'],'drinkwine'=>$req['drinkwine'],'userId'=>$req['userId']];
+        $check = server('Db')->autoExecute('question', $insert, 'UPDATE',"userId={$userId}");
+        return $check?true:false;
+    }
 }

@@ -46,7 +46,7 @@ class Nurse
             ]
         ]);
     }
-    //保存     ok
+    //注册    ok
     public function doRegisterpatientPost()
     {
         $req = req('Post');
@@ -75,6 +75,31 @@ class Nurse
                 'msg'=>'The patient has been registered'
             ]);
         }
+    }
+    //保存
+    public function doSavepatientPost()
+    {
+        $req = req('Post');
+        if(model('Patient')->updatePatient($req,$req['userId'])){
+            model('Question')->updateQuestion($req);
+            model('Nurse')->updateUserState($req['userId']);
+            $this->AjaxReturn([
+                'code'=>200
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200
+            ]);
+        }
+    }
+    //重置
+    public function doResetpatientPost()
+    {
+        $userId = req('post')['userId'];
+        model('Nurse')->deleteInvalidUserInfo($userId);
+        $this->AjaxReturn([
+           'code'=>200
+        ]);
     }
     //添加   ok
     public function doAddpatientPost()
@@ -305,7 +330,8 @@ class Nurse
     public function doGetpatientmeasureplanPost()
     {
         $userId=req('Post')['userId'];
-        $data = model('Measureplan')->getAfterMeasurePlan($userId);
+        $orgId=req('Post')['orgId'];
+        $data = model('Measureplan')->getAfterMeasurePlan($userId,$orgId);
         if($data){
             $this->AjaxReturn([
                 'code'=>200,
@@ -323,7 +349,8 @@ class Nurse
     public function doGetnodetectiondetailPost()
     {
         $userId=req('Post')['userId'];
-        $data = model('Measureplan')->getMeasurePlanNoMeasureProject($userId);
+        $orgId=req('Post')['orgId'];
+        $data = model('Measureplan')->getMeasurePlanNoMeasureProject($userId,$orgId);
         if($data){
             $this->AjaxReturn([
                 'code'=>200,
@@ -337,8 +364,24 @@ class Nurse
             ]);
         }
     }
-
-
+    //搜索药物
+    public function doSearchmedicinePost()
+    {
+        $req = req('Post');
+        $data = model('Medicine')->searchMedicine($req);
+        if($data){
+            $this->AjaxReturn([
+                'code'=>200,
+                'msg'=>'succeed',
+                'data'=>$data
+            ]);
+        }else{
+            $this->AjaxReturn([
+                'code'=>-200,
+                'msg'=>'no data!'
+            ]);
+        }
+    }
     //测试
     public function doTest()
     {

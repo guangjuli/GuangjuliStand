@@ -8,15 +8,10 @@ namespace Addons\Controller;
  * Date: 2016-08-18
  * Time: 11:59
  */
-class User extends BaseController
+class User
 {
 
     use \Addons\Traits\AjaxReturn;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     //用户登录
     public function doLoginPost()
@@ -29,7 +24,7 @@ class User extends BaseController
                 'msg'=>'没有权限',
             ]);
         }
-        $user = model('User')->getUserByLogin($req['login']);
+        $user = model('User')->getDoctorByLogin($req['login'],$req['type']);
         if(empty($user)){
             $this->AjaxReturn([
                 'code'=>-200,
@@ -48,5 +43,12 @@ class User extends BaseController
             'data'=>$token
         ]);
 
+    }
+
+
+    public function doTest(){
+        view('',[
+            'verify'=>md5('1cda067b175ab0e9e1fdfe8dcd7d71ff188104876121471276800'),
+        ]);
     }
 }

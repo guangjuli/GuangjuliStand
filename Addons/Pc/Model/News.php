@@ -27,11 +27,11 @@ class News
     }
 
     //获取测量计划内未处理紧急消息数据id
-    public function getNewsDataId($time,$userId)
+    public function getNewsDataId($time,$userId,$orgId)
     {
         $data = array();
         $userId = intval($userId);
-        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
+        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId,$orgId);
         if($plan){
             $beginTime = strtotime($plan['beginTime']);
             $endTime = strtotime($plan['endTime']);
@@ -53,11 +53,11 @@ class News
         return $data;
     }
     //获取测量计划内所有紧急消息数据
-    public function getNewsAllData($time,$userId)
+    public function getNewsAllData($time,$userId,$orgId)
     {
         $data = array();
         $userId = intval($userId);
-        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId);
+        $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId,$orgId);
         if($plan){
             $beginTime = strtotime($plan['beginTime']);
             $endTime = strtotime($plan['endTime']);
