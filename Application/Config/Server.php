@@ -20,7 +20,8 @@ return [
         'Smarty'    => 'Smarty.php',
         //g2
         'View'      => 'View.php',
-        'Log'       => 'Log.php'
+        'Log'       => 'Log.php',
+        'Mmc'       => 'Mmc.php',
     ],
 
     'Providers'=>[
@@ -36,6 +37,7 @@ return [
         //g2
         'View'      => Grace\View\View::class,           //
         'Log'       => Grace\Log\Log::class,
+        'Mmc'       => Grace\Mmc\Mmc::class,
         //server / wise / base
     ],
 
