@@ -7,31 +7,30 @@ ini_set('error_reporting', $error_reporting);
 /**
  * 光巨力Stand
  */
-//if(Application\Model::getInstance()->make('routerAdd')->isAddons()){
-//    define('APPROOT', '../Addons/'.(\Application\Model::getInstance()->make('routerAdd')->getModulechr()).'/');
-//    \Addons\Bootstrap::Run();
-//}else{
-//    define('APPROOT', '../App/');
-//    App\Bootstrap::Run();
-//}
-//
-//
-
-
-
-//server('cache')->set('teswt','123',10);
-//$res = server('cache')->get('teswt');
-//echo $res;
-
-$res = server('mmc')->get('teswt');
-if(empty($res)){
-    server('mmc')->set('teswt','123',10);
+if(Application\Model::getInstance()->make('routerAdd')->isAddons()){
+    define('APPROOT', '../Addons/'.(\Application\Model::getInstance()->make('routerAdd')->getModulechr()).'/');
+  //  Addons\Bootstrap::Run();
 }else{
-    echo $res;
+    define('APPROOT', '../App/');
+  //  App\Bootstrap::Run();
 }
 
-echo ' ==;';
+
+
+$cache = server('cache');
+//$cache->set('key', 'myKeyValue2', 13);
 
 
 
-
+echo $cache->get('key');
+//
+//echo fc('USERALLOWREGISTER');
+//
+//print_r(fc('asdfasdfsadf'));
+//echo fc('afsd');
+//echo fc('afsd');
+//echo fc('afsd');
+//echo fc('afsd');
+//echo fc('afsd');
+//
+//echo 123;
