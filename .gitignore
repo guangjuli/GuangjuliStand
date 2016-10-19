@@ -51,7 +51,6 @@ Temporary Items
 .svn
 .idea
 wwwroot/phpMyAdmin
-vendor
 wwwroot/_
 wwwroot/__
 Document
