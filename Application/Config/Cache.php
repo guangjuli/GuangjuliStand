@@ -13,7 +13,17 @@
 
 
 return [
-    'cacheDir'=>  '../Cache/tmp',
-    'adapter'=> \Desarrolla2\Cache\Adapter\File::class,
-    'ttl'=> 3600
+
+
+//    'cacheType' => 'File',
+//    'cacheDir'  =>  '../Cache/tmp',
+//    'adapter'   => \Desarrolla2\Cache\Adapter\File::class,
+
+    'cacheType' => 'Memcache',
+    'adapter'   => \Desarrolla2\Cache\Adapter\Memcache::class,
+    'server'    => [
+        ['127.0.0.1', 11211]
+    ],
+
+    'ttl'       => 3600
 ];
