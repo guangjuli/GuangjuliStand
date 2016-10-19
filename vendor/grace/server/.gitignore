@@ -54,5 +54,4 @@ wwwroot/PhpMyAdmin
 vendor/
 wwwroot/
 Config/
-Cache/
 Cache/SmartyTemplates_c/
