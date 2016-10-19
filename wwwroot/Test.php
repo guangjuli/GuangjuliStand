@@ -18,11 +18,13 @@ if(Application\Model::getInstance()->make('routerAdd')->isAddons()){
 
 
 $cache = server('cache');
-//$cache->set('key', 'myKeyValue2', 13);
+$res =$cache->get('key');
+if(!$res){
+    $cache->set('key', 'myKeyValue2', 8);
+}else{
 
-
-
-echo $cache->get('key');
+}
+echo $res;
 //
 //echo fc('USERALLOWREGISTER');
 //
