@@ -31,3 +31,10 @@
 
     <input type="submit" value="提交">
 </form>
+
+<form action="/v/bloodpress/Updateisvalid" method="post">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
+    <input type="text" name="time" value="1473409316">
+    <input type="text" name="isvalid" value="0">
+    <input type="submit" value="提交">
+</form>

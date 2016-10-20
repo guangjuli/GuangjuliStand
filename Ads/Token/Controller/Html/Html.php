@@ -20,11 +20,7 @@ class Html extends BaseController {
             $enableTime = intval($v['createAt'])+intval($v['expireIn']);
             $list[$k]['expireIn']=$enableTime>time()?'有效':'过期';
         }
-        $user = array();
-        if(!empty($userId)){
-            $userIdString = '('.implode(',',$userId).')';
-            $user = server('Db')->getMap("select userId,login from user where userId in $userIdString");
-        }
+        $user = fc('getUserMapIdToLogin',$userId);
         return  server('Smarty')->ads('token/html/list')->fetch('',[
             'list' => $list,
             'user' =>$user
