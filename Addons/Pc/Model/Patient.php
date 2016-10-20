@@ -11,7 +11,7 @@ namespace Addons\Model;
 //患者
 class Patient
 {
-    public function updateUserInfo(Array $array,$userId=null)
+    public function updatePatient(Array $array,$userId=null)
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         if(!$userId) return false;

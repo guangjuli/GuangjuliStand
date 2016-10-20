@@ -158,7 +158,7 @@ class Html extends BaseController
     }
 
     //获取用户组的map集合
-    public function getUserGroupMap()
+    public function doGetusergroupmap()
     {
         $group = array();
         if($this->isExistTable('user_group')){

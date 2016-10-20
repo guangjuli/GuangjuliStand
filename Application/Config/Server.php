@@ -16,11 +16,12 @@ return [
         //对象配置
         'Db'        => 'Db.php',
         'Cookies'   => 'Cookies.php',
-        'Cache'     => 'Cache.php',
         'Smarty'    => 'Smarty.php',
         //g2
         'View'      => 'View.php',
-        'Log'       => 'Log.php'
+        'Log'       => 'Log.php',
+//        'Mmc'       => 'Mmc.php',
+        'Cache'     => 'Cache.php',
     ],
 
     'Providers'=>[
@@ -31,12 +32,12 @@ return [
         //g1
         'Db'        => Grace\Db\Db::class,
         'Cookies'   => Grace\Cookies\Cookies::class,
+//        'Mmc'       => Grace\Mmc\Mmc::class,
         'Cache'     => Grace\Cache\Cache::class,
         'Smarty'    => Grace\Smarty\Smarty::class,
         //g2
         'View'      => Grace\View\View::class,           //
         'Log'       => Grace\Log\Log::class,
-        //server / wise / base
     ],
 
 ];

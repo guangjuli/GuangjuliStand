@@ -39,6 +39,14 @@ class Cases
         return $id;
     }
 
+    //重置操作，删除所有临时病例
+    public function deleteAllInvalidCases($userId)
+    {
+        $userId = intval($userId);
+        $check = server('Db')->query("delete from `case` where `userId`={$userId} and active=0");
+        return $check?true:false;
+    }
+
     public function deleteCases($caseId)
     {
         $caseId = intval($caseId);

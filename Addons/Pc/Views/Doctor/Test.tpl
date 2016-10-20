@@ -3,7 +3,7 @@
     <input type="submit" value="提交">
 </form>   {*获取患者信息*}
 
-<form action="/pc/doctor/Getcases" method="post" accept-charset="UTF-8">
+<form action="/pc/doctor/Getpatientcases" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
     <input type="text" name="orgId" value="1">
     <input type="submit" value="提交">
@@ -19,12 +19,14 @@
 
 <form action="/pc/doctor/Geturgentnewsdata" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
+    <input type="text" name="orgId" value="1">
     <input type="text" name="time" value="2016-09-09 14:20:02">
     <input type="submit" value="提交">
 </form>   {*获取测量计划内紧急消息未处理数据*}
 
 <form action="/pc/doctor/Geturgentnewsalldata" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
+    <input type="text" name="orgId" value="1">
     <input type="text" name="time" value="2016-09-09 14:20:02">
     <input type="submit" value="提交">
 </form>   {*获取测量计划内所有紧急消息数据*}
@@ -121,7 +123,7 @@
     <input type="submit" value="提交">
 </form>   {*获取报告详情*}
 
-<form action="/pc/doctor/Patientlist" method="post" accept-charset="UTF-8">
+<form action="/pc/doctor/Getpatientlist" method="post" accept-charset="UTF-8">
     <input type="text" name="orgId" value="1">
     <input type="text" name="page" value="0">
     <input type="text" name="num" value="3">
@@ -130,10 +132,12 @@
 
 <form action="/pc/doctor/Getnobeginmeasureplan" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
+    <input type="text" name="orgId" value="1">
     <input type="submit" value="提交">
 </form>   {*获取未实施的测量计划*}
 
 <form action="/pc/doctor/Getfinishmeasureplan" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
+    <input type="text" name="orgId" value="1">
     <input type="submit" value="提交">
 </form>   {*获取已实施的测量计划*}

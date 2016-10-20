@@ -34,15 +34,11 @@ class Usergroup implements ModelInterface
     {
         $map = $this->getMapUserGroup();
         $group = array();
-        $groupString = '';
         if($map){
-            $group['nurseId'] = $map['nurse'];
-            $group['doctorId'] = $map['doctor'];
+            $group['nurse'] = $map['nurse'];
+            $group['doctor'] = $map['doctor'];
         }
-        if(!empty($group)){
-            $groupString = '('.implode(',',$group).')';
-        }
-        return $groupString;
+        return $group;
     }
 
     public function getMapPatient()
