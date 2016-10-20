@@ -30,7 +30,7 @@ D($res);
 
     public function dodemo($params = '')
     {
-
+        $params = print_r($params,true);
         $res = "ads:test/home/demo"."\n";
         $res .= "params:".$params;
         return $res;
