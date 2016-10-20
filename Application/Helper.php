@@ -10,7 +10,6 @@
     if (! function_exists('fc')) {
         function fc($key = null,$params = null)
         {
-
             if(empty($key))return null;
             $key = (string)$key;
             //检索数据库,得到数据类型

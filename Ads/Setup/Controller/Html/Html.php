@@ -60,9 +60,10 @@ class Html {
             }else{
                 $_params = trim($row['plike']);
             }
-            $_params = print_r($_params,true);
+            $__params = print_r($_params,true);
             //计算返回的结果数据
             $rc = @fc($row['facede'],$_params);
+            //D($rc);
             $rc = print_r($rc,true);
        }
         //=========================================
@@ -74,7 +75,7 @@ class Html {
             'llist'     => $llist,
             'row'       => $row,
 
-            '_params'   => $_params,
+            '_params'   => $__params,
             'rc'        => $rc,
         ]);
     }
