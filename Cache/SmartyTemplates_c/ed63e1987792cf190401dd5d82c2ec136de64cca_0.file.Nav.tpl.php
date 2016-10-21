@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-12 15:46:09
+/* Smarty version 3.1.30, created on 2016-10-21 17:17:45
   from "E:\phpleague\Grace\GuangjuliStand\Ads\Menu\Views\Widget\Nav.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_57fdea419d36f8_07621673',
+  'unifunc' => 'content_5809dd3930f1e4_02555650',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ed63e1987792cf190401dd5d82c2ec136de64cca' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\Ads\\Menu\\Views\\Widget\\Nav.tpl',
-      1 => 1476257879,
+      1 => 1477041385,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_57fdea419d36f8_07621673 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5809dd3930f1e4_02555650 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -68,9 +68,5 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
         </div>
     </div>
 </nav>
-<?php echo $_smarty_tpl->tpl_vars['irones']->value;?>
-
-<?php echo $_smarty_tpl->tpl_vars['name']->value;?>
-
 <?php }
 }

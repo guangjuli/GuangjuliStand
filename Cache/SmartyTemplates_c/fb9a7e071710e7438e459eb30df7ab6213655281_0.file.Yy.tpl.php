@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-18 14:40:07
+/* Smarty version 3.1.30, created on 2016-10-21 14:41:00
   from "E:\phpleague\Grace\GuangjuliStand\Ads\Setup\Views\Html\Yy.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5805c3c70ca175_16387107',
+  'unifunc' => 'content_5809b87c688387_00700059',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'fb9a7e071710e7438e459eb30df7ab6213655281' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\Ads\\Setup\\Views\\Html\\Yy.tpl',
-      1 => 1476770035,
+      1 => 1477032053,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5805c3c70ca175_16387107 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5809b87c688387_00700059 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <link href="/assets/css/table.css" rel="stylesheet">
 <?php echo '<script'; ?>
@@ -31,7 +31,7 @@ function content_5805c3c70ca175_16387107 (Smarty_Internal_Template $_smarty_tpl)
     $(document).ready(function () {
         $('#dt2').dataTable({
             "aaSorting": [[ 0, "desc" ]],
-            "aLengthMenu": [[30, 50, -1], [30, 50, "All"]],
+            "aLengthMenu": [[100, 200, -1], [100, 200, "All"]],
             "iDisplayLength":100,			//一页多少条
             "bAutoWidth": true,	//自动宽度
             "bStateSave": false,
@@ -68,7 +68,7 @@ function content_5805c3c70ca175_16387107 (Smarty_Internal_Template $_smarty_tpl)
             <th>描述</th>
             <th>缓存?</th>
             <th>params</th>
-            <th width="150">操作</th>
+            <th width="60">操作</th>
             </thead>
             <tbody>
             <?php

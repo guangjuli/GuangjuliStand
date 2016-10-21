@@ -18,6 +18,30 @@ if(Application\Model::getInstance()->make('routerAdd')->isAddons()){
 
 
 
+
+
+D( fc("123123/data/memory") );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function is_json($string) {
  json_decode($string,true);
  return (json_last_error() == JSON_ERROR_NONE);

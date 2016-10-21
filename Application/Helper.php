@@ -441,9 +441,15 @@
      * @param $params
      * @return mixed
      */
-    function smarty_function_widget($params = []) {
-        return \App\Ads::getInstance()->ads($params['ads']);
-    }
+function smarty_function_widget($params = []) {
+    return \App\Ads::getInstance()->ads($params['ads']);
+}
+
+function smarty_function_data($params = []) {
+    !isset($params['params']) && $params['params'] = [];
+    $res = fc($params['fc'],$params['params']);
+    return $res;
+}
 
 
 //function smarty_function_widget($_params = '',$params = []) {

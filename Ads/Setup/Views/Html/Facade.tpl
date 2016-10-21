@@ -40,7 +40,7 @@
                     <input type="hidden" name="id" value="{$row['id']}">
 
                     <small>
-                        数据源 :<span class="gray">WEB_KEYWORD{$row['chr']}</span>
+                        数据源 :<span class="gray">{$row['chr']}</span>
                     </small>
                 </div>
                 <div class="col-sm-6">
@@ -61,7 +61,7 @@
 
                 <div class="col-sm-12">
                     <label for="inputPassword3" class="control-label">描述</label>
-                    <textarea class="form-control" rows="3" placeholder="描述" name="des">{$row['des']}</textarea>
+                    <textarea class="form-control" rows="2" placeholder="描述" name="des">{$row['des']}</textarea>
                 </div>
 
                 <div class="col-sm-12">
@@ -121,7 +121,7 @@
                     {if $row['plike'] neq ''}
                         fc("{$row['facede']}",$params})
                     {else}
-                        fc("{$row['facede']}"})
+                        fc("{$row['facede']}")
                     {/if}
                 </span>
             </small>

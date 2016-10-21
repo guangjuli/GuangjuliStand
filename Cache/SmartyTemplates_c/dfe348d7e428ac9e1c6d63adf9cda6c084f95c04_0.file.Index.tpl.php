@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-09-28 15:08:34
+/* Smarty version 3.1.30, created on 2016-10-21 17:50:38
   from "E:\phpleague\Grace\GuangjuliStand\Ads\Gui\Views\Home\Index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_57eb6c728d9ac1_20393910',
+  'unifunc' => 'content_5809e4ee8dcf04_11564357',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'dfe348d7e428ac9e1c6d63adf9cda6c084f95c04' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\Ads\\Gui\\Views\\Home\\Index.tpl',
-      1 => 1474452765,
+      1 => 1477043436,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_57eb6c728d9ac1_20393910 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5809e4ee8dcf04_11564357 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -31,12 +31,14 @@ function content_57eb6c728d9ac1_20393910 (Smarty_Internal_Template $_smarty_tpl)
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Admin Data Manage</title>
+    <link href="/assets/reset.css" rel="stylesheet">
     <link href="/assets/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/color.css" rel="stylesheet">
     <link href="/assets/css/dashboard.css" rel="stylesheet">
     <?php echo '<script'; ?>
  src="/assets/js/jquery-1.11.1.min.js"><?php echo '</script'; ?>
 >
+
     <style type="text/css">
         .error{
             color:red;
@@ -59,10 +61,14 @@ function content_57eb6c728d9ac1_20393910 (Smarty_Internal_Template $_smarty_tpl)
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <!-- Breadcrumb -->
-
             <?php echo smarty_function_widget(array('ads'=>$_smarty_tpl->tpl_vars['gui_Breadcrumb']->value),$_smarty_tpl);?>
 
+
             <!-- Tip -->
+            <?php echo smarty_function_widget(array('ads'=>$_smarty_tpl->tpl_vars['gui_Tip']->value),$_smarty_tpl);?>
+
+            <!-- Tip -->
+
             <!-- menuthree -->
             <?php echo smarty_function_widget(array('ads'=>$_smarty_tpl->tpl_vars['gui_NavLevelThree']->value),$_smarty_tpl);?>
 
@@ -75,6 +81,9 @@ function content_57eb6c728d9ac1_20393910 (Smarty_Internal_Template $_smarty_tpl)
 
 
             <!-- /content -->
+            <?php echo smarty_function_widget(array('ads'=>$_smarty_tpl->tpl_vars['gui_Footer']->value),$_smarty_tpl);?>
+
+
         </div>
     </div>
 </div>

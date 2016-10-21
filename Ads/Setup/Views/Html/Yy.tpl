@@ -4,7 +4,7 @@
     $(document).ready(function () {
         $('#dt2').dataTable({
             "aaSorting": [[ 0, "desc" ]],
-            "aLengthMenu": [[30, 50, -1], [30, 50, "All"]],
+            "aLengthMenu": [[100, 200, -1], [100, 200, "All"]],
             "iDisplayLength":100,			//一页多少条
             "bAutoWidth": true,	//自动宽度
             "bStateSave": false,
@@ -40,7 +40,7 @@
             <th>描述</th>
             <th>缓存?</th>
             <th>params</th>
-            <th width="150">操作</th>
+            <th width="60">操作</th>
             </thead>
             <tbody>
             {foreach from=$list key=$key item=$item}
