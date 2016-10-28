@@ -129,6 +129,16 @@ class Bloodpress implements ModelInterface
         return $this->batchInsert($insertData,'bloodpress',$userId);
     }
 
+    //根据时间戳更改信息的有效性
+    public function updateIsvalidByTime($time,$isvalid,$userId)
+    {
+        $time = intval($time);
+        $isvalid = intval($isvalid)==1?1:0;
+        $userId = intval($userId);
+        $check = server('Db')->query("update bloodpress set isvalid={$isvalid} where `time`={$time} and `userId`={$userId}");
+        return $check?true:false;
+    }
+
     /**
      * 通过日期和类型获取血压记录
      * @param array $req

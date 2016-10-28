@@ -15,7 +15,7 @@ class Html extends BaseController {
 
     public function doList(){
         $list = server('Db')->getAll("select * from `bloodpress` group by `userId` order by bloodpressId desc");
-        $map = server('db')->getAll("select u.userId,`login`,`trueName` from user u ,patient p where u.userId=p.userId",'userId');
+        $map = fc("getPatientBaseInfoList");
         return  server('Smarty')->ads('bloodpress/html/list')->fetch('',[
             'list' => $list,
             'map'  =>$map

@@ -90,4 +90,35 @@ class News
         }
         return $return;
     }
+
+    //定时任务统计一般  插入news表    一般newsType:1
+    public function getGeneralTotal()
+    {
+        $check = false;
+        $time = date('Ymd',time());
+        $data = server('Db')->query("select planId,userId from measure_plan where endTime<'{$time}' and reportId=0");
+        if($data){
+            foreach($data as $k=>$v){
+                $data[$k]['createTime']=time();
+                $data[$k]['newsType']=1;
+            }
+            $check = model('Batchinsert')->batchInsert($data,'news');
+        }
+        return $check;
+    }
+    //定时任务统计正常   插入news表   正常newsType:0
+    public function getNormalTotal()
+    {
+        $check = false;
+        $time = date('Ymd',time());
+        $data = server('Db')->query("select planId,userId from measure_plan where beginTime<'{$time}' and endTime>'{$time}'");
+        if($data){
+            foreach($data as $k=>$v){
+                $data[$k]['createTime']=time();
+                $data[$k]['newsType']=0;
+            }
+            $check = model('Batchinsert')->batchInsert($data,'news');
+        }
+        return $check;
+    }
 }

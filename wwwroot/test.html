@@ -1,0 +1,395 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>iCMS Administrator's Control Panel</title>
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" /> -->
+    <meta content="iDreamSoft Inc." name="Copyright" />
+
+    <link rel="stylesheet" href="/icms/app/ui/common/bootstrap/2.3.2/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/icms/app/ui/common/bootstrap/2.3.2/css/bootstrap-responsive.min.css" type="text/css" />
+    <link rel="stylesheet" href="/icms/app/ui/common/bootstrap/2.3.2/css/datepicker.css" type="text/css" />
+    <link rel="stylesheet" href="/icms/app/ui/common/bootstrap/2.3.2/css/bootstrap-switch.css" type="text/css" />
+    <link rel="stylesheet" href="/icms/app/ui/common/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/icms/app/ui/common/artDialog/6.0.3/ui-dialog.css" type="text/css" />
+    <link rel="stylesheet" href="/icms/app/ui/common/iCMS-6.0.0.css" type="text/css" />
+
+
+
+
+    <!--[if lt IE 9]>
+    <script src="./app/ui/common/ie/html5shiv.min.js"></script>
+    <script src="./app/ui/common/ie/respond.min.js"></script>
+    <![endif]-->
+    <script src="./app/ui/common/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="./app/ui/common/artDialog/6.0.3/dialog-plus-min.js" type="text/javascript"></script>
+    <script src="./app/ui/common/bootstrap/2.3.2/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="./app/ui/common/bootstrap/2.3.2/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="./app/ui/common/bootstrap/2.3.2/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="./app/ui/common/iCMS-6.0.0.js" type="text/javascript"></script>
+
+    <!-- admincp ui -->
+    <link href="/icms/ui/jquery/uniform-2.1.2.min.css" type="text/css" rel="stylesheet"/>
+    <link href="/icms/ui/jquery/chosen-1.1.0.min.css" type="text/css" rel="stylesheet"/>
+    <link href="/icms/ui/admincp-6.0.0.css" type="text/css" rel="stylesheet"/>
+
+
+    <script src="./app/admincp/ui/jquery/migrate-1.2.1.js" type="text/javascript"></script>
+    <script src="./app/admincp/ui/jquery/scrollUp-1.1.0.min.js" type="text/javascript"></script>
+    <script src="./app/admincp/ui/jquery/uniform-2.1.2.min.js" type="text/javascript"></script>
+    <script src="./app/admincp/ui/jquery/chosen-1.1.0.js" type="text/javascript"></script>
+    <script src="./app/admincp/ui/admincp-6.0.0.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        window.iCMS.init({
+            API:'/admincp.php',
+            UI:'./app/ui/common',
+            URL:'http://icms.so',
+            PUBLIC:'http://icms.so/public',
+            DEFTPL:'default',
+            COOKIE:'iCMS',
+        });
+        $(function(){
+        })
+    </script>
+</head>
+<body class="">
+<iframe class="hide" id="iPHP_FRAME" name="iPHP_FRAME"></iframe>
+<div id="iCMS-MODAL" class="modal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 class="modal-title">iCMS 提示</h3>
+    </div>
+    <div class="modal-body">
+        <p><img src="./app/admincp/ui/loading.gif" /></p>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("[data-menu='m1']").addClass("active");
+        $("[data-menu='m0']").addClass("active");
+        $("[data-menu='m1']").addClass("active");
+        var c = $("[data-menu='m0']","#sidebar");
+        if(c.hasClass("submenu")){
+            c.addClass("open");
+            $("ul",c).show();
+        }
+    })
+</script>
+<div id="header" class="navbar navbar-static-top">
+    <div class="navbar-inner">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="fa fa-bars"></span>
+        </a>
+        <a class="brand iCMS-logo" href="http://www.idreamsoft.com" target="_blank">
+            <img src="./app/admincp/ui/iCMS.logo-6.0.png" />
+        </a>
+        <div class="nav-collapse collapse">
+            <ul class="nav" id="iCMS-menu">
+                <li class="" title="管理" data-level="0" data-menu="m1"><a href="/admincp.php"><i class="fa fa-home"></i> <span>管理</span></a><ul class="dropdown-menu"><li class="active" title="管理首页" data-level="1" data-menu="m19"><a href="/admincp.php"><i class="fa fa-home"></i> <span>管理首页</span></a></li></ul></li><li class="dropdown" title="文章" data-level="0" data-menu="m2"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil-square-o"></i> <span>文章</span><b class="caret"></b></a><ul class="dropdown-menu"><li class="" title="添加栏目" data-level="1" data-menu="m10"><a href="/admincp.php?app=category&do=add"><i class="fa fa-edit"></i> <span>添加栏目</span></a></li><li class="" title="栏目管理" data-level="1" data-menu="m11"><a href="/admincp.php?app=category"><i class="fa fa-list-alt"></i> <span>栏目管理</span></a></li><li class="divider"></li><li class="" title="添加文章" data-level="1" data-menu="m13"><a href="/admincp.php?app=article&do=add"><i class="fa fa-edit"></i> <span>添加文章</span></a></li><li class="" title="文章管理" data-level="1" data-menu="m14"><a href="/admincp.php?app=article"><i class="fa fa-list-alt"></i> <span>文章管理</span></a></li><li class="" title="草稿箱" data-level="1" data-menu="m15"><a href="/admincp.php?app=article&do=inbox"><i class="fa fa-inbox"></i> <span>草稿箱</span></a></li><li class="" title="回收站" data-level="1" data-menu="m16"><a href="/admincp.php?app=article&do=trash"><i class="fa fa-trash-o"></i> <span>回收站</span></a></li><li class="divider"></li><li class="" title="用户文章管理" data-level="1" data-menu="m128"><a href="/admincp.php?app=article&do=user" title="查看用户文章" class="tip"><i class="fa fa-check-circle"></i> <span>用户文章管理</span></a></li><li class="" title="审核文章" data-level="1" data-menu="m126"><a href="/admincp.php?app=article&do=examine" title="审核用户文章" class="tip"><i class="fa fa-minus-circle"></i> <span>审核文章</span></a></li><li class="" title="垃圾文章" data-level="1" data-menu="m129"><a href="/admincp.php?app=article&do=off" title="被拒绝的用户文章" class="tip"><i class="fa fa-times-circle"></i> <span>垃圾文章</span></a></li><li class="divider"></li><li class="" title="文章评论管理" data-level="1" data-menu="m18"><a href="/admincp.php?app=comment&do=article"><i class="fa fa-comments"></i> <span>文章评论管理</span></a></li></ul></li><li class="divider-vertical"></li><li class="dropdown" title="用户" data-level="0" data-menu="m7"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users"></i> <span>用户</span><b class="caret"></b></a><ul class="dropdown-menu"><li class="" title="会员管理" data-level="1" data-menu="m49"><a href="/admincp.php?app=user"><i class="fa fa-list-alt"></i> <span>会员管理</span></a></li><li class="" title="添加会员" data-level="1" data-menu="m50"><a href="/admincp.php?app=user&do=add"><i class="fa fa-user"></i> <span>添加会员</span></a></li><li class="divider"></li><li class="" title="管理员列表" data-level="1" data-menu="m52"><a href="/admincp.php?app=account"><i class="fa fa-list-alt"></i> <span>管理员列表</span></a></li><li class="" title="添加管理员" data-level="1" data-menu="m53"><a href="/admincp.php?app=account&do=add"><i class="fa fa-user"></i> <span>添加管理员</span></a></li><li class="divider"></li><li class="" title="角色管理" data-level="1" data-menu="m55"><a href="/admincp.php?app=groups"><i class="fa fa-list-alt"></i> <span>角色管理</span></a></li><li class="" title="添加角色" data-level="1" data-menu="m56"><a href="/admincp.php?app=groups&do=add"><i class="fa fa-group"></i> <span>添加角色</span></a></li></ul></li><li class="dropdown" title="辅助" data-level="0" data-menu="m6"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> <span>辅助</span><b class="caret"></b></a><ul class="dropdown-menu"><li class="dropdown-submenu" title="推荐管理" data-level="1" data-menu="m5"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-thumb-tack"></i> <span>推荐管理</span></a><ul class="dropdown-menu"><li class="" title="推荐块管理" data-level="2" data-menu="m31"><a href="/admincp.php?app=pushcategory"><i class="fa fa-sitemap"></i> <span>推荐块管理</span></a></li><li class="" title="添加推荐块" data-level="2" data-menu="m32"><a href="/admincp.php?app=pushcategory&do=add"><i class="fa fa-edit"></i> <span>添加推荐块</span></a></li><li class="divider"></li><li class="" title="推荐管理" data-level="2" data-menu="m34"><a href="/admincp.php?app=push"><i class="fa fa-thumb-tack"></i> <span>推荐管理</span></a></li><li class="" title="添加推荐" data-level="2" data-menu="m35"><a href="/admincp.php?app=push&do=add"><i class="fa fa-edit"></i> <span>添加推荐</span></a></li></ul></li><li class="divider"></li><li class="" title="标签分类管理" data-level="1" data-menu="m36"><a href="/admincp.php?app=tagcategory"><i class="fa fa-sitemap"></i> <span>标签分类管理</span></a></li><li class="" title="添加标签分类" data-level="1" data-menu="m37"><a href="/admincp.php?app=tagcategory&do=add"><i class="fa fa-edit"></i> <span>添加标签分类</span></a></li><li class="" title="标签管理" data-level="1" data-menu="m38"><a href="/admincp.php?app=tags"><i class="fa fa-tags"></i> <span>标签管理</span></a></li><li class="" title="添加标签" data-level="1" data-menu="m39"><a href="/admincp.php?app=tags&do=add"><i class="fa fa-edit"></i> <span>添加标签</span></a></li><li class="divider"></li><li class="" title="评论管理" data-level="1" data-menu="m125"><a href="/admincp.php?app=comment"><i class="fa fa-comments"></i> <span>评论管理</span></a></li><li class="divider"></li><li class="" title="内链管理" data-level="1" data-menu="m41"><a href="/admincp.php?app=keywords"><i class="fa fa-paperclip"></i> <span>内链管理</span></a></li><li class="" title="添加内链" data-level="1" data-menu="m42"><a href="/admincp.php?app=keywords&do=add"><i class="fa fa-edit"></i> <span>添加内链</span></a></li><li class="divider"></li><li class="" title="属性管理" data-level="1" data-menu="m44"><a href="/admincp.php?app=prop"><i class="fa fa-puzzle-piece"></i> <span>属性管理</span></a></li><li class="" title="添加属性" data-level="1" data-menu="m45"><a href="/admincp.php?app=prop&do=add"><i class="fa fa-edit"></i> <span>添加属性</span></a></li><li class="divider"></li><li class="" title="关键词过滤" data-level="1" data-menu="m47"><a href="/admincp.php?app=filter"><i class="fa fa-filter"></i> <span>关键词过滤</span></a></li><li class="" title="搜索统计" data-level="1" data-menu="m48"><a href="/admincp.php?app=search"><i class="fa fa-search"></i> <span>搜索统计</span></a></li><li class="divider"></li><li class="" title="标记管理" data-level="1" data-menu="m133"><a href="/admincp.php?app=marker"><i class="fa fa-bookmark"></i> <span>标记管理</span></a></li><li class="" title="添加标记" data-level="1" data-menu="m132"><a href="/admincp.php?app=marker&do=add"><i class="fa fa-edit"></i> <span>添加标记</span></a></li></ul></li><li class="dropdown" title="工具" data-level="0" data-menu="m8"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gavel"></i> <span>工具</span><b class="caret"></b></a><ul class="dropdown-menu"><li class="" title="友情链接管理" data-level="1" data-menu="m57"><a href="/admincp.php?app=links"><i class="fa fa-list-alt"></i> <span>友情链接管理</span></a></li><li class="" title="添加友情链接" data-level="1" data-menu="m58"><a href="/admincp.php?app=links&do=add"><i class="fa fa-edit"></i> <span>添加友情链接</span></a></li><li class="divider"></li><li class="" title="文件管理" data-level="1" data-menu="m60"><a href="/admincp.php?app=files"><i class="fa fa-folder"></i> <span>文件管理</span></a></li><li class="" title="上传文件" data-level="1" data-menu="m61"><a href="/admincp.php?app=files&do=multi&from=modal" title="上传文件" data-toggle="modal" data-target="#iCMS-MODAL" data-meta='{"width":"85%","height":"640px"}'><i class="fa fa-upload"></i> <span>上传文件</span></a></li><li class="divider"></li><li class="dropdown-submenu" title="采集管理" data-level="1" data-menu="m3"><a href="javascript:;"><i class="fa fa-magnet"></i> <span>采集管理</span></a><ul class="dropdown-menu"><li class="" title="采集列表" data-level="2" data-menu="m20"><a href="/admincp.php?app=spider&do=manage"><i class="fa fa-list-alt"></i> <span>采集列表</span></a></li><li class="" title="未发文章" data-level="2" data-menu="m21"><a href="/admincp.php?app=spider&do=inbox"><i class="fa fa-inbox"></i> <span>未发文章</span></a></li><li class="divider"></li><li class="" title="采集方案" data-level="2" data-menu="m24"><a href="/admincp.php?app=spider&do=project"><i class="fa fa-magnet"></i> <span>采集方案</span></a></li><li class="" title="添加方案" data-level="2" data-menu="m23"><a href="/admincp.php?app=spider&do=addproject"><i class="fa fa-edit"></i> <span>添加方案</span></a></li><li class="divider"></li><li class="" title="采集规则" data-level="2" data-menu="m27"><a href="/admincp.php?app=spider&do=rule"><i class="fa fa-magnet"></i> <span>采集规则</span></a></li><li class="" title="添加规则" data-level="2" data-menu="m26"><a href="/admincp.php?app=spider&do=addrule"><i class="fa fa-edit"></i> <span>添加规则</span></a></li><li class="divider"></li><li class="" title="发布模块" data-level="2" data-menu="m30"><a href="/admincp.php?app=spider&do=post"><i class="fa fa-magnet"></i> <span>发布模块</span></a></li><li class="" title="添加发布模块" data-level="2" data-menu="m29"><a href="/admincp.php?app=spider&do=addpost"><i class="fa fa-edit"></i> <span>添加发布模块</span></a></li></ul></li><li class="divider"></li><li class="dropdown-submenu" title="数据库管理" data-level="1" data-menu="m63"><a href="javascript:;"><i class="fa fa-database"></i> <span>数据库管理</span></a><ul class="dropdown-menu"><li class="" title="数据库备份" data-level="2" data-menu="m64"><a href="/admincp.php?app=database&do=backup"><i class="fa fa-cloud-download"></i> <span>数据库备份</span></a></li><li class="" title="备份管理" data-level="2" data-menu="m65"><a href="/admincp.php?app=database&do=recover"><i class="fa fa-upload"></i> <span>备份管理</span></a></li><li class="" title="修复优化" data-level="2" data-menu="m66"><a href="/admincp.php?app=database&do=repair"><i class="fa fa-gavel"></i> <span>修复优化</span></a></li><li class="" title="数据替换" data-level="2" data-menu="m67"><a href="/admincp.php?app=database&do=replace"><i class="fa fa-retweet"></i> <span>数据替换</span></a></li></ul></li><li class="divider"></li><li class="dropdown-submenu" title="生成静态" data-level="1" data-menu="m69"><a href="javascript:;"><i class="fa fa-file"></i> <span>生成静态</span></a><ul class="dropdown-menu"><li class="" title="首页静态化" data-level="2" data-menu="m70"><a href="/admincp.php?app=html&do=index"><i class="fa fa-refresh"></i> <span>首页静态化</span></a></li><li class="" title="栏目静态化" data-level="2" data-menu="m71"><a href="/admincp.php?app=html&do=category"><i class="fa fa-refresh"></i> <span>栏目静态化</span></a></li><li class="" title="文章静态化" data-level="2" data-menu="m72"><a href="/admincp.php?app=html&do=article"><i class="fa fa-refresh"></i> <span>文章静态化</span></a></li><li class="divider"></li><li class="" title="全站生成静态" data-level="2" data-menu="m74"><a href="/admincp.php?app=html&do=all"><i class="fa fa-refresh"></i> <span>全站生成静态</span></a></li><li class="divider"></li><li class="" title="静态设置" data-level="2" data-menu="m76"><a href="/admincp.php?app=setting&tab=url"><i class="fa fa-cog"></i> <span>静态设置</span></a></li><li class="" title="静态设置帮助" data-level="2" data-menu="m77"><a href="http://www.idreamsoft.com/help/v6/html" target="_blank"><i class="fa fa-flag"></i> <span>静态设置帮助</span></a></li></ul></li></ul></li><li class="dropdown" title="系统" data-level="0" data-menu="m9"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i> <span>系统</span><b class="caret"></b></a><ul class="dropdown-menu"><li class="dropdown-submenu" title="系统设置" data-level="1" data-menu="m78"><a href="/admincp.php?app=setting"><i class="fa fa-cog"></i> <span>系统设置</span></a><ul class="dropdown-menu"><li class="" title="模板设置" data-level="2" data-menu="m123"><a href="/admincp.php?app=setting&tab=tpl"><i class="fa fa-cog"></i> <span>模板设置</span></a></li><li class="" title="网站设置" data-level="2" data-menu="m79"><a href="/admincp.php?app=setting&tab=base"><i class="fa fa-cog"></i> <span>网站设置</span></a></li><li class="" title="URL设置" data-level="2" data-menu="m80"><a href="/admincp.php?app=setting&tab=url"><i class="fa fa-cog"></i> <span>URL设置</span></a></li><li class="" title="标签设置" data-level="2" data-menu="m81"><a href="/admincp.php?app=setting&tab=tag"><i class="fa fa-cog"></i> <span>标签设置</span></a></li><li class="" title="缓存设置" data-level="2" data-menu="m82"><a href="/admincp.php?app=setting&tab=cache"><i class="fa fa-cog"></i> <span>缓存设置</span></a></li><li class="" title="附件设置" data-level="2" data-menu="m83"><a href="/admincp.php?app=setting&tab=file"><i class="fa fa-cog"></i> <span>附件设置</span></a></li><li class="" title="缩略图设置" data-level="2" data-menu="m84"><a href="/admincp.php?app=setting&tab=thumb"><i class="fa fa-cog"></i> <span>缩略图设置</span></a></li><li class="" title="水印设置" data-level="2" data-menu="m85"><a href="/admincp.php?app=setting&tab=watermark"><i class="fa fa-cog"></i> <span>水印设置</span></a></li><li class="" title="用户设置" data-level="2" data-menu="m86"><a href="/admincp.php?app=setting&tab=user"><i class="fa fa-cog"></i> <span>用户设置</span></a></li><li class="" title="发布设置" data-level="2" data-menu="m87"><a href="/admincp.php?app=setting&tab=publish"><i class="fa fa-cog"></i> <span>发布设置</span></a></li><li class="" title="评论设置" data-level="2" data-menu="m88"><a href="/admincp.php?app=setting&tab=comment"><i class="fa fa-cog"></i> <span>评论设置</span></a></li><li class="" title="其它设置" data-level="2" data-menu="m89"><a href="/admincp.php?app=setting&tab=other"><i class="fa fa-cog"></i> <span>其它设置</span></a></li><li class="" title="更新设置" data-level="2" data-menu="m90"><a href="/admincp.php?app=setting&tab=patch"><i class="fa fa-cog"></i> <span>更新设置</span></a></li><li class="" title="高级设置" data-level="2" data-menu="m91"><a href="/admincp.php?app=setting&tab=grade"><i class="fa fa-cog"></i> <span>高级设置</span></a></li></ul></li><li class="divider"></li><li class="" title="后台菜单管理" data-level="1" data-menu="m119"><a href="/admincp.php?app=menu"><i class="fa fa-desktop"></i> <span>后台菜单管理</span></a></li><li class="" title="添加菜单" data-level="1" data-menu="m120"><a href="/admincp.php?app=menu&do=add"><i class="fa fa-pencil-square-o"></i> <span>添加菜单</span></a></li><li class="divider"></li><li class="" title="模板管理" data-level="1" data-menu="m110"><a href="/admincp.php?app=template"><i class="fa fa-desktop"></i> <span>模板管理</span></a></li><li class="divider"></li><li class="dropdown-submenu" title="清理缓存" data-level="1" data-menu="m93"><a href="javascript:;"><i class="fa fa-refresh"></i> <span>清理缓存</span></a><ul class="dropdown-menu"><li class="" title="更新所有缓存" data-level="2" data-menu="m130"><a href="/admincp.php?app=cache&do=all&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新所有缓存</span></a></li><li class="" title="更新系统设置缓存" data-level="2" data-menu="m94"><a href="/admincp.php?app=cache&acp=setting&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新系统设置缓存</span></a></li><li class="divider"></li><li class="" title="更新所有分类缓存" data-level="2" data-menu="m96"><a href="/admincp.php?app=cache&do=allcategory&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新所有分类缓存</span></a></li><li class="" title="更新文章栏目缓存" data-level="2" data-menu="m97"><a href="/admincp.php?app=cache&do=category&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新文章栏目缓存</span></a></li><li class="" title="更新推荐版块缓存" data-level="2" data-menu="m98"><a href="/admincp.php?app=cache&do=pushcategory&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新推荐版块缓存</span></a></li><li class="" title="更新标签分类缓存" data-level="2" data-menu="m99"><a href="/admincp.php?app=cache&do=tagcategory&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新标签分类缓存</span></a></li><li class="divider"></li><li class="" title="更新属性缓存" data-level="2" data-menu="m101"><a href="/admincp.php?app=cache&acp=prop&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新属性缓存</span></a></li><li class="" title="更新内链缓存" data-level="2" data-menu="m102"><a href="/admincp.php?app=cache&acp=keywords&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新内链缓存</span></a></li><li class="" title="更新过滤缓存" data-level="2" data-menu="m103"><a href="/admincp.php?app=cache&acp=filter&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新过滤缓存</span></a></li><li class="divider"></li><li class="" title="重计栏目文章数" data-level="2" data-menu="m105"><a href="/admincp.php?app=cache&do=artCount&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>重计栏目文章数</span></a></li><li class="divider"></li><li class="" title="更新后台菜单缓存" data-level="2" data-menu="m107"><a href="/admincp.php?app=cache&do=menu&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>更新后台菜单缓存</span></a></li><li class="divider"></li><li class="" title="清除模板缓存" data-level="2" data-menu="m108"><a href="/admincp.php?app=cache&do=tpl&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-refresh"></i> <span>清除模板缓存</span></a></li></ul></li><li class="divider"></li><li class="" title="检查更新" data-level="1" data-menu="m112"><a href="/admincp.php?app=patch&do=check&force=1&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-repeat"></i> <span>检查更新</span></a></li><li class="" title="官方网站" data-level="1" data-menu="m113"><a href="http://www.idreamsoft.com" target="_blank"><i class="fa fa-star"></i> <span>官方网站</span></a></li><li class="" title="帮助文档" data-level="1" data-menu="m114"><a href="http://www.idreamsoft.com/help/" target="_blank"><i class="fa fa-question-circle"></i> <span>帮助文档</span></a></li></ul></li>        </ul>
+            <ul class="nav pull-right">
+                <li><a href="http://icms.so" target="_blank"><i class="fa fa-home fa-lg"></i> 网站首页</a></li>
+                <li class="divider-vertical"></li>
+                <li class="dropdown"> <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users"></i> 超级管理员 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;">iCMS.V6,你好!</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/admincp.php?app=account&do=job"><i class="fa fa-bar-chart-o"></i> 工作统计</a></li>
+                        <li><a href="/admincp.php?app=account&do=edit"><i class="fa fa-user"></i> 更改信息</a></li>
+                        <li class="divider"></li>
+                        <!--li class="nav-header">导航头</li-->
+                        <li><a href="/admincp.php?app=home&do=logout&frame=iPHP" target="iPHP_FRAME"><i class="fa fa-sign-out"></i> 注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="sidebar" class="navbar">
+    <div id="sidebartop" class="navbar-inner">
+        <a class="brand iCMS-logo" href="http://www.idreamsoft.com" target="_blank">
+            <img src="./app/admincp/ui/iCMS.logo-6.0.png" />
+        </a>
+    </div>
+    <ul>
+        <li class="active" title="管理首页" data-level="1" data-menu="m19"><a href="/admincp.php"><i class="fa fa-home"></i> <span>管理首页</span></a></li>    <li class="last"></li>
+    </ul>
+    <div class="clearfloat"></div>
+    <span id="mini"> <i class="fa fa-arrow-circle-left"></i> </span>
+</div>
+<div id="content">
+    <div id="breadcrumb"> <a href="/admincp.php" title="返回管理首页" class="tip-bottom"><i class="fa fa-home"></i> 管理中心</a> <a href="/admincp.php"><i class="fa fa-home"></i>  管理</a> </div>
+    <div class="iCMS-container">
+        <div class="row-fluid">
+            <div class="span12 center" style="text-align: center;">
+                <ul class="quick-actions">
+                    <li><a href="javascript:;" class="tip" title="开发中..."><i class="icon-calendar"></i>日程管理</a></li>
+                    <li><a href="/admincp.php?app=article"><i class="icon-survey"></i>文章管理</a></li>
+                    <li><a href="/admincp.php?app=tags"><i class="icon-tag"></i>标签管理</a></li>
+                    <li><a href="/admincp.php?app=spider&do=project"><i class="icon-download"></i>采集管理</a></li>
+                    <li><a href="/admincp.php?app=user"><i class="icon-people"></i>用户管理</a></li>
+                    <li><a href="/admincp.php?app=database&do=backup"><i class="icon-database"></i>数据库管理</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            欢迎使用iCMS内容管理系统！<strong>admin</strong>。您最后一次登陆时间:<strong>2016-10-21 13:57:00</strong>，IP地址为:<strong>127.0.0.1</strong>。如有异常请及时排查！ </div>
+        <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="fa fa-signal"></i> </span>
+                <h5>站点数据统计</h5>
+            </div>
+            <div class="widget-content">
+                <div class="row-fluid">
+                    <div class="span3">
+                        <ul class="site-stats">
+                            <li><i class="fa fa-sitemap"></i> <strong>0</strong> <small>文章栏目</small></li>
+                            <li><i class="fa fa-sitemap"></i> <strong>0</strong> <small>标签分类</small></li>
+                            <li><i class="fa fa-sitemap"></i> <strong>0</strong> <small>推送分类</small></li>
+                            <li class="divider"></li>
+                            <li><i class="fa fa-user"></i> <strong>0</strong> <small>用户</small></li>
+                        </ul>
+                    </div>
+                    <div class="span3">
+                        <ul class="site-stats">
+                            <li><i class="fa fa-file-text"></i> <strong>0</strong> <small>文章总数</small></li>
+                            <li><i class="fa fa-file"></i> <strong>0</strong> <small>草稿</small></li>
+                            <li><i class="fa fa-file-o"></i> <strong>0</strong> <small>回收站</small></li>
+                            <li class="divider"></li>
+                            <li><i class="fa fa-tag"></i> <strong>0</strong> <small>标签</small></li>
+                        </ul>
+                    </div>
+                    <div class="span3">
+                        <ul class="site-stats">
+                            <li><i class="fa fa-comment"></i> <strong>0</strong> <small>评论</small></li>
+                            <li><i class="fa fa-paperclip"></i> <strong>0</strong> <small>内链</small></li>
+                            <li><i class="fa fa-thumb-tack"></i> <strong>0</strong> <small>推送</small></li>
+                            <li class="divider"></li>
+                            <li><i class="fa fa-heart"></i> <strong>0</strong> <small>友链</small></li>
+                        </ul>
+                    </div>
+                    <div class="span3">
+                        <ul class="site-stats">
+                            <li><i class="fa fa-database"></i> <strong>123.43 KB</strong> <small>数据库</small></li>
+                            <li><i class="fa fa-puzzle-piece"></i> <strong>37</strong><small>iCMS表</small></li>
+                            <li><i class="fa fa-puzzle-piece"></i> <strong>0</strong> <small>其它表</small></li>
+                            <li class="divider"></li>
+                            <li><i class="fa fa-files-o"></i> <strong>0</strong> <small>文件</small></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="fa fa-tachometer"></i> </span>
+                <h5>系统信息</h5>
+            </div>
+            <div class="widget-content">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>当前程序版本</td>
+                        <td>iCMS V6.0.16[20161019]</td>
+                        <td><a href="/admincp.php?app=patch&do=check&force=1&frame=iPHP" target="iPHP_FRAME" id="home_patch">最新版本</a></td>
+                        <td><span id="newversion"><img src="./app/admincp/ui/ajax_loader.gif" width="16" height="16" align="absmiddle"></span></td>
+                    </tr>
+                    <tr>
+                        <td>服务器操作系统</td>
+                        <td>WINNT</td>
+                        <td>服务器端口</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td>服务器剩余空间</td>
+                        <td>228957M</td>
+                        <td>服务器时间</td>
+                        <td>2016-10-21 14:45:55</td>
+                    </tr>
+                    <tr>
+                        <td>WEB服务器版本</td>
+                        <td>Apache/2.4.18 (Win32) OpenSSL/1.0.2e mod_fcgid/2.3.9</td>
+                        <td>服务器语种</td>
+                        <td>zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</td>
+                    </tr>
+                    <tr>
+                        <td>PHP版本</td>
+                        <td>5.5.30</td>
+                        <td>ZEND版本</td>
+                        <td>2.5.0</td>
+                    </tr>
+                    <tr>
+                        <td>MySQL 数据库</td>
+                        <td><font color="green"><i class="fa fa-check"></i></font></td>
+                        <td>MySQL 版本</td>
+                        <td>5.5.47</td>
+                    </tr>
+                    <tr>
+                        <td>图像函数库</td>
+                        <td><font color="green"><i class="fa fa-check"></i></font></td>
+                        <td>Session支持</td>
+                        <td><font color="green"><i class="fa fa-check"></i></font></td>
+                    </tr>
+                    <tr>
+                        <td>脚本运行可占最大内存</td>
+                        <td>12800M</td>
+                        <td>脚本上传文件大小限制</td>
+                        <td>2M</td>
+                    </tr>
+                    <tr>
+                        <td>POST方法提交限制</td>
+                        <td>8M</td>
+                        <td>脚本超时时间</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>被屏蔽的函数</td>
+                        <td>无</td>
+                        <td>安全模式</td>
+                        <td><font color="red"><i class="fa fa-times"></i></font></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="iCMS-container">
+        <div class="row">
+            <div class="span5">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="fa fa-info-circle"></i> </span>
+                        <h5>iCMS 开发信息</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width:60px">版权所有</td>
+                                <td>
+                                    <a class="btn btn-inverse" href="http://www.idreamsoft.com" target="_blank"><i class="fa fa-copyright"></i> 艾梦软件（iDreamSoft.com）</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>开 发 者</td>
+                                <td>
+                                    <a class="btn btn-inverse" href="http://t.qq.com/idreamsoft" target="_blank"><i class="fa fa-at"></i> 枯木(@idreamsoft)</a>
+                                    <a class="btn" href="https://github.com/idreamsoft/iCMS" target="_blank"><i class="fa fa-github"></i> GitHub</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>帮助</td>
+                                <td><a class="btn" href="http://www.idreamsoft.com/doc/iCMS/index.html" target="_blank">模版标签说明</a></td>
+                            </tr>
+                            <tr>
+                                <td>许可协议</td>
+                                <td>
+                                    <a class="btn" href="http://www.idreamsoft.com/doc/iCMS.LGPL.html" target="_blank">LGPL 开源协议</a>
+                                    <a class="btn btn-danger" href="http://www.idreamsoft.com/service.html" target="_blank"><i class="fa fa-ticket"></i> 商业授权</a>
+                                    <a class="btn btn-success" href="http://www.idreamsoft.com/donate.html" target="_blank"><i class="fa fa-jpy"></i> 捐赠</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>相关链接</td>
+                                <td><a class="btn btn-small" href="http://www.idreamsoft.com" target="_blank">iDreamSoft</a>
+                                    <a class="btn btn-small" href="http://www.idreamsoft.com/iCMS/" target="_blank">iCMS</a>
+                                    <a class="btn btn-small" href="http://www.idreamsoft.com/template/" target="_blank">&#x6A21;&#x677F;</a>
+                                    <a class="btn btn-small" href="http://www.idreamsoft.com/doc" target="_blank">&#x6587;&#x6863;</a> <a class="btn btn-small" href="http://www.idreamsoft.com/feedback/" target="_blank">&#x8BA8;&#x8BBA;&#x533A;</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="fa fa-bug"></i> </span>
+                        <h5>BUG提交</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form action="http://www.idreamsoft.com/cms/feedback.php" method="post" class="form-inline" id="iCMS-feedback" target="iPHP_FRAME">
+          <textarea id="bug_content" name="content" class="tip" title="为了保证效率，请务必描述清楚你的问题，例如包含 iCMS 版本号、服务器操作系统、WEB服务器版本、浏览器版本等必要信息，不合格问题将可能会被无视掉" style="width:95%; height: 160px; margin:4px 0px 4px 10px;padding: 4px;">
+iCMS 版本号:iCMS V6.0.16[20161019]
+服务器操作系统:WINNT;
+WEB服务器版本:Apache/2.4.18 (Win32) OpenSSL/1.0.2e mod_fcgid/2.3.9;
+MYSQL版本:5.5.47;
+浏览器版本:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0 FirePHP/0.7.4;
+出问题的URL:
+问题描述:</textarea>
+                            <div class="clearfix mt10"></div>
+                            <button id="bug_button" class="btn btn-primary fr mr20" type="submit"><i class="fa fa-check"></i> 提交</button>
+                            <input id="bug_email" name="email" type="text" class="span4 ml10" placeholder="您的邮箱">
+                            <div class="clearfix mt10"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            window.setTimeout(function(){
+                $.getJSON("http://www.idreamsoft.com/cms/version.php?callback=?",
+                        function(o){
+                            $('#newversion').text(o.version);
+                        }
+                );
+            },1000);
+            window.setTimeout(function(){
+                $.getJSON('/admincp.php?app=patch&do=check&ajax=1&jt=1477032355',
+                        function(json){
+                            if(json.code=="0"){
+                                return;
+                            }
+                            iCMS.dialog({
+                                content: json.msg,
+                                okValue: '马上更新',
+                                ok: function () { window.location.href=json.url;},
+                                cancelValue: '以后在说',
+                                cancel: function () {return true;}
+                            });
+                        }
+                );
+            },1000);
+        });
+    </script>
+    <div class="clearfloat"></div>
+    <div class="iCMS-container">
+    <span class="label label-success">
+      使用内存:1.94 MB 执行时间:1.1244 s
+    </span>
+    </div>
+</div>
+<a id="scrollUp" href="#top"></a>
+<div class="iCMS-batch">
+    <div id="weightBatch">
+        <div class="input-prepend"><span class="add-on">权重</span>
+            <input type="text" class="span2" name="mweight"/>
+        </div>
+    </div>
+    <div id="keywordBatch">
+        <div class="input-prepend input-append"><span class="add-on">关键字</span>
+            <input type="text" class="span2" name="mkeyword"/>
+        </div>
+        <div class="clearfloat mb10"></div>
+        <div class="input-prepend input-append"><span class="add-on">追加
+      <input type="radio" name="pattern" value="addto"/>
+      </span><span class="add-on">替换
+      <input type="radio" name="pattern" value="replace" checked/>
+      </span></div>
+    </div>
+    <div id="tagBatch">
+        <div class="input-prepend"><span class="add-on">标签</span>
+            <input type="text" class="span2" name="mtag"/>
+        </div>
+        <div class="clearfloat mb10"></div>
+        <div class="input-prepend input-append"><span class="add-on">追加
+      <input type="radio" name="pattern" value="addto"/>
+      </span><span class="add-on">替换
+      <input type="radio" name="pattern" value="replace" checked/>
+      </span></div>
+    </div>
+</div>
+</body></html>

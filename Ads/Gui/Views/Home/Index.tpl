@@ -7,10 +7,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Admin Data Manage</title>
+    <link href="/assets/reset.css" rel="stylesheet">
     <link href="/assets/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/color.css" rel="stylesheet">
     <link href="/assets/css/dashboard.css" rel="stylesheet">
     <script src="/assets/js/jquery-1.11.1.min.js"></script>
+
     <style type="text/css">
         .error{
             color:red;
@@ -31,9 +33,12 @@
         </div>
         <div class="list-group col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <!-- Breadcrumb -->
-
             {widget ads=$gui_Breadcrumb}
+
             <!-- Tip -->
+            {widget ads=$gui_Tip}
+            <!-- Tip -->
+
             <!-- menuthree -->
             {widget ads=$gui_NavLevelThree}
 
@@ -44,6 +49,8 @@
            {$gui_html}
 
             <!-- /content -->
+            {widget ads=$gui_Footer}
+
         </div>
     </div>
 </div>

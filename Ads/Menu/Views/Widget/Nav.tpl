@@ -32,5 +32,3 @@
         </div>
     </div>
 </nav>
-{$irones}
-{$name}

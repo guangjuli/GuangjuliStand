@@ -36,10 +36,14 @@ class Widget {
 
     public function doBreadcrumb()
     {
-        $res = adsdata('Menu/data/Breadcrumb');
-        return server('Smarty')->ads('Menu/Widget/Breadcrumb')->fetch('',[
-            'menu_breadcrumb'=>$res
-        ]);
+        if(!fc("System_Gui_Breadcrumb")){
+            return '';
+        }else{
+            $res = adsdata('Menu/data/Breadcrumb');
+            return server('Smarty')->ads('Menu/Widget/Breadcrumb')->fetch('',[
+                'menu_breadcrumb'=>$res
+            ]);
+        }
     }
 
 }

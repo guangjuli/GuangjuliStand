@@ -10,7 +10,6 @@
     if (! function_exists('fc')) {
         function fc($key = null,$params = null)
         {
-
             if(empty($key))return null;
             $key = (string)$key;
             //检索数据库,得到数据类型
@@ -442,9 +441,15 @@
      * @param $params
      * @return mixed
      */
-    function smarty_function_widget($params = []) {
-        return \App\Ads::getInstance()->ads($params['ads']);
-    }
+function smarty_function_widget($params = []) {
+    return \App\Ads::getInstance()->ads($params['ads']);
+}
+
+function smarty_function_data($params = []) {
+    !isset($params['params']) && $params['params'] = [];
+    $res = fc($params['fc'],$params['params']);
+    return $res;
+}
 
 
 //function smarty_function_widget($_params = '',$params = []) {

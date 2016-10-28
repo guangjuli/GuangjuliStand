@@ -17,6 +17,41 @@ if(Application\Model::getInstance()->make('routerAdd')->isAddons()){
 
 
 
+
+
+
+D( fc("123123/data/memory") );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function is_json($string) {
+ json_decode($string,true);
+ return (json_last_error() == JSON_ERROR_NONE);
+}
+
+$str = "[1,2,3]";
+echo is_json($str);
+
+exit;
+
 $cache = server('cache');
 $res =$cache->get('key');
 if(!$res){

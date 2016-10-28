@@ -12,7 +12,7 @@ class Html extends BaseController {
 
 
     public function doList(){
-        $list = server('db')->getall("select * from `user_group` order by groupId desc");
+        $list = fc('getUserGroupList');
         return  server('Smarty')->ads('usergroup/html/list')->fetch('',[
             'list' => $list
         ]);
@@ -57,10 +57,24 @@ class Html extends BaseController {
 
     public function doEdit(){
         $id = intval(req('Get')['id']);
-        $row = server('db')->getrow("select * from user_group where groupId = $id");
+        $row = fc("getUserGroupInfoById",$id);
         return  server('Smarty')->ads('usergroup/html/edit')->fetch('',[
             'row' => $row
         ]);
+    }
+
+    //获取用户组列表
+    public function doGetusergrouplist()
+    {
+        $list = server('Db')->getAll("select * from `user_group` order by groupId desc");
+        return $list?:[];
+    }
+    //通过用户组id获取用户组信息
+    public function doGetgroupinfobyid($id)
+    {
+        $id = intval($id);
+        $userGroupInfo = server('db')->getrow("select * from user_group where groupId = $id");
+        return $userGroupInfo?:[];
     }
 
 }

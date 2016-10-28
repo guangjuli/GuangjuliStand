@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-18 14:39:54
+/* Smarty version 3.1.30, created on 2016-10-21 16:42:19
   from "E:\phpleague\Grace\GuangjuliStand\Ads\Setup\Views\Html\Facade.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5805c3ba6a4792_09039250',
+  'unifunc' => 'content_5809d4ebcf13f0_99243284',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c34542e1a082b7f5057d92c5a3cf7ab57f3e3d60' => 
     array (
       0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\Ads\\Setup\\Views\\Html\\Facade.tpl',
-      1 => 1476770035,
+      1 => 1477039337,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5805c3ba6a4792_09039250 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5809d4ebcf13f0_99243284 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!-- content -->
 <form class="form-horizontal" method="post" action="/man/?setup/html/facade">
@@ -90,7 +90,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 ">
 
                     <small>
-                        数据源 :<span class="gray">WEB_KEYWORD<?php echo $_smarty_tpl->tpl_vars['row']->value['chr'];?>
+                        数据源 :<span class="gray"><?php echo $_smarty_tpl->tpl_vars['row']->value['chr'];?>
 </span>
                     </small>
                 </div>
@@ -114,7 +114,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 
                 <div class="col-sm-12">
                     <label for="inputPassword3" class="control-label">描述</label>
-                    <textarea class="form-control" rows="3" placeholder="描述" name="des"><?php echo $_smarty_tpl->tpl_vars['row']->value['des'];?>
+                    <textarea class="form-control" rows="2" placeholder="描述" name="des"><?php echo $_smarty_tpl->tpl_vars['row']->value['des'];?>
 </textarea>
                 </div>
 
@@ -183,7 +183,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 ",$params})
                     <?php } else { ?>
                         fc("<?php echo $_smarty_tpl->tpl_vars['row']->value['facede'];?>
-"})
+")
                     <?php }?>
                 </span>
             </small>

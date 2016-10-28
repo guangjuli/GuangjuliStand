@@ -13,10 +13,16 @@ class User
 
     use \Addons\Traits\AjaxReturn;
 
+    public function __construct()
+    {
+        file_get_contents('php://input', 'r');
+    }
+
     //用户登录
     public function doLoginPost()
     {
         $req = saddslashes(req('Post'));
+        $req = json_decode($req);
         $token = model('Token')->accessToken($req);
         if(empty($token)){
             $this->AjaxReturn([

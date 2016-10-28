@@ -282,4 +282,5 @@ class Measureplan
         }
         return $noDetection;
     }
+
 }
