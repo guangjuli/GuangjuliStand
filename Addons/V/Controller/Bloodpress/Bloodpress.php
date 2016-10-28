@@ -51,6 +51,18 @@ class Bloodpress extends BaseController
         ]);
     }
 
+    //更新数据的有效性
+    public function doUpdateisvalidPost()
+    {
+        $userId = bus('tokenInfo')['userId'];
+        $time = req('Post')['time'];
+        $isvalid = req('Post')['isvalid'];
+        $check = model('Bloodpress')->updateIsvalidByTime($time,$isvalid,$userId);
+        $this->AjaxReturn([
+            'code' => 200
+        ]);
+    }
+
     /**
      * doBloodlogbydateandtypePost
      * 通过日期和类型获取血压记录

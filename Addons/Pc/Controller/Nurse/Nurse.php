@@ -9,14 +9,20 @@
 namespace Addons\Controller;
 
 
-class Nurse
+class Nurse extends BaseController
 {
 
     use \Addons\Traits\AjaxReturn;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     //手机号验证后直接注册   ok
     public function doValidateloginPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         //校验是否为手机号
         if(!model('Validate')->validatePhone($req['login'])){
             $this->AjaxReturn([
@@ -49,7 +55,7 @@ class Nurse
     //注册    ok
     public function doRegisterpatientPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         if(!model('Patient')->isExistUserInfoById($req['userId'])){
             if(model('Patient')->insertInvalidPatient($req)){
                 model('Question')->insertQuestion($req);
@@ -79,7 +85,7 @@ class Nurse
     //保存
     public function doSavepatientPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         if(model('Patient')->updatePatient($req,$req['userId'])){
             model('Question')->updateQuestion($req);
             model('Nurse')->updateUserState($req['userId']);
@@ -95,7 +101,8 @@ class Nurse
     //重置
     public function doResetpatientPost()
     {
-        $userId = req('post')['userId'];
+        $req = json_decode(req('Post'));
+        $userId = $req['userId'];
         model('Nurse')->deleteInvalidUserInfo($userId);
         $this->AjaxReturn([
            'code'=>200
@@ -104,8 +111,9 @@ class Nurse
     //添加   ok
     public function doAddpatientPost()
     {
-        $login = req('Post')['login'];
-        $orgId = req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $login = $req['login'];
+        $orgId = $req['orgId'];
         if(model('Validate')->validatePhone($login)){
             if(model('User')->isExistUserByLogin($login)){
                 if(model('Nurse')->addPatient($orgId,$login)){
@@ -133,7 +141,8 @@ class Nurse
     //列表      ok
     public function doGetpatientlistPost()
     {
-        $orgId = req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $orgId = $req['orgId'];
         $patientList = model('Nurse')->getShowHosPatientList($orgId);
         if($patientList){
             $this->AjaxReturn([
@@ -151,8 +160,9 @@ class Nurse
     //搜索    ok
     public function doSearchpatientPost()
     {
-        $trueName = req('Post')['trueName'];
-        $orgId = req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $trueName = $req['trueName'];
+        $orgId = $req['orgId'];
         $patient = model('Nurse')->searchPatient($trueName,$orgId);
         if($patient){
             $this->AjaxReturn([
@@ -170,7 +180,7 @@ class Nurse
     //添加联系人   ok
     public function doAddcontactsPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $id = model('Contacts')->addContacts($req);
         if($id){
             $this->AjaxReturn([
@@ -189,8 +199,9 @@ class Nurse
     //删除联系人   ok
     public function doDeletecontactsPost()
     {
-        $userId=req('Post')['userId'];
-        $contactsId = req('Post')['contactsId'];
+        $req = json_decode(req('Post'));
+        $userId= $req['userId'];
+        $contactsId = $req['contactsId'];
         $check = model('Contacts')->deleteContacts($userId,$contactsId);
         if($check){
             $this->AjaxReturn([
@@ -205,7 +216,7 @@ class Nurse
     //添加病例      ok
     public function doAddcasesPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $id = model('Cases')->insertInvalidCases($req);
         if($id){
             $this->AjaxReturn([
@@ -224,7 +235,8 @@ class Nurse
     //删除病例      ok
     public function doDeletecasesPost()
     {
-        $caseId=req('Post')['caseId'];
+        $req = json_decode(req('Post'));
+        $caseId= $req['caseId'];
         $check = model('Cases')->deleteCases($caseId);
         if($check){
             $this->AjaxReturn([
@@ -239,7 +251,7 @@ class Nurse
     //添加维护计划     ok
     public function doAddmeasureplanPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $id =  model('Measureplan')->insertInvalidMeasurePlan($req);
         if($id){
             $this->AjaxReturn([
@@ -258,8 +270,9 @@ class Nurse
     //删除维护计划     ok
     public function doDeletemeasureplanPost()
     {
-        $userId=req('Post')['userId'];
-        $planId=req('Post')['planId'];
+        $req = json_decode(req('Post'));
+        $userId=$req['userId'];
+        $planId=$req['planId'];
         $check = model('Measureplan')->deleteMeasurePlan($userId,$planId);
         if($check){
             $this->AjaxReturn([
@@ -274,7 +287,8 @@ class Nurse
     //获取患者详细信息   ok
     public function doGetpatientdetailPost()
     {
-        $userId=req('Post')['userId'];
+        $req = json_decode(req('Post'));
+        $userId= $req['userId'];
         $data = model('Patient')->getUsrInfoDetailByUserId($userId);
         if($data){
             $this->AjaxReturn([
@@ -292,8 +306,9 @@ class Nurse
     //获取患者的病例     ok
     public function doGetpatientcasesPost()
     {
-        $userId=req('Post')['userId'];
-        $orgId=req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $userId= $req['userId'];
+        $orgId= $req['orgId'];
         $data = model('Cases')->getPersonalCases($userId,$orgId);
         if($data){
             $this->AjaxReturn([
@@ -311,7 +326,8 @@ class Nurse
     //获取患者的联系人    ok
     public function doGetpatientcontactsPost()
     {
-        $userId=req('Post')['userId'];
+        $req = json_decode(req('Post'));
+        $userId= $req['userId'];
         $data = model('Contacts')->getContacts($userId);
         if($data){
             $this->AjaxReturn([
@@ -329,8 +345,9 @@ class Nurse
     //获取患者的测量计划    ok
     public function doGetpatientmeasureplanPost()
     {
-        $userId=req('Post')['userId'];
-        $orgId=req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $userId= $req['userId'];
+        $orgId= $req['orgId'];
         $data = model('Measureplan')->getAfterMeasurePlan($userId,$orgId);
         if($data){
             $this->AjaxReturn([
@@ -348,8 +365,9 @@ class Nurse
     //获取未检测项详情
     public function doGetnodetectiondetailPost()
     {
-        $userId=req('Post')['userId'];
-        $orgId=req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $userId= $req['userId'];
+        $orgId= $req['orgId'];
         $data = model('Measureplan')->getMeasurePlanNoMeasureProject($userId,$orgId);
         if($data){
             $this->AjaxReturn([
@@ -367,7 +385,7 @@ class Nurse
     //搜索药物
     public function doSearchmedicinePost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $data = model('Medicine')->searchMedicine($req);
         if($data){
             $this->AjaxReturn([

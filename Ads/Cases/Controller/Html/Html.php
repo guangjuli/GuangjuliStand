@@ -14,7 +14,7 @@ class Html extends BaseController {
     public function doList(){
         $list = server('Db')->getMap("select userId,count(*) as num from `case` group by userId order by sort desc,caseId desc");
         //多表查询，user表，user_info表
-        $user = server('Db')->getAll("select u.userId,login,age,trueName,gender,addr from user u ,patient p where u.userId = p.userId",'userId');
+        $user = fc("getPatientBaseInfoList");
         $newList = array();
         foreach($list as $k=>$v){
             if($user[$k]){
@@ -32,7 +32,7 @@ class Html extends BaseController {
         $userId=req('Get')['id'];
         $userId = intval($userId);
         //查询病例
-        $cases = server('Db')->getAll("select * from `case` where `userId`='{$userId}' order by beginTime desc");
+        $cases = fc("getCasesListByUserId",$userId) ;
         $cases = $cases?:[];
         //获取具体的就诊医院详情
         $org = array();
@@ -41,10 +41,7 @@ class Html extends BaseController {
                 $org[]=$cases[$i]['orgId'];
             }
         }
-        if(!empty($org)){
-            $stringOrg = '('.implode(',',$org).')';
-            $organization = server('Db')->getAll("select `orgId`,`orgName`,`orgAddr` from `organization` where `orgId`in {$stringOrg} and active=1",'orgId');
-        }
+        $organization = fc("getOrgInfoByArrayId",$org);
         //获取用户信息
         return  server('Smarty')->ads('cases/html/detail')->fetch('',[
             'list' => $cases,
@@ -56,13 +53,14 @@ class Html extends BaseController {
     {
         $caseId = req('Get')['id'];
         $caseId = intval($caseId);
-        $cases = server('Db')->getRow("select * from `case` where `caseId`='{$caseId}'");
+        $cases = fc("getCasesInfoByCaseId",$caseId);
         //初始化返回参数
         $doctor=array();
         $organization = array();
         if($cases){
+            //TODO: 医生信息是否存在待探讨
             $doctor = server('Db')->getRow("select trueName,login,gender,age,office,jobTitle from doctor d,user u where u.userId=d.userId and u.userId = {$cases['doctorId']}");
-            $organization = server('Db')->getRow("select orgName,orgAddr from organization where orgId = '{$cases['orgId']}' and active=1");
+            $organization = fc("getOrgInfoById",$cases['orgId']);
         }
         return  server('Smarty')->ads('cases/html/cases')->fetch('',[
             'list' => $cases,
@@ -112,7 +110,7 @@ class Html extends BaseController {
         if(empty($res['disease']))$msg['disease']='不能为空';
         if(empty($res['doctorName']))$msg['doctorName']='不能为空';
         if(application('Validate')->validatePhone($res['check'])){
-            $userId = server('Db')->getOne("select userId from user where `login`='{$res['check']}'");
+            $userId = fc("getUserInfoByLogin",$res['check']);
             if(empty($userId)){
                 $msg['check']='指定患者不存在';
             }
@@ -129,7 +127,7 @@ class Html extends BaseController {
     }
 
     public function doAdd(){
-        $row['org'] = server('Db')->getMap("select orgId,orgName from `organization` where active=1");
+        $row['org'] = fc("getOrgMapIdToName");
         return  server('Smarty')->ads('cases/html/add')->fetch('',[
             'row'=>$row
         ]);
@@ -170,12 +168,12 @@ class Html extends BaseController {
         $userId = intval(req('Get')['userId']);
         $caseId = intval(req('Get')['caseId']);
         $patient=$this->getPatientInfo('user',"userId={$userId}");
-        $row = server('db')->getrow("select * from `case` where `caseId` = {$caseId}");
+        $row = fc("getCasesInfoByCaseId",$caseId);
         if($row['doctorId']){
             $row['doctorName'] = server('Db')->getOne("select `trueName` from doctor where `userId` = '{$row['doctorId']}'");
         }
         if($row['orgId']){
-            $row['org'] = server('Db')->getMap("select orgId,orgName from `organization` where active=1");
+            $row['org'] = fc("getOrgMapIdToName");
         }
         return  server('Smarty')->ads('cases/html/edit')->fetch('',[
             'row' => $row,
@@ -187,7 +185,7 @@ class Html extends BaseController {
     {
         $userId = server('Db')->getOne("select userId from doctor where `trueName`='{$doctorName}'");
         if($userId){
-            $IdList = server('Db')->getRow("select `userId`,`groupId`,`orgId` from user where `userId`='{$userId}'") ;
+            $IdList = fc("getUserInfoByUserId",$userId) ;
             $doctorId = server('Db')->getOne("select `groupId` from  user_group where chr='doctor'");
             if($doctorId!=$IdList['groupId']||$IdList['orgId']!=$orgId){
                 $this->AjaxReturn([
@@ -215,7 +213,7 @@ class Html extends BaseController {
         $row = server('Db')->getRow($sql);
         if($row){
             $patient['mysql'] = $row;
-            $relationship=server('Db')->getAll("select name,phone,relationship from contacts where userId = {$row['userId']}");
+            $relationship=fc("getContactsByUserId",$row['userId']);
             //输出前端特定id,方便循环显示
             if($relationship){
                 $new = array();
@@ -244,4 +242,21 @@ class Html extends BaseController {
             ]);
         }
     }
+
+    //根据userId获取病例
+    public function doGetcaseslistbyuserid($userId)
+    {
+        $userId = intval($userId);
+        $list = server('Db')->getAll("select * from `case` where `userId`='{$userId}' order by beginTime desc");
+        return $list?:[];
+    }
+
+    //根据病例id获取病例详情
+    public function doGetcasesinfobyid($caseId)
+    {
+        $caseId = intval($caseId);
+        $row = server('Db')->getRow("select * from `case` where `caseId`='{$caseId}'");
+        return $row?:[];
+    }
+
 }

@@ -8,10 +8,10 @@
 
 namespace Ads\User\Controller\Html;
 
-
 class Html extends BaseController
 {
     use \App\Traits\AjaxReturnHtml;
+    use \Ads\Api\Traits\Arr;
 
     public function __construct(){
         parent::__construct();
@@ -25,8 +25,8 @@ class Html extends BaseController
     //TODO:是否做分页
     public function doList()
     {
-        $list = server('Db')->getAll("select * from `user` order by sort desc,userId desc");
-        $group = $this->getUserGroupMap();
+        $list = fc("getUserList");
+        $group = fc("getUserGroupMap");
         return  server('Smarty')->ads('user/html/list')->fetch('',[
             'list' => $list,
             'group'=>$group
@@ -36,7 +36,7 @@ class Html extends BaseController
     //添加
     public function doAdd()
     {
-        $group = $this->getUserGroupMap();
+        $group = fc("getUserGroupMap");
         return  server('Smarty')->ads('user/html/add')->fetch('',[
             'group'=>$group
         ]);
@@ -61,8 +61,8 @@ class Html extends BaseController
     {
         $login = req('Post')['login'];
         if(application('Validate')->validatePhone($login)){
-            $checkLogin = server('Db')->getOne("select `userId` from user where `login` = '{$login}'");
-            if($checkLogin){
+            $checkLogin = fc("getUserInfoByLogin",$login);
+            if(!empty($checkLogin)){
                 $msg['login'] = '该用户已存在';
                 $this->AjaxReturn([
                     'msg'   => $msg,
@@ -75,8 +75,8 @@ class Html extends BaseController
     public function doEdit()
     {
         $userId = intval(req('Get')['userId']);
-        $userInfo = server('Db')->getRow("select * from `user` where `userId`={$userId}");
-        $group = $this->getUserGroupMap();
+        $userInfo = fc("getUserInfoByUserId",$userId);
+        $group = fc("getUserGroupMap");
         return  server('Smarty')->ads('user/html/edit')->fetch('',[
             'row'=>$userInfo,
             'group'=>$group
@@ -127,20 +127,21 @@ class Html extends BaseController
         //校验电话格式
         if(application('Validate')->validatePhone($req['login'])){
             $login = $req['login'];
-            $checkUserId = server('Db')->getOne("select `userId` from user where `login` = '{$login}'");
+            $user= fc("getUserInfoByLogin",$login);
             $dbLogin = null;
             if($req['userId']){
-                $dbLogin = server('Db')->getOne("select `login` from user where `userId` = '{$req['userId']}'");
+                $dbUser = fc("getUserInfoByUserId",$req['userId']);
+                $dbLogin = $dbUser['login'];
             }
             //校验修改
             if(!empty($dbLogin)&&$login!=$dbLogin&&$req['type']=='edit'){
-                if($checkUserId){
+                if($user){
                     $msg['login']='该用户已存在';
                 }
             }
             //校验添加
             if($req['type']=='add'){
-                if($checkUserId){
+                if($user){
                     $msg['login']='该用户已存在';
                 }
             }
@@ -161,17 +162,49 @@ class Html extends BaseController
     public function doGetusergroupmap()
     {
         $group = array();
-        if($this->isExistTable('user_group')){
+        if(fc('isExistTable','user_group')){
             $group = server('Db')->getMap("select `groupId`,`groupName` from user_group ");
         }
         return empty($group)?[]:$group;
     }
 
     //判断数据库中表是否存在
-    public function isExistTable($table)
+    public function doIsexisttable($table)
     {
         $database = server()->Config('Db')['database'];
         $isExistTable= server('Db')->getAll("SELECT table_name FROM information_schema.tables WHERE table_name = '{$table}'and table_schema = '{$database}'");
         return $isExistTable?true:false;
+    }
+
+    //获取用户列表
+    public function doGetuserlist()
+    {
+        $list = server('Db')->getAll("select * from `user` order by sort desc,userId desc");
+        return $list?:[];
+    }
+
+    //通过login获取用户信息
+    public function doGetuserinfobylogin($login)
+    {
+        $login = saddslashes($login);
+        $checkLogin = server('Db')->getRow("select `userId`,`login`,`password`,`orgId`,`groupId` from user where `login` = '{$login}'");
+        return $checkLogin?:[];
+    }
+
+    //通过userId获取 用户信息
+    public function doGetuserinfobyuserid($userId)
+    {
+        $userId = intval($userId);
+        $userInfo = server('Db')->getRow("select * from user where `userId`={$userId}");
+        return $userInfo?:[];
+    }
+
+    //根据userId组成的数组获取id,login组成的map集合
+    public function doGetusermapidtologin(array $userId)
+    {
+        if(empty($userId)) return [];
+        $userIdString = '('.implode(',',$userId).')';
+        $user = server('Db')->getMap("select userId,login from user where userId in $userIdString");
+        return $user?:[];
     }
 }

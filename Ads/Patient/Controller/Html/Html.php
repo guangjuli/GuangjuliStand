@@ -20,7 +20,7 @@ class Html extends BaseController {
     }
 
     public function doList(){
-        $list = server('db')->getall("select * from `patient` p ,user u where p.userId=u.userId order by p.sort desc,userInfoId desc");
+        $list = fc("getPatientInfoList");
         return  server('Smarty')->ads('patient/html/list')->fetch('',[
             'list' => $list
         ]);
@@ -72,9 +72,9 @@ class Html extends BaseController {
 
 
     public function doAdd(){
-        $org = $this->getOrgMap();
-        $disease = $this->getDiseaseListMap();
-        $patientGroupId = $this->getPatientGroupIdMap();
+        $org = fc("getOrgMapIdToName");
+        $disease = fc("getDiseaseListMapIdToName");
+        $patientGroupId = fc("getPatientGroupMapIdToName");
         return server('Smarty')->ads('patient/html/add')->fetch('',[
             'org'=>$org,
             'disease'=>$disease,
@@ -89,7 +89,7 @@ class Html extends BaseController {
         //校验电话格式
         if(application('Validate')->validatePhone($req['login'])){
             $login = $req['login'];
-            $checkUserId = server('Db')->getOne("select `userId` from user where `login` = '{$login}'");
+            $checkUserId = fc("getUserInfoByLogin",$login);
             if($checkUserId){
                 $msg['login']='该手机号已注册';
             }
@@ -149,12 +149,12 @@ class Html extends BaseController {
 
     public function doEdit(){
         $id = intval(req('Get')['userId']);
-        $row = server('db')->getrow("select * from `patient` p ,user u where p.userId=u.userId and p.userId = $id");
-        $org = $this->getOrgMap();
-        $disease = $this->getDiseaseListMap();
-        $patientGroupId = $this->getPatientGroupIdMap();
-        $contacts = $this->getContacts($id);
-        $question = $this->doGetquestion($id);
+        $row = fc("getPatientInfoById");
+        $org = fc("getOrgMapIdToName");
+        $disease = fc("getDiseaseListMapIdToName");
+        $patientGroupId = fc("getPatientGroupMapIdToName");
+        $contacts = fc("getContactsByUserId",$id);
+        $question = fc("getQuestionByUserId",$id);
         if(!empty($question)){
             if($question['diseaseList']){
                 $question['diseaseList']=explode(',',$question['diseaseList']);
@@ -192,7 +192,7 @@ class Html extends BaseController {
     public function doDetail()
     {
         $id = intval(req('Get')['userId']);
-        $row = server('Db')->getRow("select * from patient where `userId`={$id}");
+        $row = fc("getPatientDeatilByUserId",$id);
         $source  = $_SERVER['SERVER_NAME'];
         $row['gravatar'] = 'http://'.$source.ltrim($row['gravatar'],'.');
         return  server('Smarty')->ads('patient/html/detail')->fetch('',[
@@ -200,32 +200,28 @@ class Html extends BaseController {
         ]);
     }
 
-
-    //外部Api
-    //判断用户信息表user_info对应的id是否存在
-    public function isExistUserInfoById($id)
+    //通过userId获取patient表信息
+    public function doGetpatientbyid($userId)
     {
-        if(!is_int($id))return false;
-        $id = server('Db')->getOne("select `userId` from patient where `userId`=$id");
-        return $id?true:false;
+        $userId = intval($userId);
+        $row =server('Db')->getRow("select * from patient where `userId`={$userId}");
+        return $row?:[];
     }
-
-    //获取机构的map集合
-    public function getOrgMap()
+    //通过userId获取患者信息
+    public function doGetpatientinfobyid($userId)
     {
-        $org = server('Db')->getMap("select orgId,orgName from organization where active=1");
-        return $org?:[];
+        $userId = intval($userId);
+        $row =server('db')->getRow("select * from `patient` p ,user u where p.userId=u.userId and p.userId = {$userId}");
+        return $row?:[];
     }
-
-    //获取问卷调查疾病map集合
-    public function getDiseaseListMap()
+    //获取患者信息列表
+    public function doGetpatientinfolist()
     {
-        $disease = server('Db')->getMap("select diseaseId,diseaseName from disease_list where active=1");
-        return $disease?:[];
+        $list = server('db')->getAll("select * from `patient` p ,user u where p.userId=u.userId order by p.sort desc,userInfoId desc");
+        return $list?:[];
     }
-
     //获取患者groupId的map集合
-    public function getPatientGroupIdMap()
+    public function doGetpatientgroupmapidtoname()
     {
         $patientId = server('Db')->getMap("select groupId,groupName from user_group where chr in('ios','android')");
         return $patientId?:[];
@@ -287,7 +283,7 @@ class Html extends BaseController {
         }
     }
     //获取联系人信息
-    public function getContacts($userId)
+    public function doGetcontacts($userId)
     {
         $userId = intval($userId);
         $contacts = server('Db')->getAll("select contactsId,userId,name,phone,relationship from contacts where userId='{$userId}'");
@@ -330,4 +326,10 @@ class Html extends BaseController {
         return $question?:[];
     }
 
+    //获取患者基本信息列表
+    public function doGetpatienbaseinfolist()
+    {
+        $list = server('Db')->getAll("select u.userId,login,age,trueName,gender,addr from user u ,patient p where u.userId = p.userId",'userId');
+        return $list?:[];
+    }
 }

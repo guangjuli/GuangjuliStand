@@ -47,7 +47,7 @@ class Healthreport
     public function getHealthReportByUserId($userId)
     {
         $userId = intval($userId);
-        $report = server('Db')->getMap("select reportId,finalReport from health_report where `userId`={$userId}");
+        $report = server('Db')->getMap("select reportId,Finalreport from health_report where `userId`={$userId}");
         return $report?:[];
     }
 
@@ -70,7 +70,7 @@ class Healthreport
     public function getHealthReportDetail($reportId)
     {
         $reportId = intval($reportId);
-        $report = server('Db')->getRow("select finalReport,eatSuggest,sportPlan from health_report where reportId = {$reportId}");
+        $report = server('Db')->getRow("select Finalreport,eatSuggest,sportPlan from health_report where reportId = {$reportId}");
         return $report?:[];
     }
 

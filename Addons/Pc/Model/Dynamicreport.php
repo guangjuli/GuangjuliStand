@@ -83,7 +83,7 @@ class Dynamicreport
     public function getDynamicByDetail($dynamicId)
     {
         $dynamicId = intval($dynamicId);
-        $data = server('Db')->getRow("select doctorName,time,report,data from dynamic_report where dynamicId = {$dynamicId}");
+        $data = server('Db')->getRow("select dynamicId,doctorName,time,report,data from dynamic_report where dynamicId = {$dynamicId}");
         if($data){
             //输出数据格式转换
             $data['dynamicId'] = intval($data['dynamicId']);
