@@ -42,7 +42,7 @@ class Finalreport
         if($healthId){
             $req['healthId']=$healthId;
             //插入项目列表project
-            $project = model('Measureplan')->getMeasurePlanProject($req['planId'],$req['userId']);
+            $project = model('Measureplan')->getMeasurePlanProject($req['planId'],$req['userId'],$req['orgId']);
             $req['project']=serialize($project);
             $plan = model('Measureplan')->getPlanTimeByPlanId($req['planId']);
             $req['beginTime']=$plan['beginTime'];
@@ -110,7 +110,7 @@ class Finalreport
             foreach($finalReport as $k=>$v){
                 $finalReport[$k]['reportId']=intval($finalReport[$k]['reportId']);
                 $finalReport[$k]['project'] = unserialize($v['project']);
-                $finalReport[$k]['finalReport'] = $finalReportMap[$v['healthId']];
+                $finalReport[$k]['Finalreport'] = $finalReportMap[$v['healthId']];
                 unset($finalReport[$k]['healthId']);
             }
         }

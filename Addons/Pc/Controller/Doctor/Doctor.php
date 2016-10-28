@@ -9,19 +9,19 @@
 namespace Addons\Controller;
 
 
-class Doctor /*extends BaseController*/
+class Doctor extends BaseController
 {
 
     use \Addons\Traits\AjaxReturn;
-    /*public function __construct()
+    public function __construct()
     {
         parent::__construct();
-    }*/
+    }
 
     //获取患者消息列表
     public function doGetpatientlistPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $newsList = model('Doctor')->getPatientList($req['orgId'],$req['page'],$req['num']);
         if($newsList){
             $this->AjaxReturn([
@@ -40,7 +40,7 @@ class Doctor /*extends BaseController*/
     //获取患者信息     ok
     public function doGetpatientinfoPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $userInfo = model('Patient')->getCutUserInfo($req['userId']);
         if($userInfo){
             $this->AjaxReturn([
@@ -59,7 +59,7 @@ class Doctor /*extends BaseController*/
     //获取患者病史     ok
     public function doGetpatientcasesPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $personalCases = model('Cases')->getPersonalCases($req['userId'],$req['orgId']);
         if($personalCases){
             $this->AjaxReturn([
@@ -80,7 +80,7 @@ class Doctor /*extends BaseController*/
     //为单条数据添加描述,单次动态共有       ok
     public function doInsertSingledatadesPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $check = model('Bloodpress')->updateSingleReport($req);
         if($check){
             $this->AjaxReturn([
@@ -95,7 +95,7 @@ class Doctor /*extends BaseController*/
     //获取测量计划内紧急消息未处理数据    ok
     public function doGeturgentnewsdataPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $data = model('News')->getNewsDataId($req['time'],$req['userId'],$req['orgId']);
         if($data){
             $this->AjaxReturn([
@@ -113,7 +113,7 @@ class Doctor /*extends BaseController*/
     //获取测量计划内所有紧急消息数据     ok
     public function doGeturgentnewsalldataPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $data = model('News')->getNewsAllData($req['time'],$req['userId'],$req['orgId']);
         if($data){
             $this->AjaxReturn([
@@ -131,7 +131,7 @@ class Doctor /*extends BaseController*/
     //为紧急消息添加备注     ok
     public function doInserturgencydatadesPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $check = model('News')->updateNewsState($req);
         if($check){
             $this->AjaxReturn([
@@ -147,7 +147,7 @@ class Doctor /*extends BaseController*/
     //获取单次血压平均信息    ok
     public function doGetsingleaveragePost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $singleAverage = model('Bloodpress')->getSingleBloodPressAverage($req['planId'],$req['userId']);
         if($singleAverage){
             $this->AjaxReturn([
@@ -165,7 +165,7 @@ class Doctor /*extends BaseController*/
     //获取测量计划内单次血压源数据    ok
     public function doGetsingledataPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $data = model('Bloodpress')->getSingleBloodPress($req['planId'],$req['userId']);
         if($data){
             $this->AjaxReturn([
@@ -183,7 +183,8 @@ class Doctor /*extends BaseController*/
     //获取单次测量已生成报告的源数据    ok
     public function doGetsinglereportdataPost()
     {
-        $planId = req('Post')['planId'];
+        $req = json_decode(req('Post'));
+        $planId = $req['planId'];
         $data=model('Singlereport')->getSingleBloodPressDataByPlanId($planId);
         if($data){
             $this->AjaxReturn([
@@ -201,7 +202,7 @@ class Doctor /*extends BaseController*/
     //为测量计划生成单次测量报告     ok
     public function doInsertsinglereportPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         if(!model('Singlereport')->isExistSingleReportPlanId($req['planId'])){
             $id = model('Singlereport')->insertSingleReport($req);
             if($id){
@@ -269,7 +270,7 @@ class Doctor /*extends BaseController*/
     //获取测量计划内动态测量数据     ok
     public function doGetdynamicdataPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $dynamicData = model('Bloodpress')->getDynamicBloodpress($req['planId'],$req['userId']);
         if($dynamicData){
             $this->AjaxReturn([
@@ -287,7 +288,8 @@ class Doctor /*extends BaseController*/
     //获取已生成报告动态测量报告源数据      ok
     public function doGetdynamicreportdataPost()
     {
-        $planId = req('Post')['planId'];
+        $req = req('Post');
+        $planId = $req['planId'];
         $data = model('Dynamicreport')->getDynamicDataByPlanId($planId);
         if($data){
             $this->AjaxReturn([
@@ -305,7 +307,7 @@ class Doctor /*extends BaseController*/
     //为测量计划生成动态测量报告    ok
     public function doInsertdynamicreportPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         if(!model('Dynamicreport')->isExistDynamicReportPlanId($req['planId'])){
             $id = model('Dynamicreport')->insertDynamicReport($req);
             if($id){
@@ -370,7 +372,8 @@ class Doctor /*extends BaseController*/
     //获取数据显示页面用户信息    ok
     public function doGetdatashowpageuserinfoPost()
     {
-        $userId = req('Post')['userId'];
+        $req = json_decode(req('Post'));
+        $userId = $req['userId'];
         $userInfo = model('Patient')->getDataShowPageUserInfo($userId);
         if($userInfo){
             $this->AjaxReturn([
@@ -390,7 +393,7 @@ class Doctor /*extends BaseController*/
     //获取测量计划内测量次数      ok
     public function doGetMeasureplancountPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $counts = model('Bloodpress')->getMeasurePlanCount($req['userId'],$req['orgId']);
         $this->AjaxReturn([
            'code'=>200,
@@ -402,7 +405,7 @@ class Doctor /*extends BaseController*/
     //生成最终报告      ok
     public function doInsertfinalreportPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         if(!model('Finalreport')->isExistFinalReportPlanId($req['planId'])){
             $check = model('Finalreport')->insertFinalReport($req);
             if($check){
@@ -424,7 +427,8 @@ class Doctor /*extends BaseController*/
     //获取最终报告列表     ok
     public function doGetfinalreportlistPost()
     {
-        $userId = req('Post')['userId'];
+        $req = json_decode(req('Post'));
+        $userId = $req['userId'];
         $list = model('Finalreport')->getFinalReportList($userId);
         if($list){
             $this->AjaxReturn([
@@ -442,7 +446,8 @@ class Doctor /*extends BaseController*/
     //获取报告详情     ok
     public function doGetfinalreportdetailPost()
     {
-        $reportId=req('Post')['reportId'];
+        $req = json_decode(req('Post'));
+        $reportId=$req['reportId'];
         $final = model('Finalreport')->getFinalReport($reportId);
         if($final){
             $this->AjaxReturn([
@@ -461,8 +466,9 @@ class Doctor /*extends BaseController*/
     //获取未实施的测量计划
     public function doGetnobeginmeasureplanPost()
     {
-        $userId=req('Post')['userId'];
-        $orgId = req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $userId=$req['userId'];
+        $orgId = $req['orgId'];
         $data = model('Measureplan')->getAfterMeasurePlan($userId,$orgId);
         if($data){
             $this->AjaxReturn([
@@ -480,8 +486,9 @@ class Doctor /*extends BaseController*/
     //获取已实施的测量计划
     public function doGetfinishmeasureplanPost()
     {
-        $userId=req('Post')['userId'];
-        $orgId = req('Post')['orgId'];
+        $req = json_decode(req('Post'));
+        $userId=$req['userId'];
+        $orgId = $req['orgId'];
         $data = model('Measureplan')->getOldMeasurePlan($userId,$orgId);
         if($data){
             $this->AjaxReturn([
@@ -499,7 +506,7 @@ class Doctor /*extends BaseController*/
     //添加测量计划
     public function doInsertmeasureplanPost()
     {
-        $req = req('Post');
+        $req = json_decode(req('Post'));
         $check = model('Measureplan')->insertMeasurePlan($req);
         if($check){
             $this->AjaxReturn([
@@ -514,8 +521,9 @@ class Doctor /*extends BaseController*/
     //删除测量计划
     public function doDeletemeasureplanPost()
     {
-        $userId = req('Post')['userId'];
-        $planId = req('Post')['planId'];
+        $req = json_decode(req('Post'));
+        $userId = $req['userId'];
+        $planId = $req['planId'];
         $check = model('Measureplan')->deleteMeasurePlan($userId,$planId);
         if($check){
             $this->AjaxReturn([
