@@ -154,7 +154,7 @@ class Bloodpress implements ModelInterface
         $createDay = intval($req['createDay']);
         if(empty($userId)||empty($createDay)) return [];
         //执行sql
-        $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay,`day` from bloodpress where `userId`=$userId and `type`=$type and `createDay`=$createDay");
+        $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay,`day`,isvalid from bloodpress where `userId`=$userId and `type`=$type and `createDay`=$createDay");
         return $bloodInfo?$bloodInfo:[];
     }
 
@@ -162,7 +162,7 @@ class Bloodpress implements ModelInterface
     {
         $userId = $userId?:bus('tokenInfo')['userId'];
         $base = ($page-1)*$num;
-        $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay from bloodpress where `userId`={$userId} and `type`=0 limit $base,$num");
+        $bloodInfo = server('Db')->getAll("select time,shrink,diastole,bpm,createDay,isvalid from bloodpress where `userId`={$userId} and `type`=0 limit $base,$num");
         return $bloodInfo?:[];
     }
 

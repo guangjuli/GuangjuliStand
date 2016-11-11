@@ -207,4 +207,33 @@ class Html extends BaseController
         $user = server('Db')->getMap("select userId,login from user where userId in $userIdString");
         return $user?:[];
     }
+
+    public function doTest()
+    {
+        $list = [
+            0 =>[
+                "id" => 1,
+                "tiele" => "title",
+                "content" => "8",
+            ],
+            1 =>[
+                "id" => 1,
+                "tiele" => "title",
+                "content" => "9",
+            ],
+            2 =>[
+                "id" => 1,
+                "tiele" => "title",
+                "content" => "7",
+            ]
+
+        ];
+        foreach($list as $key=>$value){
+            $newArr[$key] = $value['content'];
+        }
+
+        //排序
+        array_multisort($newArr,SORT_ASC, $list);
+        D($list);
+    }
 }

@@ -22,7 +22,8 @@ class Nurse extends BaseController
     //手机号验证后直接注册   ok
     public function doValidateloginPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         //校验是否为手机号
         if(!model('Validate')->validatePhone($req['login'])){
             $this->AjaxReturn([
@@ -55,7 +56,8 @@ class Nurse extends BaseController
     //注册    ok
     public function doRegisterpatientPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         if(!model('Patient')->isExistUserInfoById($req['userId'])){
             if(model('Patient')->insertInvalidPatient($req)){
                 model('Question')->insertQuestion($req);
@@ -85,7 +87,8 @@ class Nurse extends BaseController
     //保存
     public function doSavepatientPost()
     {
-        $req = json_decode(req('Post'));
+       $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         if(model('Patient')->updatePatient($req,$req['userId'])){
             model('Question')->updateQuestion($req);
             model('Nurse')->updateUserState($req['userId']);
@@ -101,7 +104,8 @@ class Nurse extends BaseController
     //重置
     public function doResetpatientPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId = $req['userId'];
         model('Nurse')->deleteInvalidUserInfo($userId);
         $this->AjaxReturn([
@@ -111,7 +115,8 @@ class Nurse extends BaseController
     //添加   ok
     public function doAddpatientPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $login = $req['login'];
         $orgId = $req['orgId'];
         if(model('Validate')->validatePhone($login)){
@@ -141,9 +146,10 @@ class Nurse extends BaseController
     //列表      ok
     public function doGetpatientlistPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input");
+		$req = json_decode($get_data, true);
         $orgId = $req['orgId'];
-        $patientList = model('Nurse')->getShowHosPatientList($orgId);
+        $patientList = model('Nurse')->getShowHosPatientList($orgId,$req['page'],$req['num'],$req['field'],$req['sort']);
         if($patientList){
             $this->AjaxReturn([
                 'code'=>200,
@@ -160,7 +166,8 @@ class Nurse extends BaseController
     //搜索    ok
     public function doSearchpatientPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $trueName = $req['trueName'];
         $orgId = $req['orgId'];
         $patient = model('Nurse')->searchPatient($trueName,$orgId);
@@ -180,7 +187,8 @@ class Nurse extends BaseController
     //添加联系人   ok
     public function doAddcontactsPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $id = model('Contacts')->addContacts($req);
         if($id){
             $this->AjaxReturn([
@@ -199,7 +207,8 @@ class Nurse extends BaseController
     //删除联系人   ok
     public function doDeletecontactsPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId= $req['userId'];
         $contactsId = $req['contactsId'];
         $check = model('Contacts')->deleteContacts($userId,$contactsId);
@@ -216,7 +225,8 @@ class Nurse extends BaseController
     //添加病例      ok
     public function doAddcasesPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $id = model('Cases')->insertInvalidCases($req);
         if($id){
             $this->AjaxReturn([
@@ -235,7 +245,8 @@ class Nurse extends BaseController
     //删除病例      ok
     public function doDeletecasesPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $caseId= $req['caseId'];
         $check = model('Cases')->deleteCases($caseId);
         if($check){
@@ -251,7 +262,8 @@ class Nurse extends BaseController
     //添加维护计划     ok
     public function doAddmeasureplanPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $id =  model('Measureplan')->insertInvalidMeasurePlan($req);
         if($id){
             $this->AjaxReturn([
@@ -270,7 +282,8 @@ class Nurse extends BaseController
     //删除维护计划     ok
     public function doDeletemeasureplanPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId=$req['userId'];
         $planId=$req['planId'];
         $check = model('Measureplan')->deleteMeasurePlan($userId,$planId);
@@ -287,7 +300,8 @@ class Nurse extends BaseController
     //获取患者详细信息   ok
     public function doGetpatientdetailPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId= $req['userId'];
         $data = model('Patient')->getUsrInfoDetailByUserId($userId);
         if($data){
@@ -306,7 +320,8 @@ class Nurse extends BaseController
     //获取患者的病例     ok
     public function doGetpatientcasesPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId= $req['userId'];
         $orgId= $req['orgId'];
         $data = model('Cases')->getPersonalCases($userId,$orgId);
@@ -326,7 +341,8 @@ class Nurse extends BaseController
     //获取患者的联系人    ok
     public function doGetpatientcontactsPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input");
+        $req = json_decode($get_data, true);
         $userId= $req['userId'];
         $data = model('Contacts')->getContacts($userId);
         if($data){
@@ -345,7 +361,8 @@ class Nurse extends BaseController
     //获取患者的测量计划    ok
     public function doGetpatientmeasureplanPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId= $req['userId'];
         $orgId= $req['orgId'];
         $data = model('Measureplan')->getAfterMeasurePlan($userId,$orgId);
@@ -365,7 +382,8 @@ class Nurse extends BaseController
     //获取未检测项详情
     public function doGetnodetectiondetailPost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $userId= $req['userId'];
         $orgId= $req['orgId'];
         $data = model('Measureplan')->getMeasurePlanNoMeasureProject($userId,$orgId);
@@ -385,7 +403,8 @@ class Nurse extends BaseController
     //搜索药物
     public function doSearchmedicinePost()
     {
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $data = model('Medicine')->searchMedicine($req);
         if($data){
             $this->AjaxReturn([
@@ -400,9 +419,5 @@ class Nurse extends BaseController
             ]);
         }
     }
-    //测试
-    public function doTest()
-    {
-        view('',[]);
-    }
+
 }

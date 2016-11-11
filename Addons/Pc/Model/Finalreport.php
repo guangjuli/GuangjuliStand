@@ -76,12 +76,12 @@ class Finalreport
         if($report){
             //获取单次测量报告
             if($report['singleId']){
-                $final['single']=model('Singlereport')->getSingleReportDeatil($report['singleId']);
+                $final['single']=model('Singlereport')->getFinalSingleReportDetail($report['singleId']);
                 unset($report['singleId']);
             }
             //获取动态测量报告
             if($report['dynamicId']){
-                $final['dynamic']=model('Dynamicreport')->getDynamicByDetail($report['dynamicId']);
+                $final['dynamic']=model('Dynamicreport')->getFinalDynamicReportDetail($report['dynamicId']);
                 unset($report['dynamicId']);
             }
             //获取健康总结报告
@@ -104,6 +104,25 @@ class Finalreport
     {
         $userId = intval($userId);
         $finalReport = server('Db')->getAll("select reportId,time,project,healthId from final_report where `userId`={$userId}");
+        $finalReport = $finalReport?:[];
+        $finalReportMap = model('Healthreport')->getHealthReportByUserId($userId);
+        if($finalReport){
+            foreach($finalReport as $k=>$v){
+                $finalReport[$k]['reportId']=intval($finalReport[$k]['reportId']);
+                $finalReport[$k]['project'] = unserialize($v['project']);
+                $finalReport[$k]['Finalreport'] = $finalReportMap[$v['healthId']];
+                unset($finalReport[$k]['healthId']);
+            }
+        }
+        return $finalReport;
+    }
+
+    //查询最终报告
+    public function searchFinalReport($userId,$time)
+    {
+        $time = date('Y-m-d',strtotime($time));
+        $userId = intval($userId);
+        $finalReport = server('Db')->getAll("select reportId,time,project,healthId from final_report where `userId`={$userId} and time like'%{$time}%'");
         $finalReport = $finalReport?:[];
         $finalReportMap = model('Healthreport')->getHealthReportByUserId($userId);
         if($finalReport){

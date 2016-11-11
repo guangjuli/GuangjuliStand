@@ -49,7 +49,7 @@
 <form action="/pc/doctor/Getsingledata" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
     <input type="text" name="planId" value="2">
-    <input type="submit" value="提交">
+    <input type="submit" value="提交">222222222222
 </form>   {*获取测量计划内单次血压源数据*}
 
 <form action="/pc/doctor/Insertsinglereport" method="post" accept-charset="UTF-8">
@@ -61,12 +61,12 @@
     <input type="text" name="bpm" value="81">
     <input type="text" name="report" value="">
     <input type="submit" value="提交">
-</form>   {*为测量计划生成单次测量报告*}
+</form>   {*为测量计划生成单次测量报告*}生成单次测量报告
 
 <form action="/pc/doctor/Getsinglereportdata" method="post" accept-charset="UTF-8">
     <input type="text" name="planId" value="2">
     <input type="submit" value="提交">
-</form>   {*获取测量计划已生成报告的源数据*}
+</form>   {*获取测量计划已生成报告的源数据*} 获取单次已生成报告的源数据
 
 <form action="/pc/doctor/Getdynamicdata" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
@@ -80,12 +80,12 @@
     <input type="text" name="doctorName" value="">
     <input type="text" name="report" value="">
     <input type="submit" value="提交">
-</form>   {*为测量计划生成动态测量报告*}
+</form>   {*为测量计划生成动态测量报告*}生成动态测量报告
 
 <form action="/pc/doctor/Getdynamicreportdata" method="post" accept-charset="UTF-8">
     <input type="text" name="planId" value="2">
     <input type="submit" value="提交">
-</form>   {*获取测量计划已生成报告的源数据*}
+</form>   {*获取测量计划已生成报告的源数据*} 获取动态测量已生成报告的源数据
 
 <form action="/pc/doctor/Getdatashowpageuserinfo" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
@@ -120,15 +120,19 @@
 
 <form action="/pc/doctor/Getfinalreportdetail" method="post" accept-charset="UTF-8">
     <input type="text" name="reportId" value="8">
-    <input type="submit" value="提交">
+    <input type="submit" value="提交">获取最终报告详情
 </form>   {*获取报告详情*}
 
 <form action="/pc/doctor/Getpatientlist" method="post" accept-charset="UTF-8">
     <input type="text" name="orgId" value="1">
-    <input type="text" name="page" value="0">
-    <input type="text" name="num" value="3">
+    <input type="text" name="doctorId" value="1">
+    <input type="text" name="token" value="5593bee793517246f9d1f8772d8a20b5">
+    <input type="text" name="page" value="1">
+    <input type="text" name="num" value="10">
+    <input type="text" name="field" value="createTime">
+    <input type="text" name="sort" value="0">
     <input type="submit" value="提交">
-</form>   {*获取患者列表*}
+</form>   {*获取患者列表*} 3333333333
 
 <form action="/pc/doctor/Getnobeginmeasureplan" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
@@ -141,3 +145,35 @@
     <input type="text" name="orgId" value="1">
     <input type="submit" value="提交">
 </form>   {*获取已实施的测量计划*}
+
+<form action="/pc/doctor/Searchfinalreport" method="post" accept-charset="UTF-8">
+    <input type="text" name="userId" value="97">
+    <input type="text" name="time" value="20161026">
+    <input type="submit" value="提交">
+</form>   {*搜索最终报告*}
+
+<form action="/pc/doctor/GetSinglereport" method="post" accept-charset="UTF-8">
+    <input type="text" name="planId" value="1">
+    <input type="submit" value="提交">获取一般页面单次报告
+</form>   {*搜索最终报告*}
+
+<form action="/pc/doctor/GetDynamicreport" method="post" accept-charset="UTF-8">
+    <input type="text" name="planId" value="1">
+    <input type="submit" value="提交">获取一般页面动态报告
+</form>   {*搜索最终报告*}
+
+<form action="/pc/doctor/Isallowededit" method="post" accept-charset="UTF-8">
+    <input type="text" name="doctorId" value="57">
+    <input type="text" name="newsId" value="1">
+    <input type="submit" value="提交">
+</form>   {*搜索最终报告*}
+
+<form action="/pc/doctor/Gethealthdynamicreportdata" method="post" accept-charset="UTF-8">
+    <input type="text" name="dynamicId" value="1">
+    <input type="submit" value="提交">获取动态测量报告详情
+</form>   {*健康页面获取动态测量报告行啊请*}
+
+<form action="/pc/doctor/Gethealthsinglereportdata" method="post" accept-charset="UTF-8">
+    <input type="text" name="singleId" value="1">
+    <input type="submit" value="提交">获取动态测量报告详情
+</form>   {*健康页面获取动态测量报告行啊请*}
