@@ -14,8 +14,8 @@ class Token
 
     public function doAccesstokenPost()
     {
-        file_get_contents('php://input', 'r');
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input"); 
+		$req = json_decode($get_data, true);
         $token = model('Token')->accessToken($req);
         if(empty($token)){
             $this->AjaxReturn([

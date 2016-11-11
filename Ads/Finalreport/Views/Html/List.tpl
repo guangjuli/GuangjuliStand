@@ -51,7 +51,7 @@
                     <td>{$item['addr']}</td>
                     <td>{$item['counts']}</td>
                     <td>
-                        <a href="/man/?Finalreport/html/personallist&userId={$item['userId']}">详情</a>
+                        <a href="/man/?Finalreport/html/personallist&patientId={$item['userId']}">详情</a>
                     </td>
                 </tr>
             {/foreach}

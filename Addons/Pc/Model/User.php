@@ -39,15 +39,15 @@ class User implements ModelInterface
     }
 
     //通过login获取医生信息
-    public function getDoctorByLogin($login,$type)
+    public function getDoctorByLogin($login)
     {
         $login = saddslashes($login);
         $group = model('Usergroup')->getMapDoctorAndNurse();
-        $user = array();
-        if($group[$type]){
-            $sql = "select userId,login,password from user where login='{$login}' and groupId = {$group[$type]} and active=1";
-            $user = server('Db')->getRow($sql);
-        }
+        $groupName = array_flip($group);
+        $group = '('.implode(',',$group).')';
+        $sql = "select userId,login,password,groupId from user where login='{$login}' and groupId in {$group} and active=1";
+        $user = server('Db')->getRow($sql);
+        if($user)$user['group'] = $groupName[$user['groupId']];
         return $user?:[];
     }
     /**

@@ -1,6 +1,6 @@
 <?php
 /* Smarty version 3.1.30, created on 2016-09-14 18:09:01
-  from "E:\phpleague\Grace\GuangjuliStand\Ads\Userinfo\Views\Html\Add.tpl" */
+  from "E:\phpleague\Grace\GuangjuliStand\Ads\Userinfo\Views\Html\Personallist.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     '201cba71263c62fbe794dc18c62e696e1b44a3fa' => 
     array (
-      0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\Ads\\Userinfo\\Views\\Html\\Add.tpl',
+      0 => 'E:\\phpleague\\Grace\\GuangjuliStand\\Ads\\Userinfo\\Views\\Html\\Personallist.tpl',
       1 => 1473817319,
       2 => 'file',
     ),

@@ -14,7 +14,7 @@ class Singlereport
     //待传入数据
     public function insertSingleReport($req)
     {
-        $id = null;
+        $check = false;
         $req = saddslashes($req);
         $plan = model('Measureplan')->getPlanTimeByPlanId($req['planId']);
         if($plan){
@@ -24,10 +24,10 @@ class Singlereport
                 unset($single['planId']);
                 $req['data']=serialize($single);
                 $check = server('Db')->autoExecute('single_report', $req, 'INSERT');
-                if($check)$id = server('Db')->insert_id();
+                $check = $check?true:false;
             }
         }
-        return $id;
+        return $check;
     }
 
     //判断该测量计划是否已经生产单次报告
@@ -42,13 +42,11 @@ class Singlereport
     public function getSingleBloodPressDataByPlanId($planId)
     {
         $planId = intval($planId);
-        $data = server('Db')->getRow("select singleId,doctorName,shrink,diastole,bpm,report,time,data from single_report where `planId`={$planId}");
+        $data = server('Db')->getRow("select singleId,doctorName,report,time,data from single_report where `planId`={$planId}");
+        $data = $data?:[];
         if($data){
             //输出数据格式转换
             $data['singleId'] = intval($data['singleId']);
-            $data['shrink'] = intval($data['shrink']);
-            $data['diastole'] = intval($data['diastole']);
-            $data['bpm'] = intval($data['bpm']);
             $data['time'] = strtotime($data['time']);
             if($data['data']){
                 $saveData = unserialize($data['data']);
@@ -94,16 +92,13 @@ class Singlereport
         return $single?:[];
     }
     //获取singlereport部分信息
-    public function getSingleReportDeatil($singleId)
+    public function getSingleReportDeatil($planId)
     {
-        $singleId = intval($singleId);
-        $single = server('Db')->getRow("select singleId,planId,doctorName,shrink,diastole,bpm,report,time from single_report where singleId = {$singleId}");
+        $planId = intval($planId);
+        $single = server('Db')->getRow("select singleId,planId,doctorName,report,time from single_report where planId = {$planId}");
         if($single){
             $single['singleId'] = intval($single['singleId']);
             $single['planId'] = intval($single['planId']);
-            $single['shrink'] = intval($single['shrink']);
-            $single['diastole'] = intval($single['diastole']);
-            $single['bpm'] = intval($single['bpm']);
         }
         return $single?:[];
     }
@@ -115,7 +110,22 @@ class Singlereport
         $singleReport = server('Db')->getAll("select planId,userId,time,shrink,diastole,bpm,report from single_report where `userId`={$userId} order by time desc");
         return $singleReport?:[];
     }
-
+    //获取最终报告中的单次血压报告详情
+    public function getFinalSingleReportDetail($singleId)
+    {
+        $singleId = intval($singleId);
+        $data = server('Db')->getRow("select singleId,doctorName,shrink,diastole,bpm,report,time from single_report where `singleId`={$singleId}");
+        $data = $data?:[];
+        if($data){
+            //输出数据格式转换
+            $data['singleId'] = intval($data['singleId']);
+            $data['shrink'] = intval($data['shrink']);
+            $data['diastole'] = intval($data['diastole']);
+            $data['bpm'] = intval($data['bpm']);
+            $data['time'] = strtotime($data['time']);
+        }
+        return $data;
+    }
     //获取单次测量报告页面输出列表
     //该方法暂时未用到
     public function getSingleList($userId)

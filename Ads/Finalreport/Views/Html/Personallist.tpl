@@ -54,7 +54,8 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-6 ">
+    <div class="col-md-3 ">
+        {widget ads='patient/userinfo/Getpatientinfo'}
     </div>
 </div>
 

@@ -60,12 +60,12 @@ class BaseController{
                     [ 'title' => '详情',
                         'des'   => '详情',
                         'ads'   => 'Finalreport/html/detail',
-                        'hidden'=> 0,
+                        'hidden'=> 1,
                     ],
                     [ 'title' => '个人列表',
                         'des'   => '个人列表',
                         'ads'   => 'Finalreport/html/personallist',
-                        'hidden'=> 0,
+                        'hidden'=> 1,
                     ],
                 ]
             ]

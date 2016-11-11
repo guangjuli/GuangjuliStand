@@ -63,7 +63,8 @@ class Token implements ModelInterface
             return [
             'token'     =>bus('token')['token'],
             'expires'   =>$this->expires,
-            'orgId'     =>$orgId
+            'orgId'     =>intval($orgId),
+            'group'     =>bus('token')['group']
             ];
         }else{
             return [];
@@ -82,7 +83,7 @@ class Token implements ModelInterface
         $tokenInfo = $this->getTokenInfoFromSql($token);
         if(empty($tokenInfo))return [];
         $enableTime = intval($tokenInfo['createAt'])+intval($tokenInfo['expireIn']);
-        if($enableTime>time())return [];
+        if($enableTime<time())return [];
         return $tokenInfo;
     }
 
@@ -152,7 +153,7 @@ class Token implements ModelInterface
         //验证verify是够正确
         if(!$this->verify($req)) return false;
         //验证用户是否存在
-        $user = model('User')->getDoctorByLogin($req['login'],$req['type']);
+        $user = model('User')->getDoctorByLogin($req['login']);
         if(empty($user))return false;
         //生成token
         $token = md5($req['login'] . '_' . microtime(true) . '_' . rand(100000000, 999999999));
@@ -161,6 +162,7 @@ class Token implements ModelInterface
             'userId'=> $user['userId'],
             'login'=> $req['login'],
             'password'=>$req['password'],
+            'group'=>$user['group'],
             'type'=>'pc',      //android或ios
             'token'=> $token
         ]
@@ -176,7 +178,7 @@ class Token implements ModelInterface
      */
     public function verify($req)
     {
-        $verify = $req['verify'];
+        $verify = strtolower($req['verify']);
         $login = $req['login'];
         $time = $req['time'];
         $check = md5($this->clientSecret.$login.$time);

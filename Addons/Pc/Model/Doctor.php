@@ -30,34 +30,51 @@ class Doctor
 
     //TODO:待修改
     //获取患者列表，获取用户关联对象的列表信息
-    public function getPatientList($orgId,$page,$num)
+    public function getPatientList($orgId,$doctorId,$page,$num,$field=null,$sort=null)
     {
+        $page = intval($page)-1;
+        $num = intval($num);
         $returnList = array();
         //获取userId列表
         $userIdList = model('User')->getPatientListByOrgId($orgId);
-        //获取用户列表
-        $patientList = model('Patient')->getUserList($userIdList);
-        $list  =$patientList['patientList'];
-        //消息列表
-        $newsList = model('News')->getNewsList($userIdList,$page,$num);
-        if(!empty($patientList)){
-            $newsNum = count($newsList);
-            $returnList['number'] = $patientList['number'];
-            $returnList['averageAge']= $patientList['averageAge'];
-            $returnList['news']= $newsNum;
-            $returnList['patientList'] = [];
-            foreach($newsList as $v){
-                $userInfo = $list[$v['userId']];
-                if($userInfo){
-                    $userInfo['newsType']=intval($v['newsType']);
-                    if($v['newsType']!=2){
-                       $userInfo['planId']=intval($v['planId']);
-                        unset($v['bloodpressId']);
-                    }
-                    $userInfo['createTime']=intval($v['createTime']);
-                    $returnList['patientList'][] = $userInfo;
+        foreach($userIdList as $k=>$v){
+            if($data = server('cache')->get($v)){
+                if($data!=$doctorId)unset($userIdList[$k]);
+            }
+        }
+        //拼排序条件
+        $fieldSort = '';
+        if($field){
+            $fields = ['age','trueName','createTime','newsType','gender'];
+            if(in_array($field,$fields)){
+                if($fields!='trueName'){
+                    $fieldSort=$sort?",{$field} asc":",{$field} desc";
+                }else{
+                    $fieldSort=$sort?",convert(trueName using gbk) asc ":",convert(trueName using gbk) desc";
                 }
             }
+        }
+        //获取消息列表数据
+        if($userIdList){
+            $list = '('.implode(',',$userIdList).')';
+            $newsList=server('Db')->getAll("select p.userId,age,trueName,gender,newsType,createTime,planId,newsId from patient p ,news n where p.userId in {$list}
+                and p.userId = n.userId order by newsType desc {$fieldSort} limit {$page},{$num}");
+            $total = model('Patient')->getUserList($userIdList);
+            $newsList = $newsList?:[];
+            $newsNum = count($newsList);
+            $returnList['number'] = $total['number'];
+            $returnList['averageAge']= $total['averageAge'];
+            $returnList['news']= $newsNum;
+            $returnList['patientList'] = [];
+            foreach($newsList as $k=>$v){
+                $newsList[$k]['userId'] = intval($v['userId']);
+                $newsList[$k]['age'] = intval($v['age']);
+                $newsList[$k]['newsId'] = intval($v['newsId']);
+                $newsList[$k]['newsType']=intval($v['newsType']);
+                $newsList[$k]['planId']=intval($v['planId']);
+                $newsList[$k]['createTime']=intval($v['createTime']);
+            }
+            $returnList['patientList']= $newsList;
         }
         return $returnList;
     }

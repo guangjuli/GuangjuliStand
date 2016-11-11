@@ -32,7 +32,7 @@ class Html extends BaseController
 
     public function doPersonallist()
     {
-        $userId = req('Get')['userId'];
+        $userId = req('Get')['patientId'];
         $data=fc("getFinalReportPersonalList",$userId);
         return  server('Smarty')->ads('finalreport/html/personallist')->fetch('',[
             'data'=>$data
@@ -46,6 +46,7 @@ class Html extends BaseController
         $data['beginTime'] = date('Y-m-d',strtotime($data['beginTime']));
         $data['endTime'] = date('Y-m-d',strtotime($data['endTime']));
         $data['time'] = date('Y-m-d',strtotime($data['time']));
+        //D($data);
         return  server('Smarty')->ads('finalreport/html/detail')->fetch('',[
             'data'=>$data
         ]);
@@ -166,7 +167,7 @@ class Html extends BaseController
     public function doGetfinalreportmeasureplanlist($reportId)
     {
         $reportId = intval($reportId);
-        $planList = server('Db')->getAll("select beginTime,endTIme,project from measure_plan where belongReportId = {$reportId} and active=1");
+        $planList = server('Db')->getAll("select beginTime,endTime,project from measure_plan where belongReportId = {$reportId} and active=1");
         $planList=$planList?:[];
         foreach($planList as $k=>$v){
             $type = fc("getMeasureTypeMap");
@@ -175,7 +176,7 @@ class Html extends BaseController
             foreach(array_keys($project)as $value){
                 $projectList[]=$type[$value];
             }
-            $planList[$k]['project']=$projectList;
+            $planList[$k]['project']=$projectList?implode('、',$projectList):null;
         }
         return $planList;
     }

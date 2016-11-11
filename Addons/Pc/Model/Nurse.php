@@ -73,25 +73,37 @@ class Nurse
     }
 
     //获取护士界面患者显示列表
-    public function getShowHosPatientList($orgId)
+    public function getShowHosPatientList($orgId,$page,$num,$field=null,$sort=null)
     {
-        $patientList = $this->getHosPatientList($orgId);
-        if($patientList){
-            $userIdList = array();
-            foreach($patientList as $v){
-                $userIdList[] = $v['userId'];
-            }
-            if($userIdList){
-                $noDetection = $this->getNoDetectionMap($userIdList);
-                $isNewUser = model('Finalreport')->isNewUser($userIdList);
-                foreach($patientList as $k=>$v){
-                    $patientList[$k]['gender']=intval($v['gender']);
-                    $patientList[$k]['age']=intval($v['age']);
-                    $patientList[$k]['userId']=intval($v['userId']);
-                    $patientList[$k]['noDetection'] = $noDetection[$v['userId']]?:0;
-                    $patientList[$k]['isNewUser'] = in_array($v['userId'],$isNewUser)?1:0;
+        $time = date('Ymd',time());
+        $orgId = intval($orgId);
+        $page = intval($page)-1;
+        $num = intval($num);
+        //排序
+        $fieldSort = '';
+        if($field){
+            $fields = ['age','trueName','gender','isNewUser','noDetection'];
+            if(in_array($field,$fields)){
+                if($fields!='trueName'){
+                    $fieldSort=$sort?"order by {$field} asc":"order by {$field} desc";
+                }else{
+                    $fieldSort=$sort?"order by convert(trueName using gbk) asc ":" order by convert(trueName using gbk) desc";
                 }
             }
+        }
+        $patientList=server('Db')->getAll("select list.*,isNewUser from (select user.*,noDetection from (select u.userId,trueName,age,gender from user u
+        ,patient p where u.userId=p.userId and orgId= {$orgId} and u.active=1)as user left join (select userId ,noDetection
+        from measure_plan where beginTime<'$time' and endTime>'$time' and userId in (select userId from user
+        where orgId={$orgId} and active=1 and groupId in(20,21)))as measure on user.userId=measure.userId)as list left join
+        (select userId as isNewUser from final_report where userId in (select userId from user where orgId={$orgId} and
+        active=1 and groupId in(20,21))group by userId) as final on final.isNewUser=list.userId {$fieldSort} limit $page,$num");
+        $patientList = $patientList?:[];
+        foreach($patientList as $k=>$v){
+            $patientList[$k]['gender']=intval($v['gender']);
+            $patientList[$k]['age']=intval($v['age']);
+            $patientList[$k]['userId']=intval($v['userId']);
+            $patientList[$k]['noDetection'] = $v['noDetection']?count(unserialize($v['noDetection'])):0;
+            $patientList[$k]['isNewUser'] = $v['isNewUser']?1:0;
         }
         return $patientList;
     }
