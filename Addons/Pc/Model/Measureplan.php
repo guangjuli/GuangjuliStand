@@ -57,20 +57,8 @@ class Measureplan
         $userId = intval($userId);
         $orgId = intval($orgId);
         $time = date('Ymd',time());
-        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `userId` = {$userId} and `endTime`<='{$time}' and `orgId`={$orgId} and active=1");
-        $plan=$plan?:[];
-        $type = model('Measuretype')->getMeasureTypeMap();
-        foreach($plan as $k=>$v){
-            if($v['project']){
-                $project=unserialize($v['project']);
-                $pro = array();
-                foreach(array_keys($project)as $value){
-                    $pro[]=$type[$value];
-                }
-                $plan[$k]['project'] = $pro;
-            }
-        }
-        return $plan;
+        $plan = server('Db')->getAll("select planId,beginTime,endTime from `measure_plan` where `userId` = {$userId} and `endTime`<='{$time}' and `orgId`={$orgId} and `reportId`!=0 and active=1 order by `beginTime` desc");
+        return $plan?:[];
     }
     //获取测量计划的时间范围map
     public function getOldMeasurePlanTimeMap($userId,$orgId)
@@ -139,7 +127,7 @@ class Measureplan
         $time = date('Ymd',time());
         $userId = intval($userId);
         $orgId = intval($orgId);
-        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `orgId`={$orgId} and `userId` = {$userId} and `beginTime`>{$time} and `reportId`=0 and active=1");
+        $plan = server('Db')->getAll("select planId,project,beginTime,endTime from `measure_plan` where `orgId`={$orgId} and `userId` = {$userId} and `beginTime`>{$time} and `reportId`=0 and active=1 order by beginTime desc");
         $plan=$plan?:[];
         $type = model('Measuretype')->getMeasureTypeMap();
         foreach($plan as $k=>$v){

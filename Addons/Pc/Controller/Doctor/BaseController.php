@@ -7,8 +7,8 @@ namespace Addons\Controller;
 class BaseController{
 
     public function __construct(){
-        file_get_contents('php://input', 'r');
-        $req = json_decode(req('Post'));
+        $get_data = file_get_contents("php://input");
+		$req = json_decode($get_data, true);
         model('Gate')->verifyToken($req['token']);
     }
 }

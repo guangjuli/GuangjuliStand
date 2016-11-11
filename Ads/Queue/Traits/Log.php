@@ -1,19 +1,15 @@
 <?php
-
-namespace Ads\Queue\Traits;
-
 /**
  * Created by PhpStorm.
- * User: shampeak
- * Date: 2016/7/17
- * Time: 3:39
- * ajax返回部件
+ * User: Administrator
+ * Date: 2016-11-01
+ * Time: 16:37
  */
+namespace Ads\Queue\Traits;
 
-trait Data
+trait Log
 {
-
-    private $cachepath = __DIR__;
+    private $path='../Cache/Timedtask/';
 
     /**
      * @param $key
@@ -24,13 +20,13 @@ trait Data
         {
             halt('\Ads\Pm\Traits\Data::get Data Key error');
         }
-        $file = $this->cachepath = __DIR__.'/../Data/'.$key.'.data';
+        $file = $this->path.$key.'.data';
         if(is_file($file)){
             $nr = @file_get_contents($file);
         }else{
             $nr = '';
         }
-        $nr = json_decode($nr,true);
+        $nr = unserialize($nr);
         return $nr;
     }
 
@@ -40,11 +36,11 @@ trait Data
         {
             halt('\Ads\Pm\Traits\Data::set Data Key error');
         }
-        $file = $this->cachepath = __DIR__.'/../Data/'.$key.'.data';
-        $value = json_encode($value);
-        @file_put_contents($file,$value);
+        $file = $this->path.$key.'.data';
+        $value = serialize($value)."\n";
+        $handle=fopen($file,"a+");
+        @fwrite($handle,$value);
+        fclose($handle);
         return true;
     }
-
-
 }

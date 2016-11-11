@@ -127,25 +127,18 @@ class Patient
         $patientList = array();
         if(!empty($userIdList)){
             $list = implode(',',$userIdList);
-            $sql = 'select `userId`, `trueName`,`age`,`gender` from patient where `userId`in'.'('.$list.')';
-            $userList = server('Db')->getAll($sql,'userId');
+            $sql = 'select `age` from patient where `userId`in'.'('.$list.')';
+            $userList = server('Db')->getCol($sql);
             if($userList){
                 //计算人数
                 $num = count($userList);
                 //计算平均年龄
                 $total = 0;
                 foreach($userList as $v){
-                    $total+=$v['age'];
+                    $total+=$v;
                 }
-                $avgAge = $total/$num;
                 $patientList['number']=$num;
-                $patientList['averageAge']=$avgAge;
-                foreach($userList as $k=>$v){
-                    $userList[$k]['userId']=intval($v['userId']);
-                    $userList[$k]['age']=intval($v['age']);
-                    $userList[$k]['gender']=intval($v['gender']);
-                }
-                $patientList['patientList'] = $userList;
+                $patientList['averageAge']=round($total/$num);
             }
         }
         return $patientList;

@@ -40,7 +40,6 @@ class Bloodpress
                     }
                 }
             }
-            $single['planId']=intval($plan['planId']);
         }
         return $single;
     }
@@ -185,8 +184,8 @@ class Bloodpress
         $plan = model('Measureplan')->getMeasurePlanByTime($time,$userId,$orgId);
         $counts = 0;
         if($plan){
-            $counts = server('Db')->getCol("select count(createDay)as 'counts' from bloodpress where createDay>'{$plan['beginTime']}' and createDay<'{$plan['endTime']}'  and userId = {$userId} group by createDay");
-            if($counts)$counts = count($counts);
+            $countst = server('Db')->getCol("select count(createDay)as 'counts' from bloodpress where createDay>'{$plan['beginTime']}' and createDay<'{$plan['endTime']}'  and userId = {$userId} group by createDay");
+            if($countst)$counts = count($countst);
         }
         return $counts;
     }

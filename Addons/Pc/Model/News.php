@@ -12,19 +12,40 @@ namespace Addons\Model;
 class News
 {
     //获取组织机构患者未被查看的消息列表
-    public function getNewsList(array $userId,$page,$num)
+    public function getNewsList(array $userId,$doctorId,$page,$num,$field=null,$sort=null)
     {
         $page = intval($page)-1;
         $num = intval($num);
         $newList = array();
-        if(!empty($userId)){
-            $list = '('.implode(',',$userId).')';
-            $sql = "select userId, createTime,newsType,bloodpressId,planId from news where `userId` in $list and `active`=0 order by newsType desc,createTime desc limit {$page},{$num}";
+        $newsIdList = $this->getNewsId($userId,$doctorId);
+        if(!empty($field))
+        if($newsIdList){
+            $list = '('.implode(',',$newsIdList).')';
+            $sql = "select newsId,userId, createTime,newsType,bloodpressId,planId from news where `newsId` in $list and `active`=0 order by newsType desc,createTime desc limit {$page},{$num}";
             $newList = server('Db')->getAll($sql);
             $newList = $newList?:[];
         }
         return $newList;
     }
+
+    //获取组织机构待处理的消息id
+    public function getNewsId(array $userId,$doctorId)
+    {
+        $newList = array();
+        if(!empty($userId)){
+            $list = '('.implode(',',$userId).')';
+            $sql = "select newsId from news where `userId` in $list and `active`=0 ";
+            $newList = server('Db')->getCol($sql);
+            $newList = $newList?:[];
+            foreach($newList as $k=>$v){
+                if($data = server('cache')->get($v)){
+                    if($data!=$doctorId)unset($newList[$k]);
+                }
+            }
+        }
+        return $newList;
+    }
+
 
     //获取测量计划内未处理紧急消息数据id
     public function getNewsDataId($time,$userId,$orgId)
@@ -121,4 +142,43 @@ class News
         }
         return $check;
     }
+
+    //数据的状态锁定
+    public function lock($newsId,$doctorId,$expire=null)
+    {
+        //key:newsId,value:doctorId
+        $newsId = intval($newsId);
+        $doctorId = intval($doctorId);
+        $expire = intval($expire);
+        server('cache')->set($newsId,$doctorId,$expire);
+    }
+    //取消锁定状态
+    public function unlock($newsId)
+    {
+        //清除
+        $newsId = intval($newsId);
+        server('cache')->delete($newsId);
+    }
+    //判断是否处于锁定状态
+    public function isLock($newsId,$doctorId,$expire)
+    {
+        //判断锁是否存在，如果存在医生编号是否对应，如果对应允许编辑，
+        $newsId = intval($newsId);
+        $doctorId = intval($doctorId);
+        if($data=server('cache')->get($newsId)){
+            if($data==$doctorId){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            $this->lock($newsId,$doctorId,$expire);
+            return true;
+        }
+    }
+
+    //参数校验
+    //校验newsId是否存在
+
+    //校验医生id是否存在
 }

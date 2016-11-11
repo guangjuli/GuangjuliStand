@@ -43,7 +43,7 @@
         var _data = data;
         $.ajax({
             type: "Post",
-            url: '/man/?queue/html/timere',
+            url: '/man/?queue/html/Insertnews',
             data:data,
             dataType:'json',
             success: function(data){

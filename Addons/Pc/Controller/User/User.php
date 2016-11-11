@@ -13,16 +13,13 @@ class User
 
     use \Addons\Traits\AjaxReturn;
 
-    public function __construct()
-    {
-        file_get_contents('php://input', 'r');
-    }
+   
 
     //用户登录
     public function doLoginPost()
     {
-        $req = saddslashes(req('Post'));
-        $req = json_decode($req);
+        $get_data = file_get_contents("php://input");
+		$req = json_decode($get_data, true);
         $token = model('Token')->accessToken($req);
         if(empty($token)){
             $this->AjaxReturn([
@@ -30,14 +27,13 @@ class User
                 'msg'=>'没有权限',
             ]);
         }
-        $user = model('User')->getDoctorByLogin($req['login'],$req['type']);
-        if(empty($user)){
+        if(empty(bus('token')['userId'])){
             $this->AjaxReturn([
                 'code'=>-200,
                 'msg'=>'该用户不存在',
             ]);
         }
-        if($user['password']!=$req['password']){
+        if(bus('token')['password']!=$req['password']){
             $this->AjaxReturn([
                 'code'=>-201,
                 'msg'=>'密码错误',
