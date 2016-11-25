@@ -11,12 +11,12 @@ echo 'Hello Grace\Base\Base';
 
 
 $config =  [
-    'viewpath'   => '../Config/View/',
+    'viewpath'   => '../Config/Views/',
 ];
 
 $res = new Grace\View\View($config);
 
-$res->viewpath('../Config/View/');      //改变模板根路径
+$res->viewpath('../Config/Views/');      //改变模板根路径
 //指定控制器和执行方法
 //$res->router([
 //    'Controller'=>'controller',

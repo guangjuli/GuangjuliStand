@@ -29,6 +29,12 @@ class AsyncOperation{
         array_multisort($newArr,SORT_ASC, $list);
         return $list;
     }
+
+    /*public function test2()
+    {
+        server('cache')->set('a','nsc');
+        return server('cache')->get('a');
+    }*/
 }
 $thread = new AsyncOperation("World");
 print_r($thread->test());

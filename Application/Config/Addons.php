@@ -7,7 +7,8 @@ return [
         'Welcome',
     'V',
     'Admin',
-    'Pc'
+    'Pc',
+    'Article'
 
 
 ];

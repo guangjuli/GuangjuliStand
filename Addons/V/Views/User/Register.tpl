@@ -9,10 +9,7 @@
 </form>
 
 <form action="/v/User/userinfo" method="post">
-    <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
-    <input type="text" name="trueName" value="baby">
-    <input type="text" name="gender" value=0>
-    <input type="text" name="birthday" value="2016-8-19">
+    <input type="text" name="token" value="dd605c4834c08c3f5d95130a66ef63ea">
     <input type="submit" value="提交">
 </form>
 
@@ -25,8 +22,7 @@
 <form action="/v/User/resetpassword" method="post">
     <input type="text" name="token" value="4fe073e1ebc828d51f9145e290126ca8">
     <input type="text" name="password" value="abc34Ac6">
-    <input type="text" name="confirm_password" value="abc34Ac6">
-    <input type="text" name="old_password" value="a12a456b">
+    <input type="text" name="old_password" value="a12a456b">11111111
     <input type="submit" value="提交">
 </form>
 

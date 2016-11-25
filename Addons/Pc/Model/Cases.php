@@ -33,7 +33,7 @@ class Cases
             $sideEffect[] = $v['sideEffect'];
         }
         if(!empty($medicineList))$req['medication']=implode(',',$medicineList);
-        if(!empty($sideEffect))$req['sideEffect']=implode(',',$sideEffect);
+        if(!empty($sideEffect))$req['sideEffect']=implode(';',$sideEffect);
         $insert = server('Db')->autoExecute('`case`', $req, 'INSERT');
         if($insert)$id = server('Db')->insert_id();
         return $id;

@@ -33,7 +33,7 @@ trait ApplicationHelp{
         $chr = $title = $_GET['chr'];
 
         //计算左侧菜单
-        //<li  class="active"><a href="/index.php?book=01-grace&lm=controller&ar=controller.md"> Controller </a></li>
+        //<li  class="active"><a href="/index.tpl?book=01-grace&lm=controller&ar=controller.md"> Controller </a></li>
         $nav = '';
         foreach($objectList as $key=> $value){
             if($key == $chr){

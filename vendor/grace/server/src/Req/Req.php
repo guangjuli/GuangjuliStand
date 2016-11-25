@@ -83,7 +83,7 @@ class Req extends Base
             }
         }
         reset($_path);
-        if (current($_path) == 'index.php') {
+        if (current($_path) == 'index.tpl') {
             array_shift($_path);
         }
         $_params = array();

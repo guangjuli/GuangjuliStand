@@ -61,8 +61,8 @@
             indicatorLoadingTitle: '上传 ...'
         },
         previewZoomButtonTitles: {
-            prev: 'View previous file',
-            next: 'View next file',
+            prev: 'Views previous file',
+            next: 'Views next file',
             toggleheader: 'Toggle header',
             fullscreen: 'Toggle full screen',
             borderless: 'Toggle borderless mode',

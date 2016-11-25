@@ -24,7 +24,7 @@ class Doctor extends BaseController
         $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
         $doctorId = bus('tokenInfo')['userId'];
-        $newsList = model('Doctor')->getPatientList($req['orgId'],$doctorId,$req['page'],$req['num'],$req['field'],$req['sort']);
+        $newsList = model('Doctor')->getPatientList($req['orgId'],$doctorId,$req['page'],$req['num'],$req['field'],$req['sort'],$req['trueName']);
         if($newsList){
             $this->AjaxReturn([
                 'code'=>200,
@@ -316,7 +316,7 @@ class Doctor extends BaseController
     //获取测量计划内动态测量数据     ok
     public function doGetdynamicdataPost()
     {
-        $get_data = file_get_contents("php://input"); 
+        $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
         $dynamicData = model('Bloodpress')->getDynamicBloodpress($req['planId'],$req['userId']);
         if($dynamicData){
@@ -494,9 +494,13 @@ class Doctor extends BaseController
 		$req = json_decode($get_data, true);
         if(!model('Finalreport')->isExistFinalReportPlanId($req['planId'])){
             $check = model('Finalreport')->insertFinalReport($req);
-            if($check){
+            if(!empty($check)){
                 $this->AjaxReturn([
-                    'code'=>200
+                    'code'=>200,
+                    'msg'=>'succeed',
+                    'data'=>[
+                        'reportId'=>$check
+                    ]
                 ]);
             }else{
                 $this->AjaxReturn([
@@ -513,10 +517,10 @@ class Doctor extends BaseController
     //获取最终报告列表     ok
     public function doGetfinalreportlistPost()
     {
-        $get_data = file_get_contents("php://input"); 
+        $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
         $userId = $req['userId'];
-        $list = model('Finalreport')->getFinalReportList($userId);
+        $list = model('Finalreport')->getFinalReportList($userId,$req['page'],$req['num'],$req['time']);
         if($list){
             $this->AjaxReturn([
                 'code'=>200,
@@ -530,8 +534,8 @@ class Doctor extends BaseController
             ]);
         }
     }
-    //搜索最终报告
-    public function doSearchfinalreportPost()
+    //搜索最终报告  弃用
+    /*public function doSearchfinalreportPost()
     {
         $get_data = file_get_contents("php://input");
         $req = json_decode($get_data, true);
@@ -550,7 +554,7 @@ class Doctor extends BaseController
                 'msg'=>'no data!'
             ]);
         }
-    }
+    }*/
     //获取报告详情     ok
     public function doGetfinalreportdetailPost()
     {
@@ -617,16 +621,24 @@ class Doctor extends BaseController
     //添加测量计划
     public function doInsertmeasureplanPost()
     {
-        $get_data = file_get_contents("php://input"); 
+        $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
-        $check = model('Measureplan')->insertMeasurePlan($req);
-        if($check){
-            $this->AjaxReturn([
-                'code'=>200
-            ]);
+        $validate = model('Measureplan')->checkMeasurePlanTimeRange($req['beginTime'],$req['userId'],$req['orgId']);
+        if($validate){
+            $check = model('Measureplan')->insertMeasurePlan($req);
+            if($check){
+                $this->AjaxReturn([
+                    'code'=>200
+                ]);
+            }else{
+                $this->AjaxReturn([
+                    'code'=>-200
+                ]);
+            }
         }else{
             $this->AjaxReturn([
-                'code'=>-200
+                'code'=>-201,
+                'msg'=>'Time range can\'t cross'
             ]);
         }
     }
@@ -671,7 +683,7 @@ class Doctor extends BaseController
         }
     }
 
-    //排序功能
+    //消息列表查询
     public function doSort()
     {
 

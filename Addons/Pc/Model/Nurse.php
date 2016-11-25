@@ -73,7 +73,7 @@ class Nurse
     }
 
     //获取护士界面患者显示列表
-    public function getShowHosPatientList($orgId,$page,$num,$field=null,$sort=null)
+    public function getShowHosPatientList($orgId,$page,$num,$field=null,$sort=null,$trueName=null)
     {
         $time = date('Ymd',time());
         $orgId = intval($orgId);
@@ -91,8 +91,14 @@ class Nurse
                 }
             }
         }
+        //按名字查询
+        $search = '';
+        if($trueName){
+            $trueName = saddslashes($trueName);
+            $search = "and trueName like '%{$trueName}%'";
+        }
         $patientList=server('Db')->getAll("select list.*,isNewUser from (select user.*,noDetection from (select u.userId,trueName,age,gender from user u
-        ,patient p where u.userId=p.userId and orgId= {$orgId} and u.active=1)as user left join (select userId ,noDetection
+        ,patient p where u.userId=p.userId and orgId= {$orgId} {$search} and u.active=1)as user left join (select userId ,noDetection
         from measure_plan where beginTime<'$time' and endTime>'$time' and userId in (select userId from user
         where orgId={$orgId} and active=1 and groupId in(20,21)))as measure on user.userId=measure.userId)as list left join
         (select userId as isNewUser from final_report where userId in (select userId from user where orgId={$orgId} and

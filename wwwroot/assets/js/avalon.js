@@ -1008,7 +1008,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 
-	//https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
+	//https://www.owasp.org/index.tpl/XSS_Filter_Evasion_Cheat_Sheet
 	//    <a href="javasc&NewLine;ript&colon;alert('XSS')">chrome</a> 
 	//    <a href="data:text/html;base64, PGltZyBzcmM9eCBvbmVycm9yPWFsZXJ0KDEpPg==">chrome</a>
 	//    <a href="jav	ascript:alert('XSS');">IE67chrome</a>

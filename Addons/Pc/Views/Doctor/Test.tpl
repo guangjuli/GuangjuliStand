@@ -49,7 +49,7 @@
 <form action="/pc/doctor/Getsingledata" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
     <input type="text" name="planId" value="2">
-    <input type="submit" value="提交">222222222222
+    <input type="submit" value="提交">22222222222222222222222222222222222
 </form>   {*获取测量计划内单次血压源数据*}
 
 <form action="/pc/doctor/Insertsinglereport" method="post" accept-charset="UTF-8">
@@ -71,7 +71,7 @@
 <form action="/pc/doctor/Getdynamicdata" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
     <input type="text" name="planId" value="2">
-    <input type="submit" value="提交">
+    <input type="submit" value="提交"> 333333333333333333333333333333333333333333333333333333333333
 </form>   {*获取测量计划内动态测量数据*}
 
 <form action="/pc/doctor/Insertdynamicreport" method="post" accept-charset="UTF-8">
@@ -115,8 +115,12 @@
 
 <form action="/pc/doctor/Getfinalreportlist" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
+    <input type="text" name="page" value="1">
+    <input type="text" name="num" value="10">
+    <input type="text" name="token" value="5593bee793517246f9d1f8772d8a20b5">
+    <input type="text" name="time" value="">
     <input type="submit" value="提交">
-</form>   {*获取正常情况下测量计划内测量次数*}
+</form>   {*获取正常情况下测量计划内测量次数*}okkkkkkkkkk
 
 <form action="/pc/doctor/Getfinalreportdetail" method="post" accept-charset="UTF-8">
     <input type="text" name="reportId" value="8">
@@ -129,6 +133,7 @@
     <input type="text" name="token" value="5593bee793517246f9d1f8772d8a20b5">
     <input type="text" name="page" value="1">
     <input type="text" name="num" value="10">
+    <input type="text" name="trueName" value="1">
     <input type="text" name="field" value="createTime">
     <input type="text" name="sort" value="0">
     <input type="submit" value="提交">
@@ -175,5 +180,13 @@
 
 <form action="/pc/doctor/Gethealthsinglereportdata" method="post" accept-charset="UTF-8">
     <input type="text" name="singleId" value="1">
+    <input type="submit" value="提交">获取动态测量报告详情
+</form>   {*健康页面获取动态测量报告行啊请*}
+
+<form action="/pc/doctor/Insertmeasureplan" method="post" accept-charset="UTF-8">
+    <input type="text" name="userId" value="1">
+    <input type="text" name="orgId" value="1">
+    <input type="text" name="beginTime" value="20161011">
+    <input type="text" name="endTime" value="20161113">
     <input type="submit" value="提交">获取动态测量报告详情
 </form>   {*健康页面获取动态测量报告行啊请*}

@@ -11,7 +11,7 @@ echo 'Hello Grace\Base\Base';
 
 
 $config =  [
-    'TemplateDir'   => '../Config/View/',
+    'TemplateDir'   => '../Config/Views/',
     'ConfigDir'     => 'Views/SmartyConfigs/',
     'CompileDir'    => 'Cache/SmartyTemplates_c/',
     'CacheDir'      => 'Cache/SmartyCache/',
@@ -22,7 +22,7 @@ $config =  [
 
 $res = new Grace\Smarty\Smarty($config);
 
-$res->path('../Config/View/');      //改变模板根路径
+$res->path('../Config/Views/');      //改变模板根路径
 $res->router([
     "Controller"=>"Home",
     "Mothed"    =>"Index",

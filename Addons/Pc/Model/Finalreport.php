@@ -37,7 +37,7 @@ class Finalreport
     public function insertFinalReport($req)
     {
         //插入健康报告
-        $validate = false;
+        $reportId = '';
         $healthId = model('Healthreport')->insertHealthReport($req);
         if($healthId){
             $req['healthId']=$healthId;
@@ -57,16 +57,16 @@ class Finalreport
                 //TODO:未校验
                 model('Measureplan')->updateMeasurePlanBelongReportId($reportId,$req['addPlanId']);
                 if($check2){
-                    $validate = true;
+                    $validate = $reportId;
                 }
             }
         }
-        if(!$validate){
+        if($reportId){
             //执行删除操作，TODO:以后改为事务
             $this->deleteFinalReportByPlanId($req['planId']);
             model('Healthreport')->deleteFinalReportByPlanId($req['planId']);
         }
-        return $validate;
+        return $reportId;
     }
 
     public function getFinalReport($reportId)
@@ -99,11 +99,19 @@ class Finalreport
         return $final;
     }
 
-    //获取最终报告列表
-    public function getFinalReportList($userId)
+    //获取最终报告列表     添加查询功能
+    public function getFinalReportList($userId,$page,$num,$time=null)
     {
         $userId = intval($userId);
-        $finalReport = server('Db')->getAll("select reportId,time,project,healthId from final_report where `userId`={$userId}");
+        $page = intval($page)-1;
+        $num = intval($num);
+        if(!empty($time)){
+            $time = date('Y-m-d',strtotime($time));
+            $search = "and time like '%{$time}%'";
+        }else{
+            $search = '';
+        }
+        $finalReport = server('Db')->getAll("select reportId,time,project,healthId from final_report where `userId`={$userId} {$search} order by `time` limit {$page},{$num}");
         $finalReport = $finalReport?:[];
         $finalReportMap = model('Healthreport')->getHealthReportByUserId($userId);
         if($finalReport){
@@ -117,7 +125,7 @@ class Finalreport
         return $finalReport;
     }
 
-    //查询最终报告
+    //查询最终报告   弃用
     public function searchFinalReport($userId,$time)
     {
         $time = date('Y-m-d',strtotime($time));

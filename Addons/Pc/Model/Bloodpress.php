@@ -20,10 +20,11 @@ class Bloodpress
             $beginTime = $plan['beginTime'];
             $endTime = $plan['endTime'];
             if($beginTime&&$endTime){
-                $single = server('Db')->getAll("select `time`,shrink,diastole,bpm,average,des from bloodpress where createDay>='{$beginTime}' and createDay<'{$endTime}' and userId={$userId} and type=0");
+                $single = server('Db')->getAll("select `bloodpressId`,`time`,shrink,diastole,bpm,average,des from bloodpress where createDay>='{$beginTime}' and createDay<'{$endTime}' and userId={$userId} and type=0");
                 $single = $single?:[];
                 foreach($single as $k=>$v){
                     //数据类型转换
+                    $single[$k]['bloodpressId']=intval($v['bloodpressId']);
                     $single[$k]['time']=intval($v['time']);
                     $single[$k]['shrink']=intval($v['shrink']);
                     $single[$k]['diastole']=intval($v['diastole']);
@@ -101,10 +102,11 @@ class Bloodpress
             $beginTime = $plan['beginTime'];
             $endTime = $plan['endTime'];
             if($beginTime&&$endTime){
-                $dynamic = server('Db')->getAll("select `time`,shrink,diastole,bpm,average,des from bloodpress where createDay>='{$beginTime}' and createDay<='{$endTime}' and userId={$userId} and type=1");
+                $dynamic = server('Db')->getAll("select `bloodpressId`,`time`,shrink,diastole,bpm,average,des from bloodpress where createDay>='{$beginTime}' and createDay<='{$endTime}' and userId={$userId} and type=1");
                 $dynamic = $dynamic?:[];
                 foreach($dynamic as $k=>$v){
                     //数据类型转换
+                    $dynamic[$k]['bloodpressId']=intval($v['bloodpressId']);
                     $dynamic[$k]['time']=intval($v['time']);
                     $dynamic[$k]['shrink']=intval($v['shrink']);
                     $dynamic[$k]['diastole']=intval($v['diastole']);

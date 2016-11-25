@@ -17,6 +17,7 @@ class Version
     public function getNewVersion($type)
     {
         $row = server('Db')->getRow("select v_min,prompt,isForceUpdate,url from version where v_min = (select max(v_min) from version) and type='{$type}'");
+        if($row)$row['url']=model('Upload')->isAbsolutePath($row['url']);
         return $row?:[];
     }
     //获取当前版本信息
@@ -30,6 +31,7 @@ class Version
     public function isUpdateVersion($req)
     {
         $req = saddslashes($req);
+        if(!($req['v_min']||$req['type']))return [];
         $current = $this->getCurrentVersion($req['v_min'],$req['type']);
         $new = $this->getNewVersion($req['type']);
         return $current['v_min']<$new['v_min']?$new:[];

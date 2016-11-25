@@ -92,9 +92,13 @@ class User extends BaseController
     public function doQuestionserveyPost()
     {
         $res = req('Post');
-        if($res['diseaseList']){
-            $diseaseList = json_decode("{$res['diseaseList']}",true);
-            $res['diseaseList']=implode(',',$diseaseList);
+        if($res['type']=='android'){
+            if($res['diseaseList']){
+                $diseaseList = json_decode("{$res['diseaseList']}",true);
+                $res['diseaseList']=implode(',',$diseaseList);
+            }
+        }else{
+            $res['diseaseList']=implode(',',$res['diseaseList']);
         }
         $check = model('Question')->questionSubmit($res,bus('tokenInfo')['userId']);
         if($check){

@@ -408,7 +408,7 @@
         function view($tpl = null, $data = [])
         {
             server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->display($tpl,$data);
-    //            $views = server('View')->router(req('Router'));
+    //            $views = server('Views')->router(req('Router'));
     //            $views->display($tpl, $data);
         }
     }
@@ -417,7 +417,7 @@
         function fetch($tpl = null, $data = [])
         {
             return server('Smarty')->path(APPROOT.'/Views/')->router(req('Router'))->fetch($tpl,$data);
-            //            $views = server('View')->router(req('Router'));
+            //            $views = server('Views')->router(req('Router'));
             //            $views->display($tpl, $data);
         }
     }

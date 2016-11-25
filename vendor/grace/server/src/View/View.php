@@ -34,7 +34,7 @@ class View
     private static $tmpData;
 
     /**
-     * View constructor.
+     * Views constructor.
      *
      * @param array $config
      */
@@ -113,7 +113,7 @@ class View
 
     /**
      * 渲染模板并输出
-     * $tplFile 模板文件路径，相对于App/View/文件的相对路径，不包含后缀名，例如index/index
+     * $tplFile 模板文件路径，相对于App/Views/文件的相对路径，不包含后缀名，例如index/index
      * @param $tplFile
      * @param $data
      */

@@ -329,7 +329,7 @@ function Calendar(element, options, eventSources) {
 	
 	
 	
-	/* View Rendering
+	/* Views Rendering
 	-----------------------------------------------------------------------------*/
 	
 
@@ -494,7 +494,7 @@ function Calendar(element, options, eventSources) {
 
 	function renderEvents(modifiedEventID) { // TODO: remove modifiedEventID hack
 		if (elementVisible()) {
-			currentView.setEventData(events); // for View.js, TODO: unify with renderEvents
+			currentView.setEventData(events); // for Views.js, TODO: unify with renderEvents
 			currentView.renderEvents(events, modifiedEventID); // actually render the DOM elements
 			currentView.trigger('eventAfterAllRender');
 		}
@@ -504,7 +504,7 @@ function Calendar(element, options, eventSources) {
 	function clearEvents() {
 		currentView.triggerEventDestroy(); // trigger 'eventDestroy' for each event
 		currentView.clearEvents(); // actually remove the DOM elements
-		currentView.clearEventData(); // for View.js, TODO: unify with clearEvents
+		currentView.clearEventData(); // for Views.js, TODO: unify with clearEvents
 	}
 	
 
@@ -5135,7 +5135,7 @@ function DayEventRenderer() {
 			true // set the heights of the rows
 		);
 
-		// report the elements to the View, for general drag/resize utilities
+		// report the elements to the Views, for general drag/resize utilities
 		segmentElementEach(segments, function(segment, element) {
 			reportEventElement(segment.event, element);
 		});
@@ -5257,7 +5257,7 @@ function DayEventRenderer() {
 
 
 	// Generate an array of segments for a single event.
-	// A "segment" is the same data structure that View.rangeToSegments produces,
+	// A "segment" is the same data structure that Views.rangeToSegments produces,
 	// with the addition of the `event` property being set to reference the original event.
 	function buildSegmentsForEvent(event) {
 		var startDate = event.start;

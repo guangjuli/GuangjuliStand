@@ -33,7 +33,7 @@ class User implements ModelInterface
     {
         if(!is_string($login))return [];
         $group=model('Usergroup')->getMapPatient();
-        $sql = "select `login`,`password` from user where login = '{$login}' and groupId in {$group} and active=1";
+        $sql = "select `userId`,`login`,`password` from user where login = '{$login}' and groupId in {$group} and active=1";
         $user = server('Db')->getRow($sql);
         return $user?:[];
     }
@@ -105,16 +105,22 @@ class User implements ModelInterface
     /**
      * 根据orgId获取用户列表
      * @param $orgId
+     * @param $trueName
      * @return array
      */
-    public function getPatientListByOrgId($orgId)
+    public function getPatientListByOrgId($orgId,$trueName=null)
     {
         $userList = [];
         $patient = [];
         $orgId = intval($orgId);
         $group = model('Usergroup')->getMapPatient();
         if(!empty($group)){
-            $userList = server('Db')->getAll("select userId from user where orgId={$orgId} and groupId in {$group}");
+            if(empty($trueName)){
+                $userList = server('Db')->getAll("select userId from user where orgId={$orgId} and groupId in {$group} and active=1");
+            }else{
+                $trueName = saddslashes($trueName);
+                $userList = server('Db')->getAll("select u.userId from user u ,patient p where u.userId=p.userId and orgId={$orgId} and groupId in {$group} and trueName like '%{$trueName}%' and u.active=1");
+            }
         }
         foreach($userList as $v){
             $patient[] = $v['userId'];

@@ -58,6 +58,12 @@ class Nurse extends BaseController
     {
         $get_data = file_get_contents("php://input"); 
 		$req = json_decode($get_data, true);
+        if(empty($req['userId'])){
+            $this->AjaxReturn([
+                'code'=>-202,
+                'msg'=>'手机号不能为空'
+            ]);
+        }
         if(!model('Patient')->isExistUserInfoById($req['userId'])){
             if(model('Patient')->insertInvalidPatient($req)){
                 model('Question')->insertQuestion($req);
@@ -115,15 +121,19 @@ class Nurse extends BaseController
     //添加   ok
     public function doAddpatientPost()
     {
-        $get_data = file_get_contents("php://input"); 
+        $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
         $login = $req['login'];
         $orgId = $req['orgId'];
         if(model('Validate')->validatePhone($login)){
-            if(model('User')->isExistUserByLogin($login)){
+            if($user=model('User')->getUserByLogin($login)){
                 if(model('Nurse')->addPatient($orgId,$login)){
                     $this->AjaxReturn([
-                        'code'=>200
+                        'code'=>200,
+                        'msg'=>'succeed',
+                        'data'=>[
+                            'userId'=>$user['userId']
+                        ]
                     ]);
                 }else{
                     $this->AjaxReturn([
@@ -149,7 +159,7 @@ class Nurse extends BaseController
         $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
         $orgId = $req['orgId'];
-        $patientList = model('Nurse')->getShowHosPatientList($orgId,$req['page'],$req['num'],$req['field'],$req['sort']);
+        $patientList = model('Nurse')->getShowHosPatientList($orgId,$req['page'],$req['num'],$req['field'],$req['sort'],$req['trueName']);
         if($patientList){
             $this->AjaxReturn([
                 'code'=>200,
@@ -163,8 +173,8 @@ class Nurse extends BaseController
             ]);
         }
     }
-    //搜索    ok
-    public function doSearchpatientPost()
+    //搜索  弃用  ok
+    /*public function doSearchpatientPost()
     {
         $get_data = file_get_contents("php://input"); 
 		$req = json_decode($get_data, true);
@@ -183,24 +193,31 @@ class Nurse extends BaseController
                 'msg'=>'no data'
             ]);
         }
-    }
+    }*/
     //添加联系人   ok
     public function doAddcontactsPost()
     {
         $get_data = file_get_contents("php://input"); 
 		$req = json_decode($get_data, true);
-        $id = model('Contacts')->addContacts($req);
-        if($id){
-            $this->AjaxReturn([
-                'code'=>200,
-                'msg'=>'succeed',
-                'data'=>[
-                    'contactsId'=>$id
-                ]
-            ]);
+        if($req['userId']){
+            $id = model('Contacts')->addContacts($req);
+            if($id){
+                $this->AjaxReturn([
+                    'code'=>200,
+                    'msg'=>'succeed',
+                    'data'=>[
+                        'contactsId'=>$id
+                    ]
+                ]);
+            }else{
+                $this->AjaxReturn([
+                    'code'=>-200
+                ]);
+            }
         }else{
             $this->AjaxReturn([
-                'code'=>-200
+                'code'=>-201,
+                'msg' =>'请填写可用手机号后添加联系人'
             ]);
         }
     }
@@ -225,20 +242,28 @@ class Nurse extends BaseController
     //添加病例      ok
     public function doAddcasesPost()
     {
-        $get_data = file_get_contents("php://input"); 
+        $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
-        $id = model('Cases')->insertInvalidCases($req);
-        if($id){
-            $this->AjaxReturn([
-                'code'=>200,
-                'msg'=>'succeed',
-                'data'=>[
-                    'caseId'=>$id
-                ]
-            ]);
+        if($req['userId']){
+
+            $id = model('Cases')->insertInvalidCases($req);
+            if($id){
+                $this->AjaxReturn([
+                    'code'=>200,
+                    'msg'=>'succeed',
+                    'data'=>[
+                        'caseId'=>$id
+                    ]
+                ]);
+            }else{
+                $this->AjaxReturn([
+                    'code'=>-200
+                ]);
+            }
         }else{
             $this->AjaxReturn([
-                'code'=>-200
+                'code'=>-201,
+                'msg' =>'请填写可用手机号后添加病例'
             ]);
         }
     }
@@ -264,18 +289,25 @@ class Nurse extends BaseController
     {
         $get_data = file_get_contents("php://input"); 
 		$req = json_decode($get_data, true);
-        $id =  model('Measureplan')->insertInvalidMeasurePlan($req);
-        if($id){
-            $this->AjaxReturn([
-                'code'=>200,
-                'msg'=>'succeed',
-                'data'=>[
-                    'planId'=>$id
-                ]
-            ]);
+        if($req['userId']){
+            $id =  model('Measureplan')->insertInvalidMeasurePlan($req);
+            if($id){
+                $this->AjaxReturn([
+                    'code'=>200,
+                    'msg'=>'succeed',
+                    'data'=>[
+                        'planId'=>$id
+                    ]
+                ]);
+            }else{
+                $this->AjaxReturn([
+                    'code'=>-200
+                ]);
+            }
         }else{
             $this->AjaxReturn([
-                'code'=>-200
+                'code'=>-201,
+                'msg' =>'请填写可用手机号后添加维护计划'
             ]);
         }
     }
@@ -320,7 +352,7 @@ class Nurse extends BaseController
     //获取患者的病例     ok
     public function doGetpatientcasesPost()
     {
-        $get_data = file_get_contents("php://input"); 
+        $get_data = file_get_contents("php://input");
 		$req = json_decode($get_data, true);
         $userId= $req['userId'];
         $orgId= $req['orgId'];

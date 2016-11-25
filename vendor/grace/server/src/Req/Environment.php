@@ -75,8 +75,8 @@ class Environment extends Base
         //The IP
         $env['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
         // Server params
-        $scriptName = $_SERVER['SCRIPT_NAME']; // <-- "/foo/index.php"
-        $requestUri = $_SERVER['REQUEST_URI']; // <-- "/foo/bar?test=abc" or "/foo/index.php/bar?test=abc"
+        $scriptName = $_SERVER['SCRIPT_NAME']; // <-- "/foo/index.tpl"
+        $requestUri = $_SERVER['REQUEST_URI']; // <-- "/foo/bar?test=abc" or "/foo/index.tpl/bar?test=abc"
         $queryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : ''; // <-- "test=abc" or ""
         // Physical path
         if (strpos($requestUri, $scriptName) !== false) {
@@ -95,8 +95,8 @@ class Environment extends Base
     }
 
     /**
-     * 获取地址栏uri信息 http://ap.so/index.php/?sadf&re=adsf
-     * -> /index.php/?sadf&re=adsf
+     * 获取地址栏uri信息 http://ap.so/index.tpl/?sadf&re=adsf
+     * -> /index.tpl/?sadf&re=adsf
      * 分为信息段和query段
      * @return string
      */

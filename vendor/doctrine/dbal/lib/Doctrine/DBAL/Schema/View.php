@@ -20,7 +20,7 @@
 namespace Doctrine\DBAL\Schema;
 
 /**
- * Representation of a Database View.
+ * Representation of a Database Views.
  *
  * @link   www.doctrine-project.org
  * @since  1.0

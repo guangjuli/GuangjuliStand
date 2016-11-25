@@ -1,10 +1,11 @@
-<form action="/pc/nurse/getpatientlist" method="post">
+<form action="/pc/nurse/getpatientlist" method="post" accept-charset="UTF-8">
     <input type="text" name="orgId" value="1">
     <input type="text" name="page" value="1">
     <input type="text" name="num" value="10">
     <input type="text" name="sort" value="1">
     <input type="text" name="field" value="age">
     <input type="text" name="token" value="5593bee793517246f9d1f8772d8a20b5">
+    <input type="text" name="trueName" value="">
     <input type="submit" value="提交">
 </form>     {*患者列表*}
 
@@ -132,12 +133,12 @@
     <input type="text" name="medicineId[]" value="1">
     <input type="text" name="medicineId[]" value="2">
     <input type="submit" value="提交">
-</form>   {*添加患者病历*}
+</form>   {*添加患者病历*} cases add
 
 <form action="/pc/nurse/Getpatientcases" method="post" accept-charset="UTF-8">
     <input type="text" name="userId" value="97">
     <input type="text" name="orgId" value="1">
-    <input type="submit" value="提交">
+    <input type="submit" value="提交">  get
 </form>   {*获取患者病历*}
 
 <form action="/pc/nurse/Getnodetectiondetail" method="post" accept-charset="UTF-8">

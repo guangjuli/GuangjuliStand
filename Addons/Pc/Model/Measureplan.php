@@ -271,4 +271,16 @@ class Measureplan
         return $noDetection;
     }
 
+
+    //验证参数的有效性,测量计划时间范围不能有重合
+    public function checkMeasurePlanTimeRange($beginTime,$userId,$orgId)
+    {
+        if(empty($beginTime)||empty($userId)||empty($orgId))return false;
+        $userId = intval($userId);
+        $orgId = intval($orgId);
+        $time = date('Ymd',strtotime($beginTime));
+        $check = server('Db')->getOne("select planId from measure_plan where endTime>={$time} and userId ={$userId} and orgId={$orgId} and active=1");
+        //$check存在表示此插入数据不可用，不存在则可用
+        return $check?false:true;
+    }
 }

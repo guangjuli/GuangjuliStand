@@ -308,7 +308,7 @@ function Calendar(element, options, eventSources) {
 	
 	
 	
-	/* View Rendering
+	/* Views Rendering
 	-----------------------------------------------------------------------------*/
 	
 	// TODO: improve view switching (still weird transition in IE, and FF has whiteout problem)

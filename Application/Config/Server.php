@@ -18,7 +18,7 @@ return [
         'Cookies'   => 'Cookies.php',
         'Smarty'    => 'Smarty.php',
         //g2
-        'View'      => 'View.php',
+        'Views'      => 'Views.php',
         'Log'       => 'Log.php',
 //        'Mmc'       => 'Mmc.php',
         'Cache'     => 'Cache.php',
@@ -36,7 +36,7 @@ return [
         'Cache'     => Grace\Cache\Cache::class,
         'Smarty'    => Grace\Smarty\Smarty::class,
         //g2
-        'View'      => Grace\View\View::class,           //
+        'Views'      => Grace\View\View::class,           //
         'Log'       => Grace\Log\Log::class,
     ],
 
